@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " i ",
+    "B  "
+  ],
+  "key": {
+    "i": {
+      "item": "tfc:metal/double_sheet/steel"
+    },
+    "B": {
+      "item": "minecraft:brick"
+    }
+  },
+  "result": {
+    "item": "farmersdelight:skillet"
+  }
+}

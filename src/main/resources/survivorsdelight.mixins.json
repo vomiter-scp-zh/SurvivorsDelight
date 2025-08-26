@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.vomiter.survivorsdelight.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "SkilletBlockEntity_SlotLimitMixin",
+    "SkilletBlockEntity_TFCHeatMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "survivorsdelight.mixins.refmap.json"
+}
