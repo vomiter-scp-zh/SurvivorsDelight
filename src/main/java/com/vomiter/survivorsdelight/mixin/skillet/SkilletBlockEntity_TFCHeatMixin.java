@@ -1,46 +1,40 @@
 package com.vomiter.survivorsdelight.mixin.skillet;
 
-import net.dries007.tfc.common.blockentities.AbstractFirepitBlockEntity;
+import com.vomiter.survivorsdelight.util.SkilletUtil;
+import net.dries007.tfc.common.capabilities.food.FoodCapability;
+import net.dries007.tfc.common.capabilities.heat.HeatCapability;
+import net.dries007.tfc.common.capabilities.heat.IHeat;
+import net.dries007.tfc.common.recipes.HeatingRecipe;
+import net.dries007.tfc.common.recipes.inventory.ItemStackInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CampfireCookingRecipe;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.sounds.SoundSource;
-
-import net.minecraft.world.item.crafting.CampfireCookingRecipe;
-import net.minecraft.world.item.crafting.RecipeType;
-
 import net.minecraftforge.items.ItemStackHandler;
-
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
 import vectorwing.farmersdelight.common.block.SkilletBlock;
 import vectorwing.farmersdelight.common.block.entity.SkilletBlockEntity;
 import vectorwing.farmersdelight.common.mixin.accessor.RecipeManagerAccessor;
 import vectorwing.farmersdelight.common.registry.ModSounds;
 import vectorwing.farmersdelight.common.utility.ItemUtils;
-
-import net.dries007.tfc.common.recipes.HeatingRecipe;
-import net.dries007.tfc.common.recipes.inventory.ItemStackInventory;
-import net.dries007.tfc.common.capabilities.heat.HeatCapability;
-import net.dries007.tfc.common.capabilities.heat.IHeat;
-import net.dries007.tfc.common.capabilities.food.FoodCapability;
-import net.dries007.tfc.common.capabilities.food.FoodTraits;
 
 import java.util.Optional;
 
@@ -52,7 +46,7 @@ public abstract class SkilletBlockEntity_TFCHeatMixin {
     
     @Final @Shadow private ItemStackHandler inventory;
     @Shadow private int cookingTime;
-    @Shadow private net.minecraft.resources.ResourceLocation lastRecipeID;
+    @Shadow private ResourceLocation lastRecipeID;
     
     // tfc cached recipe
     @Unique private HeatingRecipe sdtfc$cachedHeatingRecipe = null;
@@ -134,11 +128,10 @@ public abstract class SkilletBlockEntity_TFCHeatMixin {
         HeatCapability.addTemp(heat, belowTemp);
 
         //if the recipe temperature is reached (this part is modified from iron grill)
-        //TODO: change wood grilled to something like skillet cooked
         if (sdtfc$cachedHeatingRecipe.isValidTemperature(heat.getTemperature())) {
             final ItemStack result = sdtfc$cachedHeatingRecipe.assemble(new ItemStackInventory(cookingStack), level.registryAccess());
 
-            FoodCapability.applyTrait(result, FoodTraits.WOOD_GRILLED);
+            FoodCapability.applyTrait(result, SkilletUtil.skilletCooked);
             FoodCapability.updateFoodDecayOnCreate(result);
 
             final BlockEntity self = (BlockEntity) (Object) this;
@@ -176,28 +169,8 @@ public abstract class SkilletBlockEntity_TFCHeatMixin {
         final BlockEntity self = (BlockEntity) (Object) this;
         final Level level = self.getLevel();
         if (level == null) return 0f;
-
         final BlockPos below = self.getBlockPos().below();
-        final BlockState bs = level.getBlockState(below);
-
-
-        if(bs.is(Blocks.LAVA_CAULDRON)){
-            return 1400f;
-        }
-
-        final BlockEntity be = level.getBlockEntity(below);
-        if (be == null) return 0f;
-
-        if(be instanceof AbstractFirepitBlockEntity<?> firepitBE){
-            return firepitBE.getTemperature();
-        }
-
-        try {
-            Object val = be.getClass().getMethod("getTemperature").invoke(be);
-            if (val instanceof Number n) return n.floatValue();
-        } catch (Throwable ignored) {}
-
-        return 0f;
+        return SkilletUtil.getTemperature(below, level);
     }
 
     /**

@@ -8,6 +8,9 @@
     "cutting.CuttingBoardRecipeMixin",
     "cutting.CuttingBoardRecipeRollMixin",
     "cutting.CuttingBoardRecipeSerializerMixin",
+    "heat.AbstractFirePit_HSMixin",
+    "heat.CharcoalForge_HSMixin",
+    "heat.Oven_HSMixin",
     "skillet.SkilletBlockEntity_SlotLimitMixin",
     "skillet.SkilletBlockEntity_TFCHeatMixin",
     "skillet.SkilletItem_TFCHeatMixin"

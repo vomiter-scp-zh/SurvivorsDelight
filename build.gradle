@@ -28,6 +28,9 @@ minecraft {
 
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.debug.verbose', 'true'
+            property 'mixin.debug.export', 'true'
 
             mods {
                 "${mod_id}" {
@@ -61,12 +64,14 @@ minecraft {
                     source sourceSets.main
                 }
             }
+            /*
             property 'mixin.env.ignoreRequired', 'true'
             property 'mixin.env.disableRefMap', 'true'
             property 'mixin.env.remapRefMap', 'true'
 
             property 'forge.logging.markers', 'LOADING,SCAN,REGISTRIES,CORE,CLASSLOADING'
             property 'forge.logging.console.level', 'debug'
+             */
         }
 
     }
@@ -101,6 +106,7 @@ dependencies {
     implementation fg.deobf("curse.maven:terrafirmacraft-302973:6835820")
     implementation fg.deobf("curse.maven:patchouli-306770:4636277")
     implementation fg.deobf("curse.maven:farmers-delight-398521:6597298")
+    compileOnly fg.deobf("curse.maven:firmalife-453394:6817407")
 
 }
 
@@ -157,12 +163,19 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 /*
-mixin{
-    add sourceSets.main, "${mod_id}.mixins.refmap.json";
-    config "${mod_id}.mixins.json";
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.compilerArgs += [
+            "-AoutRefMap=${mod_id}.mixins.refmap.json"
+    ]
+}
+ */
 
+mixin{
+    add sourceSets.main, "survivorsdelight.mixins.refmap.json";
+    config "survivorsdelight.mixins.json";
     debug.verbose = true
     debug.export = true
 }
- */
+
 
