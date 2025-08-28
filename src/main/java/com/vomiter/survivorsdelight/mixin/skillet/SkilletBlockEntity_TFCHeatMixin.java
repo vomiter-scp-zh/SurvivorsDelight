@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.mixin;
+package com.vomiter.survivorsdelight.mixin.skillet;
 
 import net.dries007.tfc.common.blockentities.AbstractFirepitBlockEntity;
 import net.minecraft.core.BlockPos;

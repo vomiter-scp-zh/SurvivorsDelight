@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.handler;
+package com.vomiter.survivorsdelight.stackhandler;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;

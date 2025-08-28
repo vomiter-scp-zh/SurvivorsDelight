@@ -98,9 +98,10 @@ dependencies {
         jarJar.ranged(it, "[0.4.1,)")
     }
 
-    compileOnly fg.deobf("curse.maven:terrafirmacraft-302973:6835820")
-    compileOnly fg.deobf("curse.maven:farmers-delight-398521:6597298")
-    compileOnly fg.deobf("curse.maven:patchouli-306770:4636277")
+    implementation fg.deobf("curse.maven:terrafirmacraft-302973:6835820")
+    implementation fg.deobf("curse.maven:patchouli-306770:4636277")
+    implementation fg.deobf("curse.maven:farmers-delight-398521:6597298")
+
 }
 
 tasks.named('processResources', ProcessResources).configure {

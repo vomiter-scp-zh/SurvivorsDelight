@@ -1,6 +1,6 @@
-package com.vomiter.survivorsdelight.mixin;
+package com.vomiter.survivorsdelight.mixin.skillet;
 
-import com.vomiter.survivorsdelight.handler.SkilletSlotSizeLimitHandler;
+import com.vomiter.survivorsdelight.stackhandler.SkilletSlotSizeLimitHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -19,7 +19,7 @@ public abstract class SkilletBlockEntity_SlotLimitMixin extends SyncedBlockEntit
     }
 
     @Inject(method = "createHandler", at = @At("HEAD"), cancellable = true)
-    private void tfc$replaceHandler(CallbackInfoReturnable<ItemStackHandler> cir) {
+    private void sdtfc$replaceHandler(CallbackInfoReturnable<ItemStackHandler> cir) {
         final SkilletBlockEntity owner = (SkilletBlockEntity) (Object) this;
         cir.setReturnValue(new SkilletSlotSizeLimitHandler(owner));
     }
