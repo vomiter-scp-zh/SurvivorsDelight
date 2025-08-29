@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.mixin.skillet;
 
-import com.vomiter.survivorsdelight.stackhandler.SkilletSlotSizeLimitHandler;
+import com.vomiter.survivorsdelight.skillet.SkilletSlotSizeLimitHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
