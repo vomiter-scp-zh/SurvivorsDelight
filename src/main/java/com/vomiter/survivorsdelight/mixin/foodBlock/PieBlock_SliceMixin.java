@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
@@ -26,12 +27,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import vectorwing.farmersdelight.common.block.PieBlock;
 import vectorwing.farmersdelight.common.utility.ItemUtils;
 
-import java.util.List;
-
 @Mixin(value = PieBlock.class, remap = false)
 public abstract class PieBlock_SliceMixin{
 
-    @Shadow public abstract int getMaxBites();
     @Shadow public abstract ItemStack getPieSliceItem();
 
     @Inject(method = "cutSlice", at = @At(value = "INVOKE", target = "Lvectorwing/farmersdelight/common/utility/ItemUtils;spawnItemEntity(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/item/ItemStack;DDDDDD)V"), cancellable = true)
@@ -42,7 +40,7 @@ public abstract class PieBlock_SliceMixin{
         ItemStack slice = getPieSliceItem();
         sdtfc$applyFoodFromDecay(decay, slice);
         ItemUtils.spawnItemEntity(level, slice, (double)pos.getX() + (double)0.5F, (double)pos.getY() + 0.3, (double)pos.getZ() + (double)0.5F, (double)direction.getStepX() * 0.15, 0.05, (double)direction.getStepZ() * 0.15);
-        level.playSound((Player)null, pos, SoundEvents.WOOL_BREAK, SoundSource.PLAYERS, 0.8F, 0.8F);
+        level.playSound(null, pos, SoundEvents.WOOL_BREAK, SoundSource.PLAYERS, 0.8F, 0.8F);
         cir.setReturnValue(InteractionResult.SUCCESS);
     }
 
@@ -77,6 +75,7 @@ public abstract class PieBlock_SliceMixin{
     }
 
 
+    @Unique
     private static ItemStack sdtfc$applyFoodFromDecay(PieDecayingBlockEntity decay, ItemStack slice) {
         ItemStack src    = decay.getStack();
         IFood srcFood    = FoodCapability.get(src);

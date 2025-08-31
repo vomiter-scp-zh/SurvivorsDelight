@@ -13,6 +13,7 @@ import vectorwing.farmersdelight.common.block.PieBlock;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 @WailaPlugin
 public class SDJadePlugin implements IWailaPlugin {
     @Override

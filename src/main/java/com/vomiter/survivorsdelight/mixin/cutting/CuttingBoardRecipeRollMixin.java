@@ -1,4 +1,3 @@
-// src/main/java/com/vomiter/survivorsdelight/mixin/fde/CuttingBoardRecipeRollMixin.java
 package com.vomiter.survivorsdelight.mixin.cutting;
 
 import com.vomiter.survivorsdelight.core.recipe.cutting.CuttingContext;

@@ -1,7 +1,6 @@
 package com.vomiter.survivorsdelight.mixin;
 
 import com.mojang.datafixers.util.Pair;
-import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.minecraft.world.effect.MobEffectInstance;

@@ -23,7 +23,6 @@ public final class SkilletSlotSizeLimitHandler extends ItemStackHandler {
             Method m = owner.getClass().getDeclaredMethod("inventoryChanged");
             m.setAccessible(true);
             m.invoke(owner);
-            return;
         } catch (Throwable ignored) {
             //if failed, send block update
             owner.setChanged();

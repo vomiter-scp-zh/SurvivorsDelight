@@ -1,4 +1,3 @@
-// SkilletCookingCap.java
 package com.vomiter.survivorsdelight.core.skillet;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight; // 你的主類，可自改
@@ -42,9 +41,7 @@ public class SkilletCookingCap {
     @SubscribeEvent
     public static void onClone(PlayerEvent.Clone event) {
         event.getOriginal().getCapability(CAPABILITY).ifPresent(oldCap ->
-                event.getEntity().getCapability(CAPABILITY).ifPresent(newCap -> {
-                    ((SkilletItemCookingData)newCap).load(((SkilletItemCookingData)oldCap).save());
-                })
+                event.getEntity().getCapability(CAPABILITY).ifPresent(newCap -> ((SkilletItemCookingData)newCap).load(((SkilletItemCookingData)oldCap).save()))
         );
     }
 

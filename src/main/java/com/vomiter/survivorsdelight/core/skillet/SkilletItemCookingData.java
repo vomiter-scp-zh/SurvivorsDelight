@@ -1,4 +1,3 @@
-// SkilletItemCookingData.java
 package com.vomiter.survivorsdelight.core.skillet;
 
 import net.minecraft.nbt.CompoundTag;

@@ -22,7 +22,7 @@ public abstract class TFC_Constants {
         RED
     }
 
-    public static final record Rock(RockCategory category, SandColor sand) {}
+    public record Rock(RockCategory category, SandColor sand) {}
 
     public static final Map<String, Rock> ROCKS = Map.ofEntries(
             Map.entry("granite",      new Rock(RockCategory.IGNEOUS_INTRUSIVE, SandColor.WHITE)),
