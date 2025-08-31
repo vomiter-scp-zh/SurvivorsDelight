@@ -1,0 +1,11 @@
+{
+  "values": [
+    "tfc:rock/magma/gabbro",
+    "tfc:rock/magma/dacite",
+    "tfc:rock/magma/andesite",
+    "tfc:rock/magma/basalt",
+    "tfc:rock/magma/rhyolite",
+    "tfc:rock/magma/granite",
+    "tfc:rock/magma/diorite"
+  ]
+}
