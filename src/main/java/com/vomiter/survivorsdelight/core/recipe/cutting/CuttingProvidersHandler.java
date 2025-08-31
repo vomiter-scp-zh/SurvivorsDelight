@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.recipe.cutting;
+package com.vomiter.survivorsdelight.core.recipe.cutting;
 
 import net.dries007.tfc.common.recipes.outputs.ItemStackProvider;
 import java.util.List;

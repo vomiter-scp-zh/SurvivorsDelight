@@ -1,6 +1,7 @@
 package com.vomiter.survivorsdelight.mixin.skillet;
 
-import com.vomiter.survivorsdelight.skillet.SkilletCookingCap;
+import com.vomiter.survivorsdelight.core.skillet.SkilletCookingCap;
+import com.vomiter.survivorsdelight.util.HeatHelper;
 import com.vomiter.survivorsdelight.util.SkilletUtil;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.dries007.tfc.common.capabilities.heat.HeatCapability;
@@ -34,7 +35,7 @@ public abstract class SkilletItem_TFCHeatMixin {
         BlockPos pos = player.blockPosition();
         float temperature = 0;
         for (BlockPos posNearby : BlockPos.betweenClosed(pos.offset(-1, -1, -1), pos.offset(1, 1, 1))) {
-            temperature = Math.max(temperature, SkilletUtil.getTemperature(posNearby, level));
+            temperature = Math.max(temperature, HeatHelper.getTemperature(posNearby, level));
         }
         return temperature;
     }

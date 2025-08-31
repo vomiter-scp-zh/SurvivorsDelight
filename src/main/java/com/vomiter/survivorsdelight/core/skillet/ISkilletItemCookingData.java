@@ -1,5 +1,5 @@
 // ISkilletItemCookingData.java
-package com.vomiter.survivorsdelight.skillet;
+package com.vomiter.survivorsdelight.core.skillet;
 
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;

@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.skillet;
+package com.vomiter.survivorsdelight.core.skillet;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;

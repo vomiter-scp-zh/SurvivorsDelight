@@ -11,5 +11,7 @@ public class ModBlockTags {
             Registries.BLOCK, ResourceLocation.tryBuild(SurvivorsDelight.MODID, "static_heat_500"));
     public static final TagKey<Block> STATIC_HEAT_1500 = TagKey.create(
             Registries.BLOCK, ResourceLocation.tryBuild(SurvivorsDelight.MODID, "static_heat_1500"));
+    public static final TagKey<Block> STATIC_HEAT_250 = TagKey.create(
+            Registries.BLOCK, ResourceLocation.tryBuild(SurvivorsDelight.MODID, "static_heat_250"));
 
 }

@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.mixin.cutting;
 
-import com.vomiter.survivorsdelight.recipe.cutting.CuttingProvidersHandler;
+import com.vomiter.survivorsdelight.core.recipe.cutting.CuttingProvidersHandler;
 import net.dries007.tfc.common.recipes.outputs.ItemStackProvider;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

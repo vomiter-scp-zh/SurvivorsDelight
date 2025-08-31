@@ -1,8 +1,8 @@
 // src/main/java/com/vomiter/survivorsdelight/mixin/fde/CuttingBoardRecipeRollMixin.java
 package com.vomiter.survivorsdelight.mixin.cutting;
 
-import com.vomiter.survivorsdelight.recipe.cutting.CuttingContext;
-import com.vomiter.survivorsdelight.recipe.cutting.CuttingProvidersHandler;
+import com.vomiter.survivorsdelight.core.recipe.cutting.CuttingContext;
+import com.vomiter.survivorsdelight.core.recipe.cutting.CuttingProvidersHandler;
 import net.dries007.tfc.common.recipes.outputs.ItemStackProvider;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;

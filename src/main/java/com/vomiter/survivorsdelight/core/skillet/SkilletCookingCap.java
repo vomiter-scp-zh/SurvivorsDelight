@@ -1,5 +1,5 @@
 // SkilletCookingCap.java
-package com.vomiter.survivorsdelight.skillet;
+package com.vomiter.survivorsdelight.core.skillet;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight; // 你的主類，可自改
 import net.minecraft.nbt.CompoundTag;

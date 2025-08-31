@@ -3,8 +3,8 @@ package com.vomiter.survivorsdelight.data;
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.data.tags.ModBlockTags;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -26,8 +26,24 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
+        TagKey<Block> STATIC_HEAT_250 = ModBlockTags.STATIC_HEAT_250;
         TagKey<Block> STATIC_HEAT_500 = ModBlockTags.STATIC_HEAT_500;
         TagKey<Block> STATIC_HEAT_1500 = ModBlockTags.STATIC_HEAT_1500;
+
+        TFC_Constants.ROCKS.forEach((name, rock) -> {
+            if(
+                    rock.category().equals(TFC_Constants.RockCategory.IGNEOUS_INTRUSIVE)
+                    || rock.category().equals(TFC_Constants.RockCategory.IGNEOUS_EXTRUSIVE)
+            ){
+                tag(STATIC_HEAT_250)
+                        .add(
+                                ResourceKey.create(
+                                        ResourceKey.createRegistryKey(ResourceLocation.tryBuild("minecraft", "block")),
+                                        ResourceLocation.tryBuild(TFC_Constants.MODID, "rock/magma/" + name)
+                                )
+                        );
+            }
+        });
 
         tag(STATIC_HEAT_500) //fire. (not very sure about the vanilla magma and campfires, but maybe it could provide some compat in modpacks.)
                 .add(Blocks.FIRE)

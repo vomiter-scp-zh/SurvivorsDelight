@@ -1,5 +1,6 @@
 package com.vomiter.survivorsdelight.mixin.skillet;
 
+import com.vomiter.survivorsdelight.util.HeatHelper;
 import com.vomiter.survivorsdelight.util.SkilletUtil;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.dries007.tfc.common.capabilities.heat.HeatCapability;
@@ -170,7 +171,7 @@ public abstract class SkilletBlockEntity_TFCHeatMixin {
         final Level level = self.getLevel();
         if (level == null) return 0f;
         final BlockPos below = self.getBlockPos().below();
-        return SkilletUtil.getTemperature(below, level);
+        return HeatHelper.getTemperature(below, level);
     }
 
     /**
@@ -188,11 +189,6 @@ public abstract class SkilletBlockEntity_TFCHeatMixin {
 
         Optional<CampfireCookingRecipe> recipe = level.getRecipeManager().getRecipeFor(RecipeType.CAMPFIRE_COOKING, recipeWrapper, level);
         return recipe.isPresent();
-    }
-
-    @Unique
-    private float sdtfc$getDefinedBlockTemperature(Block block){
-        return 0f;
     }
 
     @Unique

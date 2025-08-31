@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.mixin.cutting;
 
-import com.vomiter.survivorsdelight.recipe.cutting.CuttingContext;
+import com.vomiter.survivorsdelight.core.recipe.cutting.CuttingContext;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;

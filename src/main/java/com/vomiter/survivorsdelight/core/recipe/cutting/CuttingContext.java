@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.recipe.cutting;
+package com.vomiter.survivorsdelight.core.recipe.cutting;
 
 import net.minecraft.world.item.ItemStack;
 

@@ -87,6 +87,8 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+
+    maven { url "https://maven.blamejared.com" }
 }
 
 tasks.processResources {
@@ -98,15 +100,16 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     annotationProcessor("org.spongepowered:mixin:${mixin_version}:processor")
 
-    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1"))
-    implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.4.1")) {
-        jarJar.ranged(it, "[0.4.1,)")
-    }
+    annotationProcessor "io.github.llamalad7:mixinextras-common:0.4.1"
+    compileOnly       "io.github.llamalad7:mixinextras-common:0.4.1"
+    implementation    "io.github.llamalad7:mixinextras-forge:0.4.1"
+    jarJar            "io.github.llamalad7:mixinextras-forge:[0.4.1,)"
 
     implementation fg.deobf("curse.maven:terrafirmacraft-302973:6835820")
     implementation fg.deobf("curse.maven:patchouli-306770:4636277")
     implementation fg.deobf("curse.maven:farmers-delight-398521:6597298")
     compileOnly fg.deobf("curse.maven:firmalife-453394:6817407")
+    compileOnly fg.deobf("curse.maven:jade-324717:6855440")
 
 }
 
@@ -162,14 +165,12 @@ tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }
 
-/*
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8'
-    options.compilerArgs += [
-            "-AoutRefMap=${mod_id}.mixins.refmap.json"
-    ]
+jarJar.enable()
+reobf {
+    create("jarJar")
 }
- */
+tasks.named('jar').configure { finalizedBy 'reobfJar' }
+tasks.named('jarJar').configure { finalizedBy 'reobfJarJar' }
 
 mixin{
     add sourceSets.main, "survivorsdelight.mixins.refmap.json";

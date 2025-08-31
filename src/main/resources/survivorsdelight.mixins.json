@@ -4,10 +4,17 @@
   "package": "com.vomiter.survivorsdelight.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "LivingEntity_AddEatEffectMixin",
     "cutting.CuttingBoardBlockEntityMixin",
     "cutting.CuttingBoardRecipeMixin",
     "cutting.CuttingBoardRecipeRollMixin",
     "cutting.CuttingBoardRecipeSerializerMixin",
+    "foodBlock.FeastBlock_ServingMixin",
+    "foodBlock.PieBlock_SliceMixin",
+    "foodBlock.basic.FeastBlock_BlockEntityMixin",
+    "foodBlock.basic.PieBlock_BlockEntityMixin",
+    "foodBlock.common.Block_DecayDropMixin",
+    "foodBlock.common.BlockItem_SetDecayStackMixin",
     "heat.AbstractFirePit_HSMixin",
     "heat.CharcoalForge_HSMixin",
     "heat.Oven_HSMixin",
@@ -16,6 +23,7 @@
     "skillet.SkilletItem_TFCHeatMixin"
   ],
   "client": [
+    "client.ModelBlockRenderer_TintArgMixin"
   ],
   "injectors": {
     "defaultRequire": 1

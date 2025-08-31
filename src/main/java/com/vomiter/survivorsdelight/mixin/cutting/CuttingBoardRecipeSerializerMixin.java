@@ -3,7 +3,7 @@ package com.vomiter.survivorsdelight.mixin.cutting;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.vomiter.survivorsdelight.recipe.cutting.CuttingProvidersHandler;
+import com.vomiter.survivorsdelight.core.recipe.cutting.CuttingProvidersHandler;
 import net.dries007.tfc.common.recipes.outputs.ItemStackProvider;
 import net.dries007.tfc.util.JsonHelpers;
 import org.spongepowered.asm.mixin.Mixin;
