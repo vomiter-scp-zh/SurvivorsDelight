@@ -14,10 +14,10 @@ public class SDBlockTags {
         );
     }
 
-    public static final TagKey<Block> STATIC_HEAT_250 = create("static_heat_250");
-    public static final TagKey<Block> STATIC_HEAT_500 = create("static_heat_500");
-    public static final TagKey<Block> STATIC_HEAT_1500 = create("static_heat_1500");
-    public static final TagKey<Block> HEAT_SKILLET_BLOCK_BLACKLIST = create("heat_skillet_block_blacklist");
-    public static final TagKey<Block> HEAT_SKILLET_IN_HAND_BLACKLIST = create("heat_skillet_in_hand_blacklist");
+    public static final TagKey<Block> STATIC_HEAT_LOW = create("static_heat_low");
+    public static final TagKey<Block> STATIC_HEAT_MODERATE = create("static_heat_moderate");
+    public static final TagKey<Block> STATIC_HEAT_HIGH = create("static_heat_high");
+    public static final TagKey<Block> HEAT_TO_BLOCK_BLACKLIST = create("heat_to_block_blacklist");
+    public static final TagKey<Block> HEAT_TO_IN_HAND_BLACKLIST = create("heat_to_in_hand_blacklist");
 
 }

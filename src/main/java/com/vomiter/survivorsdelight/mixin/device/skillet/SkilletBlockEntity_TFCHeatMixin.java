@@ -171,7 +171,7 @@ public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEn
         final Level level = self.getLevel();
         if (level == null) return 0f;
         final BlockPos pos = self.getBlockPos();
-        return HeatHelper.getTargetTemperature(pos, level, requiresDirectHeat());
+        return HeatHelper.getTargetTemperature(pos, level, requiresDirectHeat(), HeatHelper.GetterType.BLOCK);
     }
 
     /**

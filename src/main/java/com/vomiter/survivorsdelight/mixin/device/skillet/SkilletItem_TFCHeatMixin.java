@@ -35,7 +35,7 @@ public abstract class SkilletItem_TFCHeatMixin {
         BlockPos pos = player.blockPosition();
         float temperature = 0;
         for (BlockPos posNearby : BlockPos.betweenClosed(pos.offset(-1, -1, -1), pos.offset(1, 1, 1))) {
-            temperature = Math.max(temperature, HeatHelper.getTemperature(posNearby, level));
+            temperature = Math.max(temperature, HeatHelper.getTemperature(posNearby, level, HeatHelper.GetterType.IN_HAND));
         }
         return temperature;
     }

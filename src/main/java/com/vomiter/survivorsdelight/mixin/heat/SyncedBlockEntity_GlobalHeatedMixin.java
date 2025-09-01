@@ -11,6 +11,6 @@ import vectorwing.farmersdelight.common.block.entity.SyncedBlockEntity;
 public abstract class SyncedBlockEntity_GlobalHeatedMixin implements HeatableBlockEntity {
     @Override
     public boolean isHeated(Level level, BlockPos pos) {
-        return HeatHelper.getTargetTemperature(pos, level, requiresDirectHeat()) >= 300;
+        return HeatHelper.getTargetTemperature(pos, level, requiresDirectHeat(), HeatHelper.GetterType.BLOCK) >= 100;
     }
 }

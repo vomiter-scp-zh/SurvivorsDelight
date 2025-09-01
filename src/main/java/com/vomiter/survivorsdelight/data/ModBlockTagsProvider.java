@@ -28,12 +28,13 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
-        TagKey<Block> STATIC_HEAT_250 = SDBlockTags.STATIC_HEAT_250;
-        TagKey<Block> STATIC_HEAT_500 = SDBlockTags.STATIC_HEAT_500;
-        TagKey<Block> STATIC_HEAT_1500 = SDBlockTags.STATIC_HEAT_1500;
+        TagKey<Block> STATIC_HEAT_250 = SDBlockTags.STATIC_HEAT_LOW;
+        TagKey<Block> STATIC_HEAT_500 = SDBlockTags.STATIC_HEAT_MODERATE;
+        TagKey<Block> STATIC_HEAT_1500 = SDBlockTags.STATIC_HEAT_HIGH;
 
         TFCBlocks.MAGMA_BLOCKS.forEach((r, b)->{
             tag(STATIC_HEAT_250).add(b.getKey());
+            tag(SDBlockTags.HEAT_TO_BLOCK_BLACKLIST).add(b.getKey());
         });
 
         tag(STATIC_HEAT_500) //fire. (not very sure about the vanilla magma and campfires, but maybe it could provide some compat in modpacks.)
@@ -51,5 +52,6 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
 
         tag(ModTags.HEAT_CONDUCTORS)
                 .add(TFCBlocks.CRUCIBLE.getKey());
+
     }
 }

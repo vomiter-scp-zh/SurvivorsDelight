@@ -1,5 +1,6 @@
 package com.vomiter.survivorsdelight.core.device.skillet;
 
+import com.vomiter.survivorsdelight.Config;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -38,6 +39,6 @@ public final class SkilletSlotSizeLimitHandler extends ItemStackHandler {
 
     @Override
     public int getSlotLimit(int slot) {
-        return 8; //TODO: change it to configurable
+        return Config.COMMON.skilletSlotNumber.get();
     }
 }
