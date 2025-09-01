@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.compat.jade;
 
-import com.vomiter.survivorsdelight.core.foodBlock.FDDecayingBlockEntity;
+import com.vomiter.survivorsdelight.core.food.block.SDDecayingBlockEntity;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -28,7 +28,7 @@ public class SDJadePlugin implements IWailaPlugin {
         @Override
         public void appendTooltip(ITooltip tooltip, BlockAccessor accessor, IPluginConfig cfg) {
             var blockEntity = accessor.getBlockEntity();
-            if (!(blockEntity instanceof FDDecayingBlockEntity decay)) return;
+            if (!(blockEntity instanceof SDDecayingBlockEntity decay)) return;
 
             ItemStack stack = decay.getStack();
             if (stack.isEmpty()) return;
