@@ -1,6 +1,7 @@
 package com.vomiter.survivorsdelight;
 
 import com.mojang.logging.LogUtils;
+import com.vomiter.survivorsdelight.core.food.trait.SDFoodTraits;
 import net.minecraftforge.data.loading.DatagenModLoader;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -14,7 +15,6 @@ public class SurvivorsDelight {
 
     public SurvivorsDelight() {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
-        if (!DatagenModLoader.isRunningDataGen()) {
-        }
+        SDFoodTraits.bootstrap();
     }
 }
