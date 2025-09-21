@@ -19,7 +19,6 @@ public final class SkilletSlotSizeLimitHandler extends ItemStackHandler {
 
     @Override
     protected void onContentsChanged(int slot) {
-        // try SkilletBlockEntity#inventoryChanged()
         try {
             Method m = owner.getClass().getDeclaredMethod("inventoryChanged");
             m.setAccessible(true);

@@ -1,0 +1,47 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "survivorsdelight:block/skillet/copper_tin"
+      },
+      "when": {
+        "facing": "north"
+      }
+    },
+    {
+      "apply": {
+        "model": "survivorsdelight:block/skillet/copper_tin",
+        "y": 180
+      },
+      "when": {
+        "facing": "south"
+      }
+    },
+    {
+      "apply": {
+        "model": "survivorsdelight:block/skillet/copper_tin",
+        "y": 90
+      },
+      "when": {
+        "facing": "east"
+      }
+    },
+    {
+      "apply": {
+        "model": "survivorsdelight:block/skillet/copper_tin",
+        "y": 270
+      },
+      "when": {
+        "facing": "west"
+      }
+    },
+    {
+      "apply": {
+        "model": "survivorsdelight:block/skillet/tray"
+      },
+      "when": {
+        "support": "true"
+      }
+    }
+  ]
+}

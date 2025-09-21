@@ -1,0 +1,17 @@
+{
+  "type": "tfc:anvil",
+  "input": {
+    "tag": "forge:ingots/tin"
+  },
+  "tier": 0,
+  "rules": [
+    "DRAW_THIRD_LAST",
+    "DRAW_SECOND_LAST",
+    "DRAW_LAST"
+  ],
+  "result": {
+    "item": "survivorsdelight:skillet_lining/tin",
+    "count": 4
+  },
+  "apply_forging_bonus": false
+}

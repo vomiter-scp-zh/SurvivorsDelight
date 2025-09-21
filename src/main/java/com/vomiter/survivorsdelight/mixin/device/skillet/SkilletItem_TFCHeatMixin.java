@@ -1,6 +1,9 @@
 package com.vomiter.survivorsdelight.mixin.device.skillet;
 
-import com.vomiter.survivorsdelight.core.device.skillet.SkilletCookingCap;
+import com.vomiter.survivorsdelight.core.device.skillet.SDSkilletItem;
+import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
+import com.vomiter.survivorsdelight.core.device.skillet.itemcooking.SkilletCookingCap;
+import com.vomiter.survivorsdelight.data.tags.SDItemTags;
 import com.vomiter.survivorsdelight.util.HeatHelper;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletUtil;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
@@ -15,6 +18,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import org.spongepowered.asm.mixin.Mixin;
@@ -45,9 +49,24 @@ public abstract class SkilletItem_TFCHeatMixin {
         ItemStack skilletStack = player.getItemInHand(hand);
         InteractionHand otherHand = (hand == InteractionHand.MAIN_HAND) ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
         ItemStack heatingStack = player.getItemInHand(otherHand);
+        if(skilletStack.getItem() instanceof SDSkilletItem sdSkilletItem){
+            if(!sdSkilletItem.canCook(skilletStack)){
+                cir.setReturnValue(InteractionResultHolder.fail(skilletStack));
+                return;
+            }
+        }
+
         if (heatingStack.isEmpty()) return;
         float temperatureNearby = sdtfc$getTemperatureNearby(player, level);
-        if (temperatureNearby <= 0) return;
+        if (temperatureNearby <= 0) {
+            if(skilletStack.getEnchantmentLevel(Enchantments.FIRE_ASPECT) >= 1){
+                temperatureNearby = 300;
+            }
+            else {
+                return;
+            }
+        }
+
         if (player.isUnderWater()) {
             player.displayClientMessage(TextUtils.getTranslation("item.skilletStack.underwater"), true);
             return;
@@ -81,7 +100,14 @@ public abstract class SkilletItem_TFCHeatMixin {
         ItemStack cooking = data.getCooking();
         if (cooking.isEmpty()) return;
         float temperatureNearby = sdtfc$getTemperatureNearby(player, level);
-        if (temperatureNearby <= 0) return;
+        if (temperatureNearby <= 0) {
+            if(skilletStack.getEnchantmentLevel(Enchantments.FIRE_ASPECT) >= 1){
+                temperatureNearby = 300;
+            }
+            else {
+                return;
+            }
+        }
         IHeat heat = HeatCapability.get(cooking);
         if (!level.isClientSide) {
             if (heat == null) {
@@ -104,11 +130,25 @@ public abstract class SkilletItem_TFCHeatMixin {
                         player.drop(result, false);
                     }
                 }
-                data.clear();
                 CompoundTag tag = skilletStack.getOrCreateTag();
                 if(tag.contains(KEY_COOKING)){
                     tag.remove(KEY_COOKING);
                 }
+
+                if(skilletStack.getItem() instanceof SDSkilletItem){
+                    skilletStack.hurtAndBreak(1, player, user -> {});
+
+                    if(skilletStack.is(SDItemTags.RETURN_COPPER_SKILLET) && !(((SDSkilletItem) skilletStack.getItem()).canCook(skilletStack))){
+                        InteractionHand hand = player.getUsedItemHand();
+                        CompoundTag ctag = skilletStack.serializeNBT();
+                        ctag.putString("id", SkilletMaterial.COPPER.location().toString());
+                        ItemStack newSkilletStack = ItemStack.of(ctag);
+                        newSkilletStack.setDamageValue(0);
+                        player.broadcastBreakEvent(hand);
+                        player.setItemInHand(hand, newSkilletStack);
+                    }
+                }
+                data.clear();
                 if (player.isUsingItem()) player.stopUsingItem();
             }
         }
@@ -117,17 +157,18 @@ public abstract class SkilletItem_TFCHeatMixin {
     @Inject(method = "releaseUsing", at = @At("HEAD"), cancellable = true)
     private void sdtfc$releaseUsing(ItemStack skilletStack, Level level, LivingEntity living, int timeLeft, CallbackInfo ci) {
         if (!(living instanceof Player player)) return;
-        if (level.isClientSide) return;
         var data = SkilletCookingCap.get(player);
-        if(!data.isCooking()) return;
-        ItemStack cooking = data.getCooking();
         CompoundTag tag = skilletStack.getOrCreateTag();
         if(tag.contains(KEY_COOKING)){
-            tag.remove(KEY_COOKING);
-        }
-        if (!cooking.isEmpty()) {
+            ItemStack fakeCookingStack = ItemStack.of(tag.getCompound(KEY_COOKING));
+            HeatingRecipe recipe = HeatingRecipe.getRecipe(new ItemStackInventory(fakeCookingStack));
+            if (recipe == null) return;
+            if(!level.isClientSide){
+                ItemStack cooking = data.getCooking();
+                if (!player.addItem(cooking)) player.drop(cooking, false);
+            }
             data.clear();
-            if (!player.addItem(cooking)) player.drop(cooking, false);
+            tag.remove(KEY_COOKING);
             ci.cancel();
         }
     }

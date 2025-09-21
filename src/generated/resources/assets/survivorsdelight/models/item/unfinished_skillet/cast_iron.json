@@ -1,0 +1,9 @@
+{
+  "parent": "survivorsdelight:item/skillet/cast_iron",
+  "textures": {
+    "0": "tfc:block/metal/smooth/cast_iron",
+    "1": "tfc:block/metal/smooth/cast_iron",
+    "2": "tfc:block/metal/smooth/cast_iron",
+    "particle": "tfc:block/metal/smooth/cast_iron"
+  }
+}

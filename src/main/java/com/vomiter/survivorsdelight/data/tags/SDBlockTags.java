@@ -10,7 +10,7 @@ public class SDBlockTags {
     public static TagKey<Block> create(String path){
         return TagKey.create(
                 Registries.BLOCK,
-                ResourceLocation.tryBuild(SurvivorsDelight.MODID, path)
+                ResourceLocation.fromNamespaceAndPath(SurvivorsDelight.MODID, path)
         );
     }
 
@@ -19,5 +19,6 @@ public class SDBlockTags {
     public static final TagKey<Block> STATIC_HEAT_HIGH = create("static_heat_high");
     public static final TagKey<Block> HEAT_TO_BLOCK_BLACKLIST = create("heat_to_block_blacklist");
     public static final TagKey<Block> HEAT_TO_IN_HAND_BLACKLIST = create("heat_to_in_hand_blacklist");
+    public static final TagKey<Block> SKILLETS = create("skillets");
 
 }

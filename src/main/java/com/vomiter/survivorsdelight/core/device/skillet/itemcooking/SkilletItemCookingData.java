@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.core.device.skillet;
+package com.vomiter.survivorsdelight.core.device.skillet.itemcooking;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;

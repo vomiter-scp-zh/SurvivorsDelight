@@ -1,0 +1,11 @@
+{
+  "type": "tfc:heating",
+  "ingredient": {
+    "item": "survivorsdelight:skillet/farmer"
+  },
+  "result_fluid": {
+    "fluid": "tfc:metal/steel",
+    "amount": 250
+  },
+  "temperature": 1540
+}

@@ -1,0 +1,13 @@
+{
+  "type": "tfc:welding",
+  "first_input": {
+    "item": "survivorsdelight:skillet/copper"
+  },
+  "second_input": {
+    "item": "survivorsdelight:skillet_lining/tin"
+  },
+  "tier": 0,
+  "result": {
+    "item": "survivorsdelight:skillet/copper_tin"
+  }
+}

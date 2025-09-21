@@ -1,12 +1,12 @@
 package com.vomiter.survivorsdelight.mixin.food.block.basic;
 
-import com.vomiter.survivorsdelight.core.food.block.SDDecayingBlockEntityRegistry;
-import com.vomiter.survivorsdelight.core.food.block.ISDDecayingBlock;
 import com.vomiter.survivorsdelight.core.food.block.DecayingFeastBlockEntity;
+import com.vomiter.survivorsdelight.core.food.block.ISDDecayingBlock;
+import com.vomiter.survivorsdelight.core.food.block.SDDecayingBlockEntityRegistry;
 import com.vomiter.survivorsdelight.core.food.trait.SDFoodTraits;
+import com.vomiter.survivorsdelight.data.tags.SDItemTags;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.dries007.tfc.common.capabilities.food.IFood;
-import net.dries007.tfc.common.items.TFCItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -22,7 +22,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -62,9 +61,8 @@ public abstract class FeastBlock_BlockEntityMixin extends Block implements Entit
         int servingNumber = state.getValue(getServingsProperty());
         if(srcFood.hasTrait(SDFoodTraits.FOOD_MODEL)){
             cir.setReturnValue(InteractionResult.PASS);
-            return;
         }
-        else if(usedItem.getItem().equals(TFCItems.GLUE.get()) && usedItem.getCount() >= servingNumber){
+        else if(usedItem.is(SDItemTags.FOOD_MODEL_COATING) && usedItem.getCount() >= servingNumber){
             srcFood.getTraits().add(SDFoodTraits.FOOD_MODEL);
             usedItem.shrink(servingNumber);
             cir.setReturnValue(InteractionResult.SUCCESS);

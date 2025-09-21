@@ -22,6 +22,7 @@ public class Config {
 
     public static class Common {
         public final ForgeConfigSpec.IntValue skilletSlotNumber;
+        public final ForgeConfigSpec.IntValue richSoilGrowthBoostTick;
 
         public Common(ForgeConfigSpec.Builder builder) {
             builder.push("general");
@@ -29,6 +30,10 @@ public class Config {
             skilletSlotNumber = builder
                     .comment("How many items can be put into skillet block at once.")
                     .defineInRange("skilletSlotNumber", 8, 1, 32);
+
+            richSoilGrowthBoostTick = builder
+                    .comment("How many ticks should rich soil boost the growth of the block above it.")
+                    .defineInRange("richSoilGrowthBoostTick", 2400, 0, 24000 * 10);
 
             builder.pop();
         }

@@ -1,6 +1,9 @@
 package com.vomiter.survivorsdelight.mixin.device.skillet;
 
+import com.vomiter.survivorsdelight.core.device.skillet.SDSkilletItem;
+import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletUtil;
+import com.vomiter.survivorsdelight.data.tags.SDItemTags;
 import com.vomiter.survivorsdelight.util.HeatHelper;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.dries007.tfc.common.capabilities.heat.HeatCapability;
@@ -9,6 +12,7 @@ import net.dries007.tfc.common.recipes.HeatingRecipe;
 import net.dries007.tfc.common.recipes.inventory.ItemStackInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
@@ -18,9 +22,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CampfireCookingRecipe;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.items.ItemStackHandler;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -37,6 +44,7 @@ import vectorwing.farmersdelight.common.mixin.accessor.RecipeManagerAccessor;
 import vectorwing.farmersdelight.common.registry.ModSounds;
 import vectorwing.farmersdelight.common.utility.ItemUtils;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Mixin(value = SkilletBlockEntity.class, remap = false)
@@ -48,7 +56,11 @@ public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEn
     @Final @Shadow private ItemStackHandler inventory;
     @Shadow private int cookingTime;
     @Shadow private ResourceLocation lastRecipeID;
-    
+
+    @Shadow private ItemStack skilletStack;
+
+    @Shadow public abstract void setSkilletItem(ItemStack stack);
+
     // tfc cached recipe
     @Unique private HeatingRecipe sdtfc$cachedHeatingRecipe = null;
 
@@ -61,8 +73,6 @@ public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEn
         final BlockEntity self = (BlockEntity) (Object) this;
         final Level lvl = self.getLevel();
         if (lvl == null || addedStack.isEmpty()) return;
-
-        if (sdtfc$hasCampfireRecipe(lvl, addedStack)) return;
 
         // check heating recipes
         HeatingRecipe heating = HeatingRecipe.getRecipe(new ItemStackInventory(addedStack));
@@ -109,9 +119,23 @@ public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEn
      */
     @Inject(method = "cookAndOutputItems", at = @At("HEAD"), cancellable = true)
     private void sdtfc$cookWithBelowTemperature(ItemStack cookingStack, Level level, CallbackInfo ci) {
+        survivorsDelight$LOG.info("cooking");
+        final BlockEntity self = (BlockEntity) (Object) this;
+        final BlockPos pos = self.getBlockPos();
 
         if (level == null || cookingStack.isEmpty()) return;
         if (sdtfc$hasCampfireRecipe(level, cookingStack)) return;
+        if(skilletStack.getItem() instanceof SDSkilletItem sdSkilletItem){
+            if(!sdSkilletItem.canCook(skilletStack) && skilletStack.is(SDItemTags.RETURN_COPPER_SKILLET)){
+                CompoundTag tag = skilletStack.serializeNBT();
+                tag.putString("id", SkilletMaterial.COPPER.location().toString());
+                ItemStack newSkilletStack = ItemStack.of(tag);
+                newSkilletStack.setDamageValue(0);
+                setSkilletItem(newSkilletStack);
+
+                level.destroyBlock(pos, true);
+            }
+        }
 
         // get TFC HeatingRecipe
         if (sdtfc$cachedHeatingRecipe == null) {
@@ -135,8 +159,6 @@ public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEn
             FoodCapability.applyTrait(result, SkilletUtil.skilletCooked);
             FoodCapability.updateFoodDecayOnCreate(result);
 
-            final BlockEntity self = (BlockEntity) (Object) this;
-            final BlockPos pos = self.getBlockPos();
             final BlockState state = self.getBlockState();
 
             Direction direction = state.getValue(SkilletBlock.FACING).getClockWise();
@@ -152,6 +174,11 @@ public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEn
                     ModSounds.BLOCK_SKILLET_ADD_FOOD.get(), SoundSource.BLOCKS, 0.8F, 1.0F);
 
             sdtfc$cachedHeatingRecipe = null;
+            if(!level.isClientSide && skilletStack.getItem() instanceof SDSkilletItem){
+                FakePlayer fakePlayer = FakePlayerFactory.getMinecraft(Objects.requireNonNull(level.getServer()).getLevel(level.dimension()));
+                fakePlayer.setGameMode(GameType.SURVIVAL);
+                skilletStack.hurtAndBreak(1 + SkilletUtil.extraHurtForTemperature(skilletStack, belowTemp), fakePlayer, (user) -> {});
+            }
         }
 
         ci.cancel();

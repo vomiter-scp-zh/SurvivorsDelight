@@ -1,6 +1,8 @@
 package com.vomiter.survivorsdelight.data;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
+import com.vomiter.survivorsdelight.core.registry.SDSkilletBlocks;
+import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
 import com.vomiter.survivorsdelight.data.tags.SDBlockTags;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.TFCBlocks;
@@ -32,7 +34,12 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
         TagKey<Block> STATIC_HEAT_500 = SDBlockTags.STATIC_HEAT_MODERATE;
         TagKey<Block> STATIC_HEAT_1500 = SDBlockTags.STATIC_HEAT_HIGH;
 
+        for (SkilletMaterial m : SkilletMaterial.values()){
+            tag(SDBlockTags.SKILLETS).add(SDSkilletBlocks.getKey(m));
+        }
+
         TFCBlocks.MAGMA_BLOCKS.forEach((r, b)->{
+            assert b.getKey() != null;
             tag(STATIC_HEAT_250).add(b.getKey());
             tag(SDBlockTags.HEAT_TO_BLOCK_BLACKLIST).add(b.getKey());
         });
@@ -46,12 +53,15 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
                 .add(Blocks.LAVA)
                 .add(Blocks.LAVA_CAULDRON);
 
+        assert ModBlocks.SKILLET.getKey() != null;
+        assert ModBlocks.COOKING_POT.getKey() != null;
         tag(TFCTags.Blocks.FORGE_INVISIBLE_WHITELIST)
                 .add(ModBlocks.SKILLET.getKey())
-                .add(ModBlocks.COOKING_POT.getKey());
+                .add(ModBlocks.COOKING_POT.getKey())
+                .addTag(SDBlockTags.SKILLETS);
 
+        assert TFCBlocks.CRUCIBLE.getKey() != null;
         tag(ModTags.HEAT_CONDUCTORS)
                 .add(TFCBlocks.CRUCIBLE.getKey());
-
     }
 }

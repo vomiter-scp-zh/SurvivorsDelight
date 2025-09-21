@@ -1,0 +1,16 @@
+{
+  "type": "tfc:anvil",
+  "input": {
+    "tag": "forge:double_sheets/cast_iron"
+  },
+  "tier": 2,
+  "rules": [
+    "BEND_THIRD_LAST",
+    "HIT_SECOND_LAST",
+    "DRAW_LAST"
+  ],
+  "result": {
+    "item": "survivorsdelight:skillet_head/cast_iron"
+  },
+  "apply_forging_bonus": true
+}
