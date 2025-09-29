@@ -1,7 +1,8 @@
 package com.vomiter.survivorsdelight.core.device.skillet.data;
+
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
+import com.vomiter.survivorsdelight.util.RLUtils;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
@@ -48,7 +49,7 @@ public class SDSkilletItemModelProvider extends ItemModelProvider {
                 modLoc("item/skillet/" + name)
         );
         addTextures(m, uf);
-        existingFileHelper.trackGenerated(ResourceLocation.fromNamespaceAndPath("tfc", "block/empty"), PackType.CLIENT_RESOURCES, ".png", "textures");
+        existingFileHelper.trackGenerated(RLUtils.build("tfc", "block/empty"), PackType.CLIENT_RESOURCES, ".png", "textures");
         uf.texture("2", m.textures.get("0"));
     }
 

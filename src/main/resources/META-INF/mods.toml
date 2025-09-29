@@ -85,3 +85,10 @@ mandatory=false
 versionRange="[0,)"
 ordering="AFTER"
 side="BOTH"
+
+[[dependencies.survivorsdelight]]
+modId="survivorsabilities"
+mandatory=true
+versionRange="[0,)"
+ordering="AFTER"
+side="BOTH"

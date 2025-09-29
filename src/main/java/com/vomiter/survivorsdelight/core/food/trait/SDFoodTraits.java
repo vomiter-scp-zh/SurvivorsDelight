@@ -1,6 +1,7 @@
 package com.vomiter.survivorsdelight.core.food.trait;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
+import com.vomiter.survivorsdelight.util.RLUtils;
 import net.dries007.tfc.common.capabilities.food.FoodTrait;
 import net.minecraft.resources.ResourceLocation;
 
@@ -10,7 +11,7 @@ public final class SDFoodTraits {
     private static boolean BOOTSTRAPPED = false;
 
     private static ResourceLocation id(String path) {
-        return ResourceLocation.tryBuild(SurvivorsDelight.MODID, path);
+        return RLUtils.build(SurvivorsDelight.MODID, path);
     }
 
     public static final ResourceLocation FOOD_MODEL_ID     = id("food_model");

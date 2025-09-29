@@ -3,9 +3,9 @@ package com.vomiter.survivorsdelight.network;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletDeflects;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.network.NetworkRegistry;
+import com.vomiter.survivorsdelight.util.RLUtils;
 import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 
 import java.util.function.Supplier;
@@ -16,7 +16,7 @@ public class SDNetwork {
 
     public static void init() {
         CHANNEL = NetworkRegistry.newSimpleChannel(
-                ResourceLocation.fromNamespaceAndPath(SurvivorsDelight.MODID, "main"),
+                RLUtils.build(SurvivorsDelight.MODID, "main"),
                 () -> PROTOCOL, PROTOCOL::equals, PROTOCOL::equals
         );
         int id = 0;

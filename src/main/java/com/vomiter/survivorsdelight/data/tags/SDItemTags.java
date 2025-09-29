@@ -1,8 +1,8 @@
 package com.vomiter.survivorsdelight.data.tags;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
+import com.vomiter.survivorsdelight.util.RLUtils;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
@@ -10,7 +10,7 @@ public class SDItemTags {
     public static TagKey<Item> create(String path){
         return TagKey.create(
                 Registries.ITEM,
-                ResourceLocation.fromNamespaceAndPath(SurvivorsDelight.MODID, path)
+                RLUtils.build(SurvivorsDelight.MODID, path)
         );
     }
     public static final TagKey<Item> FOOD_MODEL_COATING = create("food_model_coating");

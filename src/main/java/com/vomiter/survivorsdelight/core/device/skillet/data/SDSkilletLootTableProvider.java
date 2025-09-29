@@ -6,6 +6,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
+import com.vomiter.survivorsdelight.util.RLUtils;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
@@ -30,7 +31,7 @@ public class SDSkilletLootTableProvider implements DataProvider {
 
         CompletableFuture<?>[] tasks = java.util.Arrays.stream(SkilletMaterial.values())
                 .map(metal -> {
-                    ResourceLocation id = ResourceLocation.fromNamespaceAndPath(
+                    ResourceLocation id = RLUtils.build(
                             SurvivorsDelight.MODID, "skillet/" + metal.material
                     );
                     Path path = pathProvider.json(id);

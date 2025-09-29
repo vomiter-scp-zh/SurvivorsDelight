@@ -28,6 +28,8 @@ public class DataGenerators
 
         ModBlockTagsProvider blockTags = new ModBlockTagsProvider(output, lookupProvider, helper);
         ModItemTagsProvider itemTags = new ModItemTagsProvider(output, lookupProvider, blockTags, helper);
+        ModEntityTypeTagsProvider entityTags = new ModEntityTypeTagsProvider(output, lookupProvider, SurvivorsDelight.MODID, helper);
+
         SDSkilletBlockModelProvider skilletModelProvider = new SDSkilletBlockModelProvider(output, helper);
         SDSkilletBlockStateProvider skilletBlockStateProvider = new SDSkilletBlockStateProvider(output, helper);
         SDSkilletItemModelProvider skilletItemModelProvider = new SDSkilletItemModelProvider(output, helper);
@@ -35,6 +37,8 @@ public class DataGenerators
 
         generator.addProvider(event.includeServer(), blockTags);
         generator.addProvider(event.includeServer(), itemTags);
+        generator.addProvider(event.includeServer(), entityTags);
+
         generator.addProvider(true, skilletModelProvider);
         generator.addProvider(true, skilletBlockStateProvider);
         generator.addProvider(true, skilletItemModelProvider);

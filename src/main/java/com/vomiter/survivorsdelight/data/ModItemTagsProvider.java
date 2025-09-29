@@ -5,16 +5,17 @@ import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
 import com.vomiter.survivorsdelight.core.registry.SDSkilletItems;
 import com.vomiter.survivorsdelight.core.registry.SDSkilletPartItems;
 import com.vomiter.survivorsdelight.data.tags.SDItemTags;
+import com.vomiter.survivorsdelight.util.RLUtils;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.items.TFCItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
+import vectorwing.farmersdelight.common.registry.ModItems;
 
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -35,7 +36,6 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         tag(SDItemTags.RETURN_COPPER_SKILLET).add(Objects.requireNonNull(SDSkilletItems.SKILLETS.get(SkilletMaterial.COPPER).getKey()));
         tag(SDItemTags.RETURN_COPPER_SKILLET).add(Objects.requireNonNull(SDSkilletItems.SKILLETS.get(SkilletMaterial.COPPER_SILVER).getKey()));
         tag(SDItemTags.RETURN_COPPER_SKILLET).add(Objects.requireNonNull(SDSkilletItems.SKILLETS.get(SkilletMaterial.COPPER_TIN).getKey()));
-
         for (SkilletMaterial m : SkilletMaterial.values()){
             var skillet = SDSkilletItems.getKey(m);
             var head = SDSkilletPartItems.HEADS.get(m);
@@ -47,8 +47,8 @@ public class ModItemTagsProvider extends ItemTagsProvider {
             }
             if(m.material.contains("copper")){
                 var copper_tag = tag(TagKey.create(
-                        ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath("minecraft", "item")),
-                        ResourceLocation.fromNamespaceAndPath("tfc", "metal_item/copper"))
+                        ResourceKey.createRegistryKey(RLUtils.build("minecraft", "item")),
+                        RLUtils.build("tfc", "metal_item/copper"))
                 ).add(skillet);
                 if(head != null) {
                     assert head.getKey() != null;
@@ -61,8 +61,8 @@ public class ModItemTagsProvider extends ItemTagsProvider {
             }
             else{
                 var metal_tag = tag(TagKey.create(
-                        ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath("minecraft", "item")),
-                        ResourceLocation.fromNamespaceAndPath("tfc", "metal_item/" + m.material)))
+                        ResourceKey.createRegistryKey(RLUtils.build("minecraft", "item")),
+                        RLUtils.build("tfc", "metal_item/" + m.material)))
                         .add(skillet);
                 if(head != null) {
                     assert head.getKey() != null;
@@ -74,7 +74,7 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 }
             }
         }
-
+        tag(TFCTags.Items.DOG_FOOD).add(ModItems.DOG_FOOD.get());
     }
 
 }

@@ -23,6 +23,8 @@ public class Config {
     public static class Common {
         public final ForgeConfigSpec.IntValue skilletSlotNumber;
         public final ForgeConfigSpec.IntValue richSoilGrowthBoostTick;
+        public final ForgeConfigSpec.IntValue richSoilFarmlandTemperatureExpansion;
+        public final ForgeConfigSpec.IntValue richSoilFarmlandHydrationExpansion;
 
         public Common(ForgeConfigSpec.Builder builder) {
             builder.push("general");
@@ -32,9 +34,16 @@ public class Config {
                     .defineInRange("skilletSlotNumber", 8, 1, 32);
 
             richSoilGrowthBoostTick = builder
-                    .comment("How many ticks should rich soil boost the growth of the block above it.")
+                    .comment("How many ticks rich soil should boost the growth of the block above it.")
                     .defineInRange("richSoilGrowthBoostTick", 2400, 0, 24000 * 10);
 
+            richSoilFarmlandTemperatureExpansion = builder
+                    .comment("How many degrees of temperature deviated from usual range is allowed for crops planted on rich soil farmlands to grow.")
+                    .defineInRange("richSoilFarmlandTemperatureExpansion", 5, 0, 100);
+
+            richSoilFarmlandHydrationExpansion = builder
+                    .comment("How many percentile of hydration deviated from usual range is allowed for crops planted on rich soil farmlands to grow.")
+                    .defineInRange("richSoilFarmlandHydrationExpansion", 5, 0, 100);
             builder.pop();
         }
     }

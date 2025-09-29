@@ -1,6 +1,7 @@
 package com.vomiter.survivorsdelight.core.device.skillet;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
+import com.vomiter.survivorsdelight.util.RLUtils;
 import net.dries007.tfc.TerraFirmaCraft;
 import net.minecraft.resources.ResourceLocation;
 
@@ -9,59 +10,59 @@ import java.util.Map;
 public enum SkilletMaterial {
     COPPER("copper", 1,
             Map.of(
-                    "0", ResourceLocation.fromNamespaceAndPath(TerraFirmaCraft.MOD_ID, "block/metal/smooth/copper"),
-                    "1", ResourceLocation.fromNamespaceAndPath(TerraFirmaCraft.MOD_ID, "block/metal/smooth/copper"),
-                    "2", ResourceLocation.fromNamespaceAndPath(TerraFirmaCraft.MOD_ID, "block/wood/planks/hickory")
+                    "0", RLUtils.build(TerraFirmaCraft.MOD_ID, "block/metal/smooth/copper"),
+                    "1", RLUtils.build(TerraFirmaCraft.MOD_ID, "block/metal/smooth/copper"),
+                    "2", RLUtils.build(TerraFirmaCraft.MOD_ID, "block/wood/planks/hickory")
             )
     ),
     COPPER_SILVER("copper_silver", 600,
             Map.of(
-                    "0", ResourceLocation.fromNamespaceAndPath(TerraFirmaCraft.MOD_ID, "block/metal/smooth/copper"),
-                    "1", ResourceLocation.fromNamespaceAndPath(TerraFirmaCraft.MOD_ID, "block/metal/smooth/silver"),
-                    "2", ResourceLocation.fromNamespaceAndPath(TerraFirmaCraft.MOD_ID, "block/wood/planks/hickory")
+                    "0", RLUtils.build(TerraFirmaCraft.MOD_ID, "block/metal/smooth/copper"),
+                    "1", RLUtils.build(TerraFirmaCraft.MOD_ID, "block/metal/smooth/silver"),
+                    "2", RLUtils.build(TerraFirmaCraft.MOD_ID, "block/wood/planks/hickory")
             )
     ),
     COPPER_TIN("copper_tin", 600,
             Map.of(
-                    "0", ResourceLocation.fromNamespaceAndPath(TerraFirmaCraft.MOD_ID, "block/metal/smooth/copper"),
-                    "1", ResourceLocation.fromNamespaceAndPath(TerraFirmaCraft.MOD_ID, "block/metal/smooth/tin"),
-                    "2", ResourceLocation.fromNamespaceAndPath(TerraFirmaCraft.MOD_ID, "block/wood/planks/hickory")
+                    "0", RLUtils.build(TerraFirmaCraft.MOD_ID, "block/metal/smooth/copper"),
+                    "1", RLUtils.build(TerraFirmaCraft.MOD_ID, "block/metal/smooth/tin"),
+                    "2", RLUtils.build(TerraFirmaCraft.MOD_ID, "block/wood/planks/hickory")
             )
 
     ),
     CAST_IRON("cast_iron", 550,
             Map.of(
-                    "0", ResourceLocation.fromNamespaceAndPath(TerraFirmaCraft.MOD_ID, "block/metal/smooth/cast_iron"),
-                    "1", ResourceLocation.fromNamespaceAndPath(TerraFirmaCraft.MOD_ID, "block/metal/smooth/cast_iron"),
-                    "2", ResourceLocation.fromNamespaceAndPath(TerraFirmaCraft.MOD_ID, "block/wood/planks/oak")
+                    "0", RLUtils.build(TerraFirmaCraft.MOD_ID, "block/metal/smooth/cast_iron"),
+                    "1", RLUtils.build(TerraFirmaCraft.MOD_ID, "block/metal/smooth/cast_iron"),
+                    "2", RLUtils.build(TerraFirmaCraft.MOD_ID, "block/wood/planks/oak")
             )
     ),
     STEEL("steel", 3300, 5.75f, 1,
             Map.of(
-                    "0", ResourceLocation.fromNamespaceAndPath(TerraFirmaCraft.MOD_ID, "block/metal/smooth/steel"),
-                    "1", ResourceLocation.fromNamespaceAndPath(TerraFirmaCraft.MOD_ID, "block/metal/smooth/steel"),
-                    "2", ResourceLocation.fromNamespaceAndPath(TerraFirmaCraft.MOD_ID, "block/wood/planks/chestnut")
+                    "0", RLUtils.build(TerraFirmaCraft.MOD_ID, "block/metal/smooth/steel"),
+                    "1", RLUtils.build(TerraFirmaCraft.MOD_ID, "block/metal/smooth/steel"),
+                    "2", RLUtils.build(TerraFirmaCraft.MOD_ID, "block/wood/planks/chestnut")
             )
     ),
     BLACK_STEEL("black_steel", 4200, 7, 1.5f,
             Map.of(
-                    "0", ResourceLocation.fromNamespaceAndPath(TerraFirmaCraft.MOD_ID, "block/metal/smooth/black_steel"),
-                    "1", ResourceLocation.fromNamespaceAndPath(TerraFirmaCraft.MOD_ID, "block/metal/smooth/black_steel"),
-                    "2", ResourceLocation.fromNamespaceAndPath(TerraFirmaCraft.MOD_ID, "block/wood/planks/douglas_fir")
+                    "0", RLUtils.build(TerraFirmaCraft.MOD_ID, "block/metal/smooth/black_steel"),
+                    "1", RLUtils.build(TerraFirmaCraft.MOD_ID, "block/metal/smooth/black_steel"),
+                    "2", RLUtils.build(TerraFirmaCraft.MOD_ID, "block/wood/planks/douglas_fir")
             )
     ),
     RED_STEEL("red_steel", 6500, 9, 2f,
             Map.of(
-                    "0", ResourceLocation.fromNamespaceAndPath(TerraFirmaCraft.MOD_ID, "block/metal/smooth/red_steel"),
-                    "1", ResourceLocation.fromNamespaceAndPath(TerraFirmaCraft.MOD_ID, "block/metal/smooth/red_steel"),
-                    "2", ResourceLocation.fromNamespaceAndPath(TerraFirmaCraft.MOD_ID, "block/devices/crucible/side")
+                    "0", RLUtils.build(TerraFirmaCraft.MOD_ID, "block/metal/smooth/red_steel"),
+                    "1", RLUtils.build(TerraFirmaCraft.MOD_ID, "block/metal/smooth/red_steel"),
+                    "2", RLUtils.build(TerraFirmaCraft.MOD_ID, "block/devices/crucible/side")
             )
     ),
     BLUE_STEEL("blue_steel", 6500, 9, 2f,
             Map.of(
-                    "0", ResourceLocation.fromNamespaceAndPath(TerraFirmaCraft.MOD_ID, "block/metal/smooth/blue_steel"),
-                    "1", ResourceLocation.fromNamespaceAndPath(TerraFirmaCraft.MOD_ID, "block/metal/smooth/blue_steel"),
-                    "2", ResourceLocation.fromNamespaceAndPath(TerraFirmaCraft.MOD_ID, "block/devices/crucible/side")
+                    "0", RLUtils.build(TerraFirmaCraft.MOD_ID, "block/metal/smooth/blue_steel"),
+                    "1", RLUtils.build(TerraFirmaCraft.MOD_ID, "block/metal/smooth/blue_steel"),
+                    "2", RLUtils.build(TerraFirmaCraft.MOD_ID, "block/devices/crucible/side")
             )
     );
     public final String material;
@@ -90,7 +91,7 @@ public enum SkilletMaterial {
     }
 
     public String path() { return "skillet/" + material; }
-    public ResourceLocation location() { return ResourceLocation.fromNamespaceAndPath(SurvivorsDelight.MODID, path()); }
+    public ResourceLocation location() { return RLUtils.build(SurvivorsDelight.MODID, path()); }
 
     public String path_head(){ return "skillet_head/" + material;}
     public String path_uf(){ return "unfinished_skillet/" + material;}
