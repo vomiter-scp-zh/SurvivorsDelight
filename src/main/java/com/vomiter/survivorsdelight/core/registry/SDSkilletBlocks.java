@@ -9,12 +9,10 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import vectorwing.farmersdelight.common.block.SkilletBlock;
 import vectorwing.farmersdelight.common.block.entity.SkilletBlockEntity;
 import vectorwing.farmersdelight.common.registry.ModBlockEntityTypes;
@@ -22,22 +20,22 @@ import vectorwing.farmersdelight.common.registry.ModBlockEntityTypes;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.function.Supplier;
 
-@Mod.EventBusSubscriber(modid = SurvivorsDelight.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = SurvivorsDelight.MODID)
 public class SDSkilletBlocks {
     private SDSkilletBlocks() {}
-    public static final DeferredRegister<Block> BLOCKS =
-            DeferredRegister.create(ForgeRegistries.BLOCKS, SurvivorsDelight.MODID);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.createBlocks(SurvivorsDelight.MODID);
 
-    public static final Map<SkilletMaterial, RegistryObject<Block>> SKILLETS = new EnumMap<>(SkilletMaterial.class);
-    public static RegistryObject<Block> get(SkilletMaterial m){
+    public static final Map<SkilletMaterial, Supplier<Block>> SKILLETS = new EnumMap<>(SkilletMaterial.class);
+    public static Supplier<Block> get(SkilletMaterial m){
         return SKILLETS.get(m);
     }
     public static ResourceKey<Block> getKey(SkilletMaterial m){
-        return SKILLETS.get(m).getKey();
+        return SKILLETS.get(m).get().builtInRegistryHolder().getKey();
     }
 
-    public static final RegistryObject<Block> FARMER =BLOCKS.register("skillet/farmer", () ->
+    public static final Supplier<Block> FARMER = BLOCKS.register("skillet/farmer", () ->
             new SkilletBlock(
             BlockBehaviour.Properties
                     .of()
@@ -49,7 +47,7 @@ public class SDSkilletBlocks {
 
     static {
         for (SkilletMaterial m : SkilletMaterial.values()) {
-            RegistryObject<Block> ro = BLOCKS.register(m.path(), () ->
+            Supplier<Block> ro = BLOCKS.register(m.path(), () ->
                     new SkilletBlock(BlockBehaviour.Properties
                             .of()
                             .mapColor(MapColor.METAL)
@@ -62,7 +60,7 @@ public class SDSkilletBlocks {
         }
     }
 
-    @Mod.EventBusSubscriber(modid = SurvivorsDelight.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+    @EventBusSubscriber(modid = SurvivorsDelight.MODID)
     public static final class Compat {
         @SubscribeEvent
         public static void onCommonSetup(FMLCommonSetupEvent event) {

@@ -11,9 +11,11 @@ import net.dries007.tfc.common.items.TFCItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
 import vectorwing.farmersdelight.common.registry.ModItems;
 
@@ -24,18 +26,17 @@ public class ModItemTagsProvider extends ItemTagsProvider {
 
     public ModItemTagsProvider(PackOutput output,
                                CompletableFuture<HolderLookup.Provider> lookupProvider,
-                               ModBlockTagsProvider blockTags,
+                               CompletableFuture<TagsProvider.TagLookup<Block>> blockTags,
                                ExistingFileHelper helper) {
-        super(output, lookupProvider, blockTags.contentsGetter(), SurvivorsDelight.MODID, helper);
+        super(output, lookupProvider, blockTags, SurvivorsDelight.MODID, helper);
     }
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
-        assert TFCItems.GLUE.getKey() != null;
-        tag(SDItemTags.FOOD_MODEL_COATING).add(TFCItems.GLUE.getKey());
-        tag(SDItemTags.RETURN_COPPER_SKILLET).add(Objects.requireNonNull(SDSkilletItems.SKILLETS.get(SkilletMaterial.COPPER).getKey()));
-        tag(SDItemTags.RETURN_COPPER_SKILLET).add(Objects.requireNonNull(SDSkilletItems.SKILLETS.get(SkilletMaterial.COPPER_SILVER).getKey()));
-        tag(SDItemTags.RETURN_COPPER_SKILLET).add(Objects.requireNonNull(SDSkilletItems.SKILLETS.get(SkilletMaterial.COPPER_TIN).getKey()));
+        tag(SDItemTags.FOOD_MODEL_COATING).add(TFCItems.GLUE.key());
+        tag(SDItemTags.RETURN_COPPER_SKILLET).add(Objects.requireNonNull(SDSkilletItems.SKILLETS.get(SkilletMaterial.COPPER).get()));
+        tag(SDItemTags.RETURN_COPPER_SKILLET).add(Objects.requireNonNull(SDSkilletItems.SKILLETS.get(SkilletMaterial.COPPER_SILVER).get()));
+        tag(SDItemTags.RETURN_COPPER_SKILLET).add(Objects.requireNonNull(SDSkilletItems.SKILLETS.get(SkilletMaterial.COPPER_TIN).get()));
         for (SkilletMaterial m : SkilletMaterial.values()){
             var skillet = SDSkilletItems.getKey(m);
             var head = SDSkilletPartItems.HEADS.get(m);
@@ -51,11 +52,9 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                         RLUtils.build("tfc", "metal_item/copper"))
                 ).add(skillet);
                 if(head != null) {
-                    assert head.getKey() != null;
                     copper_tag.add(head.getKey());
                 }
                 if(uf != null) {
-                    assert uf.getKey() != null;
                     copper_tag.add(uf.getKey());
                 }
             }
@@ -65,11 +64,9 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                         RLUtils.build("tfc", "metal_item/" + m.material)))
                         .add(skillet);
                 if(head != null) {
-                    assert head.getKey() != null;
                     metal_tag.add(head.getKey());
                 }
                 if(uf != null) {
-                    assert uf.getKey() != null;
                     metal_tag.add(uf.getKey());
                 }
             }

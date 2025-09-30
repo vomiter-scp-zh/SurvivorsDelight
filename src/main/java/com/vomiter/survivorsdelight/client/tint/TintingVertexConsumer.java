@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
 public final class TintingVertexConsumer implements VertexConsumer {
@@ -20,65 +19,51 @@ public final class TintingVertexConsumer implements VertexConsumer {
 
     @Override
     public void putBulkData(PoseStack.@NotNull Pose pose, @NotNull BakedQuad quad,
-                            float @NotNull [] brightness, float r, float g, float b,
+                            float @NotNull [] brightness, float r, float g, float b, float a,
                             int @NotNull [] lights, int overlay, boolean useShade) {
-        delegate.putBulkData(pose, quad, brightness, r * fr, g * fg, b * fb, lights, overlay, useShade);
+        delegate.putBulkData(pose, quad, brightness, r * fr, g * fg, b * fb, a, lights, overlay, useShade);
     }
 
     @Override
     public void putBulkData(PoseStack.@NotNull Pose pose, @NotNull BakedQuad quad,
-                            float r, float g, float b, int light, int overlay) {
-        delegate.putBulkData(pose, quad, r * fr, g * fg, b * fb, light, overlay);
+                            float r, float g, float b, float a, int light, int overlay) {
+        delegate.putBulkData(pose, quad, r * fr, g * fg, b * fb, a, light, overlay);
     }
 
     @Override
-    public @NotNull VertexConsumer color(int r, int g, int b, int a) {
+    public @NotNull VertexConsumer addVertex(float v, float v1, float v2) {
+        return delegate.addVertex(v, v1, v2);
+    }
+
+    @Override
+    public @NotNull VertexConsumer setColor(int r, int g, int b, int a) {
         int nr = (r * tr) / 255;
         int ng = (g * tg) / 255;
         int nb = (b * tb) / 255;
         int na = (a * ta) / 255;
-        return delegate.color(nr, ng, nb, na);
+        return delegate.setColor(nr, ng, nb, na);
     }
 
     @Override
-    public @NotNull VertexConsumer vertex(@NotNull Matrix4f matrix, float x, float y, float z) { return delegate.vertex(matrix, x, y, z); }
+    public @NotNull VertexConsumer addVertex(@NotNull Matrix4f matrix, float x, float y, float z) { return delegate.addVertex(matrix, x, y, z); }
 
     @Override
-    public @NotNull VertexConsumer vertex(double x, double y, double z) { return delegate.vertex(x, y, z); }
+    public @NotNull VertexConsumer setUv(float u, float v) { return delegate.setUv(u, v); }
 
     @Override
-    public @NotNull VertexConsumer uv(float u, float v) { return delegate.uv(u, v); }
-
-    @Override
-    public @NotNull VertexConsumer overlayCoords(int u, int v) {
-        return delegate.overlayCoords(u, v);
+    public @NotNull VertexConsumer setUv1(int i, int i1) {
+        return delegate.setUv1(i, i1);
     }
 
     @Override
-    public @NotNull VertexConsumer uv2(int u, int v) {
-        return delegate.uv2(u, v);
+    public @NotNull VertexConsumer setUv2(int u, int v) {
+        return delegate.setUv2(u, v);
     }
 
     @Override
-    public @NotNull VertexConsumer normal(float nx, float ny, float nz) {
-        return delegate.normal(nx, ny, nz);
+    public @NotNull VertexConsumer setNormal(float v, float v1, float v2) {
+        return delegate.setNormal(v, v1, v2);
     }
 
-    @Override
-    public @NotNull VertexConsumer overlayCoords(int overlay) { return delegate.overlayCoords(overlay); }
 
-    @Override
-    public @NotNull VertexConsumer uv2(int light) { return delegate.uv2(light); }
-
-    @Override
-    public @NotNull VertexConsumer normal(@NotNull Matrix3f normal, float nx, float ny, float nz) { return delegate.normal(normal, nx, ny, nz); }
-
-    @Override
-    public void endVertex() { delegate.endVertex(); }
-
-    @Override
-    public void defaultColor(int r, int g, int b, int a) { delegate.defaultColor(r, g, b, a); }
-
-    @Override
-    public void unsetDefaultColor() { delegate.unsetDefaultColor(); }
 }

@@ -2,11 +2,9 @@ package com.vomiter.survivorsdelight.core.food.block;
 
 import net.dries007.tfc.common.blockentities.DecayingBlockEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class SDDecayingBlockEntity extends DecayingBlockEntity {
     private boolean foodRotten = false;
@@ -21,13 +19,4 @@ public abstract class SDDecayingBlockEntity extends DecayingBlockEntity {
             level.sendBlockUpdated(pos, state, state, 3);
         }
     }
-
-    @Override public void saveAdditional(@NotNull CompoundTag tag) {
-        super.saveAdditional(tag);
-    }
-
-    @Override public void loadAdditional(@NotNull CompoundTag tag) {
-        super.loadAdditional(tag);
-    }
-
 }

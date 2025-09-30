@@ -15,18 +15,18 @@ import vectorwing.farmersdelight.common.registry.ModBlocks;
 @Mixin(value = FarmlandBlock.class, remap = false)
 public class FarmlandBlock_RichSoilTooltip {
     @ModifyExpressionValue(
-            method = "getHydrationTooltip(Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/dries007/tfc/util/climate/ClimateRange;ZI)Lnet/minecraft/network/chat/Component;",
+            method = "getHydrationTooltip(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/dries007/tfc/util/climate/ClimateRange;Z)Lnet/minecraft/network/chat/Component;",
             at = @At(value = "INVOKE", target = "Lnet/dries007/tfc/util/climate/ClimateRange;checkHydration(IZ)Lnet/dries007/tfc/util/climate/ClimateRange$Result;")
     )
     private static ClimateRange.Result expandHydrationRange(
             ClimateRange.Result original,
-            @Local(argsOnly = true)LevelAccessor levelAccessor,
+            @Local(argsOnly = true)Level level,
             @Local(argsOnly = true)BlockPos blockPos,
             @Local(argsOnly = true)ClimateRange climateRange,
-            @Local(argsOnly = true) int hydration
+            @Local(ordinal = 1) int hydration
             )
     {
-        if(levelAccessor.getBlockState(blockPos).is(ModBlocks.RICH_SOIL_FARMLAND.get())){
+        if(level.getBlockState(blockPos).is(ModBlocks.RICH_SOIL_FARMLAND.get())){
             int hydrationExpansion = Config.COMMON.richSoilFarmlandHydrationExpansion.get();
             int maxHydration = climateRange.getMaxHydration(false) + hydrationExpansion;
             int minHydration = climateRange.getMinHydration(false) - hydrationExpansion;
@@ -38,15 +38,15 @@ public class FarmlandBlock_RichSoilTooltip {
     }
 
     @ModifyExpressionValue(
-            method = "getHydrationTooltip(Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/dries007/tfc/util/climate/ClimateRange;ZI)Lnet/minecraft/network/chat/Component;",
+            method = "getHydrationTooltip(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/dries007/tfc/util/climate/ClimateRange;Z)Lnet/minecraft/network/chat/Component;",
             at = @At(value = "INVOKE", target = "Lnet/dries007/tfc/util/climate/ClimateRange;getMaxHydration(Z)I")
     )
     private static int textMaxHydrationRange(
             int original,
-            @Local(argsOnly = true)LevelAccessor levelAccessor,
+            @Local(argsOnly = true)Level levelAccessor,
             @Local(argsOnly = true)BlockPos blockPos,
             @Local(argsOnly = true)ClimateRange climateRange,
-            @Local(argsOnly = true) int hydration
+            @Local(argsOnly = true, ordinal = 1) int hydration
     )
     {
         if(levelAccessor.getBlockState(blockPos).is(ModBlocks.RICH_SOIL_FARMLAND.get())){
@@ -57,7 +57,7 @@ public class FarmlandBlock_RichSoilTooltip {
     }
 
     @ModifyExpressionValue(
-            method = "getHydrationTooltip(Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/dries007/tfc/util/climate/ClimateRange;ZI)Lnet/minecraft/network/chat/Component;",
+            method = "getHydrationTooltip(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/dries007/tfc/util/climate/ClimateRange;Z)Lnet/minecraft/network/chat/Component;",
             at = @At(value = "INVOKE", target = "Lnet/dries007/tfc/util/climate/ClimateRange;getMinHydration(Z)I")
     )
     private static int textMinHydrationRange(
@@ -65,7 +65,7 @@ public class FarmlandBlock_RichSoilTooltip {
             @Local(argsOnly = true)LevelAccessor levelAccessor,
             @Local(argsOnly = true)BlockPos blockPos,
             @Local(argsOnly = true)ClimateRange climateRange,
-            @Local(argsOnly = true) int hydration
+            @Local(argsOnly = true, ordinal = 1) int hydration
     )
     {
         if(levelAccessor.getBlockState(blockPos).is(ModBlocks.RICH_SOIL_FARMLAND.get())){

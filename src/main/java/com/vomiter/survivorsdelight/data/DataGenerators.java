@@ -8,15 +8,15 @@ import com.vomiter.survivorsdelight.core.device.skillet.data.SDSkilletLootTableP
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.concurrent.CompletableFuture;
 
 @SuppressWarnings("unused")
-@Mod.EventBusSubscriber(modid = SurvivorsDelight.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = SurvivorsDelight.MODID)
 public class DataGenerators
 {
     @SubscribeEvent
@@ -27,7 +27,7 @@ public class DataGenerators
         ExistingFileHelper helper = event.getExistingFileHelper();
 
         ModBlockTagsProvider blockTags = new ModBlockTagsProvider(output, lookupProvider, helper);
-        ModItemTagsProvider itemTags = new ModItemTagsProvider(output, lookupProvider, blockTags, helper);
+        ModItemTagsProvider itemTags = new ModItemTagsProvider(output, lookupProvider, blockTags.contentsGetter(), helper);
         ModEntityTypeTagsProvider entityTags = new ModEntityTypeTagsProvider(output, lookupProvider, SurvivorsDelight.MODID, helper);
 
         SDSkilletBlockModelProvider skilletModelProvider = new SDSkilletBlockModelProvider(output, helper);

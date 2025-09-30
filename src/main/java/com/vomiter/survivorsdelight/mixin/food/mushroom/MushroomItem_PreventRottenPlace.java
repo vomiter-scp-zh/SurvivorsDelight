@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.mixin.food.mushroom;
 
-import net.dries007.tfc.common.capabilities.food.FoodCapability;
+import net.dries007.tfc.common.component.food.FoodCapability;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.context.BlockPlaceContext;

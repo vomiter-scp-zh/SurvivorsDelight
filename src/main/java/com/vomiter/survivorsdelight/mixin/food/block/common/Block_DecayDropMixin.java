@@ -1,8 +1,8 @@
 package com.vomiter.survivorsdelight.mixin.food.block.common;
 
 import com.vomiter.survivorsdelight.core.food.block.SDDecayingBlockEntity;
-import net.dries007.tfc.common.capabilities.food.FoodCapability;
-import net.dries007.tfc.common.capabilities.food.IFood;
+import net.dries007.tfc.common.component.food.FoodCapability;
+import net.dries007.tfc.common.component.food.IFood;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -29,7 +29,7 @@ public abstract class Block_DecayDropMixin{
             drops.stream().forEach(drop -> {
                 IFood dropFood = FoodCapability.get(drop);
                 if(dropFood == null) return;
-                dropFood.setCreationDate(srcFood.getCreationDate());
+                FoodCapability.setCreationDate(drop, srcFood.getCreationDate());
                 dropFood.getTraits().addAll(srcFood.getTraits());
             });
         }

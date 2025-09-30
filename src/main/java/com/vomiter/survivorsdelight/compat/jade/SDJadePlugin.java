@@ -2,7 +2,7 @@ package com.vomiter.survivorsdelight.compat.jade;
 
 import com.vomiter.survivorsdelight.core.food.block.SDDecayingBlockEntity;
 import com.vomiter.survivorsdelight.util.RLUtils;
-import net.dries007.tfc.common.capabilities.food.FoodCapability;
+import net.dries007.tfc.common.component.food.FoodCapability;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -36,8 +36,7 @@ public class SDJadePlugin implements IWailaPlugin {
 
             tooltip.add(stack.getHoverName());
             List<Component> lines = new ArrayList<>();
-            FoodCapability.addTooltipInfo(stack, lines);
-            lines.forEach(tooltip::add);
+            FoodCapability.addTooltipInfo(stack, lines::add);
         }
 
         @Override

@@ -5,8 +5,8 @@ import com.vomiter.survivorsdelight.core.food.block.ISDDecayingBlock;
 import com.vomiter.survivorsdelight.core.food.block.SDDecayingBlockEntityRegistry;
 import com.vomiter.survivorsdelight.core.food.trait.SDFoodTraits;
 import com.vomiter.survivorsdelight.data.tags.SDItemTags;
-import net.dries007.tfc.common.capabilities.food.FoodCapability;
-import net.dries007.tfc.common.capabilities.food.IFood;
+import net.dries007.tfc.common.component.food.FoodCapability;
+import net.dries007.tfc.common.component.food.IFood;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -49,8 +49,8 @@ public abstract class FeastBlock_BlockEntityMixin extends Block implements Entit
 
     @Shadow public abstract IntegerProperty getServingsProperty();
 
-    @Inject(method = "use", at = @At("HEAD"), cancellable = true)
-    private void sdtfc$use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit, CallbackInfoReturnable<InteractionResult> cir){
+    @Inject(method = "useItemOn", at = @At("HEAD"), cancellable = true)
+    private void sdtfc$use(ItemStack heldStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit, CallbackInfoReturnable<InteractionResult> cir){
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (!(blockEntity instanceof DecayingFeastBlockEntity decayingFeastBlockEntity)) return;
         ItemStack src = decayingFeastBlockEntity.getStack();
@@ -63,7 +63,7 @@ public abstract class FeastBlock_BlockEntityMixin extends Block implements Entit
             cir.setReturnValue(InteractionResult.PASS);
         }
         else if(usedItem.is(SDItemTags.FOOD_MODEL_COATING) && usedItem.getCount() >= servingNumber){
-            srcFood.getTraits().add(SDFoodTraits.FOOD_MODEL);
+            srcFood.getTraits().add(SDFoodTraits.FOOD_MODEL.get());
             usedItem.shrink(servingNumber);
             cir.setReturnValue(InteractionResult.SUCCESS);
             level.sendBlockUpdated(pos, state, state, 3);

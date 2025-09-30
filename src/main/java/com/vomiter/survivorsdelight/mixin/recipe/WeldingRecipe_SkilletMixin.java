@@ -2,10 +2,9 @@ package com.vomiter.survivorsdelight.mixin.recipe;
 
 import com.vomiter.survivorsdelight.core.registry.SDSkilletPartItems;
 import com.vomiter.survivorsdelight.data.tags.SDItemTags;
-import net.dries007.tfc.common.capabilities.forge.ForgingBonus;
+import net.dries007.tfc.common.component.forge.ForgingBonusComponent;
 import net.dries007.tfc.common.recipes.WeldingRecipe;
 import net.dries007.tfc.common.recipes.outputs.ItemStackProvider;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,23 +18,23 @@ public class WeldingRecipe_SkilletMixin {
     @Shadow @Final private ItemStackProvider output;
 
     @Inject(
-            method = "assemble(Lnet/dries007/tfc/common/recipes/WeldingRecipe$Inventory;Lnet/minecraft/core/RegistryAccess;)Lnet/minecraft/world/item/ItemStack;",
+            method = "assemble",
             at = @At("RETURN"),
             cancellable = true
     )
-    private void applyForgingBonus(WeldingRecipe.Inventory inventory, RegistryAccess registryAccess, CallbackInfoReturnable<ItemStack> cir){
+    private void applyForgingBonus(WeldingRecipe.Inventory inventory, CallbackInfoReturnable<ItemStack> cir){
         if(!cir.getReturnValue().is(SDItemTags.SKILLETS)) return;
         ItemStack output = cir.getReturnValue().copy();
         if(
                 SDSkilletPartItems.HEADS.values().stream().anyMatch(
-                        ro -> inventory.getLeft().is(ro.get()))
+                        ro -> inventory.getLeft().is(ro))
         ){
-            ForgingBonus.set(output, ForgingBonus.get(inventory.getLeft()));
+            ForgingBonusComponent.set(output, ForgingBonusComponent.get(inventory.getLeft()));
         } else if (
                 SDSkilletPartItems.HEADS.values().stream().anyMatch(
                         ro -> inventory.getRight().is(ro.get()))
         ) {
-            ForgingBonus.set(output, ForgingBonus.get(inventory.getRight()));
+            ForgingBonusComponent.set(output, ForgingBonusComponent.get(inventory.getRight()));
         }
         cir.setReturnValue(output);
     }

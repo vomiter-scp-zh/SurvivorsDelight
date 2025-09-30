@@ -1,10 +1,10 @@
 package com.vomiter.survivorsdelight.core.device.skillet;
 
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.core.registry.SDSkilletItems;
+import com.vomiter.survivorsdelight.util.SDUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -12,8 +12,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -22,36 +20,30 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import org.jetbrains.annotations.NotNull;
 import vectorwing.farmersdelight.common.item.SkilletItem;
 import vectorwing.farmersdelight.common.registry.ModSounds;
 
-import java.util.UUID;
-
 public class SDSkilletItem extends SkilletItem {
-    private final Multimap<Attribute, AttributeModifier> toolAttributes;
 
-    public SDSkilletItem(Block block, Properties properties) {
+    boolean isWeapon;
+
+    public SDSkilletItem(Block block, Properties properties, boolean isWeapon) {
         super(block, properties);
-        toolAttributes = null;
+        this.isWeapon = isWeapon;
     }
 
-    public SDSkilletItem(Block block, Properties properties, Multimap<Attribute, AttributeModifier> toolAttributes) {
-        super(block, properties);
-        this.toolAttributes = toolAttributes;
-    }
-
-    public static UUID getKnockbackUUID(){
+    public static ResourceLocation getKnockbackUUID(){
         return FD_ATTACK_KNOCKBACK_UUID;
     }
 
     @Override
     public boolean hurtEnemy(@NotNull ItemStack stack, @NotNull LivingEntity target, @NotNull LivingEntity attacker) {
         if(!this.canAttack()) return false;
-        stack.hurtAndBreak(1, attacker, (user) -> user.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+        stack.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
         return true;
     }
 
@@ -60,7 +52,7 @@ public class SDSkilletItem extends SkilletItem {
     }
 
     public boolean canAttack(){
-        return this.toolAttributes != null;
+        return isWeapon;
     }
 
     @Override
@@ -71,25 +63,21 @@ public class SDSkilletItem extends SkilletItem {
             BlockHitResult blockhitresult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
             BlockPos pos = blockhitresult.getBlockPos();
             if(level.getBlockState(pos).is(Blocks.LAVA)){
-                skilletStack.enchant(Enchantments.FIRE_ASPECT, 2);
+                skilletStack.enchant(SDUtils.getEnchantHolder(level, Enchantments.FIRE_ASPECT) , 2);
             }
         }
         return super.use(level, player, hand);
     }
 
-    @Override
-    public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot equipmentSlot) {
-        return equipmentSlot == EquipmentSlot.MAINHAND && this.canAttack() ? this.toolAttributes : ImmutableMultimap.of();
-    }
 
-    @Mod.EventBusSubscriber(
-            modid = SurvivorsDelight.MODID,
-            bus = Mod.EventBusSubscriber.Bus.FORGE
+    @EventBusSubscriber(
+            modid = SurvivorsDelight.MODID
     )
     public static class SDSkilletEvents {
         @SubscribeEvent
         public static void playSkilletAttackSound(LivingDamageEvent event) {
-            DamageSource damageSource = event.getSource();
+            DamageSource damageSource = event.getEntity().getLastDamageSource();
+            if(damageSource == null) return;
             Entity attacker = damageSource.getDirectEntity();
             if (attacker instanceof LivingEntity livingEntity) {
                 if (livingEntity.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof SDSkilletItem) {

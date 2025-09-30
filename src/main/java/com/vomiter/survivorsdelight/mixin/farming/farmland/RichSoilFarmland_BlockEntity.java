@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import vectorwing.farmersdelight.common.block.RichSoilFarmlandBlock;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 @Mixin(RichSoilFarmlandBlock.class)
 public class RichSoilFarmland_BlockEntity extends FarmBlock implements EntityBlock, HoeOverlayBlock {
@@ -47,7 +47,8 @@ public class RichSoilFarmland_BlockEntity extends FarmBlock implements EntityBlo
 
 
     @Override
-    public void addHoeOverlayInfo(Level level, BlockPos blockPos, BlockState blockState, List<Component> text, boolean b) {
-        level.getBlockEntity(blockPos, TFCBlockEntities.FARMLAND.get()).ifPresent(farmland -> farmland.addHoeOverlayInfo(level, blockPos, text, true, true));
+    public void addHoeOverlayInfo(Level level, @NotNull BlockPos blockPos, @NotNull BlockState blockState, @NotNull Consumer<Component> consumer, boolean b) {
+        level.getBlockEntity(blockPos, TFCBlockEntities.FARMLAND.get()).ifPresent(farmland -> farmland.addHoeOverlayInfo(level, blockPos, consumer, true, true));
+
     }
 }

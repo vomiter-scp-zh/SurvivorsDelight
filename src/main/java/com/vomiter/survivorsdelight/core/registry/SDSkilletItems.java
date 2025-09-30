@@ -6,60 +6,62 @@ import com.vomiter.survivorsdelight.core.device.skillet.SDSkilletItem;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
 import com.vomiter.survivorsdelight.util.ItemUUIDs;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import vectorwing.farmersdelight.common.item.SkilletItem;
 
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Supplier;
 
-@Mod.EventBusSubscriber(modid = SurvivorsDelight.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = SurvivorsDelight.MODID)
 public class SDSkilletItems {
     static final UUID BASE_ATTACK_DAMAGE_UUID = ItemUUIDs.getBaseAttackDamageUUID();
     static final UUID BASE_ATTACK_SPEED_UUID = ItemUUIDs.getBaseAttackSpeedUUID();
-    static final UUID KNOCKBACK_UUID = SDSkilletItem.getKnockbackUUID();
+    static final ResourceLocation KNOCKBACK_UUID = SDSkilletItem.getKnockbackUUID();
 
     private SDSkilletItems() {}
     public static final DeferredRegister<Item> ITEMS =
-            DeferredRegister.create(ForgeRegistries.ITEMS, SurvivorsDelight.MODID);
+            DeferredRegister.createItems(SurvivorsDelight.MODID);
 
-    public static final Map<SkilletMaterial, RegistryObject<Item>> SKILLETS = new EnumMap<>(SkilletMaterial.class);
-    public static RegistryObject<Item> get(SkilletMaterial m){
+    public static final Map<SkilletMaterial, Supplier<Item>> SKILLETS = new EnumMap<>(SkilletMaterial.class);
+    public static Supplier<Item> get(SkilletMaterial m){
         return SKILLETS.get(m);
     }
     public static ResourceKey<Item> getKey(SkilletMaterial m){
-        return SKILLETS.get(m).getKey();
+        return SKILLETS.get(m).get().builtInRegistryHolder().getKey();
     }
-    public static RegistryObject<Item> FARMER;
+    public static Supplier<Item> FARMER;
     static {
         for (SkilletMaterial m : SkilletMaterial.values()) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-            if(m.isWeapon){
-                builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", m.attackDamage, AttributeModifier.Operation.ADDITION));
-                builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", -3.1F, AttributeModifier.Operation.ADDITION));
-                builder.put(Attributes.ATTACK_KNOCKBACK, new AttributeModifier(KNOCKBACK_UUID, "Tool modifier", m.attackKnockback, AttributeModifier.Operation.ADDITION));
-            }
             Item.Properties properties = new Item.Properties();
-            properties.durability(m.durability);
+            properties.durability(m.durability).stacksTo(1);
             if(m.equals(SkilletMaterial.RED_STEEL) || m.equals(SkilletMaterial.BLUE_STEEL)){
                 properties = properties.fireResistant();
             }
+            if(m.isWeapon){
+                properties.attributes(
+                        SDSkilletItem.createAttributes(
+                                SkilletItem.SKILLET_TIER,
+                                m.attackDamage,
+                                m.attackKnockback
+                        )
+                );
+            }
             Item.Properties finalProperties = properties;
-            RegistryObject<Item> ro = ITEMS.register(m.path(), () ->
-                    m.isWeapon?
-                        new SDSkilletItem(SDSkilletBlocks.SKILLETS.get(m).get(), finalProperties, builder.build()):
-                        new SDSkilletItem(SDSkilletBlocks.SKILLETS.get(m).get(), finalProperties)
+            Supplier<Item> ro = ITEMS.register(m.path(), () ->
+                    new SDSkilletItem(SDSkilletBlocks.SKILLETS.get(m).get(), finalProperties, m.isWeapon)
             );
             SKILLETS.put(m, ro);
             if(m.equals(SkilletMaterial.STEEL)){
                 FARMER = ITEMS.register("skillet/farmer", () ->
-                                new SDSkilletItem(SDSkilletBlocks.FARMER.get(), finalProperties, builder.build())
+                                new SDSkilletItem(SDSkilletBlocks.FARMER.get(), finalProperties, true)
                 );
             }
         }

@@ -5,12 +5,12 @@ import com.vomiter.survivorsdelight.core.device.skillet.SDSkilletItem;
 import com.vomiter.survivorsdelight.network.SDNetwork;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
-@Mod.EventBusSubscriber(modid = SurvivorsDelight.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(modid = SurvivorsDelight.MODID, value = Dist.CLIENT)
 public class SkilletClientHooks {
 
     private static boolean isHoldingAttackableSkillet(Player player) {
@@ -23,14 +23,14 @@ public class SkilletClientHooks {
     @SubscribeEvent
     public static void onLeftClickEmpty(PlayerInteractEvent.LeftClickEmpty e) {
         if (isHoldingAttackableSkillet(e.getEntity())) {
-            SDNetwork.CHANNEL.sendToServer(new SDNetwork.SwingSkilletC2S());
+            SDNetwork.SwingSkilletC2S.sendToServer();
         }
     }
 
     @SubscribeEvent
     public static void onLeftClickBlock(PlayerInteractEvent.LeftClickBlock e) {
         if (isHoldingAttackableSkillet(e.getEntity())) {
-            SDNetwork.CHANNEL.sendToServer(new SDNetwork.SwingSkilletC2S());
+            SDNetwork.SwingSkilletC2S.sendToServer();
         }
     }
 }

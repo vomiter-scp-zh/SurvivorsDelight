@@ -1,5 +1,6 @@
 package com.vomiter.survivorsdelight.core.device.skillet;
 
+import com.vomiter.survivorsdelight.util.SDUtils;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -61,11 +62,12 @@ public class SkilletDeflects {
             proj.setOwner(player);
             proj.setPos(newPos.x, newPos.y, newPos.z);
             proj.setDeltaMovement(newVel);
-            if(player.getItemInHand(InteractionHand.MAIN_HAND).getEnchantmentLevel(Enchantments.FIRE_ASPECT) > 0){
+
+            if(player.getItemInHand(InteractionHand.MAIN_HAND).getEnchantmentLevel(SDUtils.getEnchantHolder(level, Enchantments.FIRE_ASPECT)) > 0){
                 proj.setRemainingFireTicks(1200);
             }
             proj.hurtMarked = true;
-            player.getMainHandItem().hurtAndBreak(1, player, (user) -> user.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+            player.getMainHandItem().hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
 
             if (proj instanceof AbstractArrow arrow) {
                 arrow.setCritArrow(true);
@@ -74,9 +76,7 @@ public class SkilletDeflects {
                 trident.setOwner(player);
                 trident.setNoPhysics(false);
             } else if (proj instanceof LargeFireball fireball) {
-                fireball.xPower = look.x;
-                fireball.yPower = look.y;
-                fireball.zPower = look.z;
+                fireball.setDeltaMovement(look);
             }
         }
 

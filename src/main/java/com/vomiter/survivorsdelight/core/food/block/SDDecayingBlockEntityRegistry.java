@@ -1,25 +1,23 @@
 package com.vomiter.survivorsdelight.core.food.block;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import vectorwing.farmersdelight.common.registry.ModBlocks;
 
-
-@Mod.EventBusSubscriber(modid = SurvivorsDelight.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class SDDecayingBlockEntityRegistry {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
-            DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, SurvivorsDelight.MODID);
+            DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE , SurvivorsDelight.MODID);
 
-    static {
-        BLOCK_ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
+    public static void register(IEventBus modEventBus){
+        BLOCK_ENTITIES.register(modEventBus);
     }
 
-    public static final RegistryObject<BlockEntityType<DecayingFeastBlockEntity>> FEAST_DECAYING =
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<DecayingFeastBlockEntity>> FEAST_DECAYING =
             BLOCK_ENTITIES.register("feast_decaying",
                     () -> BlockEntityType.Builder.of(
                             DecayingFeastBlockEntity::new,
@@ -30,7 +28,7 @@ public final class SDDecayingBlockEntityRegistry {
                             ModBlocks.RICE_ROLL_MEDLEY_BLOCK.get()
                     ).build(null));
 
-    public static final RegistryObject<BlockEntityType<DecayingPieBlockEntity>> PIE_DECAYING =
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<DecayingPieBlockEntity>> PIE_DECAYING =
             BLOCK_ENTITIES.register("pie_decaying",
                     () -> BlockEntityType.Builder.of(
                             DecayingPieBlockEntity::new,

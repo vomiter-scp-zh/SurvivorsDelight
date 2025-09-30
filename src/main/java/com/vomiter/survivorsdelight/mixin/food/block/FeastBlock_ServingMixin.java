@@ -2,8 +2,8 @@ package com.vomiter.survivorsdelight.mixin.food.block;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.vomiter.survivorsdelight.core.food.block.DecayingFeastBlockEntity;
-import net.dries007.tfc.common.capabilities.food.FoodCapability;
-import net.dries007.tfc.common.capabilities.food.IFood;
+import net.dries007.tfc.common.component.food.FoodCapability;
+import net.dries007.tfc.common.component.food.IFood;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -52,7 +52,7 @@ public abstract class FeastBlock_ServingMixin extends Block {
 
         if (srcFood == null || servingFood == null) return serving;
 
-        servingFood.setCreationDate(srcFood.getCreationDate());
+        FoodCapability.setCreationDate(serving, srcFood.getCreationDate());
         servingFood.getTraits().addAll(srcFood.getTraits());
         return serving;
     }}

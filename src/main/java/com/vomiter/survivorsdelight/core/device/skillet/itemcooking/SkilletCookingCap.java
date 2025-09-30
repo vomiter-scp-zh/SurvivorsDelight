@@ -2,51 +2,52 @@ package com.vomiter.survivorsdelight.core.device.skillet.itemcooking;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.util.RLUtils;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.capabilities.*;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.capabilities.EntityCapability;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+@EventBusSubscriber(modid = SurvivorsDelight.MODID) // 預設：GAME bus（給 PlayerEvent.Clone）
+public final class SkilletCookingCap {
 
-@Mod.EventBusSubscriber(modid = SurvivorsDelight.MODID)
-public class SkilletCookingCap {
-    public static final ResourceLocation ID = RLUtils.build(SurvivorsDelight.MODID, "skillet_cooking");
-    public static final Capability<ISkilletItemCookingData> CAPABILITY =
-            CapabilityManager.get(new CapabilityToken<>() {});
+    public static final ResourceLocation ID =
+            RLUtils.build(SurvivorsDelight.MODID, "skillet_cooking");
 
-    public static class Provider implements ICapabilitySerializable<CompoundTag> {
-        private final SkilletItemCookingData backend = new SkilletItemCookingData();
-        private final LazyOptional<ISkilletItemCookingData> optional = LazyOptional.of(() -> backend);
+    public static final EntityCapability<ISkilletItemCookingData, Void> CAPABILITY =
+            EntityCapability.createVoid(ID, ISkilletItemCookingData.class);
 
-        @Nonnull @Override
-        public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable net.minecraft.core.Direction side) {
-            return cap == CAPABILITY ? optional.cast() : LazyOptional.empty();
+    @EventBusSubscriber(modid = SurvivorsDelight.MODID)
+    public static final class Registration {
+        @SubscribeEvent
+        public static void registerCaps(RegisterCapabilitiesEvent event) {
+            event.registerEntity(CAPABILITY, EntityType.PLAYER,
+                    (player, ctx) -> new SkilletItemCookingData());
         }
-        @Override public CompoundTag serializeNBT() { return backend.save(); }
-        @Override public void deserializeNBT(CompoundTag nbt) { backend.load(nbt); }
-    }
-
-    @SubscribeEvent
-    public static void onAttachCapabilities(AttachCapabilitiesEvent<Entity> event) {
-        if (event.getObject() instanceof Player) event.addCapability(ID, new Provider());
     }
 
     @SubscribeEvent
     public static void onClone(PlayerEvent.Clone event) {
-        event.getOriginal().getCapability(CAPABILITY).ifPresent(oldCap ->
-                event.getEntity().getCapability(CAPABILITY).ifPresent(newCap -> ((SkilletItemCookingData)newCap).load(((SkilletItemCookingData)oldCap).save()))
-        );
+        Player oldP = event.getOriginal();
+        Player newP = event.getEntity();
+        var lookup = event.getEntity().level().registryAccess(); // RegistryAccess implements HolderLookup.Provider
+
+        ISkilletItemCookingData oldCap = oldP.getCapability(CAPABILITY);
+        ISkilletItemCookingData newCap = newP.getCapability(CAPABILITY);
+
+        if (oldCap != null && newCap != null) {
+            ((SkilletItemCookingData) newCap).load(lookup, ((SkilletItemCookingData) oldCap).save(lookup));
+        }
     }
 
     public static ISkilletItemCookingData get(Player player) {
-        return player.getCapability(CAPABILITY).orElseThrow(() -> new IllegalStateException("SkilletCooking capability missing"));
+        ISkilletItemCookingData cap = player.getCapability(CAPABILITY);
+        if (cap == null) {
+            throw new IllegalStateException("SkilletCooking capability missing");
+        }
+        return cap;
     }
 }

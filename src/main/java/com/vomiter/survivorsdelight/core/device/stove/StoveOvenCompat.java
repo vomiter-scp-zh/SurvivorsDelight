@@ -1,5 +1,5 @@
 package com.vomiter.survivorsdelight.core.device.stove;
-
+/*
 import com.eerussianguy.firmalife.common.blockentities.OvenTopBlockEntity;
 import com.vomiter.survivorsdelight.HeatSourceBlockEntity;
 import net.dries007.tfc.common.capabilities.Capabilities;
@@ -31,3 +31,5 @@ public class StoveOvenCompat {
         }
     }
 }
+
+ */

@@ -3,10 +3,10 @@ package com.vomiter.survivorsdelight.core.device.skillet.data;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
 import net.minecraft.data.PackOutput;
 import net.minecraft.server.packs.PackType;
-import net.minecraftforge.client.model.generators.BlockModelBuilder;
-import net.minecraftforge.client.model.generators.BlockModelProvider;
-import net.minecraftforge.client.model.generators.ModelBuilder;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
+import net.neoforged.neoforge.client.model.generators.BlockModelProvider;
+import net.neoforged.neoforge.client.model.generators.ModelBuilder;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.Objects;
 

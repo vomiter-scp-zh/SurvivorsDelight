@@ -12,8 +12,8 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.data.BlockTagsProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.data.BlockTagsProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
 import vectorwing.farmersdelight.common.registry.ModBlocks;
 import vectorwing.farmersdelight.common.tag.ModTags;
@@ -39,9 +39,8 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
         }
 
         TFCBlocks.MAGMA_BLOCKS.forEach((r, b)->{
-            assert b.getKey() != null;
-            tag(STATIC_HEAT_250).add(b.getKey());
-            tag(SDBlockTags.HEAT_TO_BLOCK_BLACKLIST).add(b.getKey());
+            tag(STATIC_HEAT_250).add(b.key());
+            tag(SDBlockTags.HEAT_TO_BLOCK_BLACKLIST).add(b.key());
         });
 
         tag(STATIC_HEAT_500) //fire. (not very sure about the vanilla magma and campfires, but maybe it could provide some compat in modpacks.)
@@ -53,15 +52,12 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
                 .add(Blocks.LAVA)
                 .add(Blocks.LAVA_CAULDRON);
 
-        assert ModBlocks.SKILLET.getKey() != null;
-        assert ModBlocks.COOKING_POT.getKey() != null;
-        tag(TFCTags.Blocks.FORGE_INVISIBLE_WHITELIST)
-                .add(ModBlocks.SKILLET.getKey())
-                .add(ModBlocks.COOKING_POT.getKey())
+        tag(TFCTags.Blocks.CHARCOAL_FORGE_INVISIBLE)
+                .add(ModBlocks.SKILLET.get())
+                .add(ModBlocks.COOKING_POT.get())
                 .addTag(SDBlockTags.SKILLETS);
 
-        assert TFCBlocks.CRUCIBLE.getKey() != null;
         tag(ModTags.HEAT_CONDUCTORS)
-                .add(TFCBlocks.CRUCIBLE.getKey());
+                .add(TFCBlocks.CRUCIBLE.key());
     }
 }

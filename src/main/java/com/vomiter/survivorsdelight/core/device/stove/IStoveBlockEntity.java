@@ -2,12 +2,11 @@ package com.vomiter.survivorsdelight.core.device.stove;
 
 import com.vomiter.survivorsdelight.HeatSourceBlockEntity;
 import com.vomiter.survivorsdelight.mixin.device.stove.StoveBlockEntity_Accessor;
-import net.dries007.tfc.common.capabilities.food.FoodCapability;
-import net.dries007.tfc.common.capabilities.food.FoodTraits;
-import net.dries007.tfc.common.capabilities.heat.HeatCapability;
-import net.dries007.tfc.common.capabilities.heat.IHeat;
+import net.dries007.tfc.common.component.food.FoodCapability;
+import net.dries007.tfc.common.component.food.FoodTraits;
+import net.dries007.tfc.common.component.heat.HeatCapability;
+import net.dries007.tfc.common.component.heat.IHeat;
 import net.dries007.tfc.common.recipes.HeatingRecipe;
-import net.dries007.tfc.common.recipes.inventory.ItemStackInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -31,7 +30,7 @@ public interface IStoveBlockEntity {
         if (0 <= slot && slot < inventory.getSlots()) {
             ItemStack slotStack = inventory.getStackInSlot(slot);
             if (slotStack.isEmpty()) {
-                var recipe = HeatingRecipe.getRecipe(new ItemStackInventory(itemStackIn));
+                HeatingRecipe recipe = HeatingRecipe.getRecipe(itemStackIn);
                 if(recipe == null) return false;
                 if(recipe.getTemperature() > 500) return false;
                 if(recipe.getResultItem(stove.getLevel().registryAccess()).isEmpty()) return false;
@@ -39,7 +38,6 @@ public interface IStoveBlockEntity {
                 acc.getCookingTimesTotal()[slot] = 24 * 60 * 60 * 20;
                 acc.getCookingTimes()[slot] = 0;
                 inventory.setStackInSlot(slot, itemStackIn.split(1));
-                acc.getLastRecipeIDs()[slot] = recipe.getId();
                 stove.setChanged();
                 Level level = stove.getLevel();
                 if(level != null){
@@ -78,7 +76,7 @@ public interface IStoveBlockEntity {
             HeatCapability.addTemp(heat, heatingTemp);
             HeatingRecipe[] cachedRecipes = sdtfc$getCachedRecipes();
             if(cachedRecipes[slot] == null){
-                var recipe = HeatingRecipe.getRecipe(new ItemStackInventory(slotStack));
+                var recipe = HeatingRecipe.getRecipe((slotStack));
                 cachedRecipes[slot] = recipe;
             }
             if(cachedRecipes[slot] == null){
@@ -90,9 +88,8 @@ public interface IStoveBlockEntity {
                 }
             }
             else if(cachedRecipes[slot].isValidTemperature(heat.getTemperature())){
-                final ItemStack result = cachedRecipes[slot].assemble(new ItemStackInventory(slotStack), stove.getLevel().registryAccess());
+                final ItemStack result = cachedRecipes[slot].assembleItem(slotStack);
                 FoodCapability.applyTrait(result, FoodTraits.WOOD_GRILLED);
-                FoodCapability.updateFoodDecayOnCreate(result);
                 sdtfc$ejectItem(stove, result.copy());
                 inventory.extractItem(slot, 1, false);
                 stove.setChanged();

@@ -1,14 +1,14 @@
 package com.vomiter.survivorsdelight.core.device.skillet.data;
 
-import com.vomiter.survivorsdelight.core.registry.SDSkilletBlocks;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
+import com.vomiter.survivorsdelight.core.registry.SDSkilletBlocks;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import vectorwing.farmersdelight.common.block.SkilletBlock;
 
 public class SDSkilletBlockStateProvider extends BlockStateProvider {

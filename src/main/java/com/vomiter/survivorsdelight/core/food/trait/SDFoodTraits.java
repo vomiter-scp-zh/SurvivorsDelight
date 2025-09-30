@@ -2,11 +2,21 @@ package com.vomiter.survivorsdelight.core.food.trait;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.util.RLUtils;
-import net.dries007.tfc.common.capabilities.food.FoodTrait;
+import net.dries007.tfc.common.component.food.FoodTrait;
+import net.dries007.tfc.util.Helpers;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.RegistryBuilder;
 
 public final class SDFoodTraits {
     public static final String KEY_PREFIX = SurvivorsDelight.MODID + ".tooltip.foodtrait.";
+    public static final ResourceKey<Registry<FoodTrait>> KEY = ResourceKey.createRegistryKey(Helpers.identifier("food_trait"));
+    public static final Registry<FoodTrait> REGISTRY = new RegistryBuilder<>(KEY).sync(true).create();
+    public static final DeferredRegister<FoodTrait> TRAITS = DeferredRegister.create(KEY, SurvivorsDelight.MODID);
+
 
     private static boolean BOOTSTRAPPED = false;
 
@@ -14,18 +24,15 @@ public final class SDFoodTraits {
         return RLUtils.build(SurvivorsDelight.MODID, path);
     }
 
-    public static final ResourceLocation FOOD_MODEL_ID     = id("food_model");
-    public static final ResourceLocation SKILLET_COOKED_ID = id("skillet_cooked");
-
-    public static FoodTrait FOOD_MODEL;
-    public static FoodTrait SKILLET_COOKED;
+    public static DeferredHolder<FoodTrait, FoodTrait> FOOD_MODEL;
+    public static DeferredHolder<FoodTrait, FoodTrait> SKILLET_COOKED;
 
     public static void bootstrap() {
         if (BOOTSTRAPPED) return;
         BOOTSTRAPPED = true;
 
-        FOOD_MODEL     = FoodTrait.register(FOOD_MODEL_ID,     new FoodTrait(0.0f, KEY_PREFIX + "food_model"));
-        SKILLET_COOKED = FoodTrait.register(SKILLET_COOKED_ID, new FoodTrait(0.8f, KEY_PREFIX + "skillet_cooked"));
+        FOOD_MODEL     = TRAITS.register("food_model", () -> new FoodTrait(() -> 0.0, KEY_PREFIX + "food_model"));
+        SKILLET_COOKED = TRAITS.register("skillet_cooked", () -> new FoodTrait(() -> 0.8, KEY_PREFIX + "skillet_cooked"));
     }
 
     private SDFoodTraits() {}

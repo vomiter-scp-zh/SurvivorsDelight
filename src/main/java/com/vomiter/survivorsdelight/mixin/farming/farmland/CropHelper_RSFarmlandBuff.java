@@ -19,7 +19,8 @@ public class CropHelper_RSFarmlandBuff {
             @Local(argsOnly = true) Level level,
             @Local(argsOnly = true) BlockPos pos,
             @Local ClimateRange climateRange,
-            @Local int hydration,
+            @Local(ordinal = 0) int startHydration,
+            @Local(ordinal = 1) int endHydration,
             @Local(ordinal = 0) float startTemp,
             @Local(ordinal = 1) float endTemp
             ){
@@ -31,8 +32,10 @@ public class CropHelper_RSFarmlandBuff {
             float maxTemp = climateRange.getMaxTemperature(false) + tempExpansion;
             float minTemp = climateRange.getMinTemperature(false) - tempExpansion;
             return (
-                    maxHydration > hydration
-                    && minHydration < hydration
+                    maxHydration > startHydration
+                    && minHydration < startHydration
+                    && maxHydration > endHydration
+                    && minHydration < endHydration
                     && maxTemp > startTemp
                     && minTemp < startTemp
                     && maxTemp > endTemp

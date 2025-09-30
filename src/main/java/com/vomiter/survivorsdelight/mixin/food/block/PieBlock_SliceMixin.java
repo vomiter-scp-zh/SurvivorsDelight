@@ -1,16 +1,14 @@
 package com.vomiter.survivorsdelight.mixin.food.block;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import com.mojang.datafixers.util.Pair;
 import com.vomiter.survivorsdelight.core.food.block.DecayingPieBlockEntity;
-import net.dries007.tfc.common.capabilities.food.FoodCapability;
-import net.dries007.tfc.common.capabilities.food.IFood;
+import net.dries007.tfc.common.component.food.FoodCapability;
+import net.dries007.tfc.common.component.food.IFood;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
@@ -65,9 +63,9 @@ public abstract class PieBlock_SliceMixin{
         if(blockEntity instanceof DecayingPieBlockEntity decay) {
             if(decay.isRotten()){
                 FoodProperties.Builder fakeFoodBuilder = new FoodProperties.Builder();
-                for(Pair<MobEffectInstance, Float> pair : value.getEffects()){
-                    if(!pair.getFirst().getEffect().isBeneficial()) fakeFoodBuilder.effect(pair::getFirst, pair.getSecond());
-                }
+                value.effects().forEach(pe -> {
+                    if(!pe.effect().getEffect().value().isBeneficial()) fakeFoodBuilder.effect(pe::effect, pe.probability());
+                });
                 return fakeFoodBuilder.build();
             }
         }
@@ -76,15 +74,14 @@ public abstract class PieBlock_SliceMixin{
 
 
     @Unique
-    private static ItemStack sdtfc$applyFoodFromDecay(DecayingPieBlockEntity decay, ItemStack slice) {
+    private static void sdtfc$applyFoodFromDecay(DecayingPieBlockEntity decay, ItemStack slice) {
         ItemStack src    = decay.getStack();
         IFood srcFood    = FoodCapability.get(src);
         IFood sliceFood  = FoodCapability.get(slice);
-        if (srcFood == null || sliceFood == null) return slice;
+        if (srcFood == null || sliceFood == null) return;
 
-        sliceFood.setCreationDate(srcFood.getCreationDate());
+        FoodCapability.setCreationDate(slice, srcFood.getCreationDate());
         sliceFood.getTraits().clear();
         sliceFood.getTraits().addAll(srcFood.getTraits());
-        return slice;
     }
 }

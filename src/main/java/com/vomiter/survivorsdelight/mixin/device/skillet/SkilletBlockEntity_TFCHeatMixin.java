@@ -5,30 +5,24 @@ import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletUtil;
 import com.vomiter.survivorsdelight.data.tags.SDItemTags;
 import com.vomiter.survivorsdelight.util.HeatHelper;
-import net.dries007.tfc.common.capabilities.food.FoodCapability;
-import net.dries007.tfc.common.capabilities.heat.HeatCapability;
-import net.dries007.tfc.common.capabilities.heat.IHeat;
+import net.dries007.tfc.common.component.food.FoodCapability;
+import net.dries007.tfc.common.component.heat.HeatCapability;
+import net.dries007.tfc.common.component.heat.IHeat;
 import net.dries007.tfc.common.recipes.HeatingRecipe;
-import net.dries007.tfc.common.recipes.inventory.ItemStackInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.Container;
-import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CampfireCookingRecipe;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.common.util.FakePlayerFactory;
-import net.minecraftforge.items.ItemStackHandler;
+import net.neoforged.neoforge.common.util.FakePlayer;
+import net.neoforged.neoforge.common.util.FakePlayerFactory;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -40,12 +34,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import vectorwing.farmersdelight.common.block.SkilletBlock;
 import vectorwing.farmersdelight.common.block.entity.HeatableBlockEntity;
 import vectorwing.farmersdelight.common.block.entity.SkilletBlockEntity;
-import vectorwing.farmersdelight.common.mixin.accessor.RecipeManagerAccessor;
 import vectorwing.farmersdelight.common.registry.ModSounds;
 import vectorwing.farmersdelight.common.utility.ItemUtils;
 
 import java.util.Objects;
-import java.util.Optional;
 
 @Mixin(value = SkilletBlockEntity.class, remap = false)
 public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEntity {
@@ -55,7 +47,6 @@ public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEn
     
     @Final @Shadow private ItemStackHandler inventory;
     @Shadow private int cookingTime;
-    @Shadow private ResourceLocation lastRecipeID;
 
     @Shadow private ItemStack skilletStack;
 
@@ -75,7 +66,7 @@ public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEn
         if (lvl == null || addedStack.isEmpty()) return;
 
         // check heating recipes
-        HeatingRecipe heating = HeatingRecipe.getRecipe(new ItemStackInventory(addedStack));
+        HeatingRecipe heating = HeatingRecipe.getRecipe((addedStack));
         if (heating == null) return; //invalid item
 
         // Mimicking original behavior
@@ -95,7 +86,6 @@ public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEn
         boolean wasEmpty = inventory.getStackInSlot(0).isEmpty();
         ItemStack remainder = inventory.insertItem(0, addedStack.copy(), false);
         if (!ItemStack.matches(remainder, addedStack)) {
-            this.lastRecipeID = null;
             this.cookingTime = 0;
 
             //play sound
@@ -124,12 +114,12 @@ public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEn
         final BlockPos pos = self.getBlockPos();
 
         if (level == null || cookingStack.isEmpty()) return;
-        if (sdtfc$hasCampfireRecipe(level, cookingStack)) return;
         if(skilletStack.getItem() instanceof SDSkilletItem sdSkilletItem){
             if(!sdSkilletItem.canCook(skilletStack) && skilletStack.is(SDItemTags.RETURN_COPPER_SKILLET)){
-                CompoundTag tag = skilletStack.serializeNBT();
+                var lookup = level.registryAccess(); // RegistryAccess implements HolderLookup.Provider
+                CompoundTag tag = (CompoundTag) skilletStack.save(lookup);
                 tag.putString("id", SkilletMaterial.COPPER.location().toString());
-                ItemStack newSkilletStack = ItemStack.of(tag);
+                ItemStack newSkilletStack = ItemStack.parseOptional(lookup, tag);
                 newSkilletStack.setDamageValue(0);
                 setSkilletItem(newSkilletStack);
 
@@ -139,7 +129,7 @@ public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEn
 
         // get TFC HeatingRecipe
         if (sdtfc$cachedHeatingRecipe == null) {
-            sdtfc$cachedHeatingRecipe = HeatingRecipe.getRecipe(new ItemStackInventory(cookingStack));
+            sdtfc$cachedHeatingRecipe = HeatingRecipe.getRecipe((cookingStack));
             if (sdtfc$cachedHeatingRecipe == null) return; //fallback to original
         }
 
@@ -154,11 +144,9 @@ public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEn
 
         //if the recipe temperature is reached (this part is modified from iron grill)
         if (sdtfc$cachedHeatingRecipe.isValidTemperature(heat.getTemperature())) {
-            final ItemStack result = sdtfc$cachedHeatingRecipe.assemble(new ItemStackInventory(cookingStack), level.registryAccess());
+            final ItemStack result = sdtfc$cachedHeatingRecipe.assembleItem((cookingStack));
 
             FoodCapability.applyTrait(result, SkilletUtil.skilletCooked);
-            FoodCapability.updateFoodDecayOnCreate(result);
-
             final BlockState state = self.getBlockState();
 
             Direction direction = state.getValue(SkilletBlock.FACING).getClockWise();
@@ -175,9 +163,10 @@ public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEn
 
             sdtfc$cachedHeatingRecipe = null;
             if(!level.isClientSide && skilletStack.getItem() instanceof SDSkilletItem){
-                FakePlayer fakePlayer = FakePlayerFactory.getMinecraft(Objects.requireNonNull(level.getServer()).getLevel(level.dimension()));
+                FakePlayer fakePlayer = FakePlayerFactory.getMinecraft(Objects.requireNonNull(Objects.requireNonNull(level.getServer()).getLevel(level.dimension())));
                 fakePlayer.setGameMode(GameType.SURVIVAL);
-                skilletStack.hurtAndBreak(1 + SkilletUtil.extraHurtForTemperature(skilletStack, belowTemp), fakePlayer, (user) -> {});
+                fakePlayer.setItemSlot(EquipmentSlot.MAINHAND, skilletStack.copy());
+                skilletStack.hurtAndBreak(1 + SkilletUtil.extraHurtForTemperature(skilletStack, belowTemp), fakePlayer, EquipmentSlot.MAINHAND);
             }
         }
 
@@ -199,23 +188,6 @@ public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEn
         if (level == null) return 0f;
         final BlockPos pos = self.getBlockPos();
         return HeatHelper.getTargetTemperature(pos, level, requiresDirectHeat(), HeatHelper.GetterType.BLOCK);
-    }
-
-    /**
-     Check campfire cooking recipe. Basically copied from FD getMatchingRecipe
-     */
-    @Unique
-    private boolean sdtfc$hasCampfireRecipe(Level level, ItemStack stack) {
-        var recipeWrapper = new SimpleContainer(new ItemStack[]{stack});
-        if (this.lastRecipeID != null) {
-            Recipe<Container> recipe = ((RecipeManagerAccessor)level.getRecipeManager()).getRecipeMap(RecipeType.CAMPFIRE_COOKING).get(this.lastRecipeID);
-            if (recipe instanceof CampfireCookingRecipe && recipe.matches(recipeWrapper, level)) {
-                return true;
-            }
-        }
-
-        Optional<CampfireCookingRecipe> recipe = level.getRecipeManager().getRecipeFor(RecipeType.CAMPFIRE_COOKING, recipeWrapper, level);
-        return recipe.isPresent();
     }
 
     @Unique

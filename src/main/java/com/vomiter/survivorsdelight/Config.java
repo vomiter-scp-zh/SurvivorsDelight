@@ -1,32 +1,28 @@
 package com.vomiter.survivorsdelight;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.config.ModConfigEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.config.ModConfigEvent;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
-@Mod.EventBusSubscriber(modid = SurvivorsDelight.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = SurvivorsDelight.MODID)
 public class Config {
-    public static final ForgeConfigSpec COMMON_SPEC;
+    public static final ModConfigSpec COMMON_SPEC;
     public static final Common COMMON;
 
     static {
-        ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
+        ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
         COMMON = new Common(builder);
         COMMON_SPEC = builder.build();
-
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, COMMON_SPEC);
     }
 
     public static class Common {
-        public final ForgeConfigSpec.IntValue skilletSlotNumber;
-        public final ForgeConfigSpec.IntValue richSoilGrowthBoostTick;
-        public final ForgeConfigSpec.IntValue richSoilFarmlandTemperatureExpansion;
-        public final ForgeConfigSpec.IntValue richSoilFarmlandHydrationExpansion;
+        public final ModConfigSpec.IntValue skilletSlotNumber;
+        public final ModConfigSpec.IntValue richSoilGrowthBoostTick;
+        public final ModConfigSpec.IntValue richSoilFarmlandTemperatureExpansion;
+        public final ModConfigSpec.IntValue richSoilFarmlandHydrationExpansion;
 
-        public Common(ForgeConfigSpec.Builder builder) {
+        public Common(ModConfigSpec.Builder builder) {
             builder.push("general");
 
             skilletSlotNumber = builder
@@ -44,21 +40,22 @@ public class Config {
             richSoilFarmlandHydrationExpansion = builder
                     .comment("How many percentile of hydration deviated from usual range is allowed for crops planted on rich soil farmlands to grow.")
                     .defineInRange("richSoilFarmlandHydrationExpansion", 5, 0, 100);
+
             builder.pop();
         }
     }
 
     @SubscribeEvent
-    public static void onLoad(final ModConfigEvent.Loading configEvent) {
-        if (configEvent.getConfig().getSpec() == COMMON_SPEC) {
-            SurvivorsDelight.LOGGER.info("SurvivorsDelight Config Loaded: {}", configEvent.getConfig().getFileName());
+    public static void onLoad(final ModConfigEvent.Loading e) {
+        if (e.getConfig().getSpec() == COMMON_SPEC) {
+            SurvivorsDelight.LOGGER.info("SurvivorsDelight Config Loaded: {}", e.getConfig().getFileName());
         }
     }
 
     @SubscribeEvent
-    public static void onReload(final ModConfigEvent.Reloading configEvent) {
-        if (configEvent.getConfig().getSpec() == COMMON_SPEC) {
-            SurvivorsDelight.LOGGER.info("SurvivorsDelight Config Reloaded: {}", configEvent.getConfig().getFileName());
+    public static void onReload(final ModConfigEvent.Reloading e) {
+        if (e.getConfig().getSpec() == COMMON_SPEC) {
+            SurvivorsDelight.LOGGER.info("SurvivorsDelight Config Reloaded: {}", e.getConfig().getFileName());
         }
     }
 }
