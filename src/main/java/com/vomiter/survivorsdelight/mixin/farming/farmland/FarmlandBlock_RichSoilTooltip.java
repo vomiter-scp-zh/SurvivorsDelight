@@ -46,7 +46,7 @@ public class FarmlandBlock_RichSoilTooltip {
             @Local(argsOnly = true)Level levelAccessor,
             @Local(argsOnly = true)BlockPos blockPos,
             @Local(argsOnly = true)ClimateRange climateRange,
-            @Local(argsOnly = true, ordinal = 1) int hydration
+            @Local(ordinal = 1) int hydration
     )
     {
         if(levelAccessor.getBlockState(blockPos).is(ModBlocks.RICH_SOIL_FARMLAND.get())){
@@ -62,10 +62,10 @@ public class FarmlandBlock_RichSoilTooltip {
     )
     private static int textMinHydrationRange(
             int original,
-            @Local(argsOnly = true)LevelAccessor levelAccessor,
+            @Local(argsOnly = true)Level levelAccessor,
             @Local(argsOnly = true)BlockPos blockPos,
             @Local(argsOnly = true)ClimateRange climateRange,
-            @Local(argsOnly = true, ordinal = 1) int hydration
+            @Local(ordinal = 1) int hydration
     )
     {
         if(levelAccessor.getBlockState(blockPos).is(ModBlocks.RICH_SOIL_FARMLAND.get())){

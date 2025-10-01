@@ -75,7 +75,7 @@ public class SDSkilletItem extends SkilletItem {
     )
     public static class SDSkilletEvents {
         @SubscribeEvent
-        public static void playSkilletAttackSound(LivingDamageEvent event) {
+        public static void playSkilletAttackSound(LivingDamageEvent.Post event) {
             DamageSource damageSource = event.getEntity().getLastDamageSource();
             if(damageSource == null) return;
             Entity attacker = damageSource.getDirectEntity();

@@ -2,14 +2,13 @@
   "required": true,
   "minVersion": "0.8",
   "package": "com.vomiter.survivorsdelight.mixin",
-  "compatibilityLevel": "JAVA_17",
+  "compatibilityLevel": "JAVA_21",
   "mixins": [
     "BlockEntityTypeAccessor",
     "InventoryBlockEntityAccessor",
     "device.cutting.CuttingBoardBlockEntityMixin",
     "device.cutting.CuttingBoardRecipeMixin",
     "device.cutting.CuttingBoardRecipeRollMixin",
-    "device.cutting.CuttingBoardRecipeSerializerMixin",
     "device.skillet.SkilletBlockEntity_SlotLimitMixin",
     "device.skillet.SkilletBlockEntity_TFCHeatMixin",
     "device.skillet.SkilletItem_TFCHeatMixin",
@@ -22,7 +21,6 @@
     "farming.soil.RichSoil_RandomTickMixin",
     "food.LivingEntity_AddEatEffectMixin",
     "food.NourishmentEffect_Mixin",
-    "food.TFCFoodData_ThirstNourishmentMixin",
     "food.block.FeastBlock_ServingMixin",
     "food.block.PieBlock_SliceMixin",
     "food.block.basic.FeastBlock_BlockEntityMixin",
@@ -36,7 +34,6 @@
     "heat.SyncedBlockEntity_GlobalHeatedMixin",
     "heat.source.AbstractFirePit_HSMixin",
     "heat.source.CharcoalForge_HSMixin",
-    "heat.source.Oven_HSMixin",
     "recipe.WeldingRecipe_SkilletMixin"
   ],
   "client": [

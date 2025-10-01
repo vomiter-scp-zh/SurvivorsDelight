@@ -8,7 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
@@ -31,7 +31,7 @@ public abstract class PieBlock_SliceMixin{
     @Shadow public abstract ItemStack getPieSliceItem();
 
     @Inject(method = "cutSlice", at = @At(value = "INVOKE", target = "Lvectorwing/farmersdelight/common/utility/ItemUtils;spawnItemEntity(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/item/ItemStack;DDDDDD)V"), cancellable = true)
-    private void sdtfc$cutDecaySlice(Level level, BlockPos pos, BlockState state, Player player, CallbackInfoReturnable<InteractionResult> cir){
+    private void sdtfc$cutDecaySlice(Level level, BlockPos pos, BlockState state, Player player, CallbackInfoReturnable<ItemInteractionResult> cir){
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (!(blockEntity instanceof DecayingPieBlockEntity decay)) return;
         Direction direction = player.getDirection().getOpposite();
@@ -39,7 +39,7 @@ public abstract class PieBlock_SliceMixin{
         sdtfc$applyFoodFromDecay(decay, slice);
         ItemUtils.spawnItemEntity(level, slice, (double)pos.getX() + (double)0.5F, (double)pos.getY() + 0.3, (double)pos.getZ() + (double)0.5F, (double)direction.getStepX() * 0.15, 0.05, (double)direction.getStepZ() * 0.15);
         level.playSound(null, pos, SoundEvents.WOOL_BREAK, SoundSource.PLAYERS, 0.8F, 0.8F);
-        cir.setReturnValue(InteractionResult.SUCCESS);
+        cir.setReturnValue(ItemInteractionResult.SUCCESS);
     }
 
     @ModifyVariable(method = "consumeBite", at = @At(value = "STORE"), ordinal = 0)

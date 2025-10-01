@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 
 @Mod(SurvivorsDelight.MODID)
 public class SurvivorsDelight {
+    //TODO: SkilletModel
 
     public static final String MODID = "survivorsdelight";
     public static final Logger LOGGER = LogUtils.getLogger();
@@ -34,7 +35,7 @@ public class SurvivorsDelight {
         SDNetwork.register(modBus);
 
 
-        SDFoodTraits.bootstrap();
+        SDFoodTraits.TRAITS.register(modBus);
         SDDecayingBlockEntityRegistry.register(modBus);
         SDSkilletBlocks.BLOCKS.register(modBus);
         SDSkilletItems.ITEMS.register(modBus);

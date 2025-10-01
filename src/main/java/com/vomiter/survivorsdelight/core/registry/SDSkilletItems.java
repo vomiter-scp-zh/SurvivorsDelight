@@ -4,25 +4,19 @@ import com.google.common.collect.ImmutableMultimap;
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.core.device.skillet.SDSkilletItem;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
-import com.vomiter.survivorsdelight.util.ItemUUIDs;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import vectorwing.farmersdelight.common.item.SkilletItem;
 
 import java.util.EnumMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.function.Supplier;
 
-@EventBusSubscriber(modid = SurvivorsDelight.MODID)
 public class SDSkilletItems {
-    static final UUID BASE_ATTACK_DAMAGE_UUID = ItemUUIDs.getBaseAttackDamageUUID();
-    static final UUID BASE_ATTACK_SPEED_UUID = ItemUUIDs.getBaseAttackSpeedUUID();
     static final ResourceLocation KNOCKBACK_UUID = SDSkilletItem.getKnockbackUUID();
 
     private SDSkilletItems() {}

@@ -9,7 +9,7 @@ import net.dries007.tfc.common.component.food.FoodCapability;
 import net.dries007.tfc.common.component.food.IFood;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -50,7 +50,7 @@ public abstract class FeastBlock_BlockEntityMixin extends Block implements Entit
     @Shadow public abstract IntegerProperty getServingsProperty();
 
     @Inject(method = "useItemOn", at = @At("HEAD"), cancellable = true)
-    private void sdtfc$use(ItemStack heldStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit, CallbackInfoReturnable<InteractionResult> cir){
+    private void sdtfc$use(ItemStack heldStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit, CallbackInfoReturnable<ItemInteractionResult> cir){
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (!(blockEntity instanceof DecayingFeastBlockEntity decayingFeastBlockEntity)) return;
         ItemStack src = decayingFeastBlockEntity.getStack();
@@ -60,12 +60,12 @@ public abstract class FeastBlock_BlockEntityMixin extends Block implements Entit
         ItemStack usedItem = player.getItemInHand(hand);
         int servingNumber = state.getValue(getServingsProperty());
         if(srcFood.hasTrait(SDFoodTraits.FOOD_MODEL)){
-            cir.setReturnValue(InteractionResult.PASS);
+            cir.setReturnValue(ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION);
         }
         else if(usedItem.is(SDItemTags.FOOD_MODEL_COATING) && usedItem.getCount() >= servingNumber){
             srcFood.getTraits().add(SDFoodTraits.FOOD_MODEL.get());
             usedItem.shrink(servingNumber);
-            cir.setReturnValue(InteractionResult.SUCCESS);
+            cir.setReturnValue(ItemInteractionResult.SUCCESS);
             level.sendBlockUpdated(pos, state, state, 3);
         }
     }

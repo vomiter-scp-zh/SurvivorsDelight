@@ -2,14 +2,15 @@ package com.vomiter.survivorsdelight.mixin.device.stove;
 
 import com.vomiter.survivorsdelight.HeatSourceBlockEntity;
 import com.vomiter.survivorsdelight.core.device.stove.IStoveBlockEntity;
-import com.vomiter.survivorsdelight.core.device.stove.StoveOvenCompat;
+//import com.vomiter.survivorsdelight.core.device.stove.StoveOvenCompat;
 import net.dries007.tfc.common.recipes.HeatingRecipe;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.fml.ModList;
+import net.neoforged.fml.ModList;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -31,7 +32,7 @@ public class StoveBlockEntity_FuelAndHeat implements HeatSourceBlockEntity, ISto
         if(self == null) return;
         if(state.getValue(StoveBlock.LIT) && self.sdtfc$getLeftBurnTick() > 0){
             if(level.getGameTime() % 20 == 0) self.sdtfc$reduceLeftBurnTick(1);
-            if(ModList.get().isLoaded("firmalife")) StoveOvenCompat.ovenHeating(level, pos, state, stove);
+            //if(ModList.get().isLoaded("firmalife")) StoveOvenCompat.ovenHeating(level, pos, state, stove);
             if(level.getGameTime() % 100 == 0){
                 level.sendBlockUpdated(pos, state, state, 3);
             }
@@ -73,15 +74,15 @@ public class StoveBlockEntity_FuelAndHeat implements HeatSourceBlockEntity, ISto
         return 0;
     }
 
-    @Inject(method = "load", at = @At("TAIL"), remap = true)
-    private void sdtfc$loadLeftBurnTick(CompoundTag tag, CallbackInfo ci) {
+    @Inject(method = "loadAdditional", at = @At("TAIL"), remap = true)
+    private void sdtfc$loadLeftBurnTick(CompoundTag tag, HolderLookup.Provider registries, CallbackInfo ci) {
         if (tag.contains(SD_LEFT_BURN_TICK, 3)) { // 3 = int
             this.leftBurnTick = tag.getInt(SD_LEFT_BURN_TICK);
         }
     }
 
     @Inject(method = "writeItems", at = @At("TAIL"))
-    private void sd$writeLeftBurnTick(CompoundTag tag, CallbackInfoReturnable<CompoundTag> cir) {
+    private void sd$writeLeftBurnTick(CompoundTag tag, HolderLookup.Provider registries, CallbackInfoReturnable<CompoundTag> cir) {
         tag.putInt(SD_LEFT_BURN_TICK, this.leftBurnTick);
     }
 
