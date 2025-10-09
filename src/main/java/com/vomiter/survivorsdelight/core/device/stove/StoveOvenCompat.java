@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.core.device.stove;
 
-import com.eerussianguy.firmalife.common.blockentities.OvenTopBlockEntity;
+import com.eerussianguy.firmalife.common.blockentities.ApplianceBlockEntity;
 import com.vomiter.survivorsdelight.HeatSourceBlockEntity;
 import net.dries007.tfc.common.capabilities.Capabilities;
 import net.dries007.tfc.common.capabilities.heat.HeatCapability;
@@ -14,7 +14,7 @@ public class StoveOvenCompat {
         var self = (IStoveBlockEntity)stove;
         assert self != null;
         var above = level.getBlockEntity(pos.above());
-        if(above instanceof OvenTopBlockEntity ovenTop){
+        if(above instanceof ApplianceBlockEntity ovenTop){
             ovenTop.getCapability(Capabilities.ITEM).ifPresent(inventory -> {
                 int heatLvl = 0;
                 float temperature = 0;
@@ -29,5 +29,9 @@ public class StoveOvenCompat {
             });
 
         }
+    }
+
+    public static void interactionRegister(){
+
     }
 }

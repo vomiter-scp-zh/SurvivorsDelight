@@ -33,7 +33,7 @@ public class StoveBlock_FuelAndHeat{
             float logBonus = heldItem.is(TFCTags.Items.FIREPIT_LOGS)? 1.2f: 1;
             if(fuel != null){
                 if(stoveEntity.sdtfc$getLeftBurnTick() > 7 * 20 * 60 * 20) return;
-                stoveEntity.sdtfc$addLeftBurnTick(Math.round(fuel.getDuration() * logBonus * fuel.getTemperature() * 6 / 500));
+                stoveEntity.sdtfc$addLeftBurnTick(Math.round(fuel.getDuration() * logBonus * fuel.getTemperature() * 6 / IStoveBlockEntity.sdtfc$getStaticTemperature()));
                 cir.setReturnValue(InteractionResult.sidedSuccess(level.isClientSide));
             }
         }

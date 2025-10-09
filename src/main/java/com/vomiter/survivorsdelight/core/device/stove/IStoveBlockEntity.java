@@ -26,6 +26,10 @@ public interface IStoveBlockEntity {
     }
     HeatingRecipe[] sdtfc$getCachedRecipes();
 
+    static float sdtfc$getStaticTemperature(){
+        return 550;
+    }
+
     default boolean sdtfc$addItem(ItemStack itemStackIn, int slot, StoveBlockEntity stove) {
         var inventory = stove.getInventory();
         if (0 <= slot && slot < inventory.getSlots()) {

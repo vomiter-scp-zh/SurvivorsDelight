@@ -14,6 +14,7 @@
     "device.skillet.SkilletBlockEntity_TFCHeatMixin",
     "device.skillet.SkilletItem_TFCHeatMixin",
     "device.stove.StoveBlock_FuelAndHeat",
+    "device.stove.StoveBlock_PlacePot",
     "device.stove.StoveBlockEntity_Accessor",
     "device.stove.StoveBlockEntity_FuelAndHeat",
     "farming.farmland.CropHelper_RSFarmlandBuff",
@@ -36,7 +37,11 @@
     "heat.SyncedBlockEntity_GlobalHeatedMixin",
     "heat.source.AbstractFirePit_HSMixin",
     "heat.source.CharcoalForge_HSMixin",
-    "heat.source.Oven_HSMixin",
+    "heat.source.compat.firmalife.Oven_HSMixin",
+    "heat.source.compat.rosia.BoilingCauldron_HSMixin",
+    "heat.source.compat.rosia.FireBlock_HSMixin",
+    "heat.source.compat.rosia.LavaBasin_HSMixin",
+    "heat.source.compat.rosia.SteamGenerator_HSMixin",
     "recipe.WeldingRecipe_SkilletMixin"
   ],
   "client": [

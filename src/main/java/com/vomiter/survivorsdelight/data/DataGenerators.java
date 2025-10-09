@@ -1,10 +1,11 @@
 package com.vomiter.survivorsdelight.data;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.core.device.skillet.data.SDSkilletBlockStateProvider;
 import com.vomiter.survivorsdelight.core.device.skillet.data.SDSkilletBlockModelProvider;
+import com.vomiter.survivorsdelight.core.device.skillet.data.SDSkilletBlockStateProvider;
 import com.vomiter.survivorsdelight.core.device.skillet.data.SDSkilletItemModelProvider;
 import com.vomiter.survivorsdelight.core.device.skillet.data.SDSkilletLootTableProvider;
+import com.vomiter.survivorsdelight.data.recipe.WoodCuttingRecipes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
@@ -25,10 +26,11 @@ public class DataGenerators
         PackOutput output = generator.getPackOutput();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
         ExistingFileHelper helper = event.getExistingFileHelper();
-
         ModBlockTagsProvider blockTags = new ModBlockTagsProvider(output, lookupProvider, helper);
         ModItemTagsProvider itemTags = new ModItemTagsProvider(output, lookupProvider, blockTags, helper);
         ModEntityTypeTagsProvider entityTags = new ModEntityTypeTagsProvider(output, lookupProvider, SurvivorsDelight.MODID, helper);
+
+        WoodCuttingRecipes woodCuttingRecipes = new WoodCuttingRecipes(output);
 
         SDSkilletBlockModelProvider skilletModelProvider = new SDSkilletBlockModelProvider(output, helper);
         SDSkilletBlockStateProvider skilletBlockStateProvider = new SDSkilletBlockStateProvider(output, helper);
@@ -38,6 +40,8 @@ public class DataGenerators
         generator.addProvider(event.includeServer(), blockTags);
         generator.addProvider(event.includeServer(), itemTags);
         generator.addProvider(event.includeServer(), entityTags);
+
+        generator.addProvider(event.includeServer(), woodCuttingRecipes);
 
         generator.addProvider(true, skilletModelProvider);
         generator.addProvider(true, skilletBlockStateProvider);

@@ -68,7 +68,7 @@ public class StoveBlockEntity_FuelAndHeat implements HeatSourceBlockEntity, ISto
         if(!((BlockEntity)(Object)this).getBlockState().getValue(StoveBlock.LIT)) return 0;
         if(sdtfc$getLeftBurnTick() > 0){
             sdtfc$reduceLeftBurnTick(1);
-            return 500;
+            return IStoveBlockEntity.sdtfc$getStaticTemperature();
         }
         return 0;
     }
