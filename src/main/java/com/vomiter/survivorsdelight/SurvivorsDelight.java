@@ -3,6 +3,7 @@ package com.vomiter.survivorsdelight;
 import com.mojang.logging.LogUtils;
 import com.vomiter.survivorsdelight.client.ClientForgeEventHandler;
 import com.vomiter.survivorsdelight.core.ForgeEventHandler;
+import com.vomiter.survivorsdelight.core.device.skillet.itemcooking.SkilletCookingCap;
 import com.vomiter.survivorsdelight.core.food.block.SDDecayingBlockEntityRegistry;
 import com.vomiter.survivorsdelight.core.food.trait.SDFoodTraits;
 import com.vomiter.survivorsdelight.core.registry.SDSkilletBlocks;
@@ -34,7 +35,6 @@ public class SurvivorsDelight {
     public void common(IEventBus modBus){
         SDNetwork.register(modBus);
 
-
         SDFoodTraits.TRAITS.register(modBus);
         SDDecayingBlockEntityRegistry.register(modBus);
         SDSkilletBlocks.BLOCKS.register(modBus);
@@ -43,6 +43,8 @@ public class SurvivorsDelight {
 
         SDCreativeTab.TABS.register(modBus);
         ForgeEventHandler.init();
+
+        modBus.addListener(SkilletCookingCap::registerCaps);         // RegisterCapabilitiesEvent
 
         if (FMLEnvironment.dist == Dist.CLIENT){
             ClientForgeEventHandler.init();

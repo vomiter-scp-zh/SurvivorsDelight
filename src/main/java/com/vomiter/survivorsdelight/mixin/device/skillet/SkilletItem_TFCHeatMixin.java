@@ -1,11 +1,12 @@
 package com.vomiter.survivorsdelight.mixin.device.skillet;
 
+import com.mojang.logging.LogUtils;
 import com.vomiter.survivorsdelight.core.device.skillet.SDSkilletItem;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
+import com.vomiter.survivorsdelight.core.device.skillet.SkilletUtil;
 import com.vomiter.survivorsdelight.core.device.skillet.itemcooking.SkilletCookingCap;
 import com.vomiter.survivorsdelight.data.tags.SDItemTags;
 import com.vomiter.survivorsdelight.util.HeatHelper;
-import com.vomiter.survivorsdelight.core.device.skillet.SkilletUtil;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.component.food.FoodCapability;
 import net.dries007.tfc.common.component.heat.HeatCapability;
@@ -22,6 +23,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.neoforged.fml.loading.FMLEnvironment;
+import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -58,7 +61,6 @@ public abstract class SkilletItem_TFCHeatMixin {
                 return;
             }
         }
-
         if (heatingStack.isEmpty()) return;
         float temperatureNearby = sdtfc$getTemperatureNearby(player, level);
         if (temperatureNearby <= 0) {
@@ -69,7 +71,6 @@ public abstract class SkilletItem_TFCHeatMixin {
                 return;
             }
         }
-
         if (player.isUnderWater()) {
             player.displayClientMessage(TextUtils.getTranslation("item.skilletStack.underwater"), true);
             return;
@@ -87,17 +88,19 @@ public abstract class SkilletItem_TFCHeatMixin {
             HeatCapability.addTemp(heat, temperatureNearby);
             skilletStack.set(ModDataComponents.SKILLET_INGREDIENT, new ItemStackWrapper(unit));
             var data = SkilletCookingCap.get(player);
-            data.setCooking(unit);
+            data.setCooking(unit.copy());
             data.setTargetTemperature(recipe.getTemperature());
             data.setHand(hand);
         }
         player.startUsingItem(hand);
-        cir.setReturnValue(InteractionResultHolder.pass(skilletStack));
+        cir.setReturnValue(InteractionResultHolder.consume(skilletStack));
+        cir.cancel();
     }
 
     @Inject(method = "onUseTick", at = @At("HEAD"))
     private void sdtfc$onUseTick(Level level, LivingEntity living, ItemStack skilletStack, int remainingUseTicks, CallbackInfo ci) {
         if (!(living instanceof Player player)) return;
+        if (level.isClientSide) return;
         EquipmentSlot equipmentSlot = player.getUsedItemHand().equals(InteractionHand.MAIN_HAND)? EquipmentSlot.MAINHAND: EquipmentSlot.OFFHAND;
         var data = SkilletCookingCap.get(player);
         ItemStack cooking = data.getCooking();
@@ -112,45 +115,43 @@ public abstract class SkilletItem_TFCHeatMixin {
             }
         }
         IHeat heat = HeatCapability.get(cooking);
-        if (!level.isClientSide) {
-            if (heat == null) {
-                if (!player.addItem(cooking)) player.drop(cooking, false);
-                data.clear();
-                if (player.isUsingItem()) player.stopUsingItem();
-                return;
-            }
+        if (heat == null) {
+            if (!player.addItem(cooking)) player.drop(cooking, false);
+            data.clear();
+            if (player.isUsingItem()) player.stopUsingItem();
+            return;
+        }
 
-            HeatCapability.addTemp(heat, temperatureNearby);
-            if(heat.getTemperature() < data.getTargetTemperature()) return;
+        HeatCapability.addTemp(heat, temperatureNearby);
+        if(heat.getTemperature() < data.getTargetTemperature()) return;
 
-            HeatingRecipe recipe = HeatingRecipe.getRecipe((cooking));
-            if (recipe != null && recipe.isValidTemperature(heat.getTemperature())) {
-                ItemStack result = recipe.assembleItem(cooking);
-                if (!result.isEmpty()) {
-                    FoodCapability.applyTrait(result, SkilletUtil.skilletCooked);
-                    if (!player.addItem(result)) {
-                        player.drop(result, false);
-                    }
+        HeatingRecipe recipe = HeatingRecipe.getRecipe((cooking));
+        if (recipe != null && recipe.isValidTemperature(heat.getTemperature())) {
+            ItemStack result = recipe.assembleItem(cooking);
+            if (!result.isEmpty()) {
+                FoodCapability.applyTrait(result, SkilletUtil.skilletCooked);
+                if (!player.addItem(result)) {
+                    player.drop(result, false);
                 }
-                skilletStack.remove(ModDataComponents.SKILLET_INGREDIENT);
-
-                if(skilletStack.getItem() instanceof SDSkilletItem){
-                    skilletStack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
-
-                    if(skilletStack.is(SDItemTags.RETURN_COPPER_SKILLET) && !(((SDSkilletItem) skilletStack.getItem()).canCook(skilletStack))){
-                        InteractionHand hand = player.getUsedItemHand();
-                        var lookup = level.registryAccess(); // RegistryAccess implements HolderLookup.Provider
-                        CompoundTag tag = (CompoundTag) skilletStack.save(lookup);
-                        tag.putString("id", SkilletMaterial.COPPER.location().toString());
-                        ItemStack newSkilletStack = ItemStack.parseOptional(lookup, tag);
-                        newSkilletStack.setDamageValue(0);
-                        player.onEquippedItemBroken(skilletStack.getItem(), equipmentSlot);
-                        player.setItemInHand(hand, newSkilletStack);
-                    }
-                }
-                data.clear();
-                if (player.isUsingItem()) player.stopUsingItem();
             }
+            skilletStack.remove(ModDataComponents.SKILLET_INGREDIENT);
+
+            if(skilletStack.getItem() instanceof SDSkilletItem){
+                skilletStack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
+
+                if(skilletStack.is(SDItemTags.RETURN_COPPER_SKILLET) && !(((SDSkilletItem) skilletStack.getItem()).canCook(skilletStack))){
+                    InteractionHand hand = player.getUsedItemHand();
+                    var lookup = level.registryAccess(); // RegistryAccess implements HolderLookup.Provider
+                    CompoundTag tag = (CompoundTag) skilletStack.save(lookup);
+                    tag.putString("id", SkilletMaterial.COPPER.location().toString());
+                    ItemStack newSkilletStack = ItemStack.parseOptional(lookup, tag);
+                    newSkilletStack.setDamageValue(0);
+                    player.onEquippedItemBroken(skilletStack.getItem(), equipmentSlot);
+                    player.setItemInHand(hand, newSkilletStack);
+                }
+            }
+            data.clear();
+            if (player.isUsingItem()) player.stopUsingItem();
         }
     }
 
@@ -164,11 +165,7 @@ public abstract class SkilletItem_TFCHeatMixin {
             ItemStack fakeCookingStack = storedStack.getStack();
             HeatingRecipe recipe = HeatingRecipe.getRecipe((fakeCookingStack));
             if (recipe == null) return;
-            if(!level.isClientSide){
-                ItemStack cooking = data.getCooking();
-                if (!player.addItem(cooking)) player.drop(cooking, false);
-            }
-            data.clear();
+            if (!player.addItem(fakeCookingStack)) player.drop(fakeCookingStack, false);            data.clear();
             skilletStack.remove(ModDataComponents.SKILLET_INGREDIENT);
             skilletStack.remove(ModDataComponents.COOKING_TIME_LENGTH);
             ci.cancel();

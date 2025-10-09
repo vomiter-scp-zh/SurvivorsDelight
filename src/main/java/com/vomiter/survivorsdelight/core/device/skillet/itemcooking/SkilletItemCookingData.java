@@ -11,7 +11,7 @@ public class SkilletItemCookingData implements ISkilletItemCookingData {
     private InteractionHand hand = InteractionHand.MAIN_HAND;
 
     @Override public ItemStack getCooking() { return cooking; }
-    @Override public void setCooking(ItemStack stack) { this.cooking = stack; }
+    @Override public void setCooking(ItemStack stack) { this.cooking = stack.copy(); }
     @Override public float getTargetTemperature() { return targetTemperature; }
     @Override public void setTargetTemperature(float temp) { this.targetTemperature = temp; }
     @Override public InteractionHand getHand() { return hand; }

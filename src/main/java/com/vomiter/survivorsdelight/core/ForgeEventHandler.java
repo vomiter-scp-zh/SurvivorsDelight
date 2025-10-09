@@ -1,5 +1,6 @@
 package com.vomiter.survivorsdelight.core;
 
+import com.vomiter.survivorsdelight.core.device.skillet.itemcooking.SkilletCookingCap;
 import com.vomiter.survivorsdelight.core.registry.SDSkilletBlocks;
 import com.vomiter.survivorsdelight.mixin.BlockEntityTypeAccessor;
 import net.dries007.tfc.util.events.StartFireEvent;
@@ -23,6 +24,7 @@ public class ForgeEventHandler {
     public static void init(){
         final IEventBus bus = NeoForge.EVENT_BUS;
         bus.addListener(ForgeEventHandler::onFireStart);
+        bus.addListener(SkilletCookingCap::onClone);
     }
 
     public static void onFireStart(StartFireEvent event){

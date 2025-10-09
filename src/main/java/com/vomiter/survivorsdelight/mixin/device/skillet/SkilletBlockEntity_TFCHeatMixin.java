@@ -1,5 +1,6 @@
 package com.vomiter.survivorsdelight.mixin.device.skillet;
 
+import com.mojang.logging.LogUtils;
 import com.vomiter.survivorsdelight.core.device.skillet.SDSkilletItem;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletUtil;
@@ -23,6 +24,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.util.FakePlayer;
 import net.neoforged.neoforge.common.util.FakePlayerFactory;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -42,8 +44,7 @@ import java.util.Objects;
 @Mixin(value = SkilletBlockEntity.class, remap = false)
 public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEntity {
 
-    @Unique private static final org.apache.logging.log4j.Logger survivorsDelight$LOG =
-            org.apache.logging.log4j.LogManager.getLogger("SurvivorsDelight/SkilletMixin");
+    @Unique private static final Logger survivorsDelight$LOG = LogUtils.getLogger();
     
     @Final @Shadow private ItemStackHandler inventory;
     @Shadow private int cookingTime;
@@ -55,12 +56,8 @@ public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEn
     // tfc cached recipe
     @Unique private HeatingRecipe sdtfc$cachedHeatingRecipe = null;
 
-    /**
-     Try to cache TFC HeatingRecipe if there's no vanilla campfire recipe, and allow input of heating recipe ingredients.
-     */
     @Inject(method = "addItemToCook", at = @At("HEAD"), cancellable = true)
     private void sdtfc$acceptHeatingRecipeOnAdd(ItemStack addedStack, Player player, CallbackInfoReturnable<ItemStack> cir) {
-        survivorsDelight$LOG.info("entered addItemToCook inject");
         final BlockEntity self = (BlockEntity) (Object) this;
         final Level lvl = self.getLevel();
         if (lvl == null || addedStack.isEmpty()) return;
@@ -109,7 +106,6 @@ public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEn
      */
     @Inject(method = "cookAndOutputItems", at = @At("HEAD"), cancellable = true)
     private void sdtfc$cookWithBelowTemperature(ItemStack cookingStack, Level level, CallbackInfo ci) {
-        survivorsDelight$LOG.info("cooking");
         final BlockEntity self = (BlockEntity) (Object) this;
         final BlockPos pos = self.getBlockPos();
 
