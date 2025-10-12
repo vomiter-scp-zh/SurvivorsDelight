@@ -6,7 +6,7 @@
   ],
   "key": {
     "X": {
-      "item": "survivorsdelight:unfinished_skillet/wrought_iron"
+      "item": "survivorsdelight:unfinished_skillet/cast_iron"
     },
     "Y": {
       "tag": "forge:rods/wooden"
@@ -14,7 +14,7 @@
   },
   "result": {
     "stack": {
-      "item": "survivorsdelight:skillet/wrought_iron"
+      "item": "survivorsdelight:skillet/cast_iron"
     },
     "modifiers": [
       "tfc:copy_forging_bonus"

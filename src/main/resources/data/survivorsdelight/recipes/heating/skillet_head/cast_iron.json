@@ -1,10 +1,10 @@
 {
   "type": "tfc:heating",
   "ingredient": {
-    "item": "survivorsdelight:skillet_head/wrought_iron"
+    "item": "survivorsdelight:skillet_head/cast_iron"
   },
   "result_fluid": {
-    "fluid": "tfc:metal/wrought_iron",
+    "fluid": "tfc:metal/cast_iron",
     "amount": 200
   },
   "temperature": 1535

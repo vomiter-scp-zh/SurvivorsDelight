@@ -9,6 +9,7 @@ import net.dries007.tfc.common.capabilities.heat.IHeat;
 import net.dries007.tfc.common.recipes.HeatingRecipe;
 import net.dries007.tfc.common.recipes.inventory.ItemStackInventory;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import vectorwing.farmersdelight.common.block.entity.StoveBlockEntity;
@@ -30,7 +31,7 @@ public interface IStoveBlockEntity {
         return 550;
     }
 
-    default boolean sdtfc$addItem(ItemStack itemStackIn, int slot, StoveBlockEntity stove) {
+    default boolean sdtfc$addItem(ItemStack itemStackIn, int slot, StoveBlockEntity stove, Player player) {
         var inventory = stove.getInventory();
         if (0 <= slot && slot < inventory.getSlots()) {
             ItemStack slotStack = inventory.getStackInSlot(slot);
@@ -42,7 +43,11 @@ public interface IStoveBlockEntity {
                 var acc = (StoveBlockEntity_Accessor)stove;
                 acc.getCookingTimesTotal()[slot] = 24 * 60 * 60 * 20;
                 acc.getCookingTimes()[slot] = 0;
-                inventory.setStackInSlot(slot, itemStackIn.split(1));
+                inventory.setStackInSlot(slot,
+                        player.isCreative()?
+                                new ItemStack(itemStackIn.getItem()) :
+                                itemStackIn.split(1)
+                );
                 acc.getLastRecipeIDs()[slot] = recipe.getId();
                 stove.setChanged();
                 Level level = stove.getLevel();
@@ -100,6 +105,7 @@ public interface IStoveBlockEntity {
                 sdtfc$ejectItem(stove, result.copy());
                 inventory.extractItem(slot, 1, false);
                 stove.setChanged();
+                cachedRecipes[slot] = null;
                 level.sendBlockUpdated(pos, stove.getBlockState(), stove.getBlockState(), 3);
             }
         }

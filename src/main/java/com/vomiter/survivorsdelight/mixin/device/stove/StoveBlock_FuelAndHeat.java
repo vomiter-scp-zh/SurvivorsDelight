@@ -45,10 +45,6 @@ public class StoveBlock_FuelAndHeat{
         StoveBlockEntity stove = (StoveBlockEntity) level.getBlockEntity(pos);
         IStoveBlockEntity iStove = (IStoveBlockEntity)stove;
         assert iStove != null;
-        if(iStove.sdtfc$addItem(heldItem, stove.getNextEmptySlot(), stove)) cir.setReturnValue(InteractionResult.sidedSuccess(level.isClientSide));
+        if(iStove.sdtfc$addItem(heldItem, stove.getNextEmptySlot(), stove, player)) cir.setReturnValue(InteractionResult.sidedSuccess(level.isClientSide));
     }
-
-
-
-
 }
