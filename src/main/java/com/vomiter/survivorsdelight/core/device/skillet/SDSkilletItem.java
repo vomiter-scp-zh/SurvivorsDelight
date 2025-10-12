@@ -11,9 +11,14 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -38,6 +43,29 @@ public class SDSkilletItem extends SkilletItem {
 
     public static ResourceLocation getKnockbackUUID(){
         return FD_ATTACK_KNOCKBACK_UUID;
+    }
+
+    public static ItemAttributeModifiers sdCreateAttributes(
+            Tier tier, float attackDamage, float attackSpeed, float attackKnockBack
+    ) {
+        return ItemAttributeModifiers.builder()
+                .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(
+                        BASE_ATTACK_DAMAGE_ID,
+                        attackDamage + tier.getAttackDamageBonus(),
+                        AttributeModifier.Operation.ADD_VALUE),
+                        EquipmentSlotGroup.MAINHAND
+                )
+                .add(Attributes.ATTACK_SPEED, new AttributeModifier(
+                        BASE_ATTACK_SPEED_ID,
+                        (double)attackSpeed - 4,
+                        AttributeModifier.Operation.ADD_VALUE),
+                        EquipmentSlotGroup.MAINHAND
+                )
+                .add(Attributes.ATTACK_KNOCKBACK, new AttributeModifier(
+                        FD_ATTACK_KNOCKBACK_UUID,
+                        attackKnockBack, AttributeModifier.Operation.ADD_VALUE),
+                        EquipmentSlotGroup.MAINHAND
+                ).build();
     }
 
     @Override

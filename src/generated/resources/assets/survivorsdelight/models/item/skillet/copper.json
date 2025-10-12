@@ -1,5 +1,13 @@
 {
   "parent": "survivorsdelight:item/skillet/skillet",
+  "overrides": [
+    {
+      "model": "survivorsdelight:item/skillet/copper_cooking",
+      "predicate": {
+        "minecraft:cooking": 1.0
+      }
+    }
+  ],
   "textures": {
     "0": "tfc:block/metal/smooth/copper",
     "1": "tfc:block/metal/smooth/copper",

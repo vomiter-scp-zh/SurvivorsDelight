@@ -20,14 +20,10 @@ import org.slf4j.Logger;
 
 @Mod(SurvivorsDelight.MODID)
 public class SurvivorsDelight {
-    //TODO: SkilletModel
 
     public static final String MODID = "survivorsdelight";
     public static final Logger LOGGER = LogUtils.getLogger();
-    public SurvivorsDelight(
-            ModContainer mod,
-            IEventBus bus
-    ) {
+    public SurvivorsDelight(ModContainer mod, IEventBus bus) {
         common(bus);
         mod.registerConfig(ModConfig.Type.COMMON, Config.COMMON_SPEC);
     }
@@ -47,9 +43,13 @@ public class SurvivorsDelight {
         modBus.addListener(SkilletCookingCap::registerCaps);         // RegisterCapabilitiesEvent
 
         if (FMLEnvironment.dist == Dist.CLIENT){
-            ClientForgeEventHandler.init();
+            ClientOnly.init(modBus);
         }
+    }
 
-
+    static final class ClientOnly {
+        static void init(IEventBus modBus) {
+            ClientForgeEventHandler.init(modBus);
+        }
     }
 }

@@ -1,6 +1,5 @@
 package com.vomiter.survivorsdelight.mixin.device.skillet;
 
-import com.mojang.logging.LogUtils;
 import com.vomiter.survivorsdelight.core.device.skillet.SDSkilletItem;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletUtil;
@@ -23,8 +22,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.neoforged.fml.loading.FMLEnvironment;
-import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -86,12 +83,12 @@ public abstract class SkilletItem_TFCHeatMixin {
                 return;
             }
             HeatCapability.addTemp(heat, temperatureNearby);
-            skilletStack.set(ModDataComponents.SKILLET_INGREDIENT, new ItemStackWrapper(unit));
             var data = SkilletCookingCap.get(player);
             data.setCooking(unit.copy());
             data.setTargetTemperature(recipe.getTemperature());
             data.setHand(hand);
         }
+        skilletStack.set(ModDataComponents.SKILLET_INGREDIENT, new ItemStackWrapper(heatingStack.copyWithCount(1)));
         player.startUsingItem(hand);
         cir.setReturnValue(InteractionResultHolder.consume(skilletStack));
         cir.cancel();

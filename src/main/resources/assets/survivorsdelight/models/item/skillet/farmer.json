@@ -1,3 +1,11 @@
 {
-  "parent": "farmersdelight:item/skillet"
+  "parent": "farmersdelight:item/skillet",
+  "overrides": [
+    {
+      "model": "survivorsdelight:item/skillet/farmer_cooking",
+      "predicate": {
+        "minecraft:cooking": 1.0
+      }
+    }
+  ]
 }

@@ -41,9 +41,10 @@ public class SDSkilletItems {
             }
             if(m.isWeapon){
                 properties.attributes(
-                        SDSkilletItem.createAttributes(
+                        SDSkilletItem.sdCreateAttributes(
                                 SkilletItem.SKILLET_TIER,
                                 m.attackDamage,
+                                0.9f,
                                 m.attackKnockback
                         )
                 );

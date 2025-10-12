@@ -44,6 +44,12 @@ public class SDSkilletItemModelProvider extends ItemModelProvider {
         addTextures(m, cooking);
         addTextures(m, head);
 
+        skillet
+                .override()
+                .predicate(mcLoc("cooking"), 1.0f)
+                .model(getExistingFile(modLoc("item/skillet/" + name + "_cooking")))
+                .end();
+
         var uf = withExistingParent(
                 "item/unfinished_skillet/" + name,
                 modLoc("item/skillet/" + name)
