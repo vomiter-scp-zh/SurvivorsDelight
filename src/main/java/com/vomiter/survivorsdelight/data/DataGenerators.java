@@ -44,9 +44,9 @@ public class DataGenerators
 
         generator.addProvider(event.includeServer(), woodCuttingRecipes);
 
-        generator.addProvider(true, skilletModelProvider);
+        //generator.addProvider(true, skilletModelProvider);
         generator.addProvider(true, skilletBlockStateProvider);
-        generator.addProvider(true, skilletItemModelProvider);
+        //generator.addProvider(true, skilletItemModelProvider);
         generator.addProvider(event.includeServer(), skilletLootTableProvider);
 
         generator.addProvider(event.includeClient(), new SDCabinetBlockStateProvider(output, helper));
