@@ -32,5 +32,6 @@
   "overlay.survivorsdelight.stove_fuel_amount": "Fuel Amount",
 
   "survivorsdelight.tooltip.foodtrait.skillet_cooked": "Skillet Cooked",
-  "survivorsdelight.tooltip.foodtrait.food_model": "Food Model"
+  "survivorsdelight.tooltip.foodtrait.food_model": "Food Model",
+  "container.survivorsdelight.cabinet": "Cabinet"
 }
