@@ -1,5 +1,6 @@
-package com.vomiter.survivorsdelight.core.device.skillet.data;
+package com.vomiter.survivorsdelight.data.asset.skillet;
 
+import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
 import net.minecraft.data.PackOutput;
 import net.minecraft.server.packs.PackType;
@@ -7,6 +8,7 @@ import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.BlockModelProvider;
 import net.minecraftforge.client.model.generators.ModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 

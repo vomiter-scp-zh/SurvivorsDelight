@@ -1,23 +1,31 @@
-package com.vomiter.survivorsdelight.core.food.block;
+package com.vomiter.survivorsdelight.core.registry;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
+import com.vomiter.survivorsdelight.core.container.SDCabinetBlockEntity;
+import com.vomiter.survivorsdelight.core.food.block.DecayingFeastBlockEntity;
+import com.vomiter.survivorsdelight.core.food.block.DecayingPieBlockEntity;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import vectorwing.farmersdelight.common.registry.ModBlocks;
 
-
-@Mod.EventBusSubscriber(modid = SurvivorsDelight.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public final class SDDecayingBlockEntityRegistry {
-    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
-            DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, SurvivorsDelight.MODID);
-
-    static {
-        BLOCK_ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
+public class SDBlockEntityTypes {
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, SurvivorsDelight.MODID);
+    private static Block[] cabinetBlocks() {
+        return SDBlocks.CABINETS.values()
+                .stream()
+                .map(RegistryObject::get)
+                .toArray(Block[]::new);
     }
+    public static final RegistryObject<BlockEntityType<SDCabinetBlockEntity>> SD_CABINET =
+            BLOCK_ENTITIES.register(
+                    "cabinet",
+                    () -> BlockEntityType.Builder.of(
+                            SDCabinetBlockEntity::new,
+                            cabinetBlocks()
+                    ).build(null));
 
     public static final RegistryObject<BlockEntityType<DecayingFeastBlockEntity>> FEAST_DECAYING =
             BLOCK_ENTITIES.register("feast_decaying",
@@ -40,5 +48,4 @@ public final class SDDecayingBlockEntityRegistry {
                     ).build(null));
 
 
-    private SDDecayingBlockEntityRegistry() {}
 }

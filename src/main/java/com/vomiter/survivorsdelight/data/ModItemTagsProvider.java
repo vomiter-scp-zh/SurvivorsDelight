@@ -2,8 +2,8 @@ package com.vomiter.survivorsdelight.data;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
-import com.vomiter.survivorsdelight.core.registry.SDSkilletItems;
-import com.vomiter.survivorsdelight.core.registry.SDSkilletPartItems;
+import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletItems;
+import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletPartItems;
 import com.vomiter.survivorsdelight.data.tags.SDItemTags;
 import com.vomiter.survivorsdelight.util.RLUtils;
 import net.dries007.tfc.common.TFCTags;
@@ -67,10 +67,12 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 if(head != null) {
                     assert head.getKey() != null;
                     metal_tag.add(head.getKey());
+                    tag(SDItemTags.SKILLET_HEADS).add(head.getKey());
                 }
                 if(uf != null) {
                     assert uf.getKey() != null;
                     metal_tag.add(uf.getKey());
+                    tag(SDItemTags.UNFINISHED_SKILLETS).add(uf.getKey());
                 }
             }
         }

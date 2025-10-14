@@ -1,10 +1,11 @@
 package com.vomiter.survivorsdelight.data;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.core.device.skillet.data.SDSkilletBlockModelProvider;
-import com.vomiter.survivorsdelight.core.device.skillet.data.SDSkilletBlockStateProvider;
-import com.vomiter.survivorsdelight.core.device.skillet.data.SDSkilletItemModelProvider;
-import com.vomiter.survivorsdelight.core.device.skillet.data.SDSkilletLootTableProvider;
+import com.vomiter.survivorsdelight.data.asset.SDCabinetBlockStateProvider;
+import com.vomiter.survivorsdelight.data.asset.skillet.SDSkilletBlockModelProvider;
+import com.vomiter.survivorsdelight.data.asset.skillet.SDSkilletBlockStateProvider;
+import com.vomiter.survivorsdelight.data.asset.skillet.SDSkilletItemModelProvider;
+import com.vomiter.survivorsdelight.data.asset.skillet.SDSkilletLootTableProvider;
 import com.vomiter.survivorsdelight.data.recipe.WoodCuttingRecipes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
@@ -47,5 +48,8 @@ public class DataGenerators
         generator.addProvider(true, skilletBlockStateProvider);
         generator.addProvider(true, skilletItemModelProvider);
         generator.addProvider(event.includeServer(), skilletLootTableProvider);
+
+        generator.addProvider(event.includeClient(), new SDCabinetBlockStateProvider(output, helper));
+
     }
 }

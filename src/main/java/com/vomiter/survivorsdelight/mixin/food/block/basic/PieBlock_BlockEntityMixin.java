@@ -2,8 +2,8 @@ package com.vomiter.survivorsdelight.mixin.food.block.basic;
 
 import com.vomiter.survivorsdelight.core.food.block.DecayingPieBlockEntity;
 import com.vomiter.survivorsdelight.core.food.block.ISDDecayingBlock;
-import com.vomiter.survivorsdelight.core.food.block.SDDecayingBlockEntityRegistry;
 import com.vomiter.survivorsdelight.core.food.trait.SDFoodTraits;
+import com.vomiter.survivorsdelight.core.registry.SDBlockEntityTypes;
 import com.vomiter.survivorsdelight.data.tags.SDItemTags;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.dries007.tfc.common.capabilities.food.IFood;
@@ -47,7 +47,7 @@ public abstract class PieBlock_BlockEntityMixin extends Block implements EntityB
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> type) {
-        return type == SDDecayingBlockEntityRegistry.PIE_DECAYING.get()
+        return type == SDBlockEntityTypes.PIE_DECAYING.get()
                 ? (l, p, st, be) -> DecayingPieBlockEntity.serverTick(l, p, st, (DecayingPieBlockEntity) be)
                 : null;
     }

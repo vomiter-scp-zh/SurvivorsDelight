@@ -3,7 +3,7 @@ package com.vomiter.survivorsdelight.core.device.skillet;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.core.registry.SDSkilletItems;
+import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;

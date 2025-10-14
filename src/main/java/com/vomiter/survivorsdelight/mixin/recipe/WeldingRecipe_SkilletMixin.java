@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.mixin.recipe;
 
-import com.vomiter.survivorsdelight.core.registry.SDSkilletPartItems;
+import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletPartItems;
 import com.vomiter.survivorsdelight.data.tags.SDItemTags;
 import net.dries007.tfc.common.capabilities.forge.ForgingBonus;
 import net.dries007.tfc.common.recipes.WeldingRecipe;
@@ -23,20 +23,22 @@ public class WeldingRecipe_SkilletMixin {
             at = @At("RETURN"),
             cancellable = true
     )
-    private void applyForgingBonus(WeldingRecipe.Inventory inventory, RegistryAccess registryAccess, CallbackInfoReturnable<ItemStack> cir){
-        if(!cir.getReturnValue().is(SDItemTags.SKILLETS)) return;
-        ItemStack output = cir.getReturnValue().copy();
-        if(
-                SDSkilletPartItems.HEADS.values().stream().anyMatch(
-                        ro -> inventory.getLeft().is(ro.get()))
-        ){
-            ForgingBonus.set(output, ForgingBonus.get(inventory.getLeft()));
-        } else if (
-                SDSkilletPartItems.HEADS.values().stream().anyMatch(
-                        ro -> inventory.getRight().is(ro.get()))
-        ) {
-            ForgingBonus.set(output, ForgingBonus.get(inventory.getRight()));
+    private void applyForgingBonus(WeldingRecipe.Inventory inventory, RegistryAccess registryAccess, CallbackInfoReturnable<ItemStack> cir) {
+        ItemStack result = cir.getReturnValue();
+        if (result.isEmpty() || !result.is(SDItemTags.SKILLETS)) return;
+
+        ForgingBonus left  = net.dries007.tfc.common.capabilities.forge.ForgingBonus.get(inventory.getLeft());
+        ForgingBonus right = net.dries007.tfc.common.capabilities.forge.ForgingBonus.get(inventory.getRight());
+
+        boolean leftIsHead  = SDSkilletPartItems.HEADS.values().stream().anyMatch(ro -> inventory.getLeft().is(ro.get()));
+        boolean rightIsHead = SDSkilletPartItems.HEADS.values().stream().anyMatch(ro -> inventory.getRight().is(ro.get()));
+
+        ForgingBonus bonus = leftIsHead ? left : (rightIsHead ? right : ForgingBonus.NONE);
+
+        if (!bonus.equals(ForgingBonus.NONE)) {
+            ItemStack copy = result.copy();
+            net.dries007.tfc.common.capabilities.forge.ForgingBonus.set(copy, bonus);
+            cir.setReturnValue(copy);
         }
-        cir.setReturnValue(output);
     }
 }

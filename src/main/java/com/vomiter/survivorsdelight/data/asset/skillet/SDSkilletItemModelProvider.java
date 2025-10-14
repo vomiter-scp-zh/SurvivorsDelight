@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.core.device.skillet.data;
+package com.vomiter.survivorsdelight.data.asset.skillet;
 
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
 import com.vomiter.survivorsdelight.util.RLUtils;

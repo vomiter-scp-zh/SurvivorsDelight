@@ -1,7 +1,7 @@
 package com.vomiter.survivorsdelight.data;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.core.registry.SDSkilletBlocks;
+import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletBlocks;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
 import com.vomiter.survivorsdelight.data.tags.SDBlockTags;
 import net.dries007.tfc.common.TFCTags;

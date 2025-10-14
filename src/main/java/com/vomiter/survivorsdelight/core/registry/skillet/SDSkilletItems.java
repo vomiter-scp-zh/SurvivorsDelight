@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.core.registry;
+package com.vomiter.survivorsdelight.core.registry.skillet;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.vomiter.survivorsdelight.SurvivorsDelight;

@@ -1,6 +1,7 @@
-package com.vomiter.survivorsdelight.core.device.skillet.data;
+package com.vomiter.survivorsdelight.data.asset.skillet;
 
-import com.vomiter.survivorsdelight.core.registry.SDSkilletBlocks;
+import com.vomiter.survivorsdelight.SurvivorsDelight;
+import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletBlocks;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
@@ -9,11 +10,17 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import org.jetbrains.annotations.NotNull;
 import vectorwing.farmersdelight.common.block.SkilletBlock;
 
 public class SDSkilletBlockStateProvider extends BlockStateProvider {
     public SDSkilletBlockStateProvider(PackOutput out, ExistingFileHelper helper) {
         super(out, "survivorsdelight", helper);
+    }
+
+    @Override
+    public @NotNull String getName() {
+        return "Block States (Skillets): " + SurvivorsDelight.MODID;
     }
 
     @Override

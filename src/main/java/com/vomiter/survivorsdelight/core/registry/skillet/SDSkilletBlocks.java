@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.core.registry;
+package com.vomiter.survivorsdelight.core.registry.skillet;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;

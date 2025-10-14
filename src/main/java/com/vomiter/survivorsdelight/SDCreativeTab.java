@@ -1,8 +1,8 @@
 package com.vomiter.survivorsdelight;
 
-import com.vomiter.survivorsdelight.core.registry.SDSkilletItems;
+import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletItems;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
-import com.vomiter.survivorsdelight.core.registry.SDSkilletPartItems;
+import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletPartItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;

@@ -2,8 +2,8 @@ package com.vomiter.survivorsdelight.mixin.food.block.basic;
 
 import com.vomiter.survivorsdelight.core.food.block.DecayingFeastBlockEntity;
 import com.vomiter.survivorsdelight.core.food.block.ISDDecayingBlock;
-import com.vomiter.survivorsdelight.core.food.block.SDDecayingBlockEntityRegistry;
 import com.vomiter.survivorsdelight.core.food.trait.SDFoodTraits;
+import com.vomiter.survivorsdelight.core.registry.SDBlockEntityTypes;
 import com.vomiter.survivorsdelight.data.tags.SDItemTags;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.dries007.tfc.common.capabilities.food.IFood;
@@ -42,7 +42,7 @@ public abstract class FeastBlock_BlockEntityMixin extends Block implements Entit
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> type) {
-        return type == SDDecayingBlockEntityRegistry.FEAST_DECAYING.get()
+        return type == SDBlockEntityTypes.FEAST_DECAYING.get()
                 ? (l, p, st, be) -> DecayingFeastBlockEntity.serverTick(l, p, st, (DecayingFeastBlockEntity) be)
                 : null;
     }

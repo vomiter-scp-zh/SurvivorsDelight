@@ -42,6 +42,7 @@
     "heat.source.compat.rosia.FireBlock_HSMixin",
     "heat.source.compat.rosia.LavaBasin_HSMixin",
     "heat.source.compat.rosia.SteamGenerator_HSMixin",
+    "recipe.AnvilBlockEntity_WeldingSkilletMixin",
     "recipe.WeldingRecipe_SkilletMixin"
   ],
   "client": [

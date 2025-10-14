@@ -16,4 +16,6 @@ public class SDItemTags {
     public static final TagKey<Item> FOOD_MODEL_COATING = create("food_model_coating");
     public static final TagKey<Item> RETURN_COPPER_SKILLET = create("return_copper_skillet");
     public static final TagKey<Item> SKILLETS = create("skillets");
+    public static final TagKey<Item> SKILLET_HEADS = create("skillet_heads");
+    public static final TagKey<Item> UNFINISHED_SKILLETS = create("unfinished_skillets");
 }
