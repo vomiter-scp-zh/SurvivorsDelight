@@ -3,7 +3,8 @@ package com.vomiter.survivorsdelight.mixin.device.skillet;
 import com.vomiter.survivorsdelight.core.device.skillet.SDSkilletItem;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletUtil;
-import com.vomiter.survivorsdelight.data.tags.SDItemTags;
+import com.vomiter.survivorsdelight.data.tags.SDTags;
+import com.vomiter.survivorsdelight.data.tags.SDTags.ItemTags;
 import com.vomiter.survivorsdelight.util.HeatHelper;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.dries007.tfc.common.capabilities.heat.HeatCapability;
@@ -126,7 +127,7 @@ public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEn
         if (level == null || cookingStack.isEmpty()) return;
         if (sdtfc$hasCampfireRecipe(level, cookingStack)) return;
         if(skilletStack.getItem() instanceof SDSkilletItem sdSkilletItem){
-            if(!sdSkilletItem.canCook(skilletStack) && skilletStack.is(SDItemTags.RETURN_COPPER_SKILLET)){
+            if(!sdSkilletItem.canCook(skilletStack) && skilletStack.is(SDTags.ItemTags.RETURN_COPPER_SKILLET)){
                 CompoundTag tag = skilletStack.serializeNBT();
                 tag.putString("id", SkilletMaterial.COPPER.location().toString());
                 ItemStack newSkilletStack = ItemStack.of(tag);

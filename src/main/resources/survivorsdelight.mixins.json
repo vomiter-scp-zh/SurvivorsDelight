@@ -6,10 +6,12 @@
   "mixins": [
     "BlockEntityTypeAccessor",
     "InventoryBlockEntityAccessor",
+    "device.cooking_pot.CookingPotBlock_AddPlayerMixin",
+    "device.cooking_pot.CookingPotBlockEntity_DrainOnCookMixin",
+    "device.cooking_pot.CookingPotBlockEntity_FluidCapsMixin",
+    "device.cooking_pot.CookingPotBlockEntity_MatchingPotRecipeMixin",
+    "device.cooking_pot.CookingPotBlockEntity_UseFluidWrapperMixin",
     "device.cutting.CuttingBoardBlockEntityMixin",
-    "device.cutting.CuttingBoardRecipeMixin",
-    "device.cutting.CuttingBoardRecipeRollMixin",
-    "device.cutting.CuttingBoardRecipeSerializerMixin",
     "device.skillet.SkilletBlockEntity_SlotLimitMixin",
     "device.skillet.SkilletBlockEntity_TFCHeatMixin",
     "device.skillet.SkilletItem_TFCHeatMixin",
@@ -32,6 +34,7 @@
     "food.block.common.BlockItem_SetDecayStackMixin",
     "food.dogfood.DogFoodItem_DogFoodItemForDogs",
     "food.dogfood.PackPredator_DogFoodItemForWolves",
+    "food.horsefeed.HorseFeedItem_HorseFoodItemForHorses",
     "food.mushroom.MushroomBlock_PreventPlace",
     "food.mushroom.MushroomItem_PreventRottenPlace",
     "heat.SyncedBlockEntity_GlobalHeatedMixin",
@@ -43,9 +46,15 @@
     "heat.source.compat.rosia.LavaBasin_HSMixin",
     "heat.source.compat.rosia.SteamGenerator_HSMixin",
     "recipe.AnvilBlockEntity_WeldingSkilletMixin",
-    "recipe.WeldingRecipe_SkilletMixin"
+    "recipe.WeldingRecipe_SkilletMixin",
+    "recipe.cooking.CookingPotRecipe_FluidDuckMixin",
+    "recipe.cooking.CookingPotRecipe_Serializer_FluidMixin",
+    "recipe.cutting.CuttingBoardRecipeMixin",
+    "recipe.cutting.CuttingBoardRecipeRollMixin",
+    "recipe.cutting.CuttingBoardRecipeSerializerMixin"
   ],
   "client": [
+    "client.CookingPotScreen_ButtonMixin",
     "client.ModelBlockRenderer_TintArgMixin"
   ],
   "injectors": {

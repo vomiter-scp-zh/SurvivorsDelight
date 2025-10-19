@@ -2,11 +2,13 @@ package com.vomiter.survivorsdelight.data;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.data.asset.SDCabinetBlockStateProvider;
-import com.vomiter.survivorsdelight.data.asset.skillet.SDSkilletBlockModelProvider;
-import com.vomiter.survivorsdelight.data.asset.skillet.SDSkilletBlockStateProvider;
-import com.vomiter.survivorsdelight.data.asset.skillet.SDSkilletItemModelProvider;
-import com.vomiter.survivorsdelight.data.asset.skillet.SDSkilletLootTableProvider;
+import com.vomiter.survivorsdelight.data.asset.SDLangProvider;
+import com.vomiter.survivorsdelight.data.asset.SDSkilletBlockStateProvider;
 import com.vomiter.survivorsdelight.data.recipe.WoodCuttingRecipes;
+import com.vomiter.survivorsdelight.data.tags.ModBlockTagsProvider;
+import com.vomiter.survivorsdelight.data.tags.ModEntityTypeTagsProvider;
+import com.vomiter.survivorsdelight.data.tags.ModItemTagsProvider;
+import com.vomiter.survivorsdelight.data.tags.SDTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
@@ -27,29 +29,16 @@ public class DataGenerators
         PackOutput output = generator.getPackOutput();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
         ExistingFileHelper helper = event.getExistingFileHelper();
-        ModBlockTagsProvider blockTags = new ModBlockTagsProvider(output, lookupProvider, helper);
-        ModItemTagsProvider itemTags = new ModItemTagsProvider(output, lookupProvider, blockTags, helper);
-        ModEntityTypeTagsProvider entityTags = new ModEntityTypeTagsProvider(output, lookupProvider, SurvivorsDelight.MODID, helper);
 
-        WoodCuttingRecipes woodCuttingRecipes = new WoodCuttingRecipes(output);
+        SDTags.gatherData(event);
 
-        SDSkilletBlockModelProvider skilletModelProvider = new SDSkilletBlockModelProvider(output, helper);
-        SDSkilletBlockStateProvider skilletBlockStateProvider = new SDSkilletBlockStateProvider(output, helper);
-        SDSkilletItemModelProvider skilletItemModelProvider = new SDSkilletItemModelProvider(output, helper);
-        SDSkilletLootTableProvider skilletLootTableProvider = new SDSkilletLootTableProvider(output);
+        generator.addProvider(event.includeServer(), new WoodCuttingRecipes(output));
+        generator.addProvider(event.includeServer(), new SDSkilletLootTableProvider(output));
 
-        generator.addProvider(event.includeServer(), blockTags);
-        generator.addProvider(event.includeServer(), itemTags);
-        generator.addProvider(event.includeServer(), entityTags);
-
-        generator.addProvider(event.includeServer(), woodCuttingRecipes);
-
-        //generator.addProvider(true, skilletModelProvider);
-        generator.addProvider(true, skilletBlockStateProvider);
-        //generator.addProvider(true, skilletItemModelProvider);
-        generator.addProvider(event.includeServer(), skilletLootTableProvider);
-
+        generator.addProvider(event.includeClient(), new SDSkilletBlockStateProvider(output, helper));
         generator.addProvider(event.includeClient(), new SDCabinetBlockStateProvider(output, helper));
 
+        generator.addProvider(event.includeClient(), new SDLangProvider(output, "en_us"));
+        generator.addProvider(event.includeClient(), new SDLangProvider(output, "zh_tw"));
     }
 }

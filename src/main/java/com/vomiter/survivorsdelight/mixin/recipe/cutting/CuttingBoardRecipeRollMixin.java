@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.mixin.device.cutting;
+package com.vomiter.survivorsdelight.mixin.recipe.cutting;
 
 import com.vomiter.survivorsdelight.core.device.cutting.CuttingContext;
 import com.vomiter.survivorsdelight.core.device.cutting.CuttingProvidersHandler;

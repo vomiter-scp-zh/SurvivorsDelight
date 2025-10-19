@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.mixin.device.cutting;
+package com.vomiter.survivorsdelight.mixin.recipe.cutting;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

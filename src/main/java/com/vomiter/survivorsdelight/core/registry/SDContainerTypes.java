@@ -1,6 +1,7 @@
 package com.vomiter.survivorsdelight.core.registry;
 
 import com.vomiter.survivorsdelight.core.container.SDCabinetMenu;
+import com.vomiter.survivorsdelight.core.device.cooking_pot.SDCookingPotFluidMenu;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.common.extensions.IForgeMenuType;
@@ -14,4 +15,7 @@ public class SDContainerTypes {
 
     public static final RegistryObject<MenuType<SDCabinetMenu>> CABINET =
             CONTAINERS.register("cabinet", () -> IForgeMenuType.create(SDCabinetMenu::new));
+
+    public static final RegistryObject<MenuType<SDCookingPotFluidMenu>> POT_FLUID_MENU =
+            CONTAINERS.register("pot_fluid", () -> IForgeMenuType.create(SDCookingPotFluidMenu::new));
 }

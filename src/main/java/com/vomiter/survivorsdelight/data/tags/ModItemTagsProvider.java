@@ -1,10 +1,9 @@
-package com.vomiter.survivorsdelight.data;
+package com.vomiter.survivorsdelight.data.tags;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
 import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletItems;
 import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletPartItems;
-import com.vomiter.survivorsdelight.data.tags.SDItemTags;
 import com.vomiter.survivorsdelight.util.RLUtils;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.items.TFCItems;
@@ -32,16 +31,16 @@ public class ModItemTagsProvider extends ItemTagsProvider {
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
         assert TFCItems.GLUE.getKey() != null;
-        tag(SDItemTags.FOOD_MODEL_COATING).add(TFCItems.GLUE.getKey());
-        tag(SDItemTags.RETURN_COPPER_SKILLET).add(Objects.requireNonNull(SDSkilletItems.SKILLETS.get(SkilletMaterial.COPPER).getKey()));
-        tag(SDItemTags.RETURN_COPPER_SKILLET).add(Objects.requireNonNull(SDSkilletItems.SKILLETS.get(SkilletMaterial.COPPER_SILVER).getKey()));
-        tag(SDItemTags.RETURN_COPPER_SKILLET).add(Objects.requireNonNull(SDSkilletItems.SKILLETS.get(SkilletMaterial.COPPER_TIN).getKey()));
+        tag(SDTags.ItemTags.FOOD_MODEL_COATING).add(TFCItems.GLUE.getKey());
+        tag(SDTags.ItemTags.RETURN_COPPER_SKILLET).add(Objects.requireNonNull(SDSkilletItems.SKILLETS.get(SkilletMaterial.COPPER).getKey()));
+        tag(SDTags.ItemTags.RETURN_COPPER_SKILLET).add(Objects.requireNonNull(SDSkilletItems.SKILLETS.get(SkilletMaterial.COPPER_SILVER).getKey()));
+        tag(SDTags.ItemTags.RETURN_COPPER_SKILLET).add(Objects.requireNonNull(SDSkilletItems.SKILLETS.get(SkilletMaterial.COPPER_TIN).getKey()));
         for (SkilletMaterial m : SkilletMaterial.values()){
             var skillet = SDSkilletItems.getKey(m);
             var head = SDSkilletPartItems.HEADS.get(m);
             var uf = SDSkilletPartItems.UNFINISHED.get(m);
 
-            tag(SDItemTags.SKILLETS).add(skillet);
+            tag(SDTags.ItemTags.SKILLETS).add(skillet);
             if(m.isWeapon){
                 tag(TFCTags.Items.DEALS_CRUSHING_DAMAGE).add(skillet);
             }
@@ -67,12 +66,12 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 if(head != null) {
                     assert head.getKey() != null;
                     metal_tag.add(head.getKey());
-                    tag(SDItemTags.SKILLET_HEADS).add(head.getKey());
+                    tag(SDTags.ItemTags.SKILLET_HEADS).add(head.getKey());
                 }
                 if(uf != null) {
                     assert uf.getKey() != null;
                     metal_tag.add(uf.getKey());
-                    tag(SDItemTags.UNFINISHED_SKILLETS).add(uf.getKey());
+                    tag(SDTags.ItemTags.UNFINISHED_SKILLETS).add(uf.getKey());
                 }
             }
         }

@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.data.asset.skillet;
+package com.vomiter.survivorsdelight.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

@@ -1,7 +1,8 @@
 package com.vomiter.survivorsdelight.mixin.recipe;
 
 import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletPartItems;
-import com.vomiter.survivorsdelight.data.tags.SDItemTags;
+import com.vomiter.survivorsdelight.data.tags.SDTags;
+import com.vomiter.survivorsdelight.data.tags.SDTags.ItemTags;
 import net.dries007.tfc.common.capabilities.forge.ForgingBonus;
 import net.dries007.tfc.common.recipes.WeldingRecipe;
 import net.dries007.tfc.common.recipes.outputs.ItemStackProvider;
@@ -25,7 +26,7 @@ public class WeldingRecipe_SkilletMixin {
     )
     private void applyForgingBonus(WeldingRecipe.Inventory inventory, RegistryAccess registryAccess, CallbackInfoReturnable<ItemStack> cir) {
         ItemStack result = cir.getReturnValue();
-        if (result.isEmpty() || !result.is(SDItemTags.SKILLETS)) return;
+        if (result.isEmpty() || !result.is(SDTags.ItemTags.SKILLETS)) return;
 
         ForgingBonus left  = net.dries007.tfc.common.capabilities.forge.ForgingBonus.get(inventory.getLeft());
         ForgingBonus right = net.dries007.tfc.common.capabilities.forge.ForgingBonus.get(inventory.getRight());
@@ -36,9 +37,8 @@ public class WeldingRecipe_SkilletMixin {
         ForgingBonus bonus = leftIsHead ? left : (rightIsHead ? right : ForgingBonus.NONE);
 
         if (!bonus.equals(ForgingBonus.NONE)) {
-            ItemStack copy = result.copy();
-            net.dries007.tfc.common.capabilities.forge.ForgingBonus.set(copy, bonus);
-            cir.setReturnValue(copy);
+            net.dries007.tfc.common.capabilities.forge.ForgingBonus.set(result, bonus);
+            cir.setReturnValue(result);
         }
     }
 }

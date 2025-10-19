@@ -4,7 +4,8 @@ import com.vomiter.survivorsdelight.core.food.block.DecayingPieBlockEntity;
 import com.vomiter.survivorsdelight.core.food.block.ISDDecayingBlock;
 import com.vomiter.survivorsdelight.core.food.trait.SDFoodTraits;
 import com.vomiter.survivorsdelight.core.registry.SDBlockEntityTypes;
-import com.vomiter.survivorsdelight.data.tags.SDItemTags;
+import com.vomiter.survivorsdelight.data.tags.SDTags;
+import com.vomiter.survivorsdelight.data.tags.SDTags.ItemTags;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.dries007.tfc.common.capabilities.food.IFood;
 import net.minecraft.core.BlockPos;
@@ -65,7 +66,7 @@ public abstract class PieBlock_BlockEntityMixin extends Block implements EntityB
         if(srcFood.hasTrait(SDFoodTraits.FOOD_MODEL)){
             cir.setReturnValue(InteractionResult.PASS);
         }
-        else if(usedItem.is(SDItemTags.FOOD_MODEL_COATING) && usedItem.getCount() >= servingNumber){
+        else if(usedItem.is(SDTags.ItemTags.FOOD_MODEL_COATING) && usedItem.getCount() >= servingNumber){
             srcFood.getTraits().add(SDFoodTraits.FOOD_MODEL);
             usedItem.shrink(servingNumber);
             cir.setReturnValue(InteractionResult.SUCCESS);

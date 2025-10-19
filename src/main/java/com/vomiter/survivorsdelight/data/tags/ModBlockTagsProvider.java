@@ -1,9 +1,8 @@
-package com.vomiter.survivorsdelight.data;
+package com.vomiter.survivorsdelight.data.tags;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletBlocks;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
-import com.vomiter.survivorsdelight.data.tags.SDBlockTags;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.minecraft.core.HolderLookup;
@@ -30,18 +29,18 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
-        TagKey<Block> STATIC_HEAT_250 = SDBlockTags.STATIC_HEAT_LOW;
-        TagKey<Block> STATIC_HEAT_500 = SDBlockTags.STATIC_HEAT_MODERATE;
-        TagKey<Block> STATIC_HEAT_1500 = SDBlockTags.STATIC_HEAT_HIGH;
+        TagKey<Block> STATIC_HEAT_250 = SDTags.BlockTags.STATIC_HEAT_LOW;
+        TagKey<Block> STATIC_HEAT_500 = SDTags.BlockTags.STATIC_HEAT_MODERATE;
+        TagKey<Block> STATIC_HEAT_1500 = SDTags.BlockTags.STATIC_HEAT_HIGH;
 
         for (SkilletMaterial m : SkilletMaterial.values()){
-            tag(SDBlockTags.SKILLETS).add(SDSkilletBlocks.getKey(m));
+            tag(SDTags.BlockTags.SKILLETS).add(SDSkilletBlocks.getKey(m));
         }
 
         TFCBlocks.MAGMA_BLOCKS.forEach((r, b)->{
             assert b.getKey() != null;
             tag(STATIC_HEAT_250).add(b.getKey());
-            tag(SDBlockTags.HEAT_TO_BLOCK_BLACKLIST).add(b.getKey());
+            tag(SDTags.BlockTags.HEAT_TO_BLOCK_BLACKLIST).add(b.getKey());
         });
 
         tag(STATIC_HEAT_500) //fire. (not very sure about the vanilla magma and campfires, but maybe it could provide some compat in modpacks.)
@@ -58,7 +57,7 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
         tag(TFCTags.Blocks.FORGE_INVISIBLE_WHITELIST)
                 .add(ModBlocks.SKILLET.getKey())
                 .add(ModBlocks.COOKING_POT.getKey())
-                .addTag(SDBlockTags.SKILLETS);
+                .addTag(SDTags.BlockTags.SKILLETS);
 
         assert TFCBlocks.CRUCIBLE.getKey() != null;
         tag(ModTags.HEAT_CONDUCTORS)

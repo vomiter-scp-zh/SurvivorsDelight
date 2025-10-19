@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.data;
+package com.vomiter.survivorsdelight.data.tags;
 
 import net.dries007.tfc.common.entities.TFCEntities;
 import net.minecraft.core.HolderLookup;
@@ -19,6 +19,9 @@ public class ModEntityTypeTagsProvider extends EntityTypeTagsProvider {
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
         tag(ModTags.DOG_FOOD_USERS).add(TFCEntities.DOG.get());
+        tag(ModTags.HORSE_FEED_USERS).add(TFCEntities.HORSE.get());
+        tag(ModTags.HORSE_FEED_USERS).add(TFCEntities.MULE.get());
+        tag(ModTags.HORSE_FEED_USERS).add(TFCEntities.DONKEY.get());
     }
 
 }

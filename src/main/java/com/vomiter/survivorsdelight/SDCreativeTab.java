@@ -1,5 +1,6 @@
 package com.vomiter.survivorsdelight;
 
+import com.vomiter.survivorsdelight.core.registry.SDBlocks;
 import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletItems;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
 import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletPartItems;
@@ -38,6 +39,9 @@ public class SDCreativeTab {
                         });
                         output.accept(SDSkilletPartItems.LINING_SILVER.get());
                         output.accept(SDSkilletPartItems.LINING_TIN.get());
+                        SDBlocks.CABINETS.forEach((wood, ro) -> {
+                            output.accept(ro.get().asItem());
+                        });
                     })
                     .withTabsBefore(ModCreativeTabs.TAB_FARMERS_DELIGHT.getKey())
                     .build()
