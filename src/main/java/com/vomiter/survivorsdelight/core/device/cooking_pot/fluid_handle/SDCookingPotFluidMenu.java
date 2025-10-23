@@ -1,15 +1,15 @@
-package com.vomiter.survivorsdelight.core.device.cooking_pot;
+package com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle;
 
+import com.mojang.datafixers.util.Pair;
 import com.vomiter.survivorsdelight.core.registry.SDContainerTypes;
+import com.vomiter.survivorsdelight.mixin.device.cooking_pot.CookingPotBlockEntity_Accessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.DataSlot;
-import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -20,15 +20,20 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
 import vectorwing.farmersdelight.common.block.entity.CookingPotBlockEntity;
+import vectorwing.farmersdelight.common.block.entity.container.CookingPotMealSlot;
+import vectorwing.farmersdelight.common.block.entity.container.CookingPotMenu;
+import vectorwing.farmersdelight.common.block.entity.container.CookingPotResultSlot;
 
 import javax.annotation.Nullable;
 
 public class SDCookingPotFluidMenu extends AbstractContainerMenu {
     public static final MenuType<SDCookingPotFluidMenu> TYPE = SDContainerTypes.POT_FLUID_MENU.get();
     public final BlockPos pos;
-    @Nullable private ICookingPotFluidAccess be;
+    private CookingPotBlockEntity pot;
+    @Nullable private ICookingPotFluidAccess potFluidAccess;
     public static final int X_DEVIATION = 22;
-    public static final int Y_DEVIATION = -3;
+    public static final int Y_DEVIATION = 1;
+    private final ContainerData cookingPotData;
 
     private final DataSlot fluidAmount = DataSlot.standalone();
     private final DataSlot fluidCapacity = DataSlot.standalone();
@@ -42,9 +47,10 @@ public class SDCookingPotFluidMenu extends AbstractContainerMenu {
         this.pos = pos;
 
         final Level level = inv.player.level();
-        final BlockEntity maybe = level.getBlockEntity(pos);
-        if (maybe instanceof CookingPotBlockEntity pot) {
-            this.be = (ICookingPotFluidAccess) pot;
+        final BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (blockEntity instanceof CookingPotBlockEntity pot0) {
+            this.pot = pot0;
+            this.potFluidAccess = (ICookingPotFluidAccess) pot;
 
             pot.getCapability(ForgeCapabilities.FLUID_HANDLER).ifPresent(h -> {
                 setClientFluid(h.getFluidInTank(0));
@@ -53,10 +59,16 @@ public class SDCookingPotFluidMenu extends AbstractContainerMenu {
             });
         }
 
+        if (!level.isClientSide && pot != null) {
+            this.cookingPotData = ((CookingPotBlockEntity_Accessor) pot).getCookingPotData(); // server
+        } else {
+            this.cookingPotData = new SimpleContainerData(2);
+        }
+
         // === 綁定兩個「桶子 I/O」槽，直接連到方塊實體的 ItemStackHandler ===
         // slot index: 0 = input, 1 = output
-        if (be != null) {
-            var aux = be.sdtfc$getAuxInv();
+        if (potFluidAccess != null) {
+            var aux = potFluidAccess.sdtfc$getAuxInv();
             // 輸入：允許放入（驗證交由 ItemStackHandler#isItemValid），UI座標自行調整
             this.addSlot(new BucketInputSlot(aux, 0, 35 + X_DEVIATION, 20 + Y_DEVIATION));
             // 輸出：拒收放入，允許取出
@@ -66,6 +78,14 @@ public class SDCookingPotFluidMenu extends AbstractContainerMenu {
             this.addSlot(new Slot(new SimpleContainer(1), 0, 35, 20));
             this.addSlot(new Slot(new SimpleContainer(1), 0, 35, 54));
         }
+
+        this.addSlot(new CookingPotMealSlot(pot.getInventory() , 6, 124, 26));
+        this.addSlot(new SlotItemHandler(pot.getInventory(), 7, 92, 55) {
+            public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
+                return Pair.of(InventoryMenu.BLOCK_ATLAS, CookingPotMenu.EMPTY_CONTAINER_SLOT_BOWL);
+            }
+        });
+        this.addSlot(new CookingPotResultSlot(inv.player, pot, pot.getInventory(), 8, 124, 55));
 
         // === 玩家背包槽 ===
         final int yBase = 84;
@@ -78,23 +98,25 @@ public class SDCookingPotFluidMenu extends AbstractContainerMenu {
         // === 用 DataSlot 同步「容量」 ===
         this.addDataSlot(new DataSlot() {
             @Override public int get() {
-                if (be != null) return be.sdtfc$getTank().getCapacity();
+                if (potFluidAccess != null) return potFluidAccess.sdtfc$getTank().getCapacity();
                 return 0;
             }
             @Override public void set(int value) {
                 clientFluidCapacity = value;
             }
         });
+
+        this.addDataSlots(this.cookingPotData);
     }
 
     public BlockPos getPos() { return pos; }
 
     @Override public boolean stillValid(@NotNull Player player) {
-        return be != null && player.distanceToSqr(Vec3.atCenterOf(pos)) < 64.0;
+        return potFluidAccess != null && player.distanceToSqr(Vec3.atCenterOf(pos)) < 64.0;
     }
 
     public int getFluidCapacity() {
-        return be != null ? be.sdtfc$getTank().getCapacity() : clientFluidCapacity;
+        return potFluidAccess != null ? potFluidAccess.sdtfc$getTank().getCapacity() : clientFluidCapacity;
     }
 
     public void setClientFluid(net.minecraftforge.fluids.FluidStack fs) {
@@ -113,7 +135,7 @@ public class SDCookingPotFluidMenu extends AbstractContainerMenu {
     public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
         ItemStack empty = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
-        if (slot == null || !slot.hasItem()) return empty;
+        if (!slot.hasItem()) return empty;
 
         ItemStack stackInSlot = slot.getItem();
         ItemStack copy = stackInSlot.copy();
@@ -173,5 +195,11 @@ public class SDCookingPotFluidMenu extends AbstractContainerMenu {
 
         @Override public boolean mayPickup(@NotNull Player player) { return true; }
         @Override public int getMaxStackSize() { return 1; }
+    }
+
+    public int getCookProgressionScaled() {
+        int i = this.cookingPotData.get(0);
+        int j = this.cookingPotData.get(1);
+        return j != 0 && i != 0 ? i * 24 / j : 0;
     }
 }

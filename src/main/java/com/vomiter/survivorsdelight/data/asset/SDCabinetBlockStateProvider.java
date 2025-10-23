@@ -26,7 +26,7 @@ public class SDCabinetBlockStateProvider extends BlockStateProvider {
 
     @Override
     public @NotNull String getName() {
-        return "Block States (Cabinets): " + SurvivorsDelight.MODID;
+        return "BlockStates (Cabinets): " + SurvivorsDelight.MODID;
     }
 
     private void trackTexture(String pathNoExt) {

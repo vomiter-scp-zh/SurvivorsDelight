@@ -10,7 +10,6 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -19,7 +18,6 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.UUID;
 
-@Mod.EventBusSubscriber(modid = SurvivorsDelight.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class SDSkilletItems {
     static final UUID BASE_ATTACK_DAMAGE_UUID = ItemUUIDs.getBaseAttackDamageUUID();
     static final UUID BASE_ATTACK_SPEED_UUID = ItemUUIDs.getBaseAttackSpeedUUID();

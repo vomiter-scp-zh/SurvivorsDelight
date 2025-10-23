@@ -62,5 +62,8 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
         assert TFCBlocks.CRUCIBLE.getKey() != null;
         tag(ModTags.HEAT_CONDUCTORS)
                 .add(TFCBlocks.CRUCIBLE.getKey());
+
+        tag(TFCTags.Blocks.FARMLAND)
+                .add(ModBlocks.RICH_SOIL_FARMLAND.get());
     }
 }

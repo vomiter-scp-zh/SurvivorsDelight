@@ -24,8 +24,8 @@ import vectorwing.farmersdelight.common.block.RichSoilFarmlandBlock;
 import java.util.List;
 
 @Mixin(RichSoilFarmlandBlock.class)
-public class RichSoilFarmland_BlockEntity extends FarmBlock implements EntityBlock, HoeOverlayBlock {
-    public RichSoilFarmland_BlockEntity(Properties p_53247_) {
+public class RichSoilFarmland_AddBlockEntityMixin extends FarmBlock implements EntityBlock, HoeOverlayBlock {
+    public RichSoilFarmland_AddBlockEntityMixin(Properties p_53247_) {
         super(p_53247_);
     }
 
@@ -47,7 +47,7 @@ public class RichSoilFarmland_BlockEntity extends FarmBlock implements EntityBlo
 
 
     @Override
-    public void addHoeOverlayInfo(Level level, BlockPos blockPos, BlockState blockState, List<Component> text, boolean b) {
+    public void addHoeOverlayInfo(Level level, @NotNull BlockPos blockPos, @NotNull BlockState blockState, @NotNull List<Component> text, boolean b) {
         level.getBlockEntity(blockPos, TFCBlockEntities.FARMLAND.get()).ifPresent(farmland -> farmland.addHoeOverlayInfo(level, blockPos, text, true, true));
     }
 }

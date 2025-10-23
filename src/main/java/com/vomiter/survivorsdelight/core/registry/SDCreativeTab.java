@@ -1,6 +1,5 @@
-package com.vomiter.survivorsdelight;
+package com.vomiter.survivorsdelight.core.registry;
 
-import com.vomiter.survivorsdelight.core.registry.SDBlocks;
 import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletItems;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
 import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletPartItems;

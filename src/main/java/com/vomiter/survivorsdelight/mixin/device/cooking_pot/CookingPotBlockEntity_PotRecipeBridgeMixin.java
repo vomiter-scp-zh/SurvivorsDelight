@@ -1,10 +1,10 @@
 package com.vomiter.survivorsdelight.mixin.device.cooking_pot;
 
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.core.device.cooking_pot.TFCPotRecipeBridgeFD;
-import com.vomiter.survivorsdelight.core.device.cooking_pot.ICookingPotFluidAccess;
+import com.vomiter.survivorsdelight.core.device.cooking_pot.bridge.ICookingPotRecipeBridge;
+import com.vomiter.survivorsdelight.core.device.cooking_pot.bridge.TFCPotRecipeBridgeFD;
+import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.ICookingPotFluidAccess;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -30,19 +30,23 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 @Mixin(value = CookingPotBlockEntity.class, remap = false)
-public class CookingPotBlockEntity_MatchingPotRecipeMixin extends SyncedBlockEntity {
+public abstract class CookingPotBlockEntity_PotRecipeBridgeMixin extends SyncedBlockEntity implements ICookingPotRecipeBridge {
     @Shadow @Final private ItemStackHandler inventory;
     @Shadow private ResourceLocation lastRecipeID;
     @Shadow private int cookTime;
+
+    @Shadow protected abstract boolean hasInput();
+
     @Unique private @Nullable TFCPotRecipeBridgeFD sdtfc$cachedBridge = null;
 
+    // ====== Get matching recipe and cache it for later comparison
     @ModifyVariable(method = "getMatchingRecipe", at = @At("STORE"))
     private Optional<CookingPotRecipe> sdtfc$fillWithTfcBridgeWhenEmpty(
             Optional<CookingPotRecipe> original,
             @Local(argsOnly = true) RecipeWrapper inventoryWrapper
     ) {
         if (original.isPresent()) {
-            return original; // 原生就有，尊重 FD
+            return original;
         }
         if(level != null && sdtfc$cachedBridge != null){
             if(sdtfc$cachedBridge.matches(inventoryWrapper, level)){
@@ -62,11 +66,12 @@ public class CookingPotBlockEntity_MatchingPotRecipeMixin extends SyncedBlockEnt
         this.lastRecipeID = bridge.getId();
         SurvivorsDelight.LOGGER.info(lastRecipeID.getPath());
 
-        // 更新本地快取（供下一輪“manager miss”時使用）
         this.sdtfc$cachedBridge = bridge;
         return Optional.of(bridge);
     }
 
+
+    //====== Prevent soup with 4 fruits cooking when there's soup with 5 fruits stored in the pot
     @Redirect(method = "canCook(Lvectorwing/farmersdelight/common/crafting/CookingPotRecipe;)Z",
             at = @At(
                     value = "INVOKE",
@@ -75,6 +80,7 @@ public class CookingPotBlockEntity_MatchingPotRecipeMixin extends SyncedBlockEnt
             remap = true
     )
     private boolean sdtfc$compareStacks(ItemStack a, ItemStack b) {
+        if(FoodCapability.get(a) == null) return ItemStack.isSameItem(a, b);
         return FoodCapability.areStacksStackableExceptCreationDate(a, b);
     }
 
@@ -85,7 +91,7 @@ public class CookingPotBlockEntity_MatchingPotRecipeMixin extends SyncedBlockEnt
     private void changeGrowToMerge(ItemStack instance, int p_41770_, @Local(argsOnly = true) CookingPotRecipe recipe){
         assert this.level != null;
         ItemStack resultStack = recipe.getResultItem(this.level.registryAccess());
-        FoodCapability.mergeItemStacks(instance, resultStack);
+        FoodCapability.mergeItemStacks(instance, resultStack.copy());
     }
 
     @Inject(
@@ -98,18 +104,18 @@ public class CookingPotBlockEntity_MatchingPotRecipeMixin extends SyncedBlockEnt
         }
     }
 
-    /*
-    @ModifyExpressionValue(method = "getMatchingRecipe", at = @At(value = "INVOKE", target = "Lvectorwing/farmersdelight/common/mixin/accessor/RecipeManagerAccessor;getRecipeMap(Lnet/minecraft/world/item/crafting/RecipeType;)Ljava/util/Map;"))
-    private Map<ResourceLocation, Recipe<?>> sdtfc$useCachedBridgeWhenManagerMiss(Map<ResourceLocation, Recipe<?>> original, @Local(argsOnly = true) RecipeWrapper inv) {
-        if (this.lastRecipeID != null && sdtfc$cachedBridge != null) {
-            return Map.of(sdtfc$cachedBridge.getId(), sdtfc$cachedBridge);
-        }
-        return original;
-    }
-
-     */
-
-    public CookingPotBlockEntity_MatchingPotRecipeMixin(BlockEntityType<?> tileEntityTypeIn, BlockPos pos, BlockState state) {
+    public CookingPotBlockEntity_PotRecipeBridgeMixin(BlockEntityType<?> tileEntityTypeIn, BlockPos pos, BlockState state) {
         super(tileEntityTypeIn, pos, state);
     }
+
+    @Override
+    public void sdtfc$setCachedBridge(TFCPotRecipeBridgeFD recipe) {
+        sdtfc$cachedBridge = recipe;
+    }
+
+    @Override
+    public TFCPotRecipeBridgeFD sdtfc$getCachedBridge() {
+        return sdtfc$cachedBridge;
+    }
+
 }

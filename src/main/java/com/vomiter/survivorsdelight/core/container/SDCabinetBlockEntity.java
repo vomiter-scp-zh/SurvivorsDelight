@@ -1,10 +1,11 @@
 package com.vomiter.survivorsdelight.core.container;
 
+import com.vomiter.survivorsdelight.core.food.trait.SDFoodTraits;
 import com.vomiter.survivorsdelight.core.registry.SDBlockEntityTypes;
 import com.vomiter.survivorsdelight.core.registry.SDContainerTypes;
 import net.dries007.tfc.common.blockentities.TFCChestBlockEntity;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
-import net.dries007.tfc.common.capabilities.food.FoodTraits;
+import net.dries007.tfc.common.capabilities.food.FoodTrait;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -23,20 +24,50 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import org.jetbrains.annotations.NotNull;
+import vectorwing.farmersdelight.common.item.SkilletItem;
 
 import java.util.stream.IntStream;
 
 public class SDCabinetBlockEntity extends RandomizableContainerBlockEntity implements WorldlyContainer {
     public static final int ROWS = 2;
     public static final int COLS = 9;
+    public static final String TAG_TREATED = "Treated";
+    private static final int[] ALL_SLOTS = IntStream.range(0, ROWS * COLS).toArray();
+    private static final FoodTrait CABINET_STORED = SDFoodTraits.CABINET_STORED;
+
+    private boolean treated;
+    public boolean isTreated() { return treated; }
+    public void setTreated(boolean treated) {
+        this.treated = treated;
+        setChanged();
+    }
+
+    @Override
+    public void load(@NotNull CompoundTag tag) {
+        super.load(tag);
+        this.items = NonNullList.withSize(ROWS * COLS, ItemStack.EMPTY);
+        if (!this.tryLoadLootTable(tag)) {
+            ContainerHelper.loadAllItems(tag, this.items);
+        }
+        if (tag.contains(TAG_TREATED)) {
+            this.treated = tag.getBoolean(TAG_TREATED);
+        }
+    }
+
+    @Override
+    protected void saveAdditional(@NotNull CompoundTag tag) {
+        super.saveAdditional(tag);
+        if (!this.trySaveLootTable(tag)) {
+            ContainerHelper.saveAllItems(tag, this.items);
+        }
+        tag.putBoolean(TAG_TREATED, this.treated);
+    }
 
     @Override
     public boolean canPlaceItem(int slot, @NotNull ItemStack stack) {
         return isValid(stack);
     }
-
-    private static final int[] ALL_SLOTS = IntStream.range(0, ROWS * COLS).toArray();
-
+    
     @Override
     public int @NotNull [] getSlotsForFace(@NotNull Direction side) {
         return ALL_SLOTS;
@@ -71,26 +102,9 @@ public class SDCabinetBlockEntity extends RandomizableContainerBlockEntity imple
         super.setItem(slot, stack);
         assert level != null;
         if (!level.isClientSide && !stack.isEmpty()) {
-            FoodCapability.applyTrait(stack, FoodTraits.PRESERVED);
+            FoodCapability.applyTrait(stack, CABINET_STORED);
         }
         setChanged();
-    }
-
-    @Override
-    public void load(@NotNull CompoundTag tag) {
-        super.load(tag);
-        this.items = NonNullList.withSize(ROWS * COLS, ItemStack.EMPTY);
-        if (!this.tryLoadLootTable(tag)) {
-            ContainerHelper.loadAllItems(tag, this.items);
-        }
-    }
-
-    @Override
-    protected void saveAdditional(@NotNull CompoundTag tag) {
-        super.saveAdditional(tag);
-        if (!this.trySaveLootTable(tag)) {
-            ContainerHelper.saveAllItems(tag, this.items);
-        }
     }
 
     @Override
@@ -98,7 +112,7 @@ public class SDCabinetBlockEntity extends RandomizableContainerBlockEntity imple
         ItemStack removed = super.removeItem(slot, amount);
         assert level != null;
         if (!level.isClientSide && !removed.isEmpty()) {
-            FoodCapability.removeTrait(removed, FoodTraits.PRESERVED);
+            FoodCapability.removeTrait(removed, CABINET_STORED);
         }
         setChanged();
         return removed;
@@ -109,14 +123,14 @@ public class SDCabinetBlockEntity extends RandomizableContainerBlockEntity imple
         ItemStack removed = super.removeItemNoUpdate(slot);
         assert level != null;
         if (!level.isClientSide && !removed.isEmpty()) {
-            FoodCapability.removeTrait(removed, FoodTraits.PRESERVED);
+            FoodCapability.removeTrait(removed, CABINET_STORED);
         }
         setChanged();
         return removed;
     }
 
     public static boolean isValid(ItemStack stack) {
-        return TFCChestBlockEntity.isValid(stack);
+        return TFCChestBlockEntity.isValid(stack) || stack.getItem() instanceof SkilletItem;
     }
 
     @Override
@@ -173,7 +187,7 @@ public class SDCabinetBlockEntity extends RandomizableContainerBlockEntity imple
 
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            return SDCabinetBlockEntity.isValid(stack);
+            return isValid(stack);
         }
 
         @Override
@@ -187,7 +201,7 @@ public class SDCabinetBlockEntity extends RandomizableContainerBlockEntity imple
             ItemStack toInsert = stack.copy();
 
             if (be.level != null && !be.level.isClientSide) {
-                FoodCapability.applyTrait(toInsert, FoodTraits.PRESERVED);
+                FoodCapability.applyTrait(toInsert, CABINET_STORED);
             }
 
             // 1) 先嘗試與可存取的所有槽位中「相同物品且可疊（忽略 creation_date）」的堆疊做 merge
@@ -217,7 +231,7 @@ public class SDCabinetBlockEntity extends RandomizableContainerBlockEntity imple
                         setStackInSlot(i, existing);
                         // 伺服器端：確保保持 PRESERVED 特性
                         if (be.level != null && !be.level.isClientSide) {
-                            FoodCapability.applyTrait(existing, FoodTraits.PRESERVED);
+                            FoodCapability.applyTrait(existing, CABINET_STORED);
                         }
                         be.setChanged();
                     }
@@ -242,7 +256,7 @@ public class SDCabinetBlockEntity extends RandomizableContainerBlockEntity imple
                         ItemStack newStack = FoodCapability.mergeItemStacks(ItemStack.EMPTY, toInsert);
                         setStackInSlot(i, newStack);
                         if (be.level != null && !be.level.isClientSide) {
-                            FoodCapability.applyTrait(newStack, FoodTraits.PRESERVED);
+                            FoodCapability.applyTrait(newStack, CABINET_STORED);
                         }
                         be.setChanged();
                     }
@@ -250,7 +264,7 @@ public class SDCabinetBlockEntity extends RandomizableContainerBlockEntity imple
             }
 
             if (be.level != null && !be.level.isClientSide) {
-                FoodCapability.removeTrait(toInsert, FoodTraits.PRESERVED);
+                FoodCapability.removeTrait(toInsert, CABINET_STORED);
             }
             // 回傳剩餘沒放進去的堆疊（IItemHandler 規格）
             return toInsert;
@@ -262,7 +276,7 @@ public class SDCabinetBlockEntity extends RandomizableContainerBlockEntity imple
             if (!simulate && !out.isEmpty()) {
                 assert be.level != null;
                 if (!be.level.isClientSide) {
-                    FoodCapability.removeTrait(out, FoodTraits.PRESERVED);
+                    FoodCapability.removeTrait(out, CABINET_STORED);
                     be.setChanged();
                 }
             }

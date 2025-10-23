@@ -11,6 +11,7 @@
 
   "overlay.survivorsdelight.stove_fuel_amount": "燃料量",
 
-  "survivorsdelight.tooltip.foodtrait.skillet_cooked": "平底鍋煎製",
-  "survivorsdelight.tooltip.foodtrait.food_model": "食物模型"
+  "foodtrait.survivorsdelight.skillet_cooked": "平底鍋煎製",
+  "foodtrait.survivorsdelight.food_model": "食物模型",
+  "foodtrait.survivorsdelight.cabinet_stored": "櫥櫃貯藏"
 }

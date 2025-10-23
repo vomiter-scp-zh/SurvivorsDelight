@@ -11,12 +11,15 @@
 
   "overlay.survivorsdelight.stove_fuel_amount": "Fuel Amount",
 
-  "survivorsdelight.tooltip.foodtrait.skillet_cooked": "Skillet Cooked",
-  "survivorsdelight.tooltip.foodtrait.food_model": "Food Model",
+  "foodtrait.survivorsdelight.skillet_cooked": "Skillet Cooked",
+  "foodtrait.survivorsdelight.food_model": "Food Model",
+  "foodtrait.survivorsdelight.cabinet_stored": "Cabinet Stored",
+
 
   "container.survivorsdelight.cabinet": "Cabinet",
 
   "gui.survivorsdelight.pot.open_fluid": "Fluid Menu",
   "gui.survivorsdelight.pot.fluid_menu": "Fluid Menu",
-  "gui.survivorsdelight.pot.pot_menu": "Pot Menu"
+  "gui.survivorsdelight.pot.pot_menu": "Pot Menu",
+  "tooltip.survivorsdelight.fluid_required": "Fluid Required"
 }

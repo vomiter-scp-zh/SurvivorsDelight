@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.core.device.cooking_pot;
+package com.vomiter.survivorsdelight.core.device.cooking_pot.bridge;
 
 import net.dries007.tfc.common.blockentities.PotBlockEntity;
 import net.dries007.tfc.common.blocks.TFCBlocks;
@@ -19,15 +19,15 @@ public final class TFCPotInventorySnapshots {
             setLevel(level);
         }
 
-        // 永遠回 false，避免 PotInventory 的 extractItem 規則在快照上擋到你
+        // 永遠回 false，避免 PotInventory 的 extractItem 規則在快照上擋到
         @Override
         public boolean hasRecipeStarted() { return false; }
     }
 
     /**
      * 從任意來源建 PotInventory 快照（複製物品&流體進去）。
-     * @param items  你的來源物品欄（至少前 9 格會被讀取，對應 TFC 鍋的 9 格）
-     * @param fluids 你的來源流體（會讀第 0 槽）
+     * @param items  來源物品欄（讀取前 5 格，對應 TFC POT 的食材欄位）
+     * @param fluids 來源流體（會讀第 0 槽）
      * @return 可拿去給 PotRecipe.matches/assemble 使用的 PotInventory
      */
     public static PotBlockEntity.PotInventory snapshot(Level level, IItemHandler items, IFluidHandler fluids) {

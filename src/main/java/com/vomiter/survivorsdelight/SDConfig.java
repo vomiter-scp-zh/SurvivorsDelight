@@ -8,7 +8,7 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 
 @Mod.EventBusSubscriber(modid = SurvivorsDelight.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class Config {
+public class SDConfig {
     public static final ForgeConfigSpec COMMON_SPEC;
     public static final Common COMMON;
 
@@ -25,6 +25,8 @@ public class Config {
         public final ForgeConfigSpec.IntValue richSoilGrowthBoostTick;
         public final ForgeConfigSpec.IntValue richSoilFarmlandTemperatureExpansion;
         public final ForgeConfigSpec.IntValue richSoilFarmlandHydrationExpansion;
+        public final ForgeConfigSpec.DoubleValue traitCabinetStoredModifier;
+        public final ForgeConfigSpec.DoubleValue traitSkilletCookedModifier;
 
         public Common(ForgeConfigSpec.Builder builder) {
             builder.push("general");
@@ -32,6 +34,13 @@ public class Config {
             skilletSlotNumber = builder
                     .comment("How many items can be put into skillet block at once.")
                     .defineInRange("skilletSlotNumber", 8, 1, 32);
+            traitCabinetStoredModifier = builder
+                    .comment("The modifier for the 'Cabinet Stored' food trait. Values less than 1 extend food lifetime, values greater than one decrease it. A value of zero stops decay.")
+                    .defineInRange("traitCabinetStoredModifier", 0.5, 0f, Double.MAX_VALUE);
+
+            traitSkilletCookedModifier = builder
+                    .comment("The modifier for the 'Skillet Cooked' food trait. Values less than 1 extend food lifetime, values greater than one decrease it. A value of zero stops decay.")
+                    .defineInRange("traitSkilletCookedModifier", 0.8, 0.0F, Double.MAX_VALUE);
 
             richSoilGrowthBoostTick = builder
                     .comment("How many ticks rich soil should boost the growth of the block above it.")
@@ -44,6 +53,8 @@ public class Config {
             richSoilFarmlandHydrationExpansion = builder
                     .comment("How many percentile of hydration deviated from usual range is allowed for crops planted on rich soil farmlands to grow.")
                     .defineInRange("richSoilFarmlandHydrationExpansion", 5, 0, 100);
+
+
             builder.pop();
         }
     }

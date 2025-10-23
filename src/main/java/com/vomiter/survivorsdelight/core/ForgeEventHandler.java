@@ -1,7 +1,10 @@
 package com.vomiter.survivorsdelight.core;
 
+import com.vomiter.survivorsdelight.core.device.skillet.SDSkilletItem;
+import com.vomiter.survivorsdelight.core.device.skillet.itemcooking.SkilletCookingCap;
 import net.dries007.tfc.util.events.StartFireEvent;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -10,9 +13,19 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import vectorwing.farmersdelight.common.block.StoveBlock;
 
 public class ForgeEventHandler {
+    private static boolean registered = false;
+
     public static void init(){
+        if (registered) return;
+        registered = true;
+
         final IEventBus bus = MinecraftForge.EVENT_BUS;
         bus.addListener(ForgeEventHandler::onFireStart);
+
+        bus.addListener(SkilletCookingCap::onClone);
+        bus.addGenericListener(Entity.class, SkilletCookingCap::onAttachCapabilities);
+
+        bus.addListener(SDSkilletItem.SDSkilletEvents::playSkilletAttackSound);
     }
 
     public static void onFireStart(StartFireEvent event){
@@ -20,7 +33,7 @@ public class ForgeEventHandler {
         BlockPos pos = event.getPos();
         BlockState state = event.getState();
         Block block = state.getBlock();
-        if(block instanceof StoveBlock stove){
+        if(block instanceof StoveBlock){
             if(!state.getValue(StoveBlock.LIT)){
                 level.setBlockAndUpdate(pos, state.setValue(StoveBlock.LIT, true));
                 event.setCanceled(true);

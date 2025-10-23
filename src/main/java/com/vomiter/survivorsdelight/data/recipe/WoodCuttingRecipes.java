@@ -7,32 +7,25 @@ import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.dries007.tfc.common.items.TFCItems;
 import net.dries007.tfc.util.Metal;
-import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.ToolActions;
 import vectorwing.farmersdelight.common.crafting.ingredient.ToolActionIngredient;
 import vectorwing.farmersdelight.common.registry.ModItems;
 import vectorwing.farmersdelight.data.builder.CuttingBoardRecipeBuilder;
 
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.function.Consumer;
 
-public class WoodCuttingRecipes extends RecipeProvider {
+public class WoodCuttingRecipes{
 
-    public WoodCuttingRecipes(PackOutput output) {
-        super(output);
-    }
-
-    private void stripForBark(Wood wood, Consumer<FinishedRecipe> out){
+    void stripForBark(Wood wood, Consumer<FinishedRecipe> out){
         Block log = wood.getBlock(Wood.BlockType.LOG).get();
         Block strippedLog = wood.getBlock(Wood.BlockType.STRIPPED_LOG).get();
         Block woodBlock = wood.getBlock(Wood.BlockType.WOOD).get();
@@ -73,7 +66,7 @@ public class WoodCuttingRecipes extends RecipeProvider {
 
     }
 
-    private void salvageWoodFurnitureType(Wood wood, Wood.BlockType type, int count, Consumer<FinishedRecipe> out){
+    void salvageWoodFurnitureType(Wood wood, Wood.BlockType type, int count, Consumer<FinishedRecipe> out){
         Item lumber = TFCItems.LUMBER.get(wood).get();
         CuttingBoardRecipeBuilder.cuttingRecipe(
                 Ingredient.of(wood.getBlock(type).get()),
@@ -86,7 +79,7 @@ public class WoodCuttingRecipes extends RecipeProvider {
         );
     }
 
-    private void salvageHangingSign(Wood wood, Metal.Default metal, Consumer<FinishedRecipe> out){
+    void salvageHangingSign(Wood wood, Metal.Default metal, Consumer<FinishedRecipe> out){
         Item lumber = TFCItems.LUMBER.get(wood).get();
         Block chain = TFCBlocks.METALS.get(metal).get(Metal.BlockType.CHAIN).get();
         CuttingBoardRecipeBuilder.cuttingRecipe(
@@ -102,7 +95,7 @@ public class WoodCuttingRecipes extends RecipeProvider {
 
     }
 
-    private void salvageWoodFurniture(Wood wood, Consumer<FinishedRecipe> out){
+    void salvageWoodFurniture(Wood wood, Consumer<FinishedRecipe> out){
         salvageWoodFurnitureType(wood, Wood.BlockType.DOOR, 3, out);
         salvageWoodFurnitureType(wood, Wood.BlockType.TRAPDOOR, 2, out);
         salvageWoodFurnitureType(wood, Wood.BlockType.FENCE, 2, out);
@@ -126,15 +119,4 @@ public class WoodCuttingRecipes extends RecipeProvider {
         salvageWoodFurnitureType(wood, Wood.BlockType.SIGN, 2, out);
     }
 
-    @Override
-    protected void buildRecipes(Consumer<FinishedRecipe> out) {
-
-        TFCBlocks.WOODS.forEach((wood, blockTypes) -> {
-            stripForBark(wood, out);
-            salvageWoodFurniture(wood, out);
-            Arrays.stream(Metal.Default.values()).filter(Metal.Default::hasUtilities).forEach(
-                    m -> salvageHangingSign(wood, m, out)
-            );
-        });
-    }
 }

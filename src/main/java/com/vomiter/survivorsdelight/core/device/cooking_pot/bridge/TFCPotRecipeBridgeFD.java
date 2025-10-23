@@ -1,8 +1,10 @@
-package com.vomiter.survivorsdelight.core.device.cooking_pot;
+package com.vomiter.survivorsdelight.core.device.cooking_pot.bridge;
 
 
 import com.mojang.authlib.GameProfile;
 import com.vomiter.survivorsdelight.SurvivorsDelight;
+import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.IFluidRequiringRecipe;
+import com.vomiter.survivorsdelight.util.RLUtils;
 import net.dries007.tfc.common.blockentities.PotBlockEntity;
 import net.dries007.tfc.common.blocks.devices.PotBlock;
 import net.dries007.tfc.common.recipes.JamPotRecipe;
@@ -25,11 +27,8 @@ import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Unique;
 import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.UUID;
 
 public class TFCPotRecipeBridgeFD extends CookingPotRecipe implements IFluidRequiringRecipe {
@@ -70,7 +69,7 @@ public class TFCPotRecipeBridgeFD extends CookingPotRecipe implements IFluidRequ
         int[] arr = {0,1,2,3,4,5};
         PotRecipe tfcPotRecipe = TFCPotRecipeMatcher.findFirstMatch(level, items, fluids, arr).orElse(null);
         if(tfcPotRecipe == null) return null;
-        ResourceLocation id = new ResourceLocation(SurvivorsDelight.MODID, "cooking_pot/" + tfcPotRecipe.getId().getPath());
+        ResourceLocation id = RLUtils.build(SurvivorsDelight.MODID, "cooking_pot/" + tfcPotRecipe.getId().getPath());
         NonNullList<Ingredient> inputItems = NonNullList.create();
         for (int i = 0; i < items.getSlots(); i++) {
             if(i > 5) continue;

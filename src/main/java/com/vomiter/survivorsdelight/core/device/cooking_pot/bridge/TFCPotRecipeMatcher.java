@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.core.device.cooking_pot;
+package com.vomiter.survivorsdelight.core.device.cooking_pot.bridge;
 
 import net.dries007.tfc.common.recipes.PotRecipe;
 import net.dries007.tfc.common.recipes.TFCRecipeTypes;
@@ -45,7 +45,7 @@ public final class TFCPotRecipeMatcher {
             if (!s.isEmpty()) stacks.add(s);
         }
 
-        // 3) 逐一比對：fluid・items・（可選）溫度
+        // 3) 逐一比對：fluid・items
         for (PotRecipe r : recipes) {
             // 3a) 先比對流體
             final FluidStackIngredient needed = r.getFluidIngredient();

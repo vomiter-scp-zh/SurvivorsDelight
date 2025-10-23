@@ -6,6 +6,7 @@ import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletItems;
 import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletPartItems;
 import com.vomiter.survivorsdelight.util.RLUtils;
 import net.dries007.tfc.common.TFCTags;
+import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.items.TFCItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -15,6 +16,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
 import vectorwing.farmersdelight.common.registry.ModItems;
+import vectorwing.farmersdelight.common.tag.ModTags;
 
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -30,11 +32,21 @@ public class ModItemTagsProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
+        addSkilletTags();
         assert TFCItems.GLUE.getKey() != null;
         tag(SDTags.ItemTags.FOOD_MODEL_COATING).add(TFCItems.GLUE.getKey());
         tag(SDTags.ItemTags.RETURN_COPPER_SKILLET).add(Objects.requireNonNull(SDSkilletItems.SKILLETS.get(SkilletMaterial.COPPER).getKey()));
         tag(SDTags.ItemTags.RETURN_COPPER_SKILLET).add(Objects.requireNonNull(SDSkilletItems.SKILLETS.get(SkilletMaterial.COPPER_SILVER).getKey()));
         tag(SDTags.ItemTags.RETURN_COPPER_SKILLET).add(Objects.requireNonNull(SDSkilletItems.SKILLETS.get(SkilletMaterial.COPPER_TIN).getKey()));
+        tag(TFCTags.Items.DOG_FOOD).add(ModItems.DOG_FOOD.get());
+        tag(TFCTags.Items.HORSE_FOOD).add(ModItems.HORSE_FEED.get());
+        tag(TFCTags.Items.USABLE_ON_TOOL_RACK).addTag(SDTags.ItemTags.SKILLETS);
+
+        tag(ModTags.SERVING_CONTAINERS).addOptionalTag(RLUtils.build("tfc", "glass_bottles"));
+        tag(ModTags.SERVING_CONTAINERS).add(TFCBlocks.CERAMIC_BOWL.get().asItem());
+    }
+
+    private void addSkilletTags(){
         for (SkilletMaterial m : SkilletMaterial.values()){
             var skillet = SDSkilletItems.getKey(m);
             var head = SDSkilletPartItems.HEADS.get(m);
@@ -75,7 +87,7 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 }
             }
         }
-        tag(TFCTags.Items.DOG_FOOD).add(ModItems.DOG_FOOD.get());
+
     }
 
 }

@@ -2,36 +2,45 @@ package com.vomiter.survivorsdelight;
 
 import com.mojang.logging.LogUtils;
 import com.vomiter.survivorsdelight.client.ClientForgeEventHandler;
-import com.vomiter.survivorsdelight.client.screen.SDPotFluidScreen;
 import com.vomiter.survivorsdelight.client.screen.SDCabinetScreen;
+import com.vomiter.survivorsdelight.client.screen.SDPotFluidScreen;
 import com.vomiter.survivorsdelight.core.ForgeEventHandler;
-import com.vomiter.survivorsdelight.core.device.cooking_pot.SDCookingPotFluidMenu;
-import com.vomiter.survivorsdelight.core.device.stove.StoveOvenCompat;
+import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.SDCookingPotFluidMenu;
+import com.vomiter.survivorsdelight.core.device.skillet.SkilletModels;
+import com.vomiter.survivorsdelight.core.device.skillet.itemcooking.ISkilletItemCookingData;
+import com.vomiter.survivorsdelight.core.farming.RichSoilFarmlandBlockEntitySetup;
 import com.vomiter.survivorsdelight.core.food.trait.SDFoodTraits;
-import com.vomiter.survivorsdelight.core.registry.SDBlockEntityTypes;
-import com.vomiter.survivorsdelight.core.registry.SDBlocks;
 import com.vomiter.survivorsdelight.core.registry.SDContainerTypes;
+import com.vomiter.survivorsdelight.core.registry.SDRegistries;
 import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletBlocks;
-import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletItems;
-import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletPartItems;
 import com.vomiter.survivorsdelight.network.SDNetwork;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
-import net.minecraftforge.fml.loading.LoadingModList;
 import org.slf4j.Logger;
 
 @Mod(SurvivorsDelight.MODID)
 public class SurvivorsDelight {
-    //TODO: add item of full chicken
-    //TODO: add unroasted blocks
     //TODO: 1.6 - Add workhorse effect to horse feed
+    //TODO: add aquaculture support
+    //TODO: add tfc cs compat
 
+    //TODO: make bottled items can be used four times
+    //TODO: add cabinet recipes
+    //TODO: change the recipe for the drinks
+    //TODO: make sandwich texture compatible
+    //TODO: make reasonable feast recipe
+    //TODO: make some cooking pot recipe use dynamical nutrient
+    //TODO: configurable recipe/data system
+
+    //TODO: another mod - Basket and storage blocks
+    //TODO: another mod - Unroasted block and buildable feast
+    //TODO: another mod - Beneath edition
 
     public static final String MODID = "survivorsdelight";
     public static final Logger LOGGER = LogUtils.getLogger();
@@ -45,13 +54,10 @@ public class SurvivorsDelight {
         init(modBus);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> {
-            SDNetwork.init();
-            if (LoadingModList.get().getModFileById("firmalife") != null) {
-                StoveOvenCompat.interactionRegister();
-            }
-        });
+    private void commonSetup(IEventBus modBus) {
+        modBus.addListener(SDNetwork::onCommonSetup);
+        modBus.addListener(RichSoilFarmlandBlockEntitySetup::onCommonSetup);
+        modBus.addListener(SDSkilletBlocks.Compat::onCommonSetup);
     }
 
     public void clientSetup(final FMLClientSetupEvent event) {
@@ -63,26 +69,18 @@ public class SurvivorsDelight {
 
     public void init(IEventBus modBus){
 
-
         SDFoodTraits.bootstrap();
-        SDSkilletBlocks.BLOCKS.register(modBus);
-        SDSkilletItems.ITEMS.register(modBus);
-        SDSkilletPartItems.ITEMS.register(modBus);
-        SDBlocks.BLOCKS.register(modBus);
-        SDBlocks.BLOCK_ITEMS.register(modBus);
-        SDBlockEntityTypes.BLOCK_ENTITIES.register(modBus);
-        SDContainerTypes.CONTAINERS.register(modBus);
 
-        SDCreativeTab.TABS.register(modBus);
+        SDRegistries.register(modBus);
+        commonSetup(modBus);
+        modBus.addListener((RegisterCapabilitiesEvent e) -> e.register(ISkilletItemCookingData.class));
         ForgeEventHandler.init();
-
-        modBus.addListener(this::commonSetup);
 
         if (FMLEnvironment.dist == Dist.CLIENT){
             ClientForgeEventHandler.init();
             modBus.addListener(this::clientSetup);
+            modBus.addListener(SkilletModels::onModelRegister);
+            modBus.addListener(SkilletModels::onModelBake);
         }
-
-
     }
 }

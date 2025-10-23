@@ -30,6 +30,7 @@ public interface IStoveBlockEntity {
     static float sdtfc$getStaticTemperature(){
         return 550;
     }
+    static int sdtfc$getMaxDuration(){ return 7 * 20 * 60 * 20;}
 
     default boolean sdtfc$addItem(ItemStack itemStackIn, int slot, StoveBlockEntity stove, Player player) {
         var inventory = stove.getInventory();
@@ -39,6 +40,7 @@ public interface IStoveBlockEntity {
                 var recipe = HeatingRecipe.getRecipe(new ItemStackInventory(itemStackIn));
                 if(recipe == null) return false;
                 if(recipe.getTemperature() > 500) return false;
+                assert stove.getLevel() != null;
                 if(recipe.getResultItem(stove.getLevel().registryAccess()).isEmpty()) return false;
                 var acc = (StoveBlockEntity_Accessor)stove;
                 acc.getCookingTimesTotal()[slot] = 24 * 60 * 60 * 20;
@@ -99,6 +101,7 @@ public interface IStoveBlockEntity {
                 }
             }
             else if(cachedRecipes[slot].isValidTemperature(heat.getTemperature())){
+                assert stove.getLevel() != null;
                 final ItemStack result = cachedRecipes[slot].assemble(new ItemStackInventory(slotStack), stove.getLevel().registryAccess());
                 FoodCapability.applyTrait(result, FoodTraits.WOOD_GRILLED);
                 FoodCapability.updateFoodDecayOnCreate(result);

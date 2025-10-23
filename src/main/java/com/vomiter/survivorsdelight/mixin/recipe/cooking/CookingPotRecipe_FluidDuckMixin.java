@@ -1,11 +1,10 @@
 
 package com.vomiter.survivorsdelight.mixin.recipe.cooking;
 
-import com.vomiter.survivorsdelight.core.device.cooking_pot.IFluidRequiringRecipe;
+import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.IFluidRequiringRecipe;
 import com.vomiter.survivorsdelight.core.device.cooking_pot.wrap.IFluidAccess;
 import net.dries007.tfc.common.recipes.ingredients.FluidStackIngredient;
 import net.minecraft.core.NonNullList;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 import org.spongepowered.asm.mixin.Final;
@@ -20,8 +19,6 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Mixin(CookingPotRecipe.class)
 public abstract class CookingPotRecipe_FluidDuckMixin implements IFluidRequiringRecipe {

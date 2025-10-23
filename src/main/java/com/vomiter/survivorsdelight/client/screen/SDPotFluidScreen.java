@@ -1,12 +1,11 @@
 package com.vomiter.survivorsdelight.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.vomiter.survivorsdelight.core.device.cooking_pot.SDCookingPotFluidMenu;
-import com.vomiter.survivorsdelight.network.SDNetwork;
+import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.SDCookingPotFluidMenu;
+import com.vomiter.survivorsdelight.util.RLUtils;
 import net.dries007.tfc.client.RenderHelpers;
+import net.dries007.tfc.util.Tooltips;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.ImageButton;
-import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
@@ -16,10 +15,14 @@ import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Unique;
 
+import java.awt.*;
+
 public class SDPotFluidScreen extends AbstractContainerScreen<SDCookingPotFluidMenu> {
-    private static final ResourceLocation BG = new ResourceLocation("survivorsdelight", "textures/gui/pot_fluid.png");
+    private static final ResourceLocation BG = RLUtils.build("survivorsdelight", "textures/gui/pot_fluid.png");
+    private static final Rectangle PROGRESS_ARROW = new Rectangle(89, 25, 0, 17);
+    private static final ResourceLocation COOKING_POT_BG = RLUtils.build("farmersdelight", "textures/gui/cooking_pot.png");
     public static final int X_DEVIATION = 22;
-    public static final int Y_DEVIATION = -3;
+    public static final int Y_DEVIATION = 1;
 
     @Unique
     private int sdtfc$recipeBtnX() { return this.leftPos + 5; }
@@ -48,17 +51,33 @@ public class SDPotFluidScreen extends AbstractContainerScreen<SDCookingPotFluidM
         renderTooltip(gg, mouseX, mouseY);
     }
 
-    @Override protected void renderBg(GuiGraphics gg, float partialTicks, int mouseX, int mouseY) {
-        gg.blit(BG, leftPos, topPos, 0, 0, imageWidth, imageHeight);
+    @Override protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
+        graphics.blit(BG, leftPos, topPos, 0, 0, imageWidth, imageHeight);
         int cap = menu.getFluidCapacity();
         FluidStack stack = menu.getClientFluid();
+        var l = menu.getCookProgressionScaled();
+        graphics.blit(COOKING_POT_BG, this.leftPos + PROGRESS_ARROW.x, this.topPos + PROGRESS_ARROW.y, 176, 15, l + 1, PROGRESS_ARROW.height);
+
 
         if (!stack.isEmpty() && cap > 0 && stack.getAmount() > 0) {
             final TextureAtlasSprite sprite = RenderHelpers.getAndBindFluidSprite(stack);
             final int fillHeight = (int) Math.ceil((float) 50 * stack.getAmount() / 4000f);
-            RenderHelpers.fillAreaWithSprite(gg, sprite, leftPos + 8 + X_DEVIATION, topPos + 70 +Y_DEVIATION - fillHeight, 16, fillHeight, 16, 16);
+            RenderHelpers.fillAreaWithSprite(graphics, sprite, leftPos + 8 + X_DEVIATION, topPos + 70 +Y_DEVIATION - fillHeight, 16, fillHeight, 16, 16);
             RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
             RenderSystem.disableBlend();
+        }
+    }
+
+    @Override protected void renderTooltip(@NotNull GuiGraphics graphics, int mouseX, int mouseY){
+        int relX = mouseX - this.getGuiLeft();
+        int relY = mouseY - this.getGuiTop();
+        if (
+                relX >= 7 + X_DEVIATION
+                        && relY >= 19 +Y_DEVIATION
+                        && relX  < 25 +X_DEVIATION
+                        && relY < 71 + Y_DEVIATION) {
+            FluidStack stack = menu.getClientFluid();
+            graphics.renderTooltip(this.font, Tooltips.fluidUnitsOf(stack), mouseX, mouseY);
         }
     }
 

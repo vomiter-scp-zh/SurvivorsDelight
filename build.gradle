@@ -57,6 +57,7 @@ minecraft {
         }
         data {
             workingDirectory project.file('run')
+            property 'mixin.env.disable', 'true'
             property 'mixin.env.ignoreRequired', 'true'
             args '--mod', 'survivorsdelight',
                     '--all',
@@ -67,14 +68,7 @@ minecraft {
                     source sourceSets.main
                 }
             }
-            /*
-            property 'mixin.env.ignoreRequired', 'true'
-            property 'mixin.env.disableRefMap', 'true'
-            property 'mixin.env.remapRefMap', 'true'
 
-            property 'forge.logging.markers', 'LOADING,SCAN,REGISTRIES,CORE,CLASSLOADING'
-            property 'forge.logging.console.level', 'debug'
-             */
         }
 
     }
@@ -101,7 +95,7 @@ def collectLocales = {
 // 合併規則：手寫覆蓋 generated（想反過來就把 putAll 順序對調）
 tasks.register('mergeLang') {
     onlyIf { manualLangDir.exists() || generatedLangDir.exists() }
-    mustRunAfter 'runData'
+    shouldRunAfter 'runData'
     inputs.files(
             fileTree(dir: manualLangDir,    include: '**/*.json'),
             fileTree(dir: generatedLangDir, include: '**/*.json')
@@ -133,7 +127,6 @@ sourceSets.main.resources.srcDir mergedDir
 tasks.named('processResources').configure {
     dependsOn 'mergeLang'
     // 先清掉可能預設加進來的來源（避免重複拷貝）
-    from({}, { }) // no-op，僅確保下方 from 不會疊到預設；若你的 Gradle 會警告可略過此行
 
     // 原始資源：排除 lang（避免與合併檔衝突）
     from('src/main/resources') {
@@ -162,6 +155,12 @@ repositories {
     }
 
     maven { url "https://maven.blamejared.com" }
+
+    maven {
+        // JEI
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
 }
 
 tasks.processResources {
@@ -186,6 +185,11 @@ dependencies {
     compileOnly fg.deobf("curse.maven:firmalife-453394:6817407")
     compileOnly fg.deobf("curse.maven:jade-324717:6855440")
     compileOnly fg.deobf("curse.maven:tfc-tng-rosia-1327333:6890141")
+
+    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
+    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
+    // at runtime, use the full JEI jar for Forge
+    runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
 
 }
 

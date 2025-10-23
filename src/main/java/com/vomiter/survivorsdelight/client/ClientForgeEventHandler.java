@@ -1,14 +1,11 @@
 package com.vomiter.survivorsdelight.client;
 
 import com.mojang.blaze3d.platform.Window;
-import com.vomiter.survivorsdelight.client.screen.SDCabinetScreen;
 import com.vomiter.survivorsdelight.core.device.stove.IStoveBlockEntity;
-import com.vomiter.survivorsdelight.core.registry.SDContainerTypes;
 import net.dries007.tfc.client.ClientHelpers;
 import net.dries007.tfc.util.Fuel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -23,6 +20,9 @@ public class ClientForgeEventHandler {
     public static void init(){
         final IEventBus bus = MinecraftForge.EVENT_BUS;
         bus.addListener(ClientForgeEventHandler::onRenderGameOverlayPost);
+
+        bus.addListener(SkilletClientHooks::onLeftClickBlock);
+        bus.addListener(SkilletClientHooks::onLeftClickEmpty);
     }
 
     private static void drawCenteredText(Minecraft minecraft, GuiGraphics graphics, Component text, int x, int y)
@@ -56,7 +56,11 @@ public class ClientForgeEventHandler {
                     int y = window.getGuiScaledHeight() / 2 + 8;
                     Component text = Component.translatable("overlay.survivorsdelight.stove_fuel_amount")
                             .append(Component.literal(": "))
-                            .append(Component.literal(Integer.toString(iStove.sdtfc$getLeftBurnTick())));
+                            .append(Component.literal(String.format(
+                                    "%.1f",
+                                    Math.min(100, 100f * (float)iStove.sdtfc$getLeftBurnTick() / (float)IStoveBlockEntity.sdtfc$getMaxDuration()))
+                            ))
+                            .append(Component.literal(" %"));
                     drawCenteredText(minecraft, stack, text, x, y);
                 }
             }

@@ -1,5 +1,6 @@
 package com.vomiter.survivorsdelight.core.container;
 
+import com.vomiter.survivorsdelight.core.food.trait.SDFoodTraits;
 import com.vomiter.survivorsdelight.core.registry.SDContainerTypes;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.dries007.tfc.common.capabilities.food.FoodTraits;
@@ -72,12 +73,11 @@ public class SDCabinetMenu extends AbstractContainerMenu {
 
     @Override
     public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
-        ItemStack ret = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
         if (!slot.hasItem()) return ItemStack.EMPTY;
 
         ItemStack stack = slot.getItem();
-        ret = stack.copy();
+        ItemStack ret = stack.copy();
 
         final int containerSlots = this.rows * 9;
         final int hotbarStart = containerSlots + 27;
@@ -124,26 +124,29 @@ public class SDCabinetMenu extends AbstractContainerMenu {
 
         @Override public void set(@NotNull ItemStack stack) {
             super.set(stack);
-            if (!stack.isEmpty()) FoodCapability.applyTrait(stack, FoodTraits.PRESERVED);
+            if (!stack.isEmpty()) FoodCapability.applyTrait(stack, SDFoodTraits.CABINET_STORED);
         }
 
         @Override public void setChanged() {
             super.setChanged();
             ItemStack stack = getItem();
-            if (!stack.isEmpty()) FoodCapability.applyTrait(stack, FoodTraits.PRESERVED);
+            if (!stack.isEmpty()) FoodCapability.applyTrait(stack, SDFoodTraits.CABINET_STORED);
         }
 
         @Override public void onTake(@NotNull Player player, @NotNull ItemStack stack) {
             super.onTake(player, stack);
-            FoodCapability.removeTrait(stack, FoodTraits.PRESERVED);
+            FoodCapability.removeTrait(stack, SDFoodTraits.CABINET_STORED);
         }
 
         @Override
         public @NotNull ItemStack remove(int amount) {
             ItemStack out = super.remove(amount);
-            if (!out.isEmpty() && this.container instanceof SDCabinetBlockEntity be && !be.getLevel().isClientSide) {
-                FoodCapability.removeTrait(out, FoodTraits.PRESERVED);
-                be.setChanged();
+            if (!out.isEmpty() && this.container instanceof SDCabinetBlockEntity be) {
+                assert be.getLevel() != null;
+                if (!be.getLevel().isClientSide) {
+                    FoodCapability.removeTrait(out, FoodTraits.PRESERVED);
+                    be.setChanged();
+                }
             }
             return out;
         }

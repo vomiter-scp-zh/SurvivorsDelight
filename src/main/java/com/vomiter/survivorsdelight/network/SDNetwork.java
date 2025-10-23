@@ -2,7 +2,7 @@
 package com.vomiter.survivorsdelight.network;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.core.device.cooking_pot.SDCookingPotFluidMenu;
+import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.SDCookingPotFluidMenu;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletDeflects;
 import com.vomiter.survivorsdelight.util.RLUtils;
 import net.minecraft.client.Minecraft;
@@ -17,6 +17,7 @@ import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkHooks;
@@ -31,6 +32,10 @@ public class SDNetwork {
     private static final String PROTOCOL = "1";
     public static SimpleChannel CHANNEL;
     private static boolean initialized = false;
+
+    public static void onCommonSetup(final FMLCommonSetupEvent event) {
+        event.enqueueWork(SDNetwork::init); // 兩端都會跑，註冊 message handler
+    }
 
     public static void init() {
         if (initialized) return;
@@ -110,7 +115,7 @@ public class SDNetwork {
                 if (sp == null) return;
 
                 // 防偽：確認封包的 containerId 與玩家當前開著的 menu 一致
-                if (sp.containerMenu == null || sp.containerMenu.containerId != msg.containerId()) return;
+                if (sp.containerMenu.containerId != msg.containerId()) return;
 
                 MenuProvider provider = new SimpleMenuProvider(
                     (windowId, inv, player) -> new SDCookingPotFluidMenu(windowId, inv, msg.pos()),

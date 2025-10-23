@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.data;
+package com.vomiter.survivorsdelight.data.loot;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -11,8 +11,10 @@ import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 
 public class SDSkilletLootTableProvider implements DataProvider {
@@ -24,12 +26,12 @@ public class SDSkilletLootTableProvider implements DataProvider {
     }
 
     @Override
-    public CompletableFuture<?> run(CachedOutput cache) {
+    public @NotNull CompletableFuture<?> run(@NotNull CachedOutput cache) {
         var pathProvider = this.output.createPathProvider(
                 PackOutput.Target.DATA_PACK, "loot_tables/blocks"
         );
 
-        CompletableFuture<?>[] tasks = java.util.Arrays.stream(SkilletMaterial.values())
+        CompletableFuture<?>[] tasks = Arrays.stream(SkilletMaterial.values())
                 .map(metal -> {
                     ResourceLocation id = RLUtils.build(
                             SurvivorsDelight.MODID, "skillet/" + metal.material
@@ -43,8 +45,8 @@ public class SDSkilletLootTableProvider implements DataProvider {
     }
 
     @Override
-    public String getName() {
-        return "SurvivorsDelight Skillet Block LootTables";
+    public @NotNull String getName() {
+        return "Loot Table (Skillets): " + SurvivorsDelight.MODID;
     }
 
     private static JsonObject buildSkilletLootJson(String material) {

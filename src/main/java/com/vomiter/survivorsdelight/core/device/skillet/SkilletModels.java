@@ -5,17 +5,12 @@ import com.vomiter.survivorsdelight.util.RLUtils;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ModelEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import vectorwing.farmersdelight.client.model.SkilletModel;
 
 import java.util.Map;
 
-@Mod.EventBusSubscriber(modid = SurvivorsDelight.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class SkilletModels {
-    @SubscribeEvent
     public static void onModelRegister(ModelEvent.RegisterAdditional event) {
         for (SkilletMaterial m : SkilletMaterial.values()){
             event.register(new ModelResourceLocation(RLUtils.build(SurvivorsDelight.MODID, "skillet/" + m.material +"_cooking"), "inventory"));
@@ -32,7 +27,6 @@ public class SkilletModels {
         modelRegistry.put(skilletLocation, new SkilletModel(event.getModelBakery(), skilletModel, skilletCookingModel));
     }
 
-    @SubscribeEvent
     public static void onModelBake(ModelEvent.ModifyBakingResult event) {
         for (SkilletMaterial m : SkilletMaterial.values()){
             makeModel(m.material, event);

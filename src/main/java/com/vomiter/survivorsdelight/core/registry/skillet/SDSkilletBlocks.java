@@ -9,8 +9,6 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -23,7 +21,6 @@ import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Map;
 
-@Mod.EventBusSubscriber(modid = SurvivorsDelight.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class SDSkilletBlocks {
     private SDSkilletBlocks() {}
     public static final DeferredRegister<Block> BLOCKS =
@@ -62,9 +59,7 @@ public class SDSkilletBlocks {
         }
     }
 
-    @Mod.EventBusSubscriber(modid = SurvivorsDelight.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
     public static final class Compat {
-        @SubscribeEvent
         public static void onCommonSetup(FMLCommonSetupEvent event) {
             event.enqueueWork(() -> {
                 BlockEntityType<SkilletBlockEntity> type = ModBlockEntityTypes.SKILLET.get();

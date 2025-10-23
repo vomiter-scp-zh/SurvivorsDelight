@@ -4,10 +4,9 @@ import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.data.asset.SDCabinetBlockStateProvider;
 import com.vomiter.survivorsdelight.data.asset.SDLangProvider;
 import com.vomiter.survivorsdelight.data.asset.SDSkilletBlockStateProvider;
-import com.vomiter.survivorsdelight.data.recipe.WoodCuttingRecipes;
-import com.vomiter.survivorsdelight.data.tags.ModBlockTagsProvider;
-import com.vomiter.survivorsdelight.data.tags.ModEntityTypeTagsProvider;
-import com.vomiter.survivorsdelight.data.tags.ModItemTagsProvider;
+import com.vomiter.survivorsdelight.data.loot.SDCabinetLootTableProvider;
+import com.vomiter.survivorsdelight.data.loot.SDSkilletLootTableProvider;
+import com.vomiter.survivorsdelight.data.recipe.SDRecipeProvider;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
@@ -32,8 +31,9 @@ public class DataGenerators
 
         SDTags.gatherData(event);
 
-        generator.addProvider(event.includeServer(), new WoodCuttingRecipes(output));
+        generator.addProvider(event.includeServer(), new SDRecipeProvider(output));
         generator.addProvider(event.includeServer(), new SDSkilletLootTableProvider(output));
+        generator.addProvider(event.includeServer(), new SDCabinetLootTableProvider(output));
 
         generator.addProvider(event.includeClient(), new SDSkilletBlockStateProvider(output, helper));
         generator.addProvider(event.includeClient(), new SDCabinetBlockStateProvider(output, helper));

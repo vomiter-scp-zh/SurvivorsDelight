@@ -1,19 +1,13 @@
 package com.vomiter.survivorsdelight.client.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.vomiter.survivorsdelight.core.device.cooking_pot.ICookingPotFluidAccess;
 import com.vomiter.survivorsdelight.network.SDNetwork;
-import net.dries007.tfc.client.RenderHelpers;
-import net.dries007.tfc.common.items.TFCItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.fluids.FluidStack;
-import vectorwing.farmersdelight.common.block.entity.container.CookingPotMenu;
+import org.jetbrains.annotations.NotNull;
 import vectorwing.farmersdelight.common.registry.ModItems;
 
 import java.util.ArrayList;
@@ -30,7 +24,7 @@ public class SDBackToPotButton extends AbstractButton {
     }
 
     @Override
-    public void render(GuiGraphics gg, int mouseX, int mouseY, float partialTick) {
+    public void render(@NotNull GuiGraphics gg, int mouseX, int mouseY, float partialTick) {
         super.render(gg, mouseX, mouseY, partialTick);
         List<Component> tooltips = new ArrayList<>();
         tooltips.add(basicTooltip);
@@ -45,7 +39,7 @@ public class SDBackToPotButton extends AbstractButton {
     }
 
     @Override
-    protected void renderWidget(GuiGraphics gg, int mouseX, int mouseY, float partialTick) {
+    protected void renderWidget(@NotNull GuiGraphics gg, int mouseX, int mouseY, float partialTick) {
         if (this.isHoveredOrFocused()) {
             gg.fill(getX()-1, getY()-1, getX()+width+1, getY()+height+1, 0x80FFFFFF);
         }
@@ -56,7 +50,7 @@ public class SDBackToPotButton extends AbstractButton {
     }
 
     @Override
-    protected void updateWidgetNarration(NarrationElementOutput p_259858_) {
+    protected void updateWidgetNarration(@NotNull NarrationElementOutput p_259858_) {
 
     }
 }

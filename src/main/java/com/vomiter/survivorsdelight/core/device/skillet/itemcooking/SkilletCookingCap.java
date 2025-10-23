@@ -6,17 +6,17 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.capabilities.*;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-@Mod.EventBusSubscriber(modid = SurvivorsDelight.MODID)
 public class SkilletCookingCap {
     public static final ResourceLocation ID = RLUtils.build(SurvivorsDelight.MODID, "skillet_cooking");
     public static final Capability<ISkilletItemCookingData> CAPABILITY =
@@ -34,12 +34,10 @@ public class SkilletCookingCap {
         @Override public void deserializeNBT(CompoundTag nbt) { backend.load(nbt); }
     }
 
-    @SubscribeEvent
     public static void onAttachCapabilities(AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof Player) event.addCapability(ID, new Provider());
     }
 
-    @SubscribeEvent
     public static void onClone(PlayerEvent.Clone event) {
         event.getOriginal().getCapability(CAPABILITY).ifPresent(oldCap ->
                 event.getEntity().getCapability(CAPABILITY).ifPresent(newCap -> ((SkilletItemCookingData)newCap).load(((SkilletItemCookingData)oldCap).save()))

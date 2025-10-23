@@ -32,7 +32,7 @@ public class SDSkilletBlockStateProvider extends BlockStateProvider {
 
     @Override
     public @NotNull String getName() {
-        return "BlockStates + Models + ItemModels (Skillets): " + SurvivorsDelight.MODID;
+        return "BlockStates (Skillets): " + SurvivorsDelight.MODID;
     }
 
     @Override
@@ -86,7 +86,7 @@ public class SDSkilletBlockStateProvider extends BlockStateProvider {
         };
     }
 
-    /* ---------- 物品模型：三個主要款＋一個 unfinished ---------- */
+    /* ---------- 物品模型：basic + cooking + head + unfinished ---------- */
     private void createSkilletItemModels(String name, Map<String, ResourceLocation> textures) {
         // item/skillet/<name>
         ItemModelBuilder skillet = itemModels()

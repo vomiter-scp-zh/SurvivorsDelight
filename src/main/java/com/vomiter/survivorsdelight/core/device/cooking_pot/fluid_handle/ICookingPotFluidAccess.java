@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.core.device.cooking_pot;
+package com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.fluids.IFluidTank;

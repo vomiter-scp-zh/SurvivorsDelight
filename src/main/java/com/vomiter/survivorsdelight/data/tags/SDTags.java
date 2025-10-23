@@ -59,6 +59,7 @@ public class SDTags {
         public static final TagKey<Item> SKILLETS = create("skillets");
         public static final TagKey<Item> SKILLET_HEADS = create("skillet_heads");
         public static final TagKey<Item> UNFINISHED_SKILLETS = create("unfinished_skillets");
+        public static final TagKey<Item> WOOD_PRESERVATIVES = create("wood_preservatives");
     }
 
 }

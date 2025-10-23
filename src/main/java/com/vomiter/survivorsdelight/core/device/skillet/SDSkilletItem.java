@@ -2,7 +2,6 @@ package com.vomiter.survivorsdelight.core.device.skillet;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundSource;
@@ -23,8 +22,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
 import vectorwing.farmersdelight.common.item.SkilletItem;
 import vectorwing.farmersdelight.common.registry.ModSounds;
@@ -82,12 +79,8 @@ public class SDSkilletItem extends SkilletItem {
         return equipmentSlot == EquipmentSlot.MAINHAND && this.canAttack() ? this.toolAttributes : ImmutableMultimap.of();
     }
 
-    @Mod.EventBusSubscriber(
-            modid = SurvivorsDelight.MODID,
-            bus = Mod.EventBusSubscriber.Bus.FORGE
-    )
+
     public static class SDSkilletEvents {
-        @SubscribeEvent
         public static void playSkilletAttackSound(LivingDamageEvent event) {
             DamageSource damageSource = event.getSource();
             Entity attacker = damageSource.getDirectEntity();
