@@ -12,16 +12,17 @@ import java.util.function.Consumer;
 
 public class SDRecipeProvider extends RecipeProvider {
     WoodCuttingRecipes woodCuttingRecipes = new WoodCuttingRecipes();
+    CabinetRecipes cabinetRecipes = new CabinetRecipes();
     public SDRecipeProvider(PackOutput p_248933_) {
         super(p_248933_);
     }
 
     @Override
     protected void buildRecipes(@NotNull Consumer<FinishedRecipe> out) {
-
         TFCBlocks.WOODS.forEach((wood, blockTypes) -> {
             woodCuttingRecipes.stripForBark(wood, out);
             woodCuttingRecipes.salvageWoodFurniture(wood, out);
+            cabinetRecipes.cabinetForWood(wood, out);
             Arrays.stream(Metal.Default.values()).filter(Metal.Default::hasUtilities).forEach(
                     m -> woodCuttingRecipes.salvageHangingSign(wood, m, out)
             );

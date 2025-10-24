@@ -35,6 +35,7 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         addSkilletTags();
         assert TFCItems.GLUE.getKey() != null;
         tag(SDTags.ItemTags.FOOD_MODEL_COATING).add(TFCItems.GLUE.getKey());
+        tag(SDTags.ItemTags.WOOD_PRESERVATIVES).addOptional(RLUtils.build("firmalife", "beeswax"));
         tag(SDTags.ItemTags.RETURN_COPPER_SKILLET).add(Objects.requireNonNull(SDSkilletItems.SKILLETS.get(SkilletMaterial.COPPER).getKey()));
         tag(SDTags.ItemTags.RETURN_COPPER_SKILLET).add(Objects.requireNonNull(SDSkilletItems.SKILLETS.get(SkilletMaterial.COPPER_SILVER).getKey()));
         tag(SDTags.ItemTags.RETURN_COPPER_SKILLET).add(Objects.requireNonNull(SDSkilletItems.SKILLETS.get(SkilletMaterial.COPPER_TIN).getKey()));

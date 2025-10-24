@@ -20,58 +20,67 @@ base {
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
+
 minecraft {
     mappings channel: mapping_channel, version: mapping_version
-
     copyIdeResources = true
 
     runs {
         configureEach {
             workingDirectory project.file('run')
-
             property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
+            property 'forge.logging.console.level', 'info'
             property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.debug.verbose', 'true'
+            //property 'mixin.debug.verbose', 'true'
             property 'mixin.debug.export', 'true'
-
-            mods {
-                "${mod_id}" {
-                    source sourceSets.main
-                }
-            }
         }
 
         client {
-            // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
             property 'forge.enabledGameTestNamespaces', mod_id
+            mods {
+                // 客戶端／伺服器 run 用 main（需要真正跑遊戲＋mixin）
+                "${mod_id}" { source sourceSets.main }
+            }
         }
 
         server {
             property 'forge.enabledGameTestNamespaces', mod_id
             args '--nogui'
+            mods { "${mod_id}" { source sourceSets.main } }
         }
 
         gameTestServer {
             property 'forge.enabledGameTestNamespaces', mod_id
+            mods { "${mod_id}" { source sourceSets.main } }
         }
+
         data {
             workingDirectory project.file('run')
-            property 'mixin.env.disable', 'true'
+
+            property 'survivorsdelight.datagen', 'true'
+            property 'mixin.env.disable',        'true'
             property 'mixin.env.ignoreRequired', 'true'
-            args '--mod', 'survivorsdelight',
+            property 'mixin.env.disableRefMap',  'true'
+
+            //property 'forge.logging.markers', 'LOADING,SCAN'
+
+            args '--mod', mod_id,
                     '--all',
                     '--output', file('src/generated/resources/'),
                     '--existing', file('src/main/resources/')
+
             mods {
-                survivorsdelight {
-                    source sourceSets.main
-                }
+                "${mod_id}" { source sourceSets.main }
             }
-
         }
-
     }
+}
+
+mixin {
+    add    sourceSets.main, "${mod_id}.mixins.refmap.json"  // ★ refmap 檔名
+    config "${mod_id}.mixins.json"                           // ★ 你的設定檔
+    debug.verbose = true
+    debug.export  = true
 }
 
 // === Lang 合併設定 ===
@@ -120,8 +129,8 @@ tasks.register('mergeLang') {
     }
 }
 
-sourceSets.main.resources { srcDir 'src/generated/resources' }
-sourceSets.main.resources.srcDir mergedDir
+//sourceSets.main.resources { srcDir 'src/generated/resources' }
+//sourceSets.main.resources.srcDir mergedDir
 
 
 tasks.named('processResources').configure {
@@ -251,12 +260,5 @@ reobf {
 }
 tasks.named('jar').configure { finalizedBy 'reobfJar' }
 tasks.named('jarJar').configure { finalizedBy 'reobfJarJar' }
-
-mixin{
-    add sourceSets.main, "survivorsdelight.mixins.refmap.json";
-    config "survivorsdelight.mixins.json";
-    debug.verbose = true
-    debug.export = true
-}
 
 

@@ -1,0 +1,13 @@
+{
+  "category": "tfc:survivors_delight",
+  "icon": "survivorsdelight:planks/cabinet/ash",
+  "name": "Cabinet",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A farmer's cabinet is an advanced way to $(l:mechanics/decay)store food$(). You may press $(item)$(k:key.use)$() on it with tallow bucket or beeswax to treat it.A treated cabinet can preserve food for a longer period."
+    }
+  ],
+  "read_by_default": true,
+  "sortnum": 3
+}

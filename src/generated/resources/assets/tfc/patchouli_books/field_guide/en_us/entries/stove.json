@@ -1,0 +1,36 @@
+{
+  "category": "tfc:survivors_delight",
+  "icon": "farmersdelight:stove",
+  "name": "Stove",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A farmer's stove is an advanced way to utilize the $(l:mechanics/heating)heat$(). This block can store logs, coal and charcoal as fuel for cooking or providing heat for other cooking devices.When it's lit but not actively used in cooking, the heat consumption is minimal."
+    },
+    {
+      "type": "patchouli:multiblock",
+      "enable_visualize": false,
+      "multiblock": {
+        "mapping": {
+          "X": "farmersdelight:stove"
+        },
+        "pattern": [
+          [
+            "X"
+          ],
+          [
+            "0"
+          ]
+        ]
+      },
+      "name": "Stove",
+      "text": ""
+    },
+    {
+      "type": "patchouli:text",
+      "text": "If you have firmalife installed, a farmer's stove can also be used as the oven bottom.This includes heating up the oven top or a ceramic pot."
+    }
+  ],
+  "read_by_default": true,
+  "sortnum": 2
+}

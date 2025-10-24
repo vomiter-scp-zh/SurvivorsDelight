@@ -16,6 +16,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import vectorwing.farmersdelight.common.block.entity.CabinetBlockEntity;
 
 public class SDCabinetMenu extends AbstractContainerMenu {
     private final Container chest;
@@ -29,7 +30,7 @@ public class SDCabinetMenu extends AbstractContainerMenu {
         var be = level.getBlockEntity(pos);
         if (be instanceof Container c) return c;
         // 萬一同步出了問題避免 NPE
-        return new SimpleContainer(18); // 做個 18 格的空容器兜底（你也可丟 IllegalStateException）
+        return new SimpleContainer(18); // 做個 18 格的空容器兜底
     }
 
     public SDCabinetMenu(int id, Inventory inv, FriendlyByteBuf buf) {
@@ -114,8 +115,10 @@ public class SDCabinetMenu extends AbstractContainerMenu {
     }
 
     private static class SDCabinetSlot extends Slot {
+        SDCabinetBlockEntity cabinet;
         public SDCabinetSlot(Container container, int slot, int x, int y) {
             super(container, slot, x, y);
+            cabinet = (SDCabinetBlockEntity) container;
         }
 
         @Override public boolean mayPlace(@NotNull ItemStack stack) {
@@ -124,18 +127,18 @@ public class SDCabinetMenu extends AbstractContainerMenu {
 
         @Override public void set(@NotNull ItemStack stack) {
             super.set(stack);
-            if (!stack.isEmpty()) FoodCapability.applyTrait(stack, SDFoodTraits.CABINET_STORED);
+            if (!stack.isEmpty()) cabinet.setStored(stack);
         }
 
         @Override public void setChanged() {
             super.setChanged();
             ItemStack stack = getItem();
-            if (!stack.isEmpty()) FoodCapability.applyTrait(stack, SDFoodTraits.CABINET_STORED);
+            if (!stack.isEmpty()) cabinet.setStored(stack);
         }
 
         @Override public void onTake(@NotNull Player player, @NotNull ItemStack stack) {
             super.onTake(player, stack);
-            FoodCapability.removeTrait(stack, SDFoodTraits.CABINET_STORED);
+            cabinet.removeStored(stack);
         }
 
         @Override

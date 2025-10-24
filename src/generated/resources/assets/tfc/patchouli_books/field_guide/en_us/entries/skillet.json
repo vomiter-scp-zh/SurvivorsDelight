@@ -1,0 +1,48 @@
+{
+  "category": "tfc:survivors_delight",
+  "icon": "survivorsdelight:skillet/copper",
+  "name": "Skillet",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "You can use a skillet to $(l:mechanics/heating)heat$() things up. Skillets can be used as a placed block or a held item."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "To use a skillet as a held item, hold skillet in the main hand and food ingredient in the other, and stand close to a heat source. Then you can hold $(item)$(k:key.use)$() to heat 1 item of the ingredient stack. This process consumes durability of the skillet. "
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A skillet placed on a valid heat source can cook a stack of 8 item at once. However, skillets in this form take extra damage if the heat source is hotter than its $(l:mechanics/anvils#working)workable$() temperature. "
+    },
+    {
+      "type": "patchouli:multiblock",
+      "enable_visualize": false,
+      "multiblock": {
+        "mapping": {
+          "X": "#survivorsdelight:skillets"
+        },
+        "pattern": [
+          [
+            "X"
+          ],
+          [
+            "0"
+          ]
+        ]
+      },
+      "name": "Skillet variants",
+      "text": ""
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Valid metal material for a skillet includes copper, cast iron, steel, black steel, red steel and blue steel. A copper skillet needs to be $(l:mechanics/anvils#welding)welded with extra lining. Skillets made of steel and better material can be used as a melee weapon to deal $(l:mechanics/damage_types)crushing damage$(). "
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Red steel and blue steel skillets are somehow special. You may try using it when targeting a lava source."
+    }
+  ],
+  "read_by_default": true,
+  "sortnum": 1
+}

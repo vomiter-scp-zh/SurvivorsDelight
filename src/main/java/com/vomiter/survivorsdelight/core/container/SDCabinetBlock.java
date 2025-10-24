@@ -90,9 +90,9 @@ public class SDCabinetBlock extends CabinetBlock {
     public void onRemove(BlockState state, @NotNull Level level, @NotNull BlockPos pos, BlockState newState, boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity tileEntity = level.getBlockEntity(pos);
-            if (tileEntity instanceof Container container) {
+            if (tileEntity instanceof SDCabinetBlockEntity container) {
                 for (int i = 0; i < container.getContainerSize(); i++) {
-                    FoodCapability.removeTrait(container.getItem(i), SDFoodTraits.CABINET_STORED);
+                    container.removeStored(container.getItem(i));
                 }
                 Containers.dropContents(level, pos, container);
                 level.updateNeighbourForOutputSignal(pos, this);

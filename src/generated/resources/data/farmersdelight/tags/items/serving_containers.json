@@ -1,0 +1,9 @@
+{
+  "values": [
+    {
+      "id": "#tfc:glass_bottles",
+      "required": false
+    },
+    "tfc:ceramic/bowl"
+  ]
+}

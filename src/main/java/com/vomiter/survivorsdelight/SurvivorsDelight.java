@@ -2,6 +2,7 @@ package com.vomiter.survivorsdelight;
 
 import com.mojang.logging.LogUtils;
 import com.vomiter.survivorsdelight.client.ClientForgeEventHandler;
+import com.vomiter.survivorsdelight.client.SandwichPredicates;
 import com.vomiter.survivorsdelight.client.screen.SDCabinetScreen;
 import com.vomiter.survivorsdelight.client.screen.SDPotFluidScreen;
 import com.vomiter.survivorsdelight.core.ForgeEventHandler;
@@ -30,10 +31,7 @@ public class SurvivorsDelight {
     //TODO: add aquaculture support
     //TODO: add tfc cs compat
 
-    //TODO: make bottled items can be used four times
-    //TODO: add cabinet recipes
     //TODO: change the recipe for the drinks
-    //TODO: make sandwich texture compatible
     //TODO: make reasonable feast recipe
     //TODO: make some cooking pot recipe use dynamical nutrient
     //TODO: configurable recipe/data system
@@ -64,6 +62,7 @@ public class SurvivorsDelight {
         event.enqueueWork(() -> {
             MenuScreens.register(SDContainerTypes.CABINET.get(), SDCabinetScreen::new);
             MenuScreens.register(SDCookingPotFluidMenu.TYPE, SDPotFluidScreen::new);
+            SandwichPredicates.addPredicate();
         });
     }
 

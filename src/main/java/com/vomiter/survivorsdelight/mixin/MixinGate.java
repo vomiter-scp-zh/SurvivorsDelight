@@ -1,0 +1,33 @@
+package com.vomiter.survivorsdelight.mixin;
+
+import org.objectweb.asm.tree.ClassNode;
+import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
+import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
+import java.util.List;
+import java.util.Set;
+
+public final class MixinGate implements IMixinConfigPlugin {
+    private static boolean isDataGen() {
+        // 只要 runs.data 設了這個屬性，就視為 datagen
+        return "true".equalsIgnoreCase(System.getProperty("survivorsdelight.datagen"))
+                || "true".equalsIgnoreCase(System.getProperty("forge.datagen")); // FG 也會帶這旗標
+    }
+    @Override public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
+        return !isDataGen(); // datagen 全部不套用 mixin
+    }
+    // 其餘方法可留空或回傳預設
+    @Override public void onLoad(String mixinPackage) {}
+    @Override public String getRefMapperConfig() { return null; }
+    @Override public void acceptTargets(Set<String> myTargets, Set<String> otherTargets) {}
+    @Override public List<String> getMixins() { return null; }
+
+    @Override
+    public void preApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
+
+    }
+
+    @Override
+    public void postApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
+
+    }
+}
