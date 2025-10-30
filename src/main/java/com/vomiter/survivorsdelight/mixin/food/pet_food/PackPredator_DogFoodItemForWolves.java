@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.mixin.food.dogfood;
+package com.vomiter.survivorsdelight.mixin.food.pet_food;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import net.dries007.tfc.common.entities.TFCEntities;

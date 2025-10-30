@@ -1,0 +1,19 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "tag": "tfc:foods/dough"
+      }
+    }
+  ],
+  "result": [
+    {
+      "item": "farmersdelight:raw_pasta"
+    }
+  ],
+  "tool": {
+    "tag": "forge:tools/knives"
+  }
+}

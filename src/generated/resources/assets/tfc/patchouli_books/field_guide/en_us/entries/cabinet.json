@@ -5,7 +5,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "A farmer's cabinet is an advanced way to $(l:mechanics/decay)store food$(). You may press $(item)$(k:key.use)$() on it with tallow bucket or beeswax to treat it.A treated cabinet can preserve food for a longer period."
+      "text": "A cabinet is a wooden container used to preserve food and store cooking utensils. Use $(item)$(k:key.use)$() on it with a $(l:mechanics/lamps#tallow)bucket of tallow$() to treat it. A treated cabinet can $(l:mechanics/decay)preserve food$() for longer."
     }
   ],
   "read_by_default": true,

@@ -75,15 +75,7 @@ public final class EntryJson {
             if (text != null) p.addProperty("text", text);
             pages.add(p); return this;
         }
-        Builder addCraftingPage(String recipeRL, String text) {
-            JsonObject p = new JsonObject();
-            p.addProperty("type", "patchouli:crafting");
-            JsonArray arr = new JsonArray();
-            arr.add(new JsonPrimitive(recipeRL));
-            p.add("recipe", arr);
-            if (text != null) p.addProperty("text", text);
-            pages.add(p); return this;
-        }
+
         Builder addSmeltingPage(String recipeRL, String text) {
             JsonObject p = new JsonObject();
             p.addProperty("type", "patchouli:smelting");
@@ -120,6 +112,35 @@ public final class EntryJson {
 
             pages.add(page);
             return this;
+        }
+
+        Builder addAnvilRecipe(ResourceLocation recipeRL, String text){
+            JsonObject p = new JsonObject();
+            p.addProperty("type", "tfc:anvil_recipe");
+            p.addProperty("recipe", recipeRL.toString());
+            if (text != null) p.addProperty("text", text);
+            pages.add(p); return this;
+        }
+
+        Builder addWeldingRecipe(ResourceLocation recipeRL, String text){
+            JsonObject p = new JsonObject();
+            p.addProperty("type", "tfc:welding_recipe");
+            p.addProperty("recipe", recipeRL.toString());
+            if (text != null) p.addProperty("text", text);
+            pages.add(p); return this;
+        }
+
+        Builder addCraftingRecipe(ResourceLocation recipeRL, ResourceLocation recipeRL2, String title){
+            JsonObject p = new JsonObject();
+            p.addProperty("type", "patchouli:crafting");
+            p.addProperty("recipe", recipeRL.toString());
+            if(recipeRL2 != null) p.addProperty("recipe2", recipeRL2.toString());
+            if (title != null) p.addProperty("title", title);
+            pages.add(p); return this;
+        }
+
+        Builder addCraftingRecipe(ResourceLocation recipeRL, String title){
+            return addCraftingRecipe(recipeRL, null, title);
         }
 
         EntryJson build() { return new EntryJson(id, m, pages); }

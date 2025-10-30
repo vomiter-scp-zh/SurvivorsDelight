@@ -1,0 +1,20 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "item": "tfc:food/beef"
+      }
+    }
+  ],
+  "result": [
+    {
+      "count": 2,
+      "item": "farmersdelight:minced_beef"
+    }
+  ],
+  "tool": {
+    "tag": "forge:tools/knives"
+  }
+}

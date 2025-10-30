@@ -1,0 +1,52 @@
+package com.vomiter.survivorsdelight.data.size;
+
+import com.vomiter.survivorsdelight.SurvivorsDelight;
+import com.vomiter.survivorsdelight.data.tags.SDTags;
+import com.vomiter.survivorsdelight.util.RLUtils;
+import net.dries007.tfc.common.capabilities.size.Size;
+import net.dries007.tfc.common.capabilities.size.Weight;
+import vectorwing.farmersdelight.common.registry.ModItems;
+
+public class FDSizeData {
+    final SDItemSizeProvider provider;
+    public FDSizeData(SDItemSizeProvider provider){
+        this.provider = provider;
+    }
+
+    void save(){
+        cutFood();
+        pie();
+    }
+
+    void pie(){
+        provider.newEntry(RLUtils.build("food/pie"))
+                .ingredient(ModItems.APPLE_PIE.get(), ModItems.CHOCOLATE_PIE.get(), ModItems.SWEET_BERRY_CHEESECAKE.get())
+                .size(Size.LARGE)
+                .weight(Weight.MEDIUM)
+                .save();
+        provider.newEntry(RLUtils.build("food/pie_slice"))
+                .ingredient(ModItems.APPLE_PIE_SLICE.get(), ModItems.CHOCOLATE_PIE_SLICE.get(), ModItems.SWEET_BERRY_CHEESECAKE_SLICE.get())
+                .size(Size.SMALL)
+                .weight(Weight.LIGHT)
+                .save();
+    }
+
+    void cutFood(){
+        provider.newEntry(RLUtils.build(SurvivorsDelight.MODID, "food/cut_food"))
+                .ingredient(SDTags.ItemTags.CUT_FOOD)
+                .size(Size.VERY_SMALL)
+                .weight(Weight.VERY_LIGHT).save();
+        provider.newEntry(RLUtils.build("food/raw_pasta"))
+                .ingredient(ModItems.RAW_PASTA.get())
+                .size(Size.SMALL)
+                .weight(Weight.LIGHT).save();
+        provider.newEntry(RLUtils.build("food/ham"))
+                .ingredient(ModItems.HAM.get(), ModItems.SMOKED_HAM.get())
+                .weight(Weight.MEDIUM)
+                .size(Size.LARGE).save();
+        provider.newEntry(RLUtils.build("food/fish_rolls"))
+                .ingredient(ModItems.SALMON_ROLL.get(), ModItems.COD_ROLL.get())
+                .size(Size.SMALL)
+                .weight(Weight.LIGHT).save();
+    }
+}

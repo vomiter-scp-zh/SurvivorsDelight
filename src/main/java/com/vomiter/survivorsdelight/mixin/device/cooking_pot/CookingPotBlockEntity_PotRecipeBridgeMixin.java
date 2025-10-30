@@ -1,18 +1,26 @@
 package com.vomiter.survivorsdelight.mixin.device.cooking_pot;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.core.device.cooking_pot.bridge.ICookingPotRecipeBridge;
 import com.vomiter.survivorsdelight.core.device.cooking_pot.bridge.TFCPotRecipeBridgeFD;
 import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.ICookingPotFluidAccess;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
+import net.dries007.tfc.common.capabilities.food.FoodData;
+import net.dries007.tfc.common.capabilities.food.FoodHandler;
+import net.dries007.tfc.common.capabilities.food.Nutrient;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -21,6 +29,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import vectorwing.farmersdelight.common.block.entity.CookingPotBlockEntity;
 import vectorwing.farmersdelight.common.block.entity.SyncedBlockEntity;
@@ -34,14 +43,14 @@ public abstract class CookingPotBlockEntity_PotRecipeBridgeMixin extends SyncedB
     @Shadow @Final private ItemStackHandler inventory;
     @Shadow private ResourceLocation lastRecipeID;
     @Shadow private int cookTime;
-
-    @Shadow protected abstract boolean hasInput();
-
+    @Shadow private boolean checkNewRecipe;
     @Unique private @Nullable TFCPotRecipeBridgeFD sdtfc$cachedBridge = null;
+    @Unique private ItemStack sdtfc$cachedDynamicFoodResult = ItemStack.EMPTY;
+
 
     // ====== Get matching recipe and cache it for later comparison
     @ModifyVariable(method = "getMatchingRecipe", at = @At("STORE"))
-    private Optional<CookingPotRecipe> sdtfc$fillWithTfcBridgeWhenEmpty(
+    private Optional<CookingPotRecipe> fillWithTfcBridgeWhenEmpty(
             Optional<CookingPotRecipe> original,
             @Local(argsOnly = true) RecipeWrapper inventoryWrapper
     ) {
@@ -70,6 +79,57 @@ public abstract class CookingPotBlockEntity_PotRecipeBridgeMixin extends SyncedB
         return Optional.of(bridge);
     }
 
+    @Inject(method = "cookingTick", at = @At(value = "INVOKE", target = "Lvectorwing/farmersdelight/common/block/entity/CookingPotBlockEntity;canCook(Lvectorwing/farmersdelight/common/crafting/CookingPotRecipe;)Z"))
+    private static void handleDynamicCookingPotRecipe(
+            Level level, BlockPos pos, BlockState state, CookingPotBlockEntity cookingPot, CallbackInfo ci,
+            @Local Optional<CookingPotRecipe> recipe
+    ){
+
+        if(!((ICookingPotRecipeBridge)cookingPot).sdtfc$getCachedDynamicFoodResult().isEmpty()) return;
+        recipe.ifPresent(r -> {
+            if(r instanceof TFCPotRecipeBridgeFD) return;
+            var originalResult = r.getResultItem(level.registryAccess()).copy();
+            if(FoodCapability.get(originalResult) instanceof FoodHandler.Dynamic dynamicFood){
+                NonNullList<Ingredient> inputItems = NonNullList.create();
+                List<ItemStack> foodIngredients = new ArrayList<>();
+                FoodData baseFood = dynamicFood.getData();
+                float[] nutrition = baseFood.nutrients();
+                float saturation = baseFood.saturation();
+                float water = baseFood.water();
+
+                for (int i = 0; i < cookingPot.getInventory().getSlots(); i++) {
+                    if(i > 5) continue;
+                    var stack = cookingPot.getInventory().getStackInSlot(i);
+                    if(!stack.isEmpty()) {
+                        inputItems.add(Ingredient.of(stack.getItem()));
+                        if(FoodCapability.get(stack) == null) continue;
+                        FoodData data = Objects.requireNonNull(FoodCapability.get(stack)).getData();
+                        foodIngredients.add(stack.copyWithCount(1));
+                        for (Nutrient nutrient : Nutrient.VALUES)
+                        {
+                            nutrition[nutrient.ordinal()] += data.nutrient(nutrient);
+                        }
+                        water += data.water();
+                        saturation += data.saturation();
+                    }
+                }
+                foodIngredients.sort(Comparator.comparing(ItemStack::getCount)
+                        .thenComparing(item -> Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(item.getItem()))));
+                dynamicFood.setIngredients(foodIngredients);
+                dynamicFood.setFood(FoodData.create(baseFood.hunger(), water, saturation, nutrition, baseFood.decayModifier()));
+                ((ICookingPotRecipeBridge)cookingPot).sdtfc$setCachedDynamicFoodResult(originalResult);
+            }
+
+        });
+
+    }
+
+    @ModifyExpressionValue(method = "processCooking", at = @At(value = "INVOKE", target = "Lvectorwing/farmersdelight/common/crafting/CookingPotRecipe;getResultItem(Lnet/minecraft/core/RegistryAccess;)Lnet/minecraft/world/item/ItemStack;", remap = true))
+    private ItemStack applyDynamicResult(ItemStack original){
+        if(sdtfc$cachedDynamicFoodResult.isEmpty()) return original;
+        return sdtfc$cachedDynamicFoodResult;
+    }
+
 
     //====== Prevent soup with 4 fruits cooking when there's soup with 5 fruits stored in the pot
     @Redirect(method = "canCook(Lvectorwing/farmersdelight/common/crafting/CookingPotRecipe;)Z",
@@ -79,8 +139,9 @@ public abstract class CookingPotBlockEntity_PotRecipeBridgeMixin extends SyncedB
             ),
             remap = true
     )
-    private boolean sdtfc$compareStacks(ItemStack a, ItemStack b) {
+    private boolean compareStacks(ItemStack a, ItemStack b) {
         if(FoodCapability.get(a) == null) return ItemStack.isSameItem(a, b);
+        if(!sdtfc$cachedDynamicFoodResult.isEmpty()) return FoodCapability.areStacksStackableExceptCreationDate(a, sdtfc$cachedDynamicFoodResult);
         return FoodCapability.areStacksStackableExceptCreationDate(a, b);
     }
 
@@ -101,6 +162,7 @@ public abstract class CookingPotBlockEntity_PotRecipeBridgeMixin extends SyncedB
     private void resetCached(CookingPotRecipe recipe, CookingPotBlockEntity cookingPot, CallbackInfoReturnable<Boolean> cir){
         if(cir.getReturnValue()){
             sdtfc$cachedBridge = null;
+            sdtfc$cachedDynamicFoodResult = ItemStack.EMPTY;
         }
     }
 
@@ -118,4 +180,36 @@ public abstract class CookingPotBlockEntity_PotRecipeBridgeMixin extends SyncedB
         return sdtfc$cachedBridge;
     }
 
+    @Override
+    public void sdtfc$setCachedDynamicFoodResult(ItemStack item){
+        this.sdtfc$cachedDynamicFoodResult = item;
+    }
+
+    @Override
+    public ItemStack sdtfc$getCachedDynamicFoodResult(){
+        return sdtfc$cachedDynamicFoodResult;
+    }
+
+
+    @Inject(method = "createHandler", at = @At("RETURN"), cancellable = true)
+    private void wrapHandler(CallbackInfoReturnable<ItemStackHandler> cir) {
+        ItemStackHandler wrapped = new ItemStackHandler(9) {
+        @Override
+        protected void onContentsChanged(int slot) {
+            if (slot >= 0 && slot < 6) {
+                sdtfc$beforeCheckNewRecipe(slot);
+                checkNewRecipe = true;
+            }
+            inventoryChanged();
+        }
+
+        private void sdtfc$beforeCheckNewRecipe(int slot) {
+            sdtfc$cachedBridge = null;
+            sdtfc$cachedDynamicFoodResult = ItemStack.EMPTY;
+        }
+    };
+
+        cir.setReturnValue(wrapped);
+    }
 }
+

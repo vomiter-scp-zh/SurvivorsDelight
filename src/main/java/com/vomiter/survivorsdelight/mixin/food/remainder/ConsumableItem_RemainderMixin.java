@@ -12,5 +12,8 @@ import vectorwing.farmersdelight.common.item.ConsumableItem;
 
 @Mixin(ConsumableItem.class)
 public abstract class ConsumableItem_RemainderMixin implements IConsumableRemainder {
+    /*
+    The method to get crafting remainder is overridden in the implemented interface.
+     */
 
 }

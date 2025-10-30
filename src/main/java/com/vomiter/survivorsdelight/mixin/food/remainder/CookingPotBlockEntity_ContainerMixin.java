@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
+import net.dries007.tfc.common.capabilities.food.IFood;
 import net.dries007.tfc.common.items.TFCItems;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -14,6 +15,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import vectorwing.farmersdelight.common.block.entity.CookingPotBlockEntity;
 
 import static vectorwing.farmersdelight.common.block.entity.CookingPotBlockEntity.CONTAINER_SLOT;
@@ -41,11 +43,25 @@ public abstract class CookingPotBlockEntity_ContainerMixin {
         return original;
     }
 
+    @Inject(method = "useHeldItemOnMeal", at = @At("HEAD"), cancellable = true)
+    private void checkContainerItemRotten(ItemStack container, CallbackInfoReturnable<ItemStack> cir){
+        IFood containerFood = FoodCapability.get(container);
+        if(containerFood != null && containerFood.isRotten()){
+            cir.setReturnValue(container);
+        }
+    }
+
     @Inject(method = "useStoredContainersOnMeal", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;isEmpty()Z", remap = true), cancellable = true)
     private void applyContainerStored(CallbackInfo ci){
         ItemStack mealStack = inventory.getStackInSlot(6);
         ItemStack containerInputStack = inventory.getStackInSlot(7);
         ItemStack outputStack = inventory.getStackInSlot(8);
+
+        IFood containerFood = FoodCapability.get(containerInputStack);
+        if(containerFood != null && containerFood.isRotten()){
+            ci.cancel();
+        }
+
         if(ItemStack.isSameItem(mealStack.getCraftingRemainingItem(), containerInputStack)) return;
 
         int smallerStackCount = Math.min(mealStack.getCount(), containerInputStack.getCount());

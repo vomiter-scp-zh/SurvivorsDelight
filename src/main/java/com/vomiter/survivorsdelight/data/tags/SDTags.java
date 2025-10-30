@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 
+import javax.swing.text.html.HTML;
 import java.util.concurrent.CompletableFuture;
 
 public class SDTags {
@@ -54,12 +55,39 @@ public class SDTags {
                     RLUtils.build(SurvivorsDelight.MODID, path)
             );
         }
+
+        public static TagKey<Item> create(String namespace, String path){
+            return TagKey.create(
+                    Registries.ITEM,
+                    RLUtils.build(namespace, path)
+            );
+        }
+
         public static final TagKey<Item> FOOD_MODEL_COATING = create("food_model_coating");
         public static final TagKey<Item> RETURN_COPPER_SKILLET = create("return_copper_skillet");
         public static final TagKey<Item> SKILLETS = create("skillets");
         public static final TagKey<Item> SKILLET_HEADS = create("skillet_heads");
         public static final TagKey<Item> UNFINISHED_SKILLETS = create("unfinished_skillets");
         public static final TagKey<Item> WOOD_PRESERVATIVES = create("wood_preservatives");
+        public static final TagKey<Item> APPLE_FOR_CIDER = create("apple_for_cider");
+        public static final TagKey<Item> CUT_FOOD = create("cut_food");
+        public static final TagKey<Item> COCOA_POWDER = create("cocoa_powder");
+        public static final TagKey<Item> PIE_CRUST_DAIRY = create("pie_crust_dairy");
+        public static final TagKey<Item> FRUIT_FOR_CHEESECAKE = create("fruit_for_cheesecake");
+        public static final TagKey<Item> CHEESE_FOR_CHEESECAKE = create("cheese_for_cheesecake");
+        public static final TagKey<Item> CHOCOLATE_FOR_CHEESECAKE = create("cheese_for_chocolate");
+        public static final TagKey<Item> PIES_APPLE_PIE = create("pies/apple_pie");
+        public static final TagKey<Item> PIES_SWEET_BERRY_CHEESECAKE = create("pies/sweet_berry_cheesecake");
+        public static final TagKey<Item> PIES_CHOCOLATE_PIE = create("pies/chocolate_pie");
+        public static final TagKey<Item> SOUPS = create("soups");
+
+        public static final TagKey<Item> TFC_DOUGHS = create("tfc", "foods/dough");
+        public static final TagKey<Item> TFC_GLASS_BOTTLES = create("tfc", "glass_bottles");
+        public static final TagKey<Item> TFC_RAW_MEATS = create("tfc", "foods/raw_meats");
+        public static final TagKey<Item> TFC_COOKED_MEATS = create("tfc", "foods/cooked_meats");
+        public static final TagKey<Item> TFC_VEGETABLES = create("tfc", "foods/vegetables");
+        public static final TagKey<Item> TFC_SWEETENER = create("tfc", "sweetener");
+
     }
 
 }

@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.mixin.food.horsefeed;
+package com.vomiter.survivorsdelight.mixin.food.pet_food;
 
 import net.dries007.tfc.common.entities.livestock.horse.HorseProperties;
 import net.minecraft.world.entity.Entity;
@@ -11,6 +11,7 @@ import vectorwing.farmersdelight.common.item.HorseFeedItem;
 
 @Mixin(HorseFeedItem.HorseFeedEvent.class)
 public class HorseFeedItem_HorseFoodItemForHorses {
+
     @Inject(method = "onHorseFeedApplied", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;setHealth(F)V", shift = At.Shift.AFTER), cancellable = true)
     private static void giveDogFoodToDog(PlayerInteractEvent.EntityInteract event, CallbackInfo ci){
         Entity target = event.getTarget();

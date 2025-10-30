@@ -5,7 +5,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "A farmer's stove is an advanced way to utilize the $(l:mechanics/heating)heat$(). This block can store logs, coal and charcoal as fuel for cooking or providing heat for other cooking devices.When it's lit but not actively used in cooking, the heat consumption is minimal."
+      "text": "A stove is an advanced way to harness $(l:mechanics/heating)heat$(). This block accepts $(thing)logs$(), $(thing)coal$(), and $(thing)charcoal$() as fuel for cooking or for providing heat to other cooking devices. When it's lit but not actively cooking, fuel consumption is minimal."
     },
     {
       "type": "patchouli:multiblock",
@@ -25,10 +25,6 @@
       },
       "name": "Stove",
       "text": ""
-    },
-    {
-      "type": "patchouli:text",
-      "text": "If you have firmalife installed, a farmer's stove can also be used as the oven bottom.This includes heating up the oven top or a ceramic pot."
     }
   ],
   "read_by_default": true,

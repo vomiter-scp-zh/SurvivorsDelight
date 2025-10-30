@@ -1,0 +1,46 @@
+{
+  "type": "farmersdelight:cooking",
+  "container": {
+    "item": "farmersdelight:pie_crust"
+  },
+  "cookingtime": 2400,
+  "experience": 10.0,
+  "ingredients": [
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "tag": "survivorsdelight:apple_for_cider"
+      }
+    },
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "tag": "survivorsdelight:apple_for_cider"
+      }
+    },
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "tag": "survivorsdelight:apple_for_cider"
+      }
+    },
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "tag": "tfc:sweetener"
+      }
+    },
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "tag": "tfc:sweetener"
+      }
+    },
+    {
+      "tag": "tfc:make_red_dye"
+    }
+  ],
+  "result": {
+    "item": "farmersdelight:apple_pie"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "category": "tfc:survivors_delight",
+  "icon": "farmersdelight:rich_soil_farmland",
+  "name": "Rich Soil",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Rich Soil is a special type of soil that accelerates natural growth. It shortens the preparation time for saplings to grow. If the block above Rich Soil is air, it has a chance to randomly generate brown or red mushrooms. These mushrooms can later grow into full mushroom colonies over time."
+    },
+    {
+      "type": "patchouli:multiblock",
+      "enable_visualize": false,
+      "multiblock": {
+        "mapping": {
+          "X": "farmersdelight:rich_soil"
+        },
+        "pattern": [
+          [
+            "X"
+          ],
+          [
+            "0"
+          ]
+        ]
+      },
+      "name": "Rich Soil",
+      "text": ""
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Rich Soil can be tilled with a hoe to create Rich Soil Farmland. Crops planted on Rich Soil Farmland continues growing even when the ambient temperature or moisture slightly deviated from their normal growth range."
+    },
+    {
+      "type": "patchouli:multiblock",
+      "enable_visualize": false,
+      "multiblock": {
+        "mapping": {
+          "X": "farmersdelight:rich_soil_farmland"
+        },
+        "pattern": [
+          [
+            "X"
+          ],
+          [
+            "0"
+          ]
+        ]
+      },
+      "name": "Rich Soil Farmland",
+      "text": ""
+    }
+  ],
+  "read_by_default": true,
+  "sortnum": 6
+}

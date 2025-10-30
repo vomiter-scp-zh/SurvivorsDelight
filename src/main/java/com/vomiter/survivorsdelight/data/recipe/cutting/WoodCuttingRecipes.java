@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.data.recipe;
+package com.vomiter.survivorsdelight.data.recipe.cutting;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.util.RLUtils;
@@ -25,7 +25,7 @@ import java.util.function.Consumer;
 
 public class WoodCuttingRecipes{
 
-    void stripForBark(Wood wood, Consumer<FinishedRecipe> out){
+    public void stripForBark(Wood wood, Consumer<FinishedRecipe> out){
         Block log = wood.getBlock(Wood.BlockType.LOG).get();
         Block strippedLog = wood.getBlock(Wood.BlockType.STRIPPED_LOG).get();
         Block woodBlock = wood.getBlock(Wood.BlockType.WOOD).get();
@@ -66,7 +66,7 @@ public class WoodCuttingRecipes{
 
     }
 
-    void salvageWoodFurnitureType(Wood wood, Wood.BlockType type, int count, Consumer<FinishedRecipe> out){
+    public void salvageWoodFurnitureType(Wood wood, Wood.BlockType type, int count, Consumer<FinishedRecipe> out){
         Item lumber = TFCItems.LUMBER.get(wood).get();
         CuttingBoardRecipeBuilder.cuttingRecipe(
                 Ingredient.of(wood.getBlock(type).get()),
@@ -79,7 +79,7 @@ public class WoodCuttingRecipes{
         );
     }
 
-    void salvageHangingSign(Wood wood, Metal.Default metal, Consumer<FinishedRecipe> out){
+    public void salvageHangingSign(Wood wood, Metal.Default metal, Consumer<FinishedRecipe> out){
         Item lumber = TFCItems.LUMBER.get(wood).get();
         Block chain = TFCBlocks.METALS.get(metal).get(Metal.BlockType.CHAIN).get();
         CuttingBoardRecipeBuilder.cuttingRecipe(
@@ -95,7 +95,7 @@ public class WoodCuttingRecipes{
 
     }
 
-    void salvageWoodFurniture(Wood wood, Consumer<FinishedRecipe> out){
+    public void salvageWoodFurniture(Wood wood, Consumer<FinishedRecipe> out){
         salvageWoodFurnitureType(wood, Wood.BlockType.DOOR, 3, out);
         salvageWoodFurnitureType(wood, Wood.BlockType.TRAPDOOR, 2, out);
         salvageWoodFurnitureType(wood, Wood.BlockType.FENCE, 2, out);

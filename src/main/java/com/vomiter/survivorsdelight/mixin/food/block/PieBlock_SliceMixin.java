@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.datafixers.util.Pair;
 import com.vomiter.survivorsdelight.core.food.block.DecayingPieBlockEntity;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
+import net.dries007.tfc.common.capabilities.food.FoodHandler;
 import net.dries007.tfc.common.capabilities.food.IFood;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -85,6 +86,9 @@ public abstract class PieBlock_SliceMixin{
         sliceFood.setCreationDate(srcFood.getCreationDate());
         sliceFood.getTraits().clear();
         sliceFood.getTraits().addAll(srcFood.getTraits());
+        if(sliceFood instanceof FoodHandler.Dynamic dynamic){
+            dynamic.setFood(srcFood.getData());
+        }
         return slice;
     }
 }

@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.mixin.food.dogfood;
+package com.vomiter.survivorsdelight.mixin.food.pet_food;
 
 import net.dries007.tfc.common.entities.livestock.pet.Dog;
 import net.minecraft.world.entity.Entity;

@@ -1,0 +1,20 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "item": "tfc:food/pork"
+      }
+    }
+  ],
+  "result": [
+    {
+      "count": 2,
+      "item": "farmersdelight:bacon"
+    }
+  ],
+  "tool": {
+    "tag": "forge:tools/knives"
+  }
+}

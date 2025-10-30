@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "tag": "survivorsdelight:cheese_for_cheesecake"
+    },
+    "P": {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "item": "farmersdelight:pie_crust"
+      }
+    },
+    "S": {
+      "tag": "tfc:sweetener"
+    },
+    "c": {
+      "tag": "survivorsdelight:cheese_for_chocolate"
+    }
+  },
+  "pattern": [
+    "ccc",
+    "CCC",
+    "SPS"
+  ],
+  "result": {
+    "item": "farmersdelight:chocolate_pie"
+  },
+  "show_notification": true
+}

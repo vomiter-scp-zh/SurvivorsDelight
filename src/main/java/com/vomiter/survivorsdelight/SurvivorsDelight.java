@@ -31,9 +31,12 @@ public class SurvivorsDelight {
     //TODO: add aquaculture support
     //TODO: add tfc cs compat
 
-    //TODO: change the recipe for the drinks
+    //TODO: add size to fd foods
+    //TODO: add reasonable food tags
+    //TODO: add looting system
+    //TODO: add food data
     //TODO: make reasonable feast recipe
-    //TODO: make some cooking pot recipe use dynamical nutrient
+    //TODO: make cooking pot recipe use dynamical nutrient when the result item is dynamic
     //TODO: configurable recipe/data system
 
     //TODO: another mod - Basket and storage blocks

@@ -1,0 +1,20 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "item": "tfc:food/cooked_mutton"
+      }
+    }
+  ],
+  "result": [
+    {
+      "count": 2,
+      "item": "farmersdelight:cooked_mutton_chops"
+    }
+  ],
+  "tool": {
+    "tag": "forge:tools/knives"
+  }
+}

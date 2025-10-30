@@ -1,0 +1,23 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "item": "farmersdelight:smoked_ham"
+      }
+    }
+  ],
+  "result": [
+    {
+      "count": 2,
+      "item": "tfc:food/cooked_pork"
+    },
+    {
+      "item": "minecraft:bone"
+    }
+  ],
+  "tool": {
+    "tag": "forge:tools/knives"
+  }
+}

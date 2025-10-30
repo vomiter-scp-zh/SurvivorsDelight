@@ -12,6 +12,7 @@ public class SDRegistries {
         SDSkilletPartItems.ITEMS.register(modBus);
         SDBlocks.BLOCKS.register(modBus);
         SDBlocks.BLOCK_ITEMS.register(modBus);
+        SDItems.ITEMS.register(modBus);
         SDBlockEntityTypes.BLOCK_ENTITIES.register(modBus);
         SDContainerTypes.CONTAINERS.register(modBus);
         SDCreativeTab.TABS.register(modBus);

@@ -1,0 +1,14 @@
+{
+  "dairy": 1.0,
+  "decay_modifier": 0.5,
+  "fruit": 3.0,
+  "grain": 1.5,
+  "hunger": 16,
+  "ingredient": {
+    "tag": "survivorsdelight:pies/apple_pie"
+  },
+  "protein": 0.0,
+  "saturation": 2.5,
+  "vegetables": 0.0,
+  "water": 0.0
+}
