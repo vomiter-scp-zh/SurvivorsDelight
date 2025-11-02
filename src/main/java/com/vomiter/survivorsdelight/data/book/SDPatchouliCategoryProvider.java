@@ -1,5 +1,6 @@
 package com.vomiter.survivorsdelight.data.book;
 
+import com.vomiter.survivorsdelight.data.book.builder.CategoryJson;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
@@ -12,6 +13,14 @@ import java.util.concurrent.CompletableFuture;
 public final class SDPatchouliCategoryProvider implements DataProvider {
     private final PackOutput output;
     private final List<CategoryJson> categories = new ArrayList<>();
+    private String LANG = "en_us";
+    public void setLang(String lang){
+        this.LANG = lang;
+    }
+
+    public String getLANG() {
+        return LANG;
+    }
 
     public SDPatchouliCategoryProvider(PackOutput output) { this.output = output; }
     public void category(CategoryJson category) { categories.add(category); }
@@ -24,7 +33,7 @@ public final class SDPatchouliCategoryProvider implements DataProvider {
                     "assets",
                     SDPatchouliConstants.MODID,
                     SDPatchouliConstants.bookFolderRL().getPath(),
-                    SDPatchouliConstants.LANG,
+                    LANG,
                     "categories",
                     cat.id() + ".json"
             ));

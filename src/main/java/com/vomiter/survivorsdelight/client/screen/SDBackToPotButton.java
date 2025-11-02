@@ -1,6 +1,7 @@
 package com.vomiter.survivorsdelight.client.screen;
 
 import com.vomiter.survivorsdelight.network.SDNetwork;
+import com.vomiter.survivorsdelight.network.cooking_pot.OpenBackToFDPotC2SPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
@@ -35,7 +36,7 @@ public class SDBackToPotButton extends AbstractButton {
 
     @Override
     public void onPress() {
-        SDNetwork.CHANNEL.sendToServer(new SDNetwork.OpenBackToFDPotC2SPacket());
+        SDNetwork.CHANNEL.sendToServer(new OpenBackToFDPotC2SPacket());
     }
 
     @Override

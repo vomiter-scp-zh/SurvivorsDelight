@@ -1,33 +1,33 @@
 {
   "variants": {
     "facing=east,open=false": {
-      "model": "survivorsdelight:block/planks/cabinet/oak",
+      "model": "farmersdelight:block/oak_cabinet",
       "y": 90
     },
     "facing=east,open=true": {
-      "model": "survivorsdelight:block/planks/cabinet/oak_open",
+      "model": "farmersdelight:block/oak_cabinet_open",
       "y": 90
     },
     "facing=north,open=false": {
-      "model": "survivorsdelight:block/planks/cabinet/oak"
+      "model": "farmersdelight:block/oak_cabinet"
     },
     "facing=north,open=true": {
-      "model": "survivorsdelight:block/planks/cabinet/oak_open"
+      "model": "farmersdelight:block/oak_cabinet_open"
     },
     "facing=south,open=false": {
-      "model": "survivorsdelight:block/planks/cabinet/oak",
+      "model": "farmersdelight:block/oak_cabinet",
       "y": 180
     },
     "facing=south,open=true": {
-      "model": "survivorsdelight:block/planks/cabinet/oak_open",
+      "model": "farmersdelight:block/oak_cabinet_open",
       "y": 180
     },
     "facing=west,open=false": {
-      "model": "survivorsdelight:block/planks/cabinet/oak",
+      "model": "farmersdelight:block/oak_cabinet",
       "y": 270
     },
     "facing=west,open=true": {
-      "model": "survivorsdelight:block/planks/cabinet/oak_open",
+      "model": "farmersdelight:block/oak_cabinet_open",
       "y": 270
     }
   }

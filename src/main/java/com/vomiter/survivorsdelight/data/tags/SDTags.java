@@ -80,12 +80,20 @@ public class SDTags {
         public static final TagKey<Item> PIES_SWEET_BERRY_CHEESECAKE = create("pies/sweet_berry_cheesecake");
         public static final TagKey<Item> PIES_CHOCOLATE_PIE = create("pies/chocolate_pie");
         public static final TagKey<Item> SOUPS = create("soups");
+        public static final TagKey<Item> WASHABLE = create("washable");
+        public static final TagKey<Item> FOODS_WITH_STANDARD_SIZE = create("foods_with_std_size");
+        public static final TagKey<Item> FISHES_USABLE_IN_STEW = create("fishes_usable_in_stew");
+        public static final TagKey<Item> BOWL_MEALS = create("bowl_meals");
+        public static final TagKey<Item> DYNAMIC_MEALS = create("dynamic_meals");
+        public static final TagKey<Item> MEATS_FOR_SHEPHERDS_PIE = create("meats_for_shepherds_pie");
 
         public static final TagKey<Item> TFC_DOUGHS = create("tfc", "foods/dough");
         public static final TagKey<Item> TFC_GLASS_BOTTLES = create("tfc", "glass_bottles");
         public static final TagKey<Item> TFC_RAW_MEATS = create("tfc", "foods/raw_meats");
         public static final TagKey<Item> TFC_COOKED_MEATS = create("tfc", "foods/cooked_meats");
         public static final TagKey<Item> TFC_VEGETABLES = create("tfc", "foods/vegetables");
+        public static final TagKey<Item> TFC_GRAINS = create("tfc", "foods/grains");
+        public static final TagKey<Item> TFC_FRUITS = create("tfc", "foods/fruits");
         public static final TagKey<Item> TFC_SWEETENER = create("tfc", "sweetener");
 
     }

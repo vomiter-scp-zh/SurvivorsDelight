@@ -6,6 +6,7 @@ import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.ICookin
 import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.IFluidRequiringRecipe;
 import com.vomiter.survivorsdelight.core.device.cooking_pot.wrap.CookingPotFluidRecipeWrapper;
 import com.vomiter.survivorsdelight.network.SDNetwork;
+import com.vomiter.survivorsdelight.network.cooking_pot.PotFluidSyncS2CPacket;
 import net.dries007.tfc.common.fluids.FluidHelpers;
 import net.dries007.tfc.common.items.FluidContainerItem;
 import net.minecraft.core.BlockPos;
@@ -143,7 +144,7 @@ public abstract class CookingPotBlockEntity_FluidHandleMixin extends BlockEntity
                     else{
                         SDNetwork.CHANNEL.send( //send pack to make client redraw the fluid
                                 net.minecraftforge.network.PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
-                                new SDNetwork.PotFluidSyncS2CPacket(worldPosition, ForgeRegistries.FLUIDS.getKey(tank.getFluid().getFluid()), tank.getFluidAmount())
+                                new PotFluidSyncS2CPacket(worldPosition, ForgeRegistries.FLUIDS.getKey(tank.getFluid().getFluid()), tank.getFluidAmount())
                         );
 
                     }

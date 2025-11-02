@@ -3,7 +3,6 @@ package com.vomiter.survivorsdelight.core.container;
 import com.vomiter.survivorsdelight.core.food.trait.SDFoodTraits;
 import com.vomiter.survivorsdelight.core.registry.SDContainerTypes;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
-import net.dries007.tfc.common.capabilities.food.FoodTraits;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.Container;
@@ -16,7 +15,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-import vectorwing.farmersdelight.common.block.entity.CabinetBlockEntity;
 
 public class SDCabinetMenu extends AbstractContainerMenu {
     private final Container chest;
@@ -85,7 +83,7 @@ public class SDCabinetMenu extends AbstractContainerMenu {
         final int total = hotbarStart + 9;
 
         if (index < containerSlots) {
-            FoodCapability.removeTrait(stack, FoodTraits.PRESERVED);
+            FoodCapability.removeTrait(stack, SDFoodTraits.CABINET_STORED);
             if (!this.moveItemStackTo(stack, containerSlots, total, true)) {
                 return ItemStack.EMPTY;
             }
@@ -147,7 +145,7 @@ public class SDCabinetMenu extends AbstractContainerMenu {
             if (!out.isEmpty() && this.container instanceof SDCabinetBlockEntity be) {
                 assert be.getLevel() != null;
                 if (!be.getLevel().isClientSide) {
-                    FoodCapability.removeTrait(out, FoodTraits.PRESERVED);
+                    FoodCapability.removeTrait(out, SDFoodTraits.CABINET_STORED);
                     be.setChanged();
                 }
             }

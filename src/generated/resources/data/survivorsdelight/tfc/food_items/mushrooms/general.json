@@ -1,0 +1,25 @@
+{
+  "dairy": 0.0,
+  "decay_modifier": 5.0,
+  "fruit": 0.0,
+  "grain": 0.0,
+  "hunger": 0,
+  "ingredient": [
+    {
+      "item": "minecraft:red_mushroom"
+    },
+    {
+      "item": "minecraft:brown_mushroom"
+    },
+    {
+      "item": "farmersdelight:red_mushroom_colony"
+    },
+    {
+      "item": "farmersdelight:brown_mushroom_colony"
+    }
+  ],
+  "protein": 0.0,
+  "saturation": 0.0,
+  "vegetables": 0.0,
+  "water": 0.0
+}

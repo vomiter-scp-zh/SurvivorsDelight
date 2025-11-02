@@ -2,6 +2,7 @@ package com.vomiter.survivorsdelight.mixin.device.cooking_pot;
 
 import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.ICookingPotFluidAccess;
 import com.vomiter.survivorsdelight.network.SDNetwork;
+import com.vomiter.survivorsdelight.network.cooking_pot.PotFluidSyncS2CPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -27,7 +28,7 @@ public class CookingPotBlock_AddPlayerMixin {
         var tank = pot.sdtfc$getTank();
         SDNetwork.CHANNEL.send(
                 net.minecraftforge.network.PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
-                new SDNetwork.PotFluidSyncS2CPacket(pos, ForgeRegistries.FLUIDS.getKey(tank.getFluid().getFluid()), tank.getFluidAmount())
+                new PotFluidSyncS2CPacket(pos, ForgeRegistries.FLUIDS.getKey(tank.getFluid().getFluid()), tank.getFluidAmount())
         );
     }
 }

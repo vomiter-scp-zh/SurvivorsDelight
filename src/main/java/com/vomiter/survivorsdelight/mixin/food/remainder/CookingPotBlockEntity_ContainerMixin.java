@@ -2,6 +2,7 @@ package com.vomiter.survivorsdelight.mixin.food.remainder;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.vomiter.survivorsdelight.data.tags.SDTags;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.dries007.tfc.common.capabilities.food.IFood;
@@ -18,8 +19,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import vectorwing.farmersdelight.common.block.entity.CookingPotBlockEntity;
 
-import static vectorwing.farmersdelight.common.block.entity.CookingPotBlockEntity.CONTAINER_SLOT;
-
 @Mixin(value = CookingPotBlockEntity.class, remap = false)
 public abstract class CookingPotBlockEntity_ContainerMixin {
     @Shadow private ItemStack mealContainerStack;
@@ -35,12 +34,18 @@ public abstract class CookingPotBlockEntity_ContainerMixin {
         else return mealContainerStack.is(Items.GLASS_BOTTLE) && container.is(TFCItems.SILICA_GLASS_BOTTLE.get());
     }
 
-    @ModifyExpressionValue(method = "useHeldItemOnMeal", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;split(I)Lnet/minecraft/world/item/ItemStack;"), remap = true)
-    private ItemStack applyContainer(ItemStack original){
-        ItemStack container = inventory.getStackInSlot(CONTAINER_SLOT);
-        if(ItemStack.isSameItem(mealContainerStack, container)) return original;
-        original.getOrCreateTag().put("Container", container.copyWithCount(1).serializeNBT());
-        return original;
+    @Inject(method = "useHeldItemOnMeal", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;shrink(I)V"), remap = true, cancellable = true)
+    private void applyContainer(ItemStack container, CallbackInfoReturnable<ItemStack> cir){
+        ItemStack mealStack = getMeal();
+        if(mealStack.is(SDTags.ItemTags.create("tfc", "soups"))) {
+            var mealToGive = mealStack.split(1);
+            mealToGive.getOrCreateTag().put("bowl", container.split(1).serializeNBT());
+            cir.setReturnValue(mealToGive);
+        } else if (!ItemStack.isSameItem(mealStack.getCraftingRemainingItem(), container)) {
+            var mealToGive = mealStack.split(1);
+            mealToGive.getOrCreateTag().put("Container", container.copyWithCount(1).serializeNBT());
+            cir.setReturnValue(mealToGive);
+        }
     }
 
     @Inject(method = "useHeldItemOnMeal", at = @At("HEAD"), cancellable = true)
@@ -63,22 +68,29 @@ public abstract class CookingPotBlockEntity_ContainerMixin {
         }
 
         if(ItemStack.isSameItem(mealStack.getCraftingRemainingItem(), containerInputStack)) return;
-
         int smallerStackCount = Math.min(mealStack.getCount(), containerInputStack.getCount());
         int mealCount = Math.min(smallerStackCount, mealStack.getMaxStackSize() - outputStack.getCount());
+
         if (outputStack.isEmpty()) {
             ItemStack mealToPut = mealStack.split(mealCount);
-            mealToPut.getOrCreateTag().put("Container", containerInputStack.copyWithCount(1).serializeNBT());
+            if(mealStack.is(SDTags.ItemTags.create("tfc", "soups"))) {
+                mealToPut.getOrCreateTag().put("bowl", containerInputStack.copyWithCount(1).serializeNBT());
+            } else{
+                mealToPut.getOrCreateTag().put("Container", containerInputStack.getItem().getDefaultInstance().serializeNBT());
+            }
             containerInputStack.shrink(mealCount);
             inventory.setStackInSlot(8, mealToPut);
         } else if (outputStack.getItem() == mealStack.getItem()) {
             ItemStack simMeal = mealStack.copy();
-            simMeal.getOrCreateTag().put("Container", containerInputStack.copyWithCount(1).serializeNBT());
+            if(mealStack.is(SDTags.ItemTags.create("tfc", "soups"))) {
+                simMeal.getOrCreateTag().put("bowl", containerInputStack.copyWithCount(1).serializeNBT());
+            } else{
+                simMeal.getOrCreateTag().put("Container", containerInputStack.copyWithCount(1).serializeNBT());
+            }
             if(FoodCapability.areStacksStackableExceptCreationDate(simMeal, outputStack)){
-                ItemStack mealToPut = mealStack.split(mealCount);
-                mealToPut.getOrCreateTag().put("Container", containerInputStack.copyWithCount(1).serializeNBT());
+                mealStack.shrink(mealCount);
                 containerInputStack.shrink(mealCount);
-                FoodCapability.mergeItemStacks(outputStack, mealToPut);
+                FoodCapability.mergeItemStacks(outputStack, simMeal);
             }
         }
         ci.cancel();

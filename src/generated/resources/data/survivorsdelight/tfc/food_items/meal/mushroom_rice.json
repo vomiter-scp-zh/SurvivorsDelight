@@ -1,0 +1,14 @@
+{
+  "dairy": 2.0,
+  "decay_modifier": 1.0,
+  "fruit": 0.0,
+  "grain": 1.0,
+  "hunger": 4,
+  "ingredient": {
+    "item": "farmersdelight:mushroom_rice"
+  },
+  "protein": 0.0,
+  "saturation": 4.0,
+  "vegetables": 0.5,
+  "water": 0.0
+}

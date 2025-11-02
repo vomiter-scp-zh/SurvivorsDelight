@@ -2,6 +2,7 @@ package com.vomiter.survivorsdelight;
 
 import com.mojang.logging.LogUtils;
 import com.vomiter.survivorsdelight.client.ClientForgeEventHandler;
+import com.vomiter.survivorsdelight.client.SaladPredicates;
 import com.vomiter.survivorsdelight.client.SandwichPredicates;
 import com.vomiter.survivorsdelight.client.screen.SDCabinetScreen;
 import com.vomiter.survivorsdelight.client.screen.SDPotFluidScreen;
@@ -12,6 +13,7 @@ import com.vomiter.survivorsdelight.core.device.skillet.itemcooking.ISkilletItem
 import com.vomiter.survivorsdelight.core.farming.RichSoilFarmlandBlockEntitySetup;
 import com.vomiter.survivorsdelight.core.food.trait.SDFoodTraits;
 import com.vomiter.survivorsdelight.core.registry.SDContainerTypes;
+import com.vomiter.survivorsdelight.core.registry.SDItemStackModifiers;
 import com.vomiter.survivorsdelight.core.registry.SDRegistries;
 import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletBlocks;
 import com.vomiter.survivorsdelight.network.SDNetwork;
@@ -27,17 +29,20 @@ import org.slf4j.Logger;
 
 @Mod(SurvivorsDelight.MODID)
 public class SurvivorsDelight {
-    //TODO: 1.6 - Add workhorse effect to horse feed
     //TODO: add aquaculture support
     //TODO: add tfc cs compat
 
+    //TODO: add recipe for not food
+
     //TODO: add size to fd foods
     //TODO: add reasonable food tags
-    //TODO: add looting system
     //TODO: add food data
+    //TODO: add washable tag for fd foods
+    //TODO: check apple pie
+
+    //TODO: add looting system (for ham)
     //TODO: make reasonable feast recipe
-    //TODO: make cooking pot recipe use dynamical nutrient when the result item is dynamic
-    //TODO: configurable recipe/data system
+    //TODO: transfer manual recipes to datagen
 
     //TODO: another mod - Basket and storage blocks
     //TODO: another mod - Unroasted block and buildable feast
@@ -59,6 +64,7 @@ public class SurvivorsDelight {
         modBus.addListener(SDNetwork::onCommonSetup);
         modBus.addListener(RichSoilFarmlandBlockEntitySetup::onCommonSetup);
         modBus.addListener(SDSkilletBlocks.Compat::onCommonSetup);
+        modBus.addListener(SDItemStackModifiers::onCommonSetUp);
     }
 
     public void clientSetup(final FMLClientSetupEvent event) {
@@ -66,6 +72,7 @@ public class SurvivorsDelight {
             MenuScreens.register(SDContainerTypes.CABINET.get(), SDCabinetScreen::new);
             MenuScreens.register(SDCookingPotFluidMenu.TYPE, SDPotFluidScreen::new);
             SandwichPredicates.addPredicate();
+            SaladPredicates.addPredicate();
         });
     }
 

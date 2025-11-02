@@ -4,6 +4,8 @@ import com.vomiter.survivorsdelight.data.tags.SDTags;
 import net.dries007.tfc.common.items.Food;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.registries.ForgeRegistries;
 import vectorwing.farmersdelight.common.registry.ModItems;
 
@@ -22,16 +24,214 @@ public class FDFoodData {
         drink();
         pie();
         soup();
+        meal();
+        mushrooms();
+        feast();
+    }
+
+    public void feast(){
+        provider.newBuilder("feast/shepherds_pie")
+                .ingredient(Ingredient.of(ModItems.SHEPHERDS_PIE.get(), ModItems.SHEPHERDS_PIE_BLOCK.get()).toJson())
+                .type("dynamic")
+                .save();
+
+        provider.newBuilder("feast/honey_glazed_ham")
+                .ingredient(Ingredient.of(ModItems.HONEY_GLAZED_HAM_BLOCK.get(), ModItems.HONEY_GLAZED_HAM.get()).toJson())
+                .type("dynamic")
+                .save();
+
+        provider.newBuilder("feast/stuffed_pumpkin")
+                .ingredient(Ingredient.of(ModItems.STUFFED_PUMPKIN_BLOCK.get(), ModItems.STUFFED_PUMPKIN.get()).toJson())
+                .type("dynamic")
+                .save();
+
+        provider.newBuilder("feast/roasted_chicken")
+                .ingredient(Ingredient.of(ModItems.ROAST_CHICKEN_BLOCK.get(), ModItems.ROAST_CHICKEN.get()).toJson())
+                .type("dynamic")
+                .save();
+
+        provider.newBuilder("feast/rice_roll_medley")
+                .item(ModItems.RICE_ROLL_MEDLEY_BLOCK.get())
+                .setDecay(3.0f)
+                .save();
+    }
+
+    public void mushrooms(){
+        provider.newBuilder("mushrooms/general")
+                .ingredient(Ingredient.of(Items.RED_MUSHROOM, Items.BROWN_MUSHROOM, ModItems.RED_MUSHROOM_COLONY.get(), ModItems.BROWN_MUSHROOM_COLONY.get()).toJson())
+                .setDecay(5)
+                .save();
+
+        provider.newBuilder("mushrooms/brown_mushroom")
+                .item(Items.BROWN_MUSHROOM)
+                .setSaturation(1)
+                .setDairy(0.5)
+                .setVegetables(0.5)
+                .save();
+    }
+
+    public void meal(){
+        // 1) 動態餐點
+        provider.newBuilder("meal/dynamic_meal")
+                .tag(SDTags.ItemTags.DYNAMIC_MEALS.location().toString())
+                .type("dynamic")
+                .save();
+
+        // 2) 先讀會被拿來當「基準」的 TFC 食物 -----------------
+        var cooked_rice = provider.readTfcFoodJson(Food.COOKED_RICE);
+        var onion = provider.readTfcFoodJson(Food.ONION);
+        var cooked_egg = provider.readTfcFoodJson(Food.COOKED_EGG);
+        var cooked_pork = provider.readTfcFoodJson(Food.PORK);
+        var tomato = provider.readTfcFoodJson(Food.TOMATO);
+        var cooked_beef = provider.readTfcFoodJson(Food.COOKED_BEEF);
+        var cooked_mutton = provider.readTfcFoodJson(Food.COOKED_MUTTON);
+        var baked_potato = provider.readTfcFoodJson(Food.BAKED_POTATO);
+        var cooked_calamari = provider.readTfcFoodJson(Food.COOKED_CALAMARI);
+        var garlic = provider.readTfcFoodJson(Food.GARLIC);
+
+        float tagGrain = cooked_rice.grain();
+        float tagGrainSat = cooked_rice.saturation();
+
+
+        provider.newBuilder("meal/fried_rice")
+                .item(ModItems.FRIED_RICE.get())
+                .setDairy(cooked_egg.dairy())
+                .setProtein(cooked_egg.protein())
+                .setGrain(cooked_rice.grain())
+                .setVegetables(onion.vegetables())
+                .setHunger(cooked_rice.hunger())
+                .setSaturation(cooked_rice.saturation() + cooked_egg.saturation() + onion.saturation())
+                .save();
+
+        provider.newBuilder("meal/bacon_and_eggs")
+                .item(ModItems.BACON_AND_EGGS.get())
+                .setDairy(cooked_egg.dairy() * 2)
+                .setProtein(cooked_egg.protein() * 2 + cooked_pork.protein())
+                .setHunger(cooked_pork.hunger())
+                .setSaturation(cooked_egg.saturation() * 2 + cooked_pork.saturation())
+                .save();
+
+
+        // - meal/vegetable_noodles     // uses tag: tfc:foods/vegetables (x3)
+        // - meal/ratatouille           // uses tag: tfc:foods/vegetables (x3)
+        // - meal/grilled_salmon        // uses tag: survivorsdelight:fruit_for_cheesecake
+
+        // 1) pasta_with_meatballs
+        // tomato_sauce → tomato
+        // raw_pasta → 用 cooked_rice 當一份穀類的代理
+        // beef_patty → 用 cooked_beef
+        provider.newBuilder("meal/pasta_with_meatballs")
+                .item(ModItems.PASTA_WITH_MEATBALLS.get())
+                .setDairy(0)
+                .setProtein(cooked_beef.protein())
+                .setGrain(cooked_rice.grain())
+                .setVegetables(tomato.vegetables())
+                .setHunger(cooked_rice.hunger())
+                .setSaturation(
+                        cooked_rice.saturation()
+                                + cooked_beef.saturation()
+                                + tomato.saturation()
+                )
+                .save();
+
+        // 2) pasta_with_mutton_chop
+        provider.newBuilder("meal/pasta_with_mutton_chop")
+                .item(ModItems.PASTA_WITH_MUTTON_CHOP.get())
+                .setDairy(0)
+                .setProtein(cooked_mutton.protein())
+                .setGrain(cooked_rice.grain())
+                .setVegetables(tomato.vegetables() * 1.5)
+                .setHunger(cooked_rice.hunger())
+                .setSaturation(
+                        cooked_rice.saturation()
+                                + cooked_mutton.saturation()
+                                + tomato.saturation()
+                )
+                .save();
+
+        // 3) roasted_mutton_chops   // uses tag: tfc:foods/grains
+        // mutton → 用 cooked_pork 當代理
+        // tomato → tomato
+        // tfc:foods/grains → 用 cooked_rice 當一份穀類
+        provider.newBuilder("meal/roasted_mutton_chops")
+                .item(ModItems.ROASTED_MUTTON_CHOPS.get())
+                .setDairy(0)
+                .setProtein(cooked_mutton.protein())
+                .setGrain(tagGrain) // 這是標籤材料
+                .setVegetables(tomato.vegetables())
+                .setHunger(cooked_mutton.hunger()) // 以「肉」當主食量
+                .setSaturation(
+                        cooked_mutton.saturation()
+                                + tomato.saturation()
+                                + tagGrainSat
+                )
+                .save();
+
+        // 4) vegetable_noodles      // uses tag: tfc:foods/vegetables (x3) // -> dynamic
+
+        // 5) steak_and_potatoes
+        // cooked_beef + baked_potato + onion
+        provider.newBuilder("meal/steak_and_potatoes")
+                .item(ModItems.STEAK_AND_POTATOES.get())
+                .setProtein(cooked_beef.protein())
+                .setVegetables(onion.vegetables() + baked_potato.vegetables())
+                .setHunger(cooked_beef.hunger()) // 以馬鈴薯當主食
+                .setSaturation(
+                        cooked_beef.saturation()
+                                + baked_potato.saturation()
+                                + onion.saturation()
+                )
+                .save();
+
+        // 6) ratatouille            // uses tag: tfc:foods/vegetables (x3) //-> dynamic
+
+        // 7) squid_ink_pasta
+        // raw_pasta → cooked_rice
+        // ink_sac → none
+        // cooked_calamari → cooked_calamari
+        provider.newBuilder("meal/squid_ink_pasta")
+                .item(ModItems.SQUID_INK_PASTA.get())
+                .setProtein(cooked_calamari.protein())
+                .setGrain(cooked_rice.grain())
+                .setVegetables(garlic.vegetables())
+                .setHunger(cooked_rice.hunger())
+                .setSaturation(
+                        cooked_rice.saturation()
+                        + cooked_calamari.saturation()
+                        + garlic.saturation()
+                )
+                .save();
+
+        // 8) grilled_salmon         // uses tag: survivorsdelight:fruit_for_cheesecake // -> dynamic
+        // cooked_salmon + onion + 「一份水果 tag」
+
+        // 9) mushroom_rice
+        // cooked_rice + red_mushroom + brown_mushroom + bone_broth
+
+        provider.newBuilder("meal/mushroom_rice")
+                .item(ModItems.MUSHROOM_RICE.get())
+                .setDairy(2)
+                .setGrain(cooked_rice.grain())
+                .setVegetables(0.5)
+                .setHunger(cooked_rice.hunger())
+                .setSaturation(cooked_rice.saturation() + 2)
+                .save();
     }
 
     public void soup(){
-        provider
-                .newBuilder("soups/soup")
+        provider.newBuilder("soups/soup")
                 .tag(SDTags.ItemTags.SOUPS.location().toString())
                 .setHunger(4)
                 .setDecay(4.5)
                 .type("dynamic")
                 .save();
+
+        provider.newBuilder("soup/bone_broth")
+                .item(ModItems.BONE_BROTH.get())
+                .setDecay(0.5)
+                .setDairy(1)
+                .save();
+
     }
 
     public void pie(){
@@ -92,6 +292,11 @@ public class FDFoodData {
                 .setGrain(cooked_rice.grain())
                 .setHunger(cooked_rice.hunger() + Math.round(salmon.hunger()/2f))
                 .setSaturation(Math.max(cooked_rice.saturation(), salmon.saturation()))
+                .save();
+
+        provider.newBuilder("food/tomato_sauce").item(ModItems.TOMATO_SAUCE.get())
+                .multipliedFrom(Food.TOMATO, 2)
+                .setDecay(4)
                 .save();
     }
 

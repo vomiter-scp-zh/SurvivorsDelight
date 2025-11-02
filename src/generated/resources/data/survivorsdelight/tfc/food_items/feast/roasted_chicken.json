@@ -1,0 +1,20 @@
+{
+  "type": "dynamic",
+  "dairy": 0.0,
+  "decay_modifier": 1.0,
+  "fruit": 0.0,
+  "grain": 0.0,
+  "hunger": 0,
+  "ingredient": [
+    {
+      "item": "farmersdelight:roast_chicken_block"
+    },
+    {
+      "item": "farmersdelight:roast_chicken"
+    }
+  ],
+  "protein": 0.0,
+  "saturation": 0.0,
+  "vegetables": 0.0,
+  "water": 0.0
+}

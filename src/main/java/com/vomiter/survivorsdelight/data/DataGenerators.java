@@ -5,7 +5,7 @@ import com.vomiter.survivorsdelight.data.asset.SDCabinetBlockStateProvider;
 import com.vomiter.survivorsdelight.data.asset.SDLangProvider;
 import com.vomiter.survivorsdelight.data.asset.SDSkilletBlockStateProvider;
 import com.vomiter.survivorsdelight.data.book.SDPatchouliCategoryProvider;
-import com.vomiter.survivorsdelight.data.book.SDPatchouliContent;
+import com.vomiter.survivorsdelight.data.book.content.SDBookEN;
 import com.vomiter.survivorsdelight.data.book.SDPatchouliEntryProvider;
 import com.vomiter.survivorsdelight.data.food.SDFoodDataProvider;
 import com.vomiter.survivorsdelight.data.loot.SDCabinetLootTableProvider;
@@ -24,7 +24,6 @@ import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import java.io.FileNotFoundException;
 import java.util.concurrent.CompletableFuture;
 
 @SuppressWarnings("unused")
@@ -53,29 +52,22 @@ public class DataGenerators
         generator.addProvider(event.includeClient(), new SDLangProvider(output, "en_us"));
         generator.addProvider(event.includeClient(), new SDLangProvider(output, "zh_tw"));
 
-        SDPatchouliCategoryProvider cats = new SDPatchouliCategoryProvider(output);
-        SDPatchouliEntryProvider entries = new SDPatchouliEntryProvider(output);
-
-        SDPatchouliContent.accept(cats, entries);
-        generator.addProvider(event.includeClient(), cats);
-        generator.addProvider(event.includeClient(), entries);
-
         generator.addProvider(event.includeServer(), new SDFoodDataProvider(output, SurvivorsDelight.MODID));
         generator.addProvider(event.includeServer(), new SDItemSizeProvider(output, SurvivorsDelight.MODID));
+
+        SDBookEN.accept(event);
+
     }
 
     private static void ensureTfcNotRottenRegistered() {
         try {
-            // 取得「同一個實例」
             var notRotten = net.dries007.tfc.common.recipes.ingredients.NotRottenIngredient.Serializer.INSTANCE;
 
-            // 用反查看看這個實例是否已被賦予 id
             if (CraftingHelper.getID(notRotten) == null) {
-                // 沒有的話，補註冊到 tfc:not_rotten
                 CraftingHelper.register(new ResourceLocation("tfc", "not_rotten"), notRotten);
             }
         } catch (Throwable ignored) {
-            // 沒有 TFC 類別（你把 TFC 拔掉）就略過；不會用到就不需要註冊
+
         }
     }
 }

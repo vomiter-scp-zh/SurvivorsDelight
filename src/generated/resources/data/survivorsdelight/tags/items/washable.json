@@ -1,0 +1,11 @@
+{
+  "values": [
+    "farmersdelight:bone_broth",
+    "#survivorsdelight:soups",
+    "#survivorsdelight:bowl_meals",
+    {
+      "id": "#farmersdelight:drinks",
+      "required": false
+    }
+  ]
+}

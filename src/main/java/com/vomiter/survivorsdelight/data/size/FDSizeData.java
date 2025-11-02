@@ -6,6 +6,7 @@ import com.vomiter.survivorsdelight.util.RLUtils;
 import net.dries007.tfc.common.capabilities.size.Size;
 import net.dries007.tfc.common.capabilities.size.Weight;
 import vectorwing.farmersdelight.common.registry.ModItems;
+import vectorwing.farmersdelight.common.tag.ModTags;
 
 public class FDSizeData {
     final SDItemSizeProvider provider;
@@ -16,6 +17,20 @@ public class FDSizeData {
     void save(){
         cutFood();
         pie();
+        drink();
+        provider.newEntry(RLUtils.build("food/standard"))
+                .ingredient(SDTags.ItemTags.FOODS_WITH_STANDARD_SIZE)
+                .size(Size.SMALL)
+                .weight(Weight.LIGHT)
+                .save();
+    }
+
+    void drink(){
+        provider.newEntry(RLUtils.build("food/drinks"))
+                .ingredient(ModTags.DRINKS)
+                .size(Size.LARGE)
+                .weight(Weight.HEAVY)
+                .save();
     }
 
     void pie(){

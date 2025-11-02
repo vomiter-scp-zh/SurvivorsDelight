@@ -1,6 +1,7 @@
 package com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle;
 
 import com.mojang.datafixers.util.Pair;
+import com.vomiter.survivorsdelight.core.device.cooking_pot.ICookingPotCommonMenu;
 import com.vomiter.survivorsdelight.core.registry.SDContainerTypes;
 import com.vomiter.survivorsdelight.mixin.device.cooking_pot.CookingPotBlockEntity_Accessor;
 import net.minecraft.core.BlockPos;
@@ -26,7 +27,7 @@ import vectorwing.farmersdelight.common.block.entity.container.CookingPotResultS
 
 import javax.annotation.Nullable;
 
-public class SDCookingPotFluidMenu extends AbstractContainerMenu {
+public class SDCookingPotFluidMenu extends AbstractContainerMenu implements ICookingPotCommonMenu {
     public static final MenuType<SDCookingPotFluidMenu> TYPE = SDContainerTypes.POT_FLUID_MENU.get();
     public final BlockPos pos;
     private CookingPotBlockEntity pot;
@@ -169,6 +170,11 @@ public class SDCookingPotFluidMenu extends AbstractContainerMenu {
         else slot.setChanged();
 
         return copy;
+    }
+
+    @Override
+    public CookingPotBlockEntity sdtfc$getBlockEntity() {
+        return pot;
     }
 
     // --- 自訂 Slot：輸入/輸出 ---

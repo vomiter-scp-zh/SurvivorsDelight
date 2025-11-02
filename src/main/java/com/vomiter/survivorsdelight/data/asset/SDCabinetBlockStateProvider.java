@@ -2,6 +2,7 @@ package com.vomiter.survivorsdelight.data.asset;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.core.registry.SDBlocks;
+import com.vomiter.survivorsdelight.util.RLUtils;
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
@@ -75,18 +76,42 @@ public class SDCabinetBlockStateProvider extends BlockStateProvider {
                 modLoc("block/" + basePath + "_side"),
                 modLoc("block/" + basePath + "_top"));
 
+        if(wood.equals(Wood.OAK)){
+            existingFileHelper.trackGenerated(
+                    RLUtils.build("farmersdelight", "block/oak_cabinet"),
+                    PackType.CLIENT_RESOURCES,
+                    ".json",
+                    "models"
+            );
+            existingFileHelper.trackGenerated(
+                    RLUtils.build("farmersdelight", "block/oak_cabinet_open"),
+                    PackType.CLIENT_RESOURCES,
+                    ".json",
+                    "models"
+            );
+
+
+            closed = models().getExistingFile(
+                    RLUtils.build("farmersdelight", "block/oak_cabinet"));
+            open = models().getExistingFile(
+                    RLUtils.build("farmersdelight", "block/oak_cabinet_open"));
+            itemModels().withExistingParent("item/" + basePath, RLUtils.build("farmersdelight", "block/oak_cabinet"));
+        } else {
+            itemModels().withExistingParent("item/" + basePath, modLoc("block/" + basePath));
+        }
+
+        ModelFile finalOpen = open;
+        ModelFile finalClosed = closed;
         getVariantBuilder(block).forAllStates(state -> {
             Direction dir = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
             boolean isOpen = state.getValue(BlockStateProperties.OPEN);
             int y = yFromHorizontal(dir);
-            ModelFile model = isOpen ? open : closed;
+            ModelFile model = isOpen ? finalOpen : finalClosed;
             return ConfiguredModel.builder()
                     .modelFile(model)
                     .rotationY(y)
                     .build();
         });
-
-        itemModels().withExistingParent("item/" + basePath, modLoc("block/" + basePath));
     }
 
     private ModelFile orientableModel(String name, ResourceLocation front, ResourceLocation side, ResourceLocation top) {

@@ -1,9 +1,14 @@
 package com.vomiter.survivorsdelight.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.SDCookingPotFluidMenu;
+import com.vomiter.survivorsdelight.network.SDNetwork;
+import com.vomiter.survivorsdelight.network.cooking_pot.ClearCookingPotMealC2SPacket;
 import com.vomiter.survivorsdelight.util.RLUtils;
 import net.dries007.tfc.client.RenderHelpers;
+import net.dries007.tfc.common.capabilities.Capabilities;
+import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.util.Tooltips;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -11,8 +16,14 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Unique;
 
 import java.awt.*;
@@ -80,5 +91,29 @@ public class SDPotFluidScreen extends AbstractContainerScreen<SDCookingPotFluidM
             graphics.renderTooltip(this.font, Tooltips.fluidUnitsOf(stack), mouseX, mouseY);
         }
     }
+
+    @Override
+    protected void slotClicked(@Nullable Slot slot, int mouseX, int mouseY, @NotNull ClickType clickType) {
+        if(slot != null) SurvivorsDelight.LOGGER.info("SLOT NUMBER {}", slot.index);
+        if (slot != null && slot.index == 2 && clickType == ClickType.PICKUP) {
+            ItemStack carried = this.getMenu().getCarried();
+            if (sdtfc$isWaterBucket(carried)) {
+                SDNetwork.CHANNEL.sendToServer(new ClearCookingPotMealC2SPacket(this.menu.sdtfc$getBlockEntity().getBlockPos()));
+                return;
+            }
+        }
+
+        super.slotClicked(slot, mouseX, mouseY, clickType);
+    }
+
+    private static boolean sdtfc$isWaterBucket(ItemStack stack) {
+        IFluidHandler fluidHandler = Helpers.getCapability(stack, Capabilities.FLUID_ITEM);
+        if(fluidHandler != null && fluidHandler.getFluidInTank(0).getFluid().isSame(Fluids.WATER)){
+            fluidHandler.drain(1000, IFluidHandler.FluidAction.EXECUTE);
+            return true;
+        }
+        return false;
+    }
+
 
 }

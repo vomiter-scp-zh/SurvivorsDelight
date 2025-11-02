@@ -1,6 +1,7 @@
 package com.vomiter.survivorsdelight.data.book;
 
 import com.google.gson.JsonObject;
+import com.vomiter.survivorsdelight.data.book.builder.BookJson;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;

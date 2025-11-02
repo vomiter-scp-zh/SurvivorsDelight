@@ -1,6 +1,8 @@
 package com.vomiter.survivorsdelight.data.recipe;
 
 import com.vomiter.survivorsdelight.data.tags.SDTags;
+import com.vomiter.survivorsdelight.util.RLUtils;
+import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.dries007.tfc.common.items.Food;
 import net.dries007.tfc.common.items.TFCItems;
@@ -11,6 +13,7 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -26,6 +29,29 @@ public class SDCraftingRecipes {
         pie(out);
         fishRoll(out, ModItems.COD_ROLL.get(), ModItems.COD_SLICE.get());
         fishRoll(out, ModItems.SALMON_ROLL.get(), ModItems.SALMON_SLICE.get());
+        misc(out);
+    }
+
+    public void misc(Consumer<FinishedRecipe> out){
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.HORSE_FEED.get())
+                .pattern("AC")
+                .pattern("SA")
+                .define('A', SDTags.ItemTags.APPLE_FOR_CIDER)
+                .define('C', TFCItems.FOOD.get(Food.CARROT).get())
+                .define('S', TFCBlocks.THATCH.get().asItem())
+                .unlockedBy("has_thatch", InventoryChangeTrigger.TriggerInstance.hasItems(TFCBlocks.THATCH.get()))
+                .save(out, RLUtils.build("crafting/misc/horse_feed"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.DOG_FOOD.get())
+                .pattern(" B ")
+                .pattern("MRM")
+                .pattern(" b ")
+                .define('B', Items.BONE)
+                .define('b', Items.BOWL)
+                .define('M', SDTags.ItemTags.MEATS_FOR_SHEPHERDS_PIE)
+                .define('R', Items.ROTTEN_FLESH)
+                .unlockedBy("has_rotten_flesh", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ROTTEN_FLESH))
+                .save(out, RLUtils.build("crafting/misc/dog_food"));
     }
 
     public void pie(Consumer<FinishedRecipe> out){

@@ -16,6 +16,7 @@ import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
@@ -47,10 +48,21 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         tag(SDTags.ItemTags.RETURN_COPPER_SKILLET).add(Objects.requireNonNull(SDSkilletItems.SKILLETS.get(SkilletMaterial.COPPER_SILVER).getKey()));
         tag(SDTags.ItemTags.RETURN_COPPER_SKILLET).add(Objects.requireNonNull(SDSkilletItems.SKILLETS.get(SkilletMaterial.COPPER_TIN).getKey()));
 
+        tag(SDTags.ItemTags.WASHABLE)
+                .add(ModItems.BONE_BROTH.get())
+                .addTag(SDTags.ItemTags.SOUPS)
+                .addTag(SDTags.ItemTags.BOWL_MEALS)
+                .addOptionalTag(ModTags.DRINKS);
+
         tag(TFCTags.Items.DOG_FOOD).add(ModItems.DOG_FOOD.get());
         tag(TFCTags.Items.HORSE_FOOD).add(ModItems.HORSE_FEED.get());
         tag(TFCTags.Items.USABLE_ON_TOOL_RACK).addTag(SDTags.ItemTags.SKILLETS);
 
+        tag(SDTags.ItemTags.FOODS_WITH_STANDARD_SIZE)
+                .add(ModItems.BONE_BROTH.get())
+                .addTag(SDTags.ItemTags.SOUPS)
+                .addTag(SDTags.ItemTags.BOWL_MEALS)
+                .addOptionalTag(ModTags.DRINKS);
 
         tag(ModTags.SERVING_CONTAINERS)
                 .add(TFCBlocks.CERAMIC_BOWL.get().asItem())
@@ -64,7 +76,49 @@ public class ModItemTagsProvider extends ItemTagsProvider {
     }
 
     private void addFoodTags(){
+        tag(SDTags.ItemTags.MEATS_FOR_SHEPHERDS_PIE).add(
+                ModItems.MUTTON_CHOPS.get(),
+                ModItems.MINCED_BEEF.get(),
+                TFCItems.FOOD.get(Food.BEEF).get(),
+                TFCItems.FOOD.get(Food.CHEVON).get(),
+                TFCItems.FOOD.get(Food.MUTTON).get()
+        );
+
+        tag(SDTags.ItemTags.create("tfc", "foods/usable_in_soup")).add(Items.BROWN_MUSHROOM);
+
+        tag(SDTags.ItemTags.DYNAMIC_MEALS).add(
+                ModItems.VEGETABLE_NOODLES.get(),
+                ModItems.RATATOUILLE.get(),
+                ModItems.GRILLED_SALMON.get()
+        );
+
+        tag(SDTags.ItemTags.BOWL_MEALS).add(
+                ModItems.PASTA_WITH_MEATBALLS.get(),
+                ModItems.PASTA_WITH_MUTTON_CHOP.get(),
+                ModItems.ROASTED_MUTTON_CHOPS.get(),
+                ModItems.VEGETABLE_NOODLES.get(),
+                ModItems.STEAK_AND_POTATOES.get(),
+                ModItems.RATATOUILLE.get(),
+                ModItems.SQUID_INK_PASTA.get(),
+                ModItems.GRILLED_SALMON.get(),
+                ModItems.MUSHROOM_RICE.get()
+        );
+
+        tag(SDTags.ItemTags.FISHES_USABLE_IN_STEW).add(
+                TFCItems.FOOD.get(Food.COOKED_COD).get(),
+                TFCItems.FOOD.get(Food.COOKED_SALMON).get(),
+                TFCItems.FOOD.get(Food.COOKED_BLUEGILL).get(),
+                TFCItems.FOOD.get(Food.COOKED_TROPICAL_FISH).get(),
+                TFCItems.FOOD.get(Food.COOKED_LARGEMOUTH_BASS).get(),
+                TFCItems.FOOD.get(Food.COOKED_SMALLMOUTH_BASS).get(),
+                TFCItems.FOOD.get(Food.COOKED_CRAPPIE).get(),
+                TFCItems.FOOD.get(Food.COOKED_LAKE_TROUT).get(),
+                TFCItems.FOOD.get(Food.COOKED_RAINBOW_TROUT).get()
+        );
+
         tag(SDTags.ItemTags.SOUPS).add(
+                ModItems.BACON_AND_EGGS.get(),
+                ModItems.FRIED_RICE.get(),
                 ModItems.CHICKEN_SOUP.get(),
                 ModItems.NOODLE_SOUP.get(),
                 ModItems.PUMPKIN_SOUP.get(),
@@ -100,11 +154,7 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 "tfc:food/snowberry",
                 "tfc:food/strawberry",
                 "tfc:food/wintergreen_berry",
-                "tfc:food/cherry",
-                "tfc:food/lemon",
-                "tfc:food/orange",
-                "tfc:food/peach",
-                "tfc:food/plum").forEach(s -> {
+                "tfc:food/cherry").forEach(s -> {
                     var item = ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(s));
                     if (item != null) tag(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE).add(item);
                 });

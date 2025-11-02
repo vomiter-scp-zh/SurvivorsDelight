@@ -6,10 +6,9 @@ import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.core.device.cooking_pot.bridge.ICookingPotRecipeBridge;
 import com.vomiter.survivorsdelight.core.device.cooking_pot.bridge.TFCPotRecipeBridgeFD;
 import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.ICookingPotFluidAccess;
-import net.dries007.tfc.common.capabilities.food.FoodCapability;
-import net.dries007.tfc.common.capabilities.food.FoodData;
-import net.dries007.tfc.common.capabilities.food.FoodHandler;
-import net.dries007.tfc.common.capabilities.food.Nutrient;
+import com.vomiter.survivorsdelight.data.tags.SDTags;
+import com.vomiter.survivorsdelight.util.SDUtils;
+import net.dries007.tfc.common.capabilities.food.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
@@ -34,6 +33,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import vectorwing.farmersdelight.common.block.entity.CookingPotBlockEntity;
 import vectorwing.farmersdelight.common.block.entity.SyncedBlockEntity;
 import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;
+import vectorwing.farmersdelight.common.registry.ModItems;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -44,6 +44,9 @@ public abstract class CookingPotBlockEntity_PotRecipeBridgeMixin extends SyncedB
     @Shadow private ResourceLocation lastRecipeID;
     @Shadow private int cookTime;
     @Shadow private boolean checkNewRecipe;
+
+    @Shadow protected abstract void ejectIngredientRemainder(ItemStack remainderStack);
+
     @Unique private @Nullable TFCPotRecipeBridgeFD sdtfc$cachedBridge = null;
     @Unique private ItemStack sdtfc$cachedDynamicFoodResult = ItemStack.EMPTY;
 
@@ -92,7 +95,7 @@ public abstract class CookingPotBlockEntity_PotRecipeBridgeMixin extends SyncedB
             if(FoodCapability.get(originalResult) instanceof FoodHandler.Dynamic dynamicFood){
                 NonNullList<Ingredient> inputItems = NonNullList.create();
                 List<ItemStack> foodIngredients = new ArrayList<>();
-                FoodData baseFood = dynamicFood.getData();
+                FoodData baseFood = FoodData.decayOnly(4.5f);
                 float[] nutrition = baseFood.nutrients();
                 float saturation = baseFood.saturation();
                 float water = baseFood.water();
@@ -104,19 +107,27 @@ public abstract class CookingPotBlockEntity_PotRecipeBridgeMixin extends SyncedB
                         inputItems.add(Ingredient.of(stack.getItem()));
                         if(FoodCapability.get(stack) == null) continue;
                         FoodData data = Objects.requireNonNull(FoodCapability.get(stack)).getData();
-                        foodIngredients.add(stack.copyWithCount(1));
+                        foodIngredients.add(stack.getItem().getDefaultInstance());
                         for (Nutrient nutrient : Nutrient.VALUES)
                         {
-                            nutrition[nutrient.ordinal()] += data.nutrient(nutrient);
+                            float extra = 0f;
+                            if(stack.is(ModItems.RAW_PASTA.get()) && nutrient.equals(Nutrient.GRAIN)) extra = 1.0f;
+                            else if(stack.is(SDTags.ItemTags.create("tfc", "foods/grains")) && nutrient.equals(Nutrient.GRAIN)) extra = 1.0f;
+                            else if(stack.is(SDTags.ItemTags.create("firmalife", "foods/extra_dough")) && nutrient.equals(Nutrient.GRAIN)) extra = 1.5f;
+                            else if(stack.is(SDTags.ItemTags.TFC_RAW_MEATS) || stack.is(SDTags.ItemTags.TFC_DOUGHS)) {
+                                extra = SDUtils.getExtraNutrientAfterCooking(stack, Nutrient.PROTEIN, level) + data.nutrient(nutrient) * 0.2f;
+                            }
+                            nutrition[nutrient.ordinal()] += data.nutrient(nutrient) * 0.8f + extra;
                         }
                         water += data.water();
                         saturation += data.saturation();
                     }
                 }
+
                 foodIngredients.sort(Comparator.comparing(ItemStack::getCount)
                         .thenComparing(item -> Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(item.getItem()))));
                 dynamicFood.setIngredients(foodIngredients);
-                dynamicFood.setFood(FoodData.create(baseFood.hunger(), water, saturation, nutrition, baseFood.decayModifier()));
+                dynamicFood.setFood(FoodData.create(5, water, saturation, nutrition, 4.5f));
                 ((ICookingPotRecipeBridge)cookingPot).sdtfc$setCachedDynamicFoodResult(originalResult);
             }
 
@@ -128,6 +139,25 @@ public abstract class CookingPotBlockEntity_PotRecipeBridgeMixin extends SyncedB
     private ItemStack applyDynamicResult(ItemStack original){
         if(sdtfc$cachedDynamicFoodResult.isEmpty()) return original;
         return sdtfc$cachedDynamicFoodResult;
+    }
+
+    @Inject(
+            method = "processCooking",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/item/ItemStack;shrink(I)V",
+                    remap = true
+            )
+    )
+    private void survivorsdelight$beforeIngredientShrink(
+            CookingPotRecipe recipe,
+            CookingPotBlockEntity cookingPot,
+            CallbackInfoReturnable<Boolean> cir,
+            @Local(name = "slotStack") ItemStack slotStack
+    ) {
+        if(slotStack.hasCraftingRemainingItem()) return;
+        final ItemStack output = FoodCapability.get(slotStack) instanceof DynamicBowlHandler handler ? handler.getBowl() : ItemStack.EMPTY;
+        ejectIngredientRemainder(output);
     }
 
 
@@ -151,8 +181,13 @@ public abstract class CookingPotBlockEntity_PotRecipeBridgeMixin extends SyncedB
             remap = true)
     private void changeGrowToMerge(ItemStack instance, int p_41770_, @Local(argsOnly = true) CookingPotRecipe recipe){
         assert this.level != null;
-        ItemStack resultStack = recipe.getResultItem(this.level.registryAccess());
-        FoodCapability.mergeItemStacks(instance, resultStack.copy());
+        if(sdtfc$cachedDynamicFoodResult.isEmpty()){
+            ItemStack resultStack = recipe.getResultItem(this.level.registryAccess());
+            FoodCapability.mergeItemStacks(instance, resultStack.copy());
+        }
+        else{
+            FoodCapability.mergeItemStacks(instance, sdtfc$cachedDynamicFoodResult);
+        }
     }
 
     @Inject(

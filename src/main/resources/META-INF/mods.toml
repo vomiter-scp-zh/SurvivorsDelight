@@ -74,6 +74,6 @@ side="BOTH"
 [[dependencies.survivorsdelight]]
 modId="survivorsabilities"
 mandatory=true
-versionRange="[0,)"
+versionRange="[1.2.0,)"
 ordering="AFTER"
 side="BOTH"

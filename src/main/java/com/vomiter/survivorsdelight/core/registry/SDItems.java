@@ -1,11 +1,13 @@
 package com.vomiter.survivorsdelight.core.registry;
 
+import com.vomiter.survivorsabilities.core.SAEffects;
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
+import vectorwing.farmersdelight.common.registry.ModEffects;
 
 public class SDItems {
     public static final DeferredRegister<Item> ITEMS =
@@ -14,21 +16,21 @@ public class SDItems {
             ITEMS.register("effect_icon/nourishment", () -> new Item(new Item.Properties()){
                 @Override
                 public @NotNull String getDescriptionId() {
-                    return "effect.farmersdelight.nourishment";
+                    return ModEffects.NOURISHMENT.get().getDescriptionId();
                 }
             });
     public static final RegistryObject<Item> EFFECT_COMFORT =
             ITEMS.register("effect_icon/comfort", () -> new Item(new Item.Properties()){
                 @Override
                 public @NotNull String getDescriptionId() {
-                    return "effect.farmersdelight.comfort";
+                    return ModEffects.COMFORT.get().getDescriptionId();
                 }
             });
     public static final RegistryObject<Item> EFFECT_WORKHORSE =
             ITEMS.register("effect_icon/workhorse", () -> new Item(new Item.Properties()){
                 @Override
                 public @NotNull String getDescriptionId() {
-                    return "effect.survivorsabilities.comfort";
+                    return SAEffects.WORKHORSE.get().getDescriptionId();
                 }
             });
 }

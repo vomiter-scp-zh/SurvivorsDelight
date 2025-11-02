@@ -3,6 +3,7 @@ package com.vomiter.survivorsdelight.client.screen;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.ICookingPotFluidAccess;
 import com.vomiter.survivorsdelight.network.SDNetwork;
+import com.vomiter.survivorsdelight.network.cooking_pot.OpenPotFluidMenuC2SPacket;
 import net.dries007.tfc.client.RenderHelpers;
 import net.dries007.tfc.common.items.TFCItems;
 import net.minecraft.client.Minecraft;
@@ -49,7 +50,7 @@ public class SDPotFluidButton extends AbstractButton {
 
     @Override
     public void onPress() {
-        SDNetwork.CHANNEL.sendToServer(new SDNetwork.OpenPotFluidMenuC2SPacket(this.menu.containerId, this.menu.blockEntity.getBlockPos()));
+        SDNetwork.CHANNEL.sendToServer(new OpenPotFluidMenuC2SPacket(this.menu.containerId, this.menu.blockEntity.getBlockPos()));
     }
 
     @Override

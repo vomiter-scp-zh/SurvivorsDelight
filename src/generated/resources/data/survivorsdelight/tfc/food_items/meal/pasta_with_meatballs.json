@@ -1,0 +1,14 @@
+{
+  "dairy": 0.0,
+  "decay_modifier": 1.0,
+  "fruit": 0.0,
+  "grain": 1.0,
+  "hunger": 4,
+  "ingredient": {
+    "item": "farmersdelight:pasta_with_meatballs"
+  },
+  "protein": 2.5,
+  "saturation": 4.5,
+  "vegetables": 1.5,
+  "water": 0.0
+}

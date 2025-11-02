@@ -61,7 +61,7 @@ public class RichSoil_RandomTickMixin {
     @Unique
     private void add_random_mushroom(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand, CallbackInfo ci){
         if(level.getBlockState(pos.above()).isAir()){
-            Block mushroom = rand.nextBoolean() ? Blocks.RED_MUSHROOM: Blocks.BROWN_MUSHROOM;
+            Block mushroom = rand.nextInt(9) == 0 ? Blocks.BROWN_MUSHROOM: Blocks.RED_MUSHROOM;
             level.setBlockAndUpdate(pos.above(), mushroom.defaultBlockState());
         }
     }

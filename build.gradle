@@ -1,12 +1,14 @@
-import groovy.json.JsonOutput
-import groovy.json.JsonSlurper
-
 plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
     id 'org.spongepowered.mixin' version '0.7.+'
+    id 'com.vomiter.langmerge'
+}
+
+langMerge {
+    modId = mod_id
 }
 
 version = mod_version
@@ -83,74 +85,7 @@ mixin {
     debug.export  = true
 }
 
-// === Lang 合併設定 ===
-def MODID = mod_id                                // 直接用你現有的 mod_id 屬性
-def generatedLangDir = file("src/generated/resources/assets/${MODID}/lang")
-def manualLangDir    = file("src/main/resources/assets/${MODID}/lang")
-def mergedDir        = file("$buildDir/mergedResources")
-
-// 自動蒐集 locale（union）
-def collectLocales = {
-    def names = [] as Set
-    if (generatedLangDir.exists()) {
-        generatedLangDir.eachFileMatch(~/.*\.json/) { f -> names.add(f.name) }
-    }
-    if (manualLangDir.exists()) {
-        manualLangDir.eachFileMatch(~/.*\.json/) { f -> names.add(f.name) }
-    }
-    return names.toList().sort()
-}
-
-// 合併規則：手寫覆蓋 generated（想反過來就把 putAll 順序對調）
-tasks.register('mergeLang') {
-    onlyIf { manualLangDir.exists() || generatedLangDir.exists() }
-    shouldRunAfter 'runData'
-    inputs.files(
-            fileTree(dir: manualLangDir,    include: '**/*.json'),
-            fileTree(dir: generatedLangDir, include: '**/*.json')
-    )
-    outputs.dir(mergedDir)
-
-    doLast {
-        def locales = collectLocales()
-        locales.each { locName ->
-            def outFile = file("${mergedDir}/assets/${MODID}/lang/${locName}")
-            outFile.parentFile.mkdirs()
-
-            Map merged = [:]
-            def genFile = new File(generatedLangDir, locName)
-            def manFile = new File(manualLangDir,    locName)
-
-            if (genFile.exists()) merged.putAll((Map) new JsonSlurper().parse(genFile))
-            if (manFile.exists()) merged.putAll((Map) new JsonSlurper().parse(manFile)) // 手寫覆蓋
-
-            outFile.text = JsonOutput.prettyPrint(JsonOutput.toJson(merged))
-        }
-    }
-}
-
-//sourceSets.main.resources { srcDir 'src/generated/resources' }
-//sourceSets.main.resources.srcDir mergedDir
-
-
 tasks.named('processResources').configure {
-    dependsOn 'mergeLang'
-    // 先清掉可能預設加進來的來源（避免重複拷貝）
-
-    // 原始資源：排除 lang（避免與合併檔衝突）
-    from('src/main/resources') {
-        exclude "assets/${MODID}/lang/*.json"
-    }
-    // datagen 資源：排除 lang（避免與合併檔衝突）
-    from('src/generated/resources') {
-        exclude "assets/${MODID}/lang/*.json"
-    }
-    // 合併結果：只放進 lang（或直接全放，通常 merged 只包含 lang）
-    from(mergedDir) {
-        include "assets/${MODID}/lang/*.json"
-    }
-
-    // 你原本就有的策略，保留
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
