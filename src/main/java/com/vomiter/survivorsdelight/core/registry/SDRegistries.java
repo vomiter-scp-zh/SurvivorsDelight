@@ -16,5 +16,6 @@ public class SDRegistries {
         SDBlockEntityTypes.BLOCK_ENTITIES.register(modBus);
         SDContainerTypes.CONTAINERS.register(modBus);
         SDCreativeTab.TABS.register(modBus);
+        SDRecipeSerializers.SERIALIZERS.register(modBus);
     }
 }

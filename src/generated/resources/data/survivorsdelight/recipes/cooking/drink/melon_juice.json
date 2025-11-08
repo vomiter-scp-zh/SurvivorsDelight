@@ -31,10 +31,7 @@
       }
     },
     {
-      "type": "tfc:not_rotten",
-      "ingredient": {
-        "item": "tfc:powder/salt"
-      }
+      "item": "tfc:powder/salt"
     }
   ],
   "result": {

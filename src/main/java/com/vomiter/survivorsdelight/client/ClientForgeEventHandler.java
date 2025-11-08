@@ -48,8 +48,8 @@ public class ClientForgeEventHandler {
             ) {
                 final BlockPos targetedPos = ClientHelpers.getTargetedPos();
                 Window window = event.getWindow();
-                assert minecraft.level != null;
-                assert targetedPos != null;
+                if(minecraft.level == null) return;
+                if(targetedPos == null) return;
                 final BlockEntity targetedBlockEntity = minecraft.level.getBlockEntity(targetedPos);
                 if(targetedBlockEntity instanceof IStoveBlockEntity iStove){
                     int x = window.getGuiScaledWidth() / 2 + 3;

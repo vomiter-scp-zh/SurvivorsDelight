@@ -1,7 +1,6 @@
 plugins {
     id 'eclipse'
     id 'idea'
-    id 'maven-publish'
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
     id 'org.spongepowered.mixin' version '0.7.+'
     id 'com.vomiter.langmerge'
@@ -21,74 +20,16 @@ base {
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
-println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
+//println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 
 minecraft {
     mappings channel: mapping_channel, version: mapping_version
     copyIdeResources = true
-
-    runs {
-        configureEach {
-            workingDirectory project.file('run')
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'info'
-            property 'mixin.env.remapRefMap', 'true'
-            //property 'mixin.debug.verbose', 'true'
-            property 'mixin.debug.export', 'true'
-        }
-
-        client {
-            property 'forge.enabledGameTestNamespaces', mod_id
-            mods {
-                // 客戶端／伺服器 run 用 main（需要真正跑遊戲＋mixin）
-                "${mod_id}" { source sourceSets.main }
-            }
-        }
-
-        server {
-            property 'forge.enabledGameTestNamespaces', mod_id
-            args '--nogui'
-            mods { "${mod_id}" { source sourceSets.main } }
-        }
-
-        gameTestServer {
-            property 'forge.enabledGameTestNamespaces', mod_id
-            mods { "${mod_id}" { source sourceSets.main } }
-        }
-
-        data {
-            workingDirectory project.file('run')
-
-            property 'survivorsdelight.datagen', 'true'
-            property 'mixin.env.disable',        'true'
-            property 'mixin.env.ignoreRequired', 'true'
-            property 'mixin.env.disableRefMap',  'true'
-
-            //property 'forge.logging.markers', 'LOADING,SCAN'
-
-            args '--mod', mod_id,
-                    '--all',
-                    '--output', file('src/generated/resources/'),
-                    '--existing', file('src/main/resources/')
-
-            mods {
-                "${mod_id}" { source sourceSets.main }
-            }
-        }
-    }
 }
 
-mixin {
-    add    sourceSets.main, "${mod_id}.mixins.refmap.json"  // ★ refmap 檔名
-    config "${mod_id}.mixins.json"                           // ★ 你的設定檔
-    debug.verbose = true
-    debug.export  = true
-}
-
-tasks.named('processResources').configure {
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
+apply from: 'gradle/runs.gradle'
+apply from: 'gradle/mixin.gradle'
+apply from: 'gradle/publishing-local.gradle'
 
 repositories {
     maven {
@@ -99,18 +40,8 @@ repositories {
     }
 
     maven { url "https://maven.blamejared.com" }
-
-    maven {
-        // JEI
-        name = "Progwml6 maven"
-        url = "https://dvs1.progwml6.com/files/maven/"
-    }
 }
-
-tasks.processResources {
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
+apply from: 'gradle/optional-dep.gradle'
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
@@ -125,64 +56,44 @@ dependencies {
     implementation fg.deobf("curse.maven:patchouli-306770:4636277")
     implementation fg.deobf("curse.maven:farmers-delight-398521:6597298")
     implementation fg.deobf("curse.maven:survivors-abilities-1354890:7159384")
-
-    compileOnly fg.deobf("curse.maven:firmalife-453394:6817407")
-    compileOnly fg.deobf("curse.maven:jade-324717:6855440")
-    compileOnly fg.deobf("curse.maven:tfc-tng-rosia-1327333:6890141")
-
-    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
-    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
-    // at runtime, use the full JEI jar for Forge
-    runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
-
 }
 
+
+def modProps = [
+        minecraft_version      : minecraft_version,
+        minecraft_version_range: minecraft_version_range,
+        forge_version          : forge_version,
+        forge_version_range    : forge_version_range,
+        loader_version_range   : loader_version_range,
+        mod_id                 : mod_id,
+        mod_name               : mod_name,
+        mod_license            : mod_license,
+        mod_version            : mod_version,
+        mod_authors            : mod_authors,
+        mod_description        : mod_description,
+]
+
 tasks.named('processResources', ProcessResources).configure {
-    var replaceProperties = [
-            minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,
-            forge_version: forge_version, forge_version_range: forge_version_range,
-            loader_version_range: loader_version_range,
-            mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
-            mod_authors: mod_authors, mod_description: mod_description,
-    ]
-    inputs.properties replaceProperties
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    inputs.properties(modProps)
 
     filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
-        expand replaceProperties + [project: project]
+        expand modProps + [project: project]
     }
 }
 
-// Example for how to get properties into the manifest for reading at runtime.
 tasks.named('jar', Jar).configure {
     manifest {
         attributes([
-                'Specification-Title'     : mod_id,
-                'Specification-Vendor'    : mod_authors,
-                'Specification-Version'   : '1', // We are version 1 of ourselves
-                'Implementation-Title'    : project.name,
-                'Implementation-Version'  : project.jar.archiveVersion,
-                'Implementation-Vendor'   : mod_authors,
+                'Specification-Title'    : modProps.mod_id,
+                'Implementation-Title'   : project.name,
+                'Implementation-Version' : project.jar.archiveVersion,
+                'Implementation-Vendor'  : modProps.mod_authors,
                 'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                'MixinConfigs': "${mod_id}.mixins.json"
+                'MixinConfigs'           : "${modProps.mod_id}.mixins.json"
         ])
     }
-
-    // This is the preferred method to reobfuscate your jar file
     finalizedBy 'reobfJar'
-}
-
-// Example configuration to allow publishing using the maven-publish plugin
-publishing {
-    publications {
-        register('mavenJava', MavenPublication) {
-            artifact jar
-        }
-    }
-    repositories {
-        maven {
-            url "file://${project.projectDir}/mcmodsrepo"
-        }
-    }
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -193,7 +104,6 @@ jarJar.enable()
 reobf {
     create("jarJar")
 }
-tasks.named('jar').configure { finalizedBy 'reobfJar' }
 tasks.named('jarJar').configure { finalizedBy 'reobfJarJar' }
 
 

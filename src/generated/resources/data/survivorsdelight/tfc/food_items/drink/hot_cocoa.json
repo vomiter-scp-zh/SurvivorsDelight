@@ -1,14 +1,10 @@
 {
-  "dairy": 1.5,
-  "decay_modifier": 1.0,
-  "fruit": 0.0,
-  "grain": 0.0,
-  "hunger": 0,
   "ingredient": {
     "item": "farmersdelight:hot_cocoa"
   },
-  "protein": 0.0,
+  "hunger": 0,
   "saturation": 0.0,
-  "vegetables": 0.0,
-  "water": 10.0
+  "water": 10.0,
+  "decay_modifier": 5.0,
+  "dairy": 1.5
 }

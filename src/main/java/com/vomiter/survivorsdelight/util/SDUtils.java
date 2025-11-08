@@ -1,24 +1,24 @@
 package com.vomiter.survivorsdelight.util;
 
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
+import net.dries007.tfc.common.capabilities.food.IFood;
 import net.dries007.tfc.common.capabilities.food.Nutrient;
 import net.dries007.tfc.common.items.Food;
 import net.dries007.tfc.common.items.TFCItems;
 import net.dries007.tfc.common.recipes.HeatingRecipe;
+import net.dries007.tfc.common.recipes.TFCRecipeTypes;
+import net.dries007.tfc.common.recipes.ingredients.FluidStackIngredient;
 import net.dries007.tfc.common.recipes.inventory.ItemStackInventory;
+import net.minecraft.core.Holder;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.Level;
-import net.dries007.tfc.common.capabilities.Capabilities;
-import net.dries007.tfc.common.capabilities.food.IFood;
-import net.dries007.tfc.common.recipes.HeatingRecipe;
-import net.dries007.tfc.common.recipes.TFCRecipeTypes;
-import net.dries007.tfc.common.recipes.ingredients.ItemStackIngredient;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 
@@ -77,5 +77,18 @@ public class SDUtils {
         IFood food = FoodCapability.get(stack);
         if(food == null) return 0f;
         return food.getData().nutrient(nutrient);
+    }
+
+    public static boolean fluidIngredientMatchesTag(FluidStackIngredient ingredient, TagKey<Fluid> milkTag) {
+        var tags = ForgeRegistries.FLUIDS.tags();
+        if (tags == null) return false;
+
+        final int amount = Math.max(1, ingredient.amount()); // 有些 ingredient 可能會寫 0，保險起見
+        for (Fluid f : tags.getTag(milkTag)) {
+            if (ingredient.test(new FluidStack(f, amount))) {
+                return true;
+            }
+        }
+        return false;
     }
 }

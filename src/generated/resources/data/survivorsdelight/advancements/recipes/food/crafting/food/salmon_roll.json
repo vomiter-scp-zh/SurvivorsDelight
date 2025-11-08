@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_fish_slice": {
+    "has_result": {
       "conditions": {
         "items": [
           {
             "items": [
-              "farmersdelight:salmon_slice"
+              "farmersdelight:salmon_roll"
             ]
           }
         ]
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_fish_slice",
+      "has_result",
       "has_the_recipe"
     ]
   ],

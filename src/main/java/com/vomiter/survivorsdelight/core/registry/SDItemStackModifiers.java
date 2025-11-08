@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.core.registry;
 
-import com.vomiter.survivorsdelight.core.registry.outputs.ReturnFoodContainerModifier;
+import com.vomiter.survivorsdelight.core.registry.recipe.outputs.ReturnFoodContainerModifier;
 import com.vomiter.survivorsdelight.util.RLUtils;
 import net.dries007.tfc.common.recipes.outputs.ItemStackModifiers;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;

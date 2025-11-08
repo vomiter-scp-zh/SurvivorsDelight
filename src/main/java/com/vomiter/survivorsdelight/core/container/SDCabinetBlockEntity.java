@@ -9,13 +9,20 @@ import net.dries007.tfc.common.capabilities.food.FoodTrait;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -24,7 +31,9 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import org.jetbrains.annotations.NotNull;
+import vectorwing.farmersdelight.common.block.entity.CabinetBlockEntity;
 import vectorwing.farmersdelight.common.item.SkilletItem;
+import vectorwing.farmersdelight.common.registry.ModSounds;
 
 import java.util.stream.IntStream;
 
@@ -40,6 +49,65 @@ public class SDCabinetBlockEntity extends RandomizableContainerBlockEntity imple
     public void removeStored(ItemStack food){
         FoodCapability.removeTrait(food, CABINET_STORED);
     }
+
+    void updateBlockOpenState(BlockState state, boolean open) {
+        if (level != null) {
+            this.level.setBlock(this.getBlockPos(), state.setValue(SDCabinetBlock.OPEN, open), 3);
+        }
+    }
+    private void playSound(BlockState state, SoundEvent sound) {
+        if (level == null) return;
+
+        Vec3i cabinetFacingVector = state.getValue(SDCabinetBlock.FACING).getNormal();
+        double x = (double) worldPosition.getX() + 0.5D + (double) cabinetFacingVector.getX() / 2.0D;
+        double y = (double) worldPosition.getY() + 0.5D + (double) cabinetFacingVector.getY() / 2.0D;
+        double z = (double) worldPosition.getZ() + 0.5D + (double) cabinetFacingVector.getZ() / 2.0D;
+        level.playSound(null, x, y, z, sound, SoundSource.BLOCKS, 0.5F, level.random.nextFloat() * 0.1F + 0.9F);
+    }
+    public void startOpen(@NotNull Player pPlayer) {
+        if (level != null && !this.remove && !pPlayer.isSpectator()) {
+            this.openersCounter.incrementOpeners(pPlayer, level, this.getBlockPos(), this.getBlockState());
+        }
+    }
+
+    public void stopOpen(@NotNull Player pPlayer) {
+        if (level != null && !this.remove && !pPlayer.isSpectator()) {
+            this.openersCounter.decrementOpeners(pPlayer, level, this.getBlockPos(), this.getBlockState());
+        }
+    }
+
+    public void recheckOpen() {
+        if (level != null && !this.remove) {
+            this.openersCounter.recheckOpeners(level, this.getBlockPos(), this.getBlockState());
+        }
+    }
+
+
+    private final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter()
+    {
+        protected void onOpen(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state) {
+            SDCabinetBlockEntity.this.playSound(state, ModSounds.BLOCK_CABINET_OPEN.get());
+            SDCabinetBlockEntity.this.updateBlockOpenState(state, true);
+        }
+
+        protected void onClose(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state) {
+            SDCabinetBlockEntity.this.playSound(state, ModSounds.BLOCK_CABINET_CLOSE.get());
+            SDCabinetBlockEntity.this.updateBlockOpenState(state, false);
+        }
+
+        protected void openerCountChanged(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState sta, int arg1, int arg2) {
+        }
+
+        protected boolean isOwnContainer(Player p_155060_) {
+            if (p_155060_.containerMenu instanceof SDCabinetMenu) {
+                Container container = ((SDCabinetMenu) p_155060_.containerMenu).getContainer();
+                return container == SDCabinetBlockEntity.this;
+            } else {
+                return false;
+            }
+        }
+    };
+
 
 
     private boolean TREATED;
@@ -286,5 +354,6 @@ public class SDCabinetBlockEntity extends RandomizableContainerBlockEntity imple
             }
             return out;
         }
+
     }
 }

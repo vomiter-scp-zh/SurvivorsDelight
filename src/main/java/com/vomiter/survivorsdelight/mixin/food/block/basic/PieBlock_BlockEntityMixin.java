@@ -5,7 +5,6 @@ import com.vomiter.survivorsdelight.core.food.block.ISDDecayingBlock;
 import com.vomiter.survivorsdelight.core.food.trait.SDFoodTraits;
 import com.vomiter.survivorsdelight.core.registry.SDBlockEntityTypes;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
-import com.vomiter.survivorsdelight.data.tags.SDTags.ItemTags;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.dries007.tfc.common.capabilities.food.IFood;
 import net.minecraft.core.BlockPos;

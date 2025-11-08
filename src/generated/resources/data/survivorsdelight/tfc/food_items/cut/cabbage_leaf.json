@@ -1,14 +1,10 @@
 {
-  "dairy": 0.0,
-  "decay_modifier": 1.2000000476837158,
-  "fruit": 0.0,
-  "grain": 0.0,
-  "hunger": 2,
   "ingredient": {
     "item": "farmersdelight:cabbage_leaf"
   },
-  "protein": 0.0,
-  "saturation": 0.25,
-  "vegetables": 0.5,
-  "water": 0.0
+  "hunger": 2,
+  "saturation": 0.3,
+  "water": 0.0,
+  "decay_modifier": 1.2,
+  "vegetables": 0.5
 }

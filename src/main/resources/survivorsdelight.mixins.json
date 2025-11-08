@@ -26,6 +26,7 @@
     "farming.farmland.RichSoilFarmland_AddBlockEntityMixin",
     "farming.soil.RichSoil_RandomTickMixin",
     "food.ComfortEffect_Mixin",
+    "food.FoodHandler_FallbackDataMixin",
     "food.FoodValuesMixin",
     "food.Item_ThrowableRottenTomatoMixin",
     "food.LivingEntity_AddEatEffectMixin",

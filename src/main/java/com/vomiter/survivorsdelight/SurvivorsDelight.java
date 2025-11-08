@@ -16,6 +16,7 @@ import com.vomiter.survivorsdelight.core.registry.SDContainerTypes;
 import com.vomiter.survivorsdelight.core.registry.SDItemStackModifiers;
 import com.vomiter.survivorsdelight.core.registry.SDRegistries;
 import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletBlocks;
+import com.vomiter.survivorsdelight.data.food.SDFoodAndRecipeGenerator;
 import com.vomiter.survivorsdelight.network.SDNetwork;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraftforge.api.distmarker.Dist;
@@ -32,16 +33,12 @@ public class SurvivorsDelight {
     //TODO: add aquaculture support
     //TODO: add tfc cs compat
 
+    //TODO: add fallback for dynamic foods
+    //TODO: things about dumplings
     //TODO: add recipe for not food
-
-    //TODO: add size to fd foods
-    //TODO: add reasonable food tags
-    //TODO: add food data
     //TODO: add washable tag for fd foods
-    //TODO: check apple pie
 
     //TODO: add looting system (for ham)
-    //TODO: make reasonable feast recipe
     //TODO: transfer manual recipes to datagen
 
     //TODO: another mod - Basket and storage blocks
@@ -50,6 +47,8 @@ public class SurvivorsDelight {
 
     public static final String MODID = "survivorsdelight";
     public static final Logger LOGGER = LogUtils.getLogger();
+    public static final SDFoodAndRecipeGenerator foodAndCookingGenerator = new SDFoodAndRecipeGenerator(MODID);
+
     public SurvivorsDelight(FMLJavaModLoadingContext context) {
         IEventBus modBus = context.getModEventBus();
         init(modBus);

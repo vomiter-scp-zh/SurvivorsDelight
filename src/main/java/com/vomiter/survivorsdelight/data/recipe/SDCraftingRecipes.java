@@ -11,11 +11,13 @@ import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ForgeRegistries;
 import vectorwing.farmersdelight.common.registry.ModItems;
 
@@ -26,9 +28,6 @@ import static com.vomiter.survivorsdelight.core.registry.SDBlocks.CABINETS;
 
 public class SDCraftingRecipes {
     public void save(Consumer<FinishedRecipe> out){
-        pie(out);
-        fishRoll(out, ModItems.COD_ROLL.get(), ModItems.COD_SLICE.get());
-        fishRoll(out, ModItems.SALMON_ROLL.get(), ModItems.SALMON_SLICE.get());
         misc(out);
     }
 
@@ -52,32 +51,28 @@ public class SDCraftingRecipes {
                 .define('R', Items.ROTTEN_FLESH)
                 .unlockedBy("has_rotten_flesh", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ROTTEN_FLESH))
                 .save(out, RLUtils.build("crafting/misc/dog_food"));
-    }
 
-    public void pie(Consumer<FinishedRecipe> out){
-        ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, ModItems.SWEET_BERRY_CHEESECAKE.get())
-                .pattern("FFF")
-                .pattern("CCC")
-                .pattern("SPS")
-                .define('F', SDTags.ItemTags.FRUIT_FOR_CHEESECAKE)
-                .define('C', SDTags.ItemTags.CHEESE_FOR_CHEESECAKE)
-                .define('S', SDTags.ItemTags.TFC_SWEETENER)
-                .define('P', NotRottenIngredient.of(Ingredient.of(ModItems.PIE_CRUST.get())))
-                .unlockedBy("has_pie_crust", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.PIE_CRUST.get()))
-                .save(out, new ResourceLocation(MODID, "crafting/food/cherry_cheesecake"));
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.ORGANIC_COMPOST.get())
+                .requires(ModItems.TREE_BARK.get(), 3)
+                .requires(SDTags.ItemTags.create("minecraft", "dirt"))
+                .requires(TFCItems.COMPOST.get(), 2)
+                .requires(TFCItems.ROTTEN_COMPOST.get())
+                .requires(Items.ROTTEN_FLESH, 3)
+                .unlockedBy("has_rotten_flesh", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ROTTEN_FLESH))
+                .save(out, RLUtils.build("crafting/misc/organic_compost"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, ModItems.CHOCOLATE_PIE.get())
-                .pattern("ccc")
-                .pattern("CCC")
-                .pattern("SPS")
-                .define('c', SDTags.ItemTags.CHOCOLATE_FOR_CHEESECAKE)
-                .define('C', SDTags.ItemTags.CHEESE_FOR_CHEESECAKE)
-                .define('S', SDTags.ItemTags.TFC_SWEETENER)
-                .define('P', NotRottenIngredient.of(Ingredient.of(ModItems.PIE_CRUST.get())))
-                .unlockedBy("has_pie_crust", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.PIE_CRUST.get()))
-                .save(out, new ResourceLocation(MODID, "crafting/food/chocolate_pie"));
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.ORGANIC_COMPOST.get())
+                .requires(ModItems.TREE_BARK.get(), 3)
+                .requires(SDTags.ItemTags.create("minecraft", "dirt"))
+                .requires(Items.BROWN_MUSHROOM, 2)
+                .requires(Items.RED_MUSHROOM)
+                .requires(Items.ROTTEN_FLESH, 3)
+                .unlockedBy("has_rotten_flesh", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ROTTEN_FLESH))
+                .save(out, RLUtils.build("crafting/misc/organic_compost_with_mushroom"));
+
 
     }
+
 
     public void fishRoll(Consumer<FinishedRecipe> out, Item result, Item fish){
         ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, result)

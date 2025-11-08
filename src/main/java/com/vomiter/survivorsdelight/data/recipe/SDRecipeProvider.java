@@ -1,6 +1,8 @@
 package com.vomiter.survivorsdelight.data.recipe;
 
-import com.vomiter.survivorsdelight.data.recipe.cutting.FoodCuttingRecipes;
+import com.vomiter.survivorsdelight.SurvivorsDelight;
+import com.vomiter.survivorsdelight.data.food.SDFoodRecipes;
+import com.vomiter.survivorsdelight.data.food.SDFoodCuttingRecipes;
 import com.vomiter.survivorsdelight.data.recipe.cutting.WoodCuttingRecipes;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.util.Metal;
@@ -8,7 +10,6 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
 import org.jetbrains.annotations.NotNull;
-import vectorwing.farmersdelight.common.registry.ModItems;
 
 import java.util.Arrays;
 import java.util.function.Consumer;
@@ -16,11 +17,12 @@ import java.util.function.Consumer;
 public class SDRecipeProvider extends RecipeProvider {
     WoodCuttingRecipes woodCuttingRecipes = new WoodCuttingRecipes();
     SDCraftingRecipes craftingRecipes = new SDCraftingRecipes();
-    SDCookingPotRecipes cookingPotRecipes = new SDCookingPotRecipes();
-    FoodCuttingRecipes foodCuttingRecipes = new FoodCuttingRecipes();
+    SDFoodRecipes cookingPotRecipes = new SDFoodRecipes();
+    SDFoodCuttingRecipes foodCuttingRecipes = new SDFoodCuttingRecipes();
 
     public SDRecipeProvider(PackOutput p_248933_) {
         super(p_248933_);
+        SurvivorsDelight.foodAndCookingGenerator.injectPackOutput(p_248933_);
     }
 
     @Override

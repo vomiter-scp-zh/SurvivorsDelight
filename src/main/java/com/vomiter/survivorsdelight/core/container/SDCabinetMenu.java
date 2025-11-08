@@ -19,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 public class SDCabinetMenu extends AbstractContainerMenu {
     private final Container chest;
     private final int rows;
+    public Container getContainer(){return chest;}
 
     public int getRows(){
         return rows;

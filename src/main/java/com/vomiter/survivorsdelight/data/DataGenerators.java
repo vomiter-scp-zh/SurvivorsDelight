@@ -4,10 +4,7 @@ import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.data.asset.SDCabinetBlockStateProvider;
 import com.vomiter.survivorsdelight.data.asset.SDLangProvider;
 import com.vomiter.survivorsdelight.data.asset.SDSkilletBlockStateProvider;
-import com.vomiter.survivorsdelight.data.book.SDPatchouliCategoryProvider;
 import com.vomiter.survivorsdelight.data.book.content.SDBookEN;
-import com.vomiter.survivorsdelight.data.book.SDPatchouliEntryProvider;
-import com.vomiter.survivorsdelight.data.food.SDFoodDataProvider;
 import com.vomiter.survivorsdelight.data.loot.SDCabinetLootTableProvider;
 import com.vomiter.survivorsdelight.data.loot.SDSkilletLootTableProvider;
 import com.vomiter.survivorsdelight.data.recipe.SDRecipeDumpProvider;
@@ -52,8 +49,9 @@ public class DataGenerators
         generator.addProvider(event.includeClient(), new SDLangProvider(output, "en_us"));
         generator.addProvider(event.includeClient(), new SDLangProvider(output, "zh_tw"));
 
-        generator.addProvider(event.includeServer(), new SDFoodDataProvider(output, SurvivorsDelight.MODID));
+        //generator.addProvider(event.includeServer(), new SDFoodDataProvider(output, SurvivorsDelight.MODID));
         generator.addProvider(event.includeServer(), new SDItemSizeProvider(output, SurvivorsDelight.MODID));
+        generator.addProvider(event.includeServer(), SurvivorsDelight.foodAndCookingGenerator.provider());
 
         SDBookEN.accept(event);
 

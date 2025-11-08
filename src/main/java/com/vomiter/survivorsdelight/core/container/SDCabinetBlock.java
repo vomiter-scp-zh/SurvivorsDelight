@@ -10,7 +10,9 @@ import net.dries007.tfc.common.fluids.TFCFluids;
 import net.dries007.tfc.common.items.FluidContainerItem;
 import net.dries007.tfc.util.Helpers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
@@ -117,4 +119,13 @@ public class SDCabinetBlock extends CabinetBlock {
         }
         return drops;
     }
+
+    @Override
+    public void tick(@NotNull BlockState state, ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
+        BlockEntity tileEntity = level.getBlockEntity(pos);
+        if (tileEntity instanceof SDCabinetBlockEntity sdCabinetBlockEntity) {
+            sdCabinetBlockEntity.recheckOpen();
+        }
+    }
+
 }

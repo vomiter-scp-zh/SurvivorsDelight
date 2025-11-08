@@ -75,17 +75,16 @@ public class SDTags {
         public static final TagKey<Item> PIE_CRUST_DAIRY = create("pie_crust_dairy");
         public static final TagKey<Item> FRUIT_FOR_CHEESECAKE = create("fruit_for_cheesecake");
         public static final TagKey<Item> CHEESE_FOR_CHEESECAKE = create("cheese_for_cheesecake");
-        public static final TagKey<Item> CHOCOLATE_FOR_CHEESECAKE = create("cheese_for_chocolate");
-        public static final TagKey<Item> PIES_APPLE_PIE = create("pies/apple_pie");
-        public static final TagKey<Item> PIES_SWEET_BERRY_CHEESECAKE = create("pies/sweet_berry_cheesecake");
-        public static final TagKey<Item> PIES_CHOCOLATE_PIE = create("pies/chocolate_pie");
+        public static final TagKey<Item> CHOCOLATE_FOR_CHEESECAKE = create("chocolate_for_cheesecake");
         public static final TagKey<Item> SOUPS = create("soups");
         public static final TagKey<Item> WASHABLE = create("washable");
         public static final TagKey<Item> FOODS_WITH_STANDARD_SIZE = create("foods_with_std_size");
         public static final TagKey<Item> FISHES_USABLE_IN_STEW = create("fishes_usable_in_stew");
         public static final TagKey<Item> BOWL_MEALS = create("bowl_meals");
-        public static final TagKey<Item> DYNAMIC_MEALS = create("dynamic_meals");
         public static final TagKey<Item> MEATS_FOR_SHEPHERDS_PIE = create("meats_for_shepherds_pie");
+        public static final TagKey<Item> FEAST_SERVINGS = create("feast_servings");
+        public static final TagKey<Item> PIE_SLICES = create("pie_slices");
+        public static final TagKey<Item> SLICES_AND_SERVINGS = create("slices_and_servings");
 
         public static final TagKey<Item> TFC_DOUGHS = create("tfc", "foods/dough");
         public static final TagKey<Item> TFC_GLASS_BOTTLES = create("tfc", "glass_bottles");
