@@ -1,5 +1,6 @@
 package com.vomiter.survivorsdelight.data.book;
 
+@SuppressWarnings("unused")
 public class TFCGuide {
     public static class TheWorld{
         public static final String THE_WORLD_GEOLOGY = "the_world/geology";
