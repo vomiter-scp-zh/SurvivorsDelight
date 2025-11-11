@@ -180,6 +180,9 @@ public final class SDBookEN {
         var text5_4 = TextBuilder.of("Workhorse allows horses or players to carry more very large or heavy items without becoming overburdened.")
                 .append("It can be applied to a horse by feeding it a horse‑feed item if its familiarity is at least 35%.");
 
+        assert SDItems.EFFECT_NOURISHMENT.getId() != null;
+        assert SDItems.EFFECT_COMFORT.getId() != null;
+        assert SDItems.EFFECT_WORKHORSE.getId() != null;
         entries.entry(
                 EntryJson.builder("effects")
                         .setCategory("tfc:survivors_delight")
