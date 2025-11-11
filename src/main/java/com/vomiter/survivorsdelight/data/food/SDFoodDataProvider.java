@@ -2,7 +2,7 @@ package com.vomiter.survivorsdelight.data.food;
 
 import com.google.common.hash.HashCode;
 import com.google.gson.*;
-import com.vomiter.survivorsdelight.util.RLUtils;
+import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.capabilities.food.FoodData;
 import net.dries007.tfc.common.items.Food;
 import net.minecraft.data.CachedOutput;
@@ -113,7 +113,7 @@ public class SDFoodDataProvider implements DataProvider {
     // ---------- Helpers ----------
 
     private ResourceLocation id(String pathName) {
-        return RLUtils.build(modid, pathName);
+        return SDUtils.RLUtils.build(modid, pathName);
     }
 
     private Path outputPath(ResourceLocation id) {
@@ -148,7 +148,7 @@ public class SDFoodDataProvider implements DataProvider {
 
 
     public FoodData readTfcFoodJson(String path) {
-        final ResourceLocation rl = RLUtils.build("tfc", path);
+        final ResourceLocation rl = SDUtils.RLUtils.build("tfc", path);
         final String cpPath = "data/" + rl.getNamespace() + "/tfc/food_items/" + rl.getPath() + ".json";
         InputStream in = getClass().getClassLoader().getResourceAsStream(cpPath);
         Reader r = new InputStreamReader(in, StandardCharsets.UTF_8);

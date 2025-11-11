@@ -5,7 +5,7 @@ import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.SDCookingPotFluidMenu;
 import com.vomiter.survivorsdelight.network.SDNetwork;
 import com.vomiter.survivorsdelight.network.cooking_pot.ClearCookingPotMealC2SPacket;
-import com.vomiter.survivorsdelight.util.RLUtils;
+import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.client.RenderHelpers;
 import net.dries007.tfc.common.capabilities.Capabilities;
 import net.dries007.tfc.util.Helpers;
@@ -29,9 +29,9 @@ import org.spongepowered.asm.mixin.Unique;
 import java.awt.*;
 
 public class SDPotFluidScreen extends AbstractContainerScreen<SDCookingPotFluidMenu> {
-    private static final ResourceLocation BG = RLUtils.build("survivorsdelight", "textures/gui/pot_fluid.png");
+    private static final ResourceLocation BG = SDUtils.RLUtils.build("survivorsdelight", "textures/gui/pot_fluid.png");
     private static final Rectangle PROGRESS_ARROW = new Rectangle(89, 25, 0, 17);
-    private static final ResourceLocation COOKING_POT_BG = RLUtils.build("farmersdelight", "textures/gui/cooking_pot.png");
+    private static final ResourceLocation COOKING_POT_BG = SDUtils.RLUtils.build("farmersdelight", "textures/gui/cooking_pot.png");
     public static final int X_DEVIATION = 22;
     public static final int Y_DEVIATION = 1;
 

@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.mixin.food;
+package com.vomiter.survivorsdelight.mixin.food.effect;
 
 import com.vomiter.survivorsabilities.core.SAAttributes;
 import net.minecraft.world.entity.LivingEntity;

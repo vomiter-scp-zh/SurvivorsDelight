@@ -2,10 +2,11 @@ package com.vomiter.survivorsdelight.data.tags;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
+import com.vomiter.survivorsdelight.core.registry.SDBlocks;
 import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletItems;
 import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletPartItems;
 import com.vomiter.survivorsdelight.data.food.SDBasicFoodData;
-import com.vomiter.survivorsdelight.util.RLUtils;
+import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.items.Food;
@@ -38,19 +39,24 @@ public class ModItemTagsProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
+        SDBlocks.CABINETS.values().forEach(c -> tag(SDTags.ItemTags.CABINETS).add(c.get().asItem()));
+
         addSkilletTags();
         addFoodTags();
         assert TFCItems.GLUE.getKey() != null;
         tag(SDTags.ItemTags.FOOD_MODEL_COATING).add(TFCItems.GLUE.getKey());
-        tag(SDTags.ItemTags.WOOD_PRESERVATIVES).addOptional(RLUtils.build("firmalife", "beeswax"));
+        tag(SDTags.ItemTags.WOOD_PRESERVATIVES).addOptional(SDUtils.RLUtils.build("firmalife", "beeswax"));
         tag(SDTags.ItemTags.RETURN_COPPER_SKILLET).add(Objects.requireNonNull(SDSkilletItems.SKILLETS.get(SkilletMaterial.COPPER).getKey()));
         tag(SDTags.ItemTags.RETURN_COPPER_SKILLET).add(Objects.requireNonNull(SDSkilletItems.SKILLETS.get(SkilletMaterial.COPPER_SILVER).getKey()));
         tag(SDTags.ItemTags.RETURN_COPPER_SKILLET).add(Objects.requireNonNull(SDSkilletItems.SKILLETS.get(SkilletMaterial.COPPER_TIN).getKey()));
 
         tag(SDTags.ItemTags.WASHABLE)
-                .add(ModItems.BONE_BROTH.get())
+                .add(ModItems.BONE_BROTH.get(), ModItems.TOMATO_SAUCE.get())
+                .add(ModItems.HONEY_GLAZED_HAM_BLOCK.get(), ModItems.ROAST_CHICKEN_BLOCK.get(), ModItems.RICE_ROLL_MEDLEY_BLOCK.get(), ModItems.SHEPHERDS_PIE_BLOCK.get())
+                .add(ModItems.DOG_FOOD.get())
                 .addTag(SDTags.ItemTags.SOUPS)
                 .addTag(SDTags.ItemTags.BOWL_MEALS)
+                .addTag(SDTags.ItemTags.FEAST_SERVINGS)
                 .addOptionalTag(ModTags.DRINKS);
 
         tag(TFCTags.Items.DOG_FOOD).add(ModItems.DOG_FOOD.get());
@@ -58,7 +64,11 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         tag(TFCTags.Items.USABLE_ON_TOOL_RACK).addTag(SDTags.ItemTags.SKILLETS);
 
         tag(SDTags.ItemTags.FOODS_WITH_STANDARD_SIZE)
-                .add(ModItems.BONE_BROTH.get())
+                .add(ModItems.BONE_BROTH.get(), ModItems.TOMATO_SAUCE.get())
+                .add(ModItems.PIE_CRUST.get())
+                .add(ModItems.BARBECUE_STICK.get())
+                .add(ModItems.DUMPLINGS.get(), ModItems.CABBAGE_ROLLS.get(), ModItems.STUFFED_POTATO.get())
+                .addTag(SDTags.ItemTags.SLICES_AND_SERVINGS)
                 .addTag(SDTags.ItemTags.SOUPS)
                 .addTag(SDTags.ItemTags.BOWL_MEALS)
                 .addOptionalTag(ModTags.DRINKS);
@@ -69,12 +79,26 @@ public class ModItemTagsProvider extends ItemTagsProvider {
     }
 
     private void addFoodTags(){
+        tag(SDTags.ItemTags.FEAST_BLOCKS).add(
+                ModItems.HONEY_GLAZED_HAM_BLOCK.get(),
+                ModItems.ROAST_CHICKEN_BLOCK.get(),
+                ModItems.RICE_ROLL_MEDLEY_BLOCK.get(),
+                ModItems.SHEPHERDS_PIE_BLOCK.get(),
+                ModItems.STUFFED_PUMPKIN_BLOCK.get()
+        );
+
         tag(SDTags.ItemTags.FEAST_SERVINGS).add(
                 ModItems.SHEPHERDS_PIE.get(),
                 ModItems.HONEY_GLAZED_HAM.get(),
                 ModItems.STUFFED_PUMPKIN.get(),
                 ModItems.ROAST_CHICKEN.get()
         );
+        tag(SDTags.ItemTags.PIE_BLOCKS).add(
+                ModItems.APPLE_PIE.get(),
+                ModItems.SWEET_BERRY_CHEESECAKE.get(),
+                ModItems.CHOCOLATE_PIE.get()
+        );
+
         tag(SDTags.ItemTags.PIE_SLICES).add(
                 ModItems.SWEET_BERRY_CHEESECAKE_SLICE.get(),
                 ModItems.APPLE_PIE_SLICE.get(),
@@ -138,13 +162,12 @@ public class ModItemTagsProvider extends ItemTagsProvider {
             else tag(SDTags.ItemTags.TFC_RAW_MEATS).add(item);
         });
         tag(SDTags.ItemTags.TFC_RAW_MEATS).add(ModItems.HAM.get());
-        tag(SDTags.ItemTags.TFC_COOKED_MEATS).add(ModItems.SMOKED_HAM.get());
 
         tag(SDTags.ItemTags.APPLE_FOR_CIDER).add(TFCItems.FOOD.get(Food.RED_APPLE).get()).add(TFCItems.FOOD.get(Food.GREEN_APPLE).get());
-        tag(SDTags.ItemTags.COCOA_POWDER).addOptional(RLUtils.build("firmalife", "food/cocoa_powder"));
+        tag(SDTags.ItemTags.COCOA_POWDER).addOptional(SDUtils.RLUtils.build("firmalife", "food/cocoa_powder"));
         tag(SDTags.ItemTags.PIE_CRUST_DAIRY)
                 .add(TFCItems.FOOD.get(Food.CHEESE).get())
-                .addOptional(RLUtils.build("firmalife", "food/butter"));
+                .addOptional(SDUtils.RLUtils.build("firmalife", "food/butter"));
         List.of("tfc:food/blackberry",
                 "tfc:food/blueberry",
                 "tfc:food/bunchberry",
@@ -160,8 +183,8 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                     var item = ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(s));
                     if (item != null) tag(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE).add(item);
                 });
-        tag(SDTags.ItemTags.CHEESE_FOR_CHEESECAKE).add(TFCItems.FOOD.get(Food.CHEESE).get()).addOptional(RLUtils.build("firmalife", "foods/cheeses"));
-        tag(SDTags.ItemTags.CHOCOLATE_FOR_CHEESECAKE).addOptionalTag(RLUtils.build("firmalife", "chocolate_blends"));
+        tag(SDTags.ItemTags.CHEESE_FOR_CHEESECAKE).add(TFCItems.FOOD.get(Food.CHEESE).get()).addOptional(SDUtils.RLUtils.build("firmalife", "foods/cheeses"));
+        tag(SDTags.ItemTags.CHOCOLATE_FOR_CHEESECAKE).addOptionalTag(SDUtils.RLUtils.build("firmalife", "chocolate_blends"));
     }
 
     private void addSkilletTags(){
@@ -176,8 +199,8 @@ public class ModItemTagsProvider extends ItemTagsProvider {
             }
             if(m.material.contains("copper")){
                 var copper_tag = tag(TagKey.create(
-                        ResourceKey.createRegistryKey(RLUtils.build("minecraft", "item")),
-                        RLUtils.build("tfc", "metal_item/copper"))
+                        ResourceKey.createRegistryKey(SDUtils.RLUtils.build("minecraft", "item")),
+                        SDUtils.RLUtils.build("tfc", "metal_item/copper"))
                 ).add(skillet);
                 if(head != null) {
                     assert head.getKey() != null;
@@ -190,8 +213,8 @@ public class ModItemTagsProvider extends ItemTagsProvider {
             }
             else{
                 var metal_tag = tag(TagKey.create(
-                        ResourceKey.createRegistryKey(RLUtils.build("minecraft", "item")),
-                        RLUtils.build("tfc", "metal_item/" + m.material)))
+                        ResourceKey.createRegistryKey(SDUtils.RLUtils.build("minecraft", "item")),
+                        SDUtils.RLUtils.build("tfc", "metal_item/" + m.material)))
                         .add(skillet);
                 if(head != null) {
                     assert head.getKey() != null;

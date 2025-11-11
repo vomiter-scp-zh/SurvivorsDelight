@@ -2,9 +2,10 @@ package com.vomiter.survivorsdelight.data.size;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
-import com.vomiter.survivorsdelight.util.RLUtils;
+import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.capabilities.size.Size;
 import net.dries007.tfc.common.capabilities.size.Weight;
+import net.minecraft.world.item.crafting.Ingredient;
 import vectorwing.farmersdelight.common.registry.ModItems;
 import vectorwing.farmersdelight.common.tag.ModTags;
 
@@ -18,15 +19,25 @@ public class FDSizeData {
         cutFood();
         pie();
         drink();
-        provider.newEntry(RLUtils.build("food/standard"))
+        provider.newEntry(SDUtils.RLUtils.build("food/standard"))
                 .ingredient(SDTags.ItemTags.FOODS_WITH_STANDARD_SIZE)
+                .size(Size.SMALL)
+                .weight(Weight.LIGHT)
+                .save();
+        provider.newEntry(SDUtils.RLUtils.build("food/feast_block"))
+                .ingredient(SDTags.ItemTags.FEAST_BLOCKS)
+                .size(Size.VERY_LARGE)
+                .weight(Weight.VERY_HEAVY)
+                .save();
+        provider.newEntry(SDUtils.RLUtils.build("pet_food"))
+                .ingredient(Ingredient.of(ModItems.DOG_FOOD.get(), ModItems.HORSE_FEED.get()))
                 .size(Size.SMALL)
                 .weight(Weight.LIGHT)
                 .save();
     }
 
     void drink(){
-        provider.newEntry(RLUtils.build("food/drinks"))
+        provider.newEntry(SDUtils.RLUtils.build("food/drinks"))
                 .ingredient(ModTags.DRINKS)
                 .size(Size.LARGE)
                 .weight(Weight.HEAVY)
@@ -34,12 +45,12 @@ public class FDSizeData {
     }
 
     void pie(){
-        provider.newEntry(RLUtils.build("food/pie"))
+        provider.newEntry(SDUtils.RLUtils.build("food/pie"))
                 .ingredient(ModItems.APPLE_PIE.get(), ModItems.CHOCOLATE_PIE.get(), ModItems.SWEET_BERRY_CHEESECAKE.get())
                 .size(Size.LARGE)
                 .weight(Weight.MEDIUM)
                 .save();
-        provider.newEntry(RLUtils.build("food/pie_slice"))
+        provider.newEntry(SDUtils.RLUtils.build("food/pie_slice"))
                 .ingredient(ModItems.APPLE_PIE_SLICE.get(), ModItems.CHOCOLATE_PIE_SLICE.get(), ModItems.SWEET_BERRY_CHEESECAKE_SLICE.get())
                 .size(Size.SMALL)
                 .weight(Weight.LIGHT)
@@ -47,19 +58,19 @@ public class FDSizeData {
     }
 
     void cutFood(){
-        provider.newEntry(RLUtils.build(SurvivorsDelight.MODID, "food/cut_food"))
+        provider.newEntry(SDUtils.RLUtils.build(SurvivorsDelight.MODID, "food/cut_food"))
                 .ingredient(SDTags.ItemTags.CUT_FOOD)
                 .size(Size.VERY_SMALL)
                 .weight(Weight.VERY_LIGHT).save();
-        provider.newEntry(RLUtils.build("food/raw_pasta"))
+        provider.newEntry(SDUtils.RLUtils.build("food/raw_pasta"))
                 .ingredient(ModItems.RAW_PASTA.get())
                 .size(Size.SMALL)
                 .weight(Weight.LIGHT).save();
-        provider.newEntry(RLUtils.build("food/ham"))
+        provider.newEntry(SDUtils.RLUtils.build("food/ham"))
                 .ingredient(ModItems.HAM.get(), ModItems.SMOKED_HAM.get())
                 .weight(Weight.MEDIUM)
                 .size(Size.LARGE).save();
-        provider.newEntry(RLUtils.build("food/fish_rolls"))
+        provider.newEntry(SDUtils.RLUtils.build("food/fish_rolls"))
                 .ingredient(ModItems.SALMON_ROLL.get(), ModItems.COD_ROLL.get())
                 .size(Size.SMALL)
                 .weight(Weight.LIGHT).save();

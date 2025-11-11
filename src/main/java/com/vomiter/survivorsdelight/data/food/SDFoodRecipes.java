@@ -2,7 +2,6 @@ package com.vomiter.survivorsdelight.data.food;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
-import com.vomiter.survivorsdelight.util.RLUtils;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.capabilities.food.FoodData;
@@ -15,7 +14,6 @@ import net.dries007.tfc.common.items.Powder;
 import net.dries007.tfc.common.items.TFCItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -25,10 +23,11 @@ import net.minecraft.world.level.material.Fluid;
 import vectorwing.farmersdelight.common.registry.ModItems;
 import vectorwing.farmersdelight.common.tag.ModTags;
 
+import java.util.Set;
 import java.util.function.Consumer;
 
 public class SDFoodRecipes {
-    TagKey<Fluid> milks = TagKey.create(Registries.FLUID, RLUtils.build("tfc", "milks"));
+    TagKey<Fluid> milks = TagKey.create(Registries.FLUID, SDUtils.RLUtils.build("tfc", "milks"));
 
     private SDFoodAndRecipeGenerator.CookingBuilder cook(String id, ItemLike outItem, int count, int time, int exp) {
         return SurvivorsDelight.foodAndCookingGenerator.cooking(id, outItem, count, time, exp, null);
@@ -62,6 +61,8 @@ public class SDFoodRecipes {
         meal(out);
         feast(out);
         smallFood(out);
+        buildFood("pet_food/horse_feed").item(ModItems.HORSE_FEED.get()).setDecay(1).save();
+        buildFood("pet_food/dog_food").item(ModItems.DOG_FOOD.get()).setDecay(3).save();
     }
 
     public void smallFood(Consumer<FinishedRecipe> out){
@@ -134,6 +135,18 @@ public class SDFoodRecipes {
                 .fluid(oliveOil, 100)
                 .build(out)
                 .saveFoodData();
+
+        cook("feast/honey_glazed_ham2", ModItems.HONEY_GLAZED_HAM_BLOCK.get(), 1, 1200, 20, Items.BOWL)
+                .nonfood(SDTags.ItemTags.TFC_SWEETENER)
+                .food(ModItems.SMOKED_HAM.get())
+                .food(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE)
+                .food(Ingredient.merge(Set.of(
+                        Ingredient.of(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE),
+                        Ingredient.of(SDTags.ItemTags.TFC_VEGETABLES)))
+                )
+                .food(SDTags.ItemTags.TFC_DOUGHS)
+                .fluid(oliveOil, 100)
+                .build(out);
 
         cook("feast/stuffed_pumpkin", ModItems.STUFFED_PUMPKIN_BLOCK.get(), 1, 1200, 20, Items.CARVED_PUMPKIN)
                 .food(Items.BROWN_MUSHROOM)
@@ -262,7 +275,7 @@ public class SDFoodRecipes {
                 TFCItems.SOUPS.get(Nutrient.VEGETABLES).get(),
                 TFCItems.SOUPS.get(Nutrient.FRUIT).get()
         );
-        TagKey<Fluid> MILKS_TAG = TagKey.create(Registries.FLUID, RLUtils.build("tfc", "milks"));
+        TagKey<Fluid> MILKS_TAG = TagKey.create(Registries.FLUID, SDUtils.RLUtils.build("tfc", "milks"));
         cook("soup/bone_broth", ModItems.BONE_BROTH.get(), 4, 3600, 15, Items.BOWL)
                 .nonfood(Items.BONE.asItem())
                 .nonfood(Items.BONE.asItem())
@@ -393,7 +406,7 @@ public class SDFoodRecipes {
     }
 
     public void hotCocoa(Consumer<FinishedRecipe> out){
-        TagKey<Fluid> MILKS_TAG = TagKey.create(Registries.FLUID, RLUtils.build("tfc", "milks"));
+        TagKey<Fluid> MILKS_TAG = TagKey.create(Registries.FLUID, SDUtils.RLUtils.build("tfc", "milks"));
         FoodData empty = FoodData.EMPTY;
 
         cook("drink/hot_cocoa", ModItems.HOT_COCOA.get(), 1, 1200, 10, Items.GLASS_BOTTLE)

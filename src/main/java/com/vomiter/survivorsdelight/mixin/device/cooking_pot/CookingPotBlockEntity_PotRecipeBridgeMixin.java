@@ -8,7 +8,6 @@ import com.vomiter.survivorsdelight.core.device.cooking_pot.bridge.TFCPotRecipeB
 import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.ICookingPotFluidAccess;
 import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.IFluidRequiringRecipe;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
-import com.vomiter.survivorsdelight.util.RLUtils;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.capabilities.food.*;
 import net.minecraft.core.BlockPos;
@@ -114,6 +113,8 @@ public abstract class CookingPotBlockEntity_PotRecipeBridgeMixin extends SyncedB
                 float saturation = baseFood.saturation();
                 float water = baseFood.water();
                 int foodIngCount = 0;
+                int hunger = 0;
+                int resultCount = r.getResultItem(level.registryAccess()).getCount();
                 for (int i = 0; i < cookingPot.getInventory().getSlots(); i++) {
                     if (i > 5) continue;
                     var stack = cookingPot.getInventory().getStackInSlot(i);
@@ -122,9 +123,9 @@ public abstract class CookingPotBlockEntity_PotRecipeBridgeMixin extends SyncedB
                         foodIngCount ++;
                     }
                 }
-                TagKey<Fluid> MILKS_TAG = TagKey.create(Registries.FLUID, RLUtils.build("tfc", "milks"));
+                TagKey<Fluid> MILKS_TAG = TagKey.create(Registries.FLUID, SDUtils.RLUtils.build("tfc", "milks"));
                 var fluid = ((IFluidRequiringRecipe)r).sdtfc$getFluidIngredient();
-                if(SDUtils.fluidIngredientMatchesTag(fluid, MILKS_TAG)) nutrition[Nutrient.DAIRY.ordinal()] += 1;
+                if(SDUtils.TagUtils.fluidIngredientMatchesTag(fluid, MILKS_TAG)) nutrition[Nutrient.DAIRY.ordinal()] += 1;
 
                 for (int i = 0; i < cookingPot.getInventory().getSlots(); i++) {
                     if(i > 5) continue;
@@ -146,17 +147,18 @@ public abstract class CookingPotBlockEntity_PotRecipeBridgeMixin extends SyncedB
                             else if(stack.is(SDTags.ItemTags.TFC_RAW_MEATS) && nutrient.equals(Nutrient.PROTEIN)) {
                                 extra = SDUtils.getExtraNutrientAfterCooking(stack, Nutrient.PROTEIN, level) + data.nutrient(nutrient) * 0.2f;
                             }
-                            nutrition[nutrient.ordinal()] += data.nutrient(nutrient) * (1f - 0.04f * (float)foodIngCount) + extra;
+                            nutrition[nutrient.ordinal()] += (data.nutrient(nutrient) * (1f - 0.04f * (float)foodIngCount) + extra) / resultCount;
                         }
-                        water += data.water();
-                        saturation += data.saturation();
+                        water += data.water() / resultCount;
+                        saturation += data.saturation() / resultCount;
+                        hunger = Math.max(hunger, data.hunger());
                     }
                 }
 
                 foodIngredients.sort(Comparator.comparing(ItemStack::getCount)
                         .thenComparing(item -> Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(item.getItem()))));
                 dynamicFood.setIngredients(foodIngredients);
-                dynamicFood.setFood(FoodData.create(5, water, saturation, nutrition, 4.5f));
+                dynamicFood.setFood(FoodData.create((5 + hunger) / 2, water, saturation, nutrition, 4.5f));
                 ((ICookingPotRecipeBridge)cookingPot).sdtfc$setCachedDynamicFoodResult(originalResult);
             }
 

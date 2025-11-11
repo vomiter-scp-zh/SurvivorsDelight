@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.util.RLUtils;
+import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
@@ -32,7 +32,7 @@ public class SDCabinetLootTableProvider implements DataProvider {
         );
 
         CompletableFuture<?>[] tasks = Arrays.stream(Wood.values()).map(wood -> {
-            ResourceLocation id = RLUtils.build(
+            ResourceLocation id = SDUtils.RLUtils.build(
                     SurvivorsDelight.MODID, "planks/cabinet/" + wood.getSerializedName()
             );
             Path path = pathProvider.json(id);

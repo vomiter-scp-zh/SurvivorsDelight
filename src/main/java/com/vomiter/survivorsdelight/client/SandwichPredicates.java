@@ -1,7 +1,7 @@
 package com.vomiter.survivorsdelight.client;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.util.RLUtils;
+import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.dries007.tfc.common.capabilities.food.FoodHandler;
 import net.dries007.tfc.common.capabilities.food.IFood;
@@ -16,7 +16,7 @@ import vectorwing.farmersdelight.common.tag.ForgeTags;
 
 public class SandwichPredicates {
     private static ResourceLocation id(){
-        return RLUtils.build(SurvivorsDelight.MODID, "special_sandwich");
+        return SDUtils.RLUtils.build(SurvivorsDelight.MODID, "special_sandwich");
     }
     static float EGG = 0.3f;
     static float BACON = 0.6f;

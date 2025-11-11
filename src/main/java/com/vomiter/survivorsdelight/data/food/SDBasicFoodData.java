@@ -95,8 +95,8 @@ public class SDBasicFoodData {
 
         registerCuts(cutSpecs, provider);
 
-        provider.newBuilder("ham").item(ModItems.HAM.get()).multipliedFrom(Food.PORK, 2).save();
-        provider.newBuilder("smoked_ham").item(ModItems.SMOKED_HAM.get()).multipliedFrom(Food.COOKED_PORK, 2).save();
+        provider.newBuilder("ham").item(ModItems.HAM.get()).multipliedFrom(Food.PORK, 2).addNutrientsAndSetMaxHunger(Food.PORK, 0.5f).save();
+        provider.newBuilder("smoked_ham").item(ModItems.SMOKED_HAM.get()).multipliedFrom(Food.COOKED_PORK, 2).addNutrientsAndSetMaxHunger(Food.COOKED_PORK, 0.5f).save();
     }
 
     public record CutSpec(Supplier<? extends Item> item, Food from, int slices) {}

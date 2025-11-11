@@ -1,25 +1,45 @@
 package com.vomiter.survivorsdelight.client;
 
 import com.mojang.blaze3d.platform.Window;
+import com.vomiter.survivorsdelight.client.screen.SDCabinetScreen;
+import com.vomiter.survivorsdelight.compat.jei.JEIHelpers;
+import com.vomiter.survivorsdelight.core.container.SDCabinetBlockEntity;
+import com.vomiter.survivorsdelight.core.container.SDCabinetMenu;
 import com.vomiter.survivorsdelight.core.device.stove.IStoveBlockEntity;
+import com.vomiter.survivorsdelight.data.food.SDFallbackFoodData;
 import net.dries007.tfc.client.ClientHelpers;
+import net.dries007.tfc.common.capabilities.food.FoodCapability;
+import net.dries007.tfc.common.capabilities.food.FoodData;
+import net.dries007.tfc.common.capabilities.food.FoodHandler;
+import net.dries007.tfc.common.capabilities.food.IFood;
 import net.dries007.tfc.util.Fuel;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
+import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModList;
+
+import javax.annotation.Nullable;
 
 public class ClientForgeEventHandler {
 
     public static void init(){
         final IEventBus bus = MinecraftForge.EVENT_BUS;
         bus.addListener(ClientForgeEventHandler::onRenderGameOverlayPost);
+        bus.addListener(ClientForgeEventHandler::onItemTooltip);
 
         bus.addListener(SkilletClientHooks::onLeftClickBlock);
         bus.addListener(SkilletClientHooks::onLeftClickEmpty);
@@ -67,4 +87,37 @@ public class ClientForgeEventHandler {
         }
     }
 
+    private static void fallbackTooltip(ItemTooltipEvent event){
+        final ItemStack stack = event.getItemStack();
+        final IFood f = FoodCapability.get(stack);
+        if (!(f instanceof FoodHandler.Dynamic dynamic)) return;
+        boolean isInCreativeTab = f.getCreationDate() == -1L;
+        var fallback = SDFallbackFoodData.get(stack.getItem());
+        if(dynamic.getData().equals(fallback)
+                && !fallback.equals(FoodData.EMPTY)
+                && (isInCreativeTab || isInJEI())){
+            event.getToolTip().add(Component.translatable("tooltip.survivorsdelight.foodfallback"));
+        }
+    }
+
+    private static void cabinetNotTreatedTooltip(ItemTooltipEvent event) {
+        final Screen screen = Minecraft.getInstance().screen;
+        if (!(screen instanceof SDCabinetScreen cabinetScreen)) return;
+        if(!(cabinetScreen.getSlotUnderMouse() instanceof SDCabinetMenu.SDCabinetSlot cabinetSlot)) return;
+        if(!(cabinetScreen.getMenu().getContainer() instanceof SDCabinetBlockEntity cabinet)) return;
+        if(cabinet.isTreated()) return;
+        if(FoodCapability.get(event.getItemStack()) == null) return;
+        event.getToolTip().add(Component.translatable("tooltip.survivorsdelight.cabinet_not_treated").withStyle(ChatFormatting.RED));
+    }
+
+
+    public static void onItemTooltip(ItemTooltipEvent event) {
+        fallbackTooltip(event);
+        cabinetNotTreatedTooltip(event);
+    }
+
+    static boolean isInJEI(){
+        if(ModList.get().isLoaded("jei")) return JEIHelpers.isInJEIScreen();
+        return false;
+    }
 }

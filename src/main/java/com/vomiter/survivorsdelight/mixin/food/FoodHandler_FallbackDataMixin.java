@@ -18,15 +18,11 @@ public class FoodHandler_FallbackDataMixin {
         if (!(ret instanceof FoodHandler.Dynamic dyn)) return;
 
         final FoodData cur = dyn.getData();
-        // 「明顯為空」才補；你也可以再加更嚴格判斷
         if (!sdtfc$isEmptyData(cur)) return;
 
         final FoodData fb = SDFallbackFoodData.get(stack.getItem());
         if (fb == null) return;
-
-        // 直接把 fallback 寫進「原本那個」Dynamic 物件
         dyn.setFood(fb);
-        // 注意：setFood 會把 isReal = true；若你想保留暫不腐敗行為，請自行決策是否同時 dyn.setNonDecaying()
     }
 
     @Unique

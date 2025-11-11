@@ -4,16 +4,18 @@ import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
 import com.vomiter.survivorsdelight.core.registry.SDItems;
 import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletItems;
-import com.vomiter.survivorsdelight.data.DataGenerators;
 import com.vomiter.survivorsdelight.data.book.*;
 import com.vomiter.survivorsdelight.data.book.builder.CategoryJson;
 import com.vomiter.survivorsdelight.data.book.builder.EntryJson;
 import com.vomiter.survivorsdelight.data.book.builder.TextBuilder;
-import com.vomiter.survivorsdelight.util.RLUtils;
+import com.vomiter.survivorsdelight.data.tags.SDTags;
+import com.vomiter.survivorsdelight.util.SDUtils;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.data.event.GatherDataEvent;
 import vectorwing.farmersdelight.common.registry.ModBlocks;
+import vectorwing.farmersdelight.common.registry.ModItems;
 
 import java.util.Objects;
 
@@ -85,12 +87,13 @@ public final class SDBookEN {
                         .addSingleBlockPage("Skillet variants", "#survivorsdelight:skillets")
 
                     .addTextPage("Make A Skillet", "make_a_skillet", text1_4.toString())
-                        .addAnvilRecipe(RLUtils.build(SurvivorsDelight.MODID, "anvil/skillet_head/steel"), "A metal double sheet is forged into a skillet head.")
-                        .addWeldingRecipe(RLUtils.build(SurvivorsDelight.MODID, "welding/unfinished_skillet/steel"), "The skillet head is welded with a rod of the same metal.")
-                        .addCraftingRecipe(RLUtils.build(SurvivorsDelight.MODID, "crafting/skillet/steel"), RLUtils.build(SurvivorsDelight.MODID, "crafting/skillet/farmer"), "Assemble A Skillet")
-                        .addAnvilRecipe(RLUtils.build(SurvivorsDelight.MODID, "anvil/skillet_lining/silver"), "A special lining for copper skillets prevents toxic copper ions from leaching into food. This can be made with $(thing)silver$() or $(thing)tin$(). A copper skillet must be welded with a lining before it becomes a usable cooking utensil.")
+                        .addAnvilRecipe(SDUtils.RLUtils.build(SurvivorsDelight.MODID, "anvil/skillet_head/steel"), "A metal double sheet is forged into a skillet head.")
+                        .addWeldingRecipe(SDUtils.RLUtils.build(SurvivorsDelight.MODID, "welding/unfinished_skillet/steel"), "The skillet head is welded with a rod of the same metal.")
+                        .addCraftingRecipe(SDUtils.RLUtils.build(SurvivorsDelight.MODID, "crafting/skillet/steel"), SDUtils.RLUtils.build(SurvivorsDelight.MODID, "crafting/skillet/farmer"), "Assemble A Skillet")
+                        .addAnvilRecipe(SDUtils.RLUtils.build(SurvivorsDelight.MODID, "anvil/skillet_lining/silver"), "A special lining for copper skillets prevents toxic copper ions from leaching into food. This can be made with $(thing)silver$() or $(thing)tin$(). A copper skillet must be welded with a lining before it becomes a usable cooking utensil.")
 
                     .addTextPage("Repair A Skillet", "repair", text1_5.toString())
+                        .extraRecipeMapping(SDTags.ItemTags.SKILLETS, 0)
                         .build()
         );
 
@@ -108,6 +111,7 @@ public final class SDBookEN {
                                 + "When it's lit but not actively cooking, fuel consumption is minimal."
                         )
                         .addSingleBlockPage("Stove", "farmersdelight:stove")
+                        .extraRecipeMapping(ModItems.STOVE, 0)
                         .build()
                         );
 
@@ -127,6 +131,8 @@ public final class SDBookEN {
                         .setReadByDefault(true)
                         .setSortnum(++sortNum)
                         .addTextPage(text3_1.toString())
+                        .addSingleBlockPage("Cabinet variants", "#survivorsdelight:cabinets")
+                        .extraRecipeMapping(SDTags.ItemTags.CABINETS, 0)
                         .build()
         );
 
@@ -159,10 +165,12 @@ public final class SDBookEN {
                         .addSingleBlockPage("Cooking Pot", "farmersdelight:cooking_pot")
                         .addTextPage(text4_2.toString())
                         .addTextPage(text4_3.toString())
+                        .extraRecipeMapping(ModItems.COOKING_POT, 0)
                         .build());
 
         //Entry 5
-        var text5_1 = TextBuilder.of("Farmer's Delight dishes sometimes grant special effects that help you survive in the harsh world.");
+        var text5_1 = TextBuilder.of("Farmer's Delight dishes sometimes grant special effects that help you survive in the harsh world.")
+                .appendWithSpace("Note that rotten dishes provide no beneficial effects.");
         var text5_2 = TextBuilder.of("Nourishment prevents your hunger and thirst from decreasing.")
                 .appendWithSpace("However, it stops working if you take damage and natural passive healing is active.")
                 .appendWithSpace("It resumes when you return to full health, or when your hunger or thirst is too low for natural healing.");
@@ -186,7 +194,7 @@ public final class SDBookEN {
                         .build()
         );
 
-        // Entry: Rich Soil
+        // Entry: 6 Rich Soil
         var text6_1 = TextBuilder.of("Rich Soil is a special type of soil that accelerates natural growth.")
                 .appendWithSpace("It shortens the preparation time for saplings to grow.")
                 .appendWithSpace("If the block above Rich Soil is air, it has a chance to randomly generate brown or red mushrooms.")
@@ -195,6 +203,9 @@ public final class SDBookEN {
 
         var text6_2 = TextBuilder.of("Rich Soil can be tilled with a hoe to create Rich Soil Farmland.")
                 .appendWithSpace("Crops planted on Rich Soil Farmland continues growing even when the ambient temperature or moisture slightly deviated from their normal growth range.");
+
+        var text6_3 = TextBuilder.of("You can craft organic compost and place it in the world. The Compost will eventually become a rich soil block over time.")
+                .appendWithSpace("Water, sky light, other rich soil blocks and mushrooms can accelerate the conversion.");
 
 
         assert ModBlocks.RICH_SOIL_FARMLAND.getId() != null;
@@ -210,10 +221,67 @@ public final class SDBookEN {
                         .addSingleBlockPage("Rich Soil", ModBlocks.RICH_SOIL.getId().toString())
                         .addTextPage(text6_2.toString())
                         .addSingleBlockPage("Rich Soil Farmland", ModBlocks.RICH_SOIL_FARMLAND.getId().toString())
+                        .addTextPage(text6_3.toString())
+                        .addCraftingRecipe(
+                                SDUtils.RLUtils.build("crafting/misc/organic_compost"),
+                                SDUtils.RLUtils.build("crafting/misc/organic_compost2"),
+                                "Crafting An Organic Compost"
+                        )
+                        .extraRecipeMapping(ModItems.RICH_SOIL, 0)
+                        .extraRecipeMapping(ModItems.RICH_SOIL_FARMLAND, 2)
+                        .extraRecipeMapping(ModItems.ORGANIC_COMPOST, 4)
                         .build()
         );
 
-        run(cats, entries, event);
+        //Entry 7: Ham
+        var text7_1 = TextBuilder.of("Ham is a large cut of meat from a Suidae. It can be a ")
+                .link(TFCGuide.Mechanics.MECHANICS_ANIMAL_HUSBANDRY_PIG, "domestic pig")
+                .appendWithSpace("or a ").link(TFCGuide.TheWorld.THE_WORLD_WILD_ANIMALS_RAMMING, "boar.")
+                .appendWithSpace("You can only get hams when you kill the animal with ").link(TFCGuide.Mechanics.MECHANICS_DAMAGE_TYPES, "piercing damage.")
+                .appendWithSpace("An animal can drop 2 hams at most.")
+                .appendWithSpace("The drop chance is affected by its body size and familiarity (if any).");
+
+
+        assert ModItems.SMOKED_HAM.getId() != null;
+        assert ModItems.HAM.getId() != null;
+        entries.entry(
+                EntryJson.builder("ham")
+                        .setCategory("tfc:survivors_delight")
+                        .setReadByDefault(true)
+                        .setSortnum(++sortNum)
+                        .setName("Ham")
+                        .setIcon(ModItems.SMOKED_HAM.getId())
+                        .addTextPage(text7_1.toString())
+                        .addSpotlightPage(ModItems.HAM.getId().toString(), "A ham item.")
+                        .extraRecipeMapping(ModItems.HAM, 0)
+                        .extraRecipeMapping(ModItems.SMOKED_HAM, 0)
+                        .build()
+        );
+
+        //Entry 8: Food Block Pie and Feast
+        var text8_1 = TextBuilder.of("You can make placeable food blocks, including pies and feasts.")
+                .appendWithSpace("Most feasts provide ").link(EntryJson.id("effects"), "nourishment").appendWithSpace("while pies provides speed effect.")
+                .appendWithSpace("Feasts need you to use a bowl to take a serving to eat while pies can be eaten directly or cut into slices with a knife.");
+
+        var text8_2 = TextBuilder.of("These blocks decay as normal foods, and when they get rotten, they also turn greenish.")
+                .appendWithSpace("Tou could use special agents to make them food models, which never expire, although this also renders them inedible.");
+
+        assert ModItems.HONEY_GLAZED_HAM_BLOCK.getId() != null;
+        entries.entry(
+                EntryJson.builder("pie_and_feast")
+                        .setCategory("tfc:survivors_delight")
+                        .setReadByDefault(true)
+                        .setSortnum(++sortNum)
+                        .setName("Pie And Feast")
+                        .setIcon(ModItems.HONEY_GLAZED_HAM_BLOCK.getId())
+                        .addTextPage(text8_1.toString())
+                        .addSpotlightPage(
+                                Ingredient.of(SDTags.ItemTags.FOOD_MODEL_COATING).toJson(), text8_2.toString()
+                        )
+                        .extraRecipeMapping(SDTags.ItemTags.PIE_BLOCKS, 0)
+                        .extraRecipeMapping(SDTags.ItemTags.FEAST_BLOCKS, 0)
+                        .build());
+
 
         /*
                 entries.entry(
@@ -231,5 +299,7 @@ public final class SDBookEN {
                         .build());
 
          */
+
+        run(cats, entries, event);
     }
 }

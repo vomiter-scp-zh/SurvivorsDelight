@@ -4,7 +4,6 @@ import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.core.registry.SDRecipeSerializers;
 import com.vomiter.survivorsdelight.core.registry.recipe.ShapedLikeFinished;
 import com.vomiter.survivorsdelight.data.recipe.builder.SDFDCookingPotRecipeBuilder;
-import com.vomiter.survivorsdelight.util.RLUtils;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.capabilities.food.FoodData;
 import net.dries007.tfc.common.items.Food;
@@ -35,16 +34,10 @@ public class SDFoodAndRecipeGenerator {
 
     private final String modId;
 
-    // 允許延遲建立與注入
     private final AtomicReference<SDFoodDataProvider> providerCache = new AtomicReference<>(null);
     private final AtomicReference<PackOutput> packOutputRef = new AtomicReference<>(null);
     private final Supplier<SDFoodDataProvider> providerFactory;
 
-    /* =========================
-       建構子群（3 種入口）
-       ========================= */
-
-    /** 1) 直接給現成 provider */
     public SDFoodAndRecipeGenerator(String modId, SDFoodDataProvider readyProvider) {
         this.modId = Objects.requireNonNull(modId);
         Objects.requireNonNull(readyProvider);
@@ -52,23 +45,17 @@ public class SDFoodAndRecipeGenerator {
         this.providerCache.set(readyProvider);
     }
 
-    /** 2) 直接給 PackOutput */
     public SDFoodAndRecipeGenerator(String modId, PackOutput packOutput) {
         this.modId = Objects.requireNonNull(modId);
         this.packOutputRef.set(Objects.requireNonNull(packOutput));
         this.providerFactory = this::createProviderOrThrow;
     }
 
-    /**
-     * 3) 先建構，之後再從別的地方塞 PackOutput
-     *     new SDFoodAndCookingGenerator(modId)，稍後呼叫 injectPackOutput(...)
-     */
     public SDFoodAndRecipeGenerator(String modId) {
         this.modId = Objects.requireNonNull(modId);
         this.providerFactory = this::createProviderOrThrow;
     }
 
-    /** 供稍後注入 PackOutput；若已經用過會拋錯避免狀態混亂 */
     public void injectPackOutput(PackOutput packOutput) {
         Objects.requireNonNull(packOutput, "packOutput");
         if (!this.packOutputRef.compareAndSet(null, packOutput)) {
@@ -116,14 +103,13 @@ public class SDFoodAndRecipeGenerator {
 
 
     private ResourceLocation recipeId(String path) {
-        return RLUtils.build(modId, "cooking/" + path);
+        return SDUtils.RLUtils.build(modId, "cooking/" + path);
     }
 
     public enum Kind {
         FOOD, NONFOOD
     }
 
-    /** proxy 現在綁 FoodData，而不是 Food */
     public record IngredientEntry(Kind kind, Ingredient ingredient, boolean notRotten, FoodData proxyData) {
 
         /* ====== 非食物 ====== */
@@ -139,17 +125,14 @@ public class SDFoodAndRecipeGenerator {
 
         /* ====== 食物（精確物品 or Tag）====== */
 
-        /** 已經有 FoodData 的情境（用 tag 作為來源，proxyData 提供營養來源） */
         public static IngredientEntry tagFood(TagKey<Item> tag, FoodData proxyData) {
             return new IngredientEntry(Kind.FOOD, Ingredient.of(tag), true, proxyData);
         }
 
-        /** 沒有 proxy（代表之後用動態算法） */
         public static IngredientEntry tagFood(TagKey<Item> tag) {
             return new IngredientEntry(Kind.FOOD, Ingredient.of(tag), true, null);
         }
 
-        /** 明確指定某個食物「項目」＋給定 FoodData 當 proxy */
         public static IngredientEntry food(ItemLike concreteFoodItem, FoodData proxyData) {
             return new IngredientEntry(Kind.FOOD, Ingredient.of(concreteFoodItem), true, proxyData);
         }
@@ -158,7 +141,6 @@ public class SDFoodAndRecipeGenerator {
             return new IngredientEntry(Kind.FOOD, Ingredient.of(concreteFoodItem), true, SDFoodAndRecipeGenerator.foodDataMap.get(concreteFoodItem));
         }
 
-        /** 便捷：傳入 TFC 的 Food enum，內部轉出 Item 與 FoodData */
         public static IngredientEntry food(Food foodEnum) {
             final ItemLike item = SDUtils.getTFCFoodItem(foodEnum);
             final FoodData data = SurvivorsDelight.foodAndCookingGenerator
@@ -166,7 +148,6 @@ public class SDFoodAndRecipeGenerator {
             return food(item, data);
         }
 
-        /** 若你需要用 Ingredient 直接表示（例如複合 Ingredient），也提供這個版本 */
         public static IngredientEntry food(Ingredient ingredient, FoodData proxyData) {
             return new IngredientEntry(Kind.FOOD, ingredient, true, proxyData);
         }
@@ -291,7 +272,6 @@ public class SDFoodAndRecipeGenerator {
 
         public List<IngredientEntry> getEntries(){return entries;}
 
-        /** 若為 null = 輸出 vanilla；不為 null = 用你自訂 serializer */
         private Supplier<? extends RecipeSerializer<?>> customSerializer = null;
 
         private ShapedCraftingBuilder(String path, ItemLike result, int resultCount) {
@@ -326,7 +306,6 @@ public class SDFoodAndRecipeGenerator {
             return this;
         }
 
-        /** define 多載（同步存 inner 與 keyMap） */
         public ShapedCraftingBuilder define(char key, IngredientEntry entry){
             Objects.requireNonNull(entry, "entry");
             innerBuilder.define(key, entry.ingredient());
@@ -348,15 +327,13 @@ public class SDFoodAndRecipeGenerator {
         public ShapedCraftingBuilder whenModLoaded(String modid) { this.whenModLoaded = modid; return this; }
 
         public ShapedCraftingBuilder build(Consumer<FinishedRecipe> out){
-            final ResourceLocation id = RLUtils.build(modId, "crafting/" + path);
+            final ResourceLocation id = SDUtils.RLUtils.build(modId, "crafting/" + path);
 
-            // 最基本解鎖條件（避免 vanilla Builder 抱怨沒有 advancement）
             innerBuilder.unlockedBy(
                     "has_result",
                     InventoryChangeTrigger.TriggerInstance.hasItems(result)
             );
 
-            // ===== 食物資料產生（與 CookingBuilder 規則一致）=====
             final boolean foodDataIsStatic = isFoodDataStatic(entries);
             if(!foodDataIsStatic && customSerializer == null) serializer(SDRecipeSerializers.NUTRITION_CRAFTING);
 

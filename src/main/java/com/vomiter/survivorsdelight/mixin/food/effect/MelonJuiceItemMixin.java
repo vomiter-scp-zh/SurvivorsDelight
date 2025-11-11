@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.mixin.food;
+package com.vomiter.survivorsdelight.mixin.food.effect;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;

@@ -3,15 +3,17 @@ package com.vomiter.survivorsdelight.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.vomiter.survivorsdelight.core.container.SDCabinetMenu;
+import com.vomiter.survivorsdelight.util.SDUtils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import org.jetbrains.annotations.NotNull;
 
 public class SDCabinetScreen extends AbstractContainerScreen<SDCabinetMenu> implements MenuAccess<SDCabinetMenu> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("minecraft", "textures/gui/container/generic_54.png");
+    private static final ResourceLocation TEXTURE = SDUtils.RLUtils.build("minecraft", "textures/gui/container/generic_54.png");
 
     private final int rows;
 
@@ -26,13 +28,12 @@ public class SDCabinetScreen extends AbstractContainerScreen<SDCabinetMenu> impl
     @Override
     protected void init() {
         super.init();
-        // 置中
         this.leftPos = (this.width - this.imageWidth) / 2;
         this.topPos  = (this.height - this.imageHeight) / 2;
     }
 
     @Override
-    public void render(GuiGraphics gg, int mouseX, int mouseY, float partialTicks) {
+    public void render(@NotNull GuiGraphics gg, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(gg);
         super.render(gg, mouseX, mouseY, partialTicks);
         this.renderTooltip(gg, mouseX, mouseY);

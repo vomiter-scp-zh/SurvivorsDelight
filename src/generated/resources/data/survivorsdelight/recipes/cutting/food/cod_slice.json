@@ -21,8 +21,13 @@
   ],
   "result": [
     {
-      "count": 2,
-      "item": "farmersdelight:cod_slice"
+      "modifiers": [
+        "tfc:copy_food"
+      ],
+      "stack": {
+        "count": 2,
+        "item": "farmersdelight:cod_slice"
+      }
     }
   ],
   "tool": {

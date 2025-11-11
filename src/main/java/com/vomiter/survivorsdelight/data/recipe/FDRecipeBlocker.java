@@ -7,6 +7,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.CraftingRecipe;
+import vectorwing.farmersdelight.FarmersDelight;
 import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;
 import vectorwing.farmersdelight.common.crafting.CuttingBoardRecipe;
 import vectorwing.farmersdelight.common.registry.ModItems;
@@ -17,7 +18,7 @@ import vectorwing.farmersdelight.common.registry.ModRecipeTypes;
  */
 public final class FDRecipeBlocker {
 
-    public static final String FD_NAMESPACE = "farmersdelight";
+    public static final String FD_NAMESPACE = FarmersDelight.MODID;
 
     private static final Ingredient OTHER_BLOCKING_TARGET = Ingredient.of(
             ModItems.HORSE_FEED.get(),

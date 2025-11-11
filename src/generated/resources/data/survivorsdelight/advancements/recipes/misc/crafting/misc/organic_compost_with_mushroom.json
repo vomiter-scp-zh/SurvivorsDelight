@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_rotten_flesh": {
+    "has_organic_compost": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:rotten_flesh"
+              "farmersdelight:organic_compost"
             ]
           }
         ]
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_rotten_flesh",
+      "has_organic_compost",
       "has_the_recipe"
     ]
   ],

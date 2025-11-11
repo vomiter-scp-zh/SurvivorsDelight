@@ -37,7 +37,7 @@ public final class SDPatchouliEntryProvider implements DataProvider {
                     SDPatchouliConstants.bookFolderRL().getPath(),
                     LANG,
                     "entries",
-                    e.id() + ".json"
+                    e.getId() + ".json"
             ));
             futures.add(DataProvider.saveStable(cache, e.toJson(), file));
         }

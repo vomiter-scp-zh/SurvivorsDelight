@@ -1,7 +1,7 @@
 package com.vomiter.survivorsdelight.data.recipe;
 
 import com.vomiter.survivorsdelight.data.tags.SDTags;
-import com.vomiter.survivorsdelight.util.RLUtils;
+import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.dries007.tfc.common.items.Food;
@@ -15,9 +15,7 @@ import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ForgeRegistries;
 import vectorwing.farmersdelight.common.registry.ModItems;
 
@@ -39,7 +37,7 @@ public class SDCraftingRecipes {
                 .define('C', TFCItems.FOOD.get(Food.CARROT).get())
                 .define('S', TFCBlocks.THATCH.get().asItem())
                 .unlockedBy("has_thatch", InventoryChangeTrigger.TriggerInstance.hasItems(TFCBlocks.THATCH.get()))
-                .save(out, RLUtils.build("crafting/misc/horse_feed"));
+                .save(out, SDUtils.RLUtils.build("crafting/misc/horse_feed"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.DOG_FOOD.get())
                 .pattern(" B ")
@@ -50,27 +48,24 @@ public class SDCraftingRecipes {
                 .define('M', SDTags.ItemTags.MEATS_FOR_SHEPHERDS_PIE)
                 .define('R', Items.ROTTEN_FLESH)
                 .unlockedBy("has_rotten_flesh", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ROTTEN_FLESH))
-                .save(out, RLUtils.build("crafting/misc/dog_food"));
+                .save(out, SDUtils.RLUtils.build("crafting/misc/dog_food"));
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.ORGANIC_COMPOST.get())
-                .requires(ModItems.TREE_BARK.get(), 3)
+                .requires(ModItems.TREE_BARK.get(), 2)
                 .requires(SDTags.ItemTags.create("minecraft", "dirt"))
                 .requires(TFCItems.COMPOST.get(), 2)
                 .requires(TFCItems.ROTTEN_COMPOST.get())
                 .requires(Items.ROTTEN_FLESH, 3)
                 .unlockedBy("has_rotten_flesh", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ROTTEN_FLESH))
-                .save(out, RLUtils.build("crafting/misc/organic_compost"));
+                .save(out, SDUtils.RLUtils.build("crafting/misc/organic_compost"));
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.ORGANIC_COMPOST.get())
-                .requires(ModItems.TREE_BARK.get(), 3)
                 .requires(SDTags.ItemTags.create("minecraft", "dirt"))
                 .requires(Items.BROWN_MUSHROOM, 2)
                 .requires(Items.RED_MUSHROOM)
-                .requires(Items.ROTTEN_FLESH, 3)
-                .unlockedBy("has_rotten_flesh", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ROTTEN_FLESH))
-                .save(out, RLUtils.build("crafting/misc/organic_compost_with_mushroom"));
-
-
+                .requires(ModItems.TREE_BARK.get(), 5)
+                .unlockedBy("has_organic_compost", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ORGANIC_COMPOST.get()))
+                .save(out, SDUtils.RLUtils.build("crafting/misc/organic_compost_with_mushroom"));
     }
 
 
@@ -83,7 +78,7 @@ public class SDCraftingRecipes {
                 .unlockedBy(
                         "has_fish_slice",
                         InventoryChangeTrigger.TriggerInstance.hasItems(fish))
-                .save(out, new ResourceLocation(MODID, "crafting/food/" + ForgeRegistries.ITEMS.getKey(result).getPath()));
+                .save(out, SDUtils.RLUtils.build(MODID, "crafting/food/" + ForgeRegistries.ITEMS.getKey(result).getPath()));
     }
 
     public void cabinetForWood(Wood wood, Consumer<FinishedRecipe> out) {
@@ -101,14 +96,12 @@ public class SDCraftingRecipes {
                 .define('L', lumber)
                 .define('T', trapdoor)
                 .group(MODID + ":cabinet")
-                // 解鎖條件：擁有該樹種的木板條或活板門其一
                 .unlockedBy("has_" + wood.getSerializedName() + "_lumber",
                         InventoryChangeTrigger.TriggerInstance.hasItems(lumber))
                 .unlockedBy("has_" + wood.getSerializedName() + "_trapdoor",
                         InventoryChangeTrigger.TriggerInstance.hasItems(trapdoor))
-                // 自訂輸出路徑：data/<modid>/recipes/crafting/cabinet/<wood>.json
-                .save(out, new ResourceLocation(
-                        MODID, "crafting/cabinet/" + wood.getSerializedName()
+                .save(out, SDUtils.RLUtils.build(
+                        "crafting/cabinet/" + wood.getSerializedName()
                 ));
     }
 }

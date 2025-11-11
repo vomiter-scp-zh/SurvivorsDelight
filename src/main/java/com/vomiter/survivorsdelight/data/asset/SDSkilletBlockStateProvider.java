@@ -3,7 +3,7 @@ package com.vomiter.survivorsdelight.data.asset;
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
 import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletBlocks;
-import com.vomiter.survivorsdelight.util.RLUtils;
+import com.vomiter.survivorsdelight.util.SDUtils;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -108,7 +108,7 @@ public class SDSkilletBlockStateProvider extends BlockStateProvider {
                 .withExistingParent("item/unfinished_skillet/" + name, modLoc("item/skillet/" + name));
         applyTextures(unfinished, textures);
 
-        unfinished.texture("2", textures.getOrDefault("0", RLUtils.build("tfc", "block/empty")));
+        unfinished.texture("2", textures.getOrDefault("0", SDUtils.RLUtils.build("tfc", "block/empty")));
     }
 
     private <T extends ModelBuilder<T>> void applyTextures(ModelBuilder<T> builder, Map<String, ResourceLocation> textures) {

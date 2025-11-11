@@ -1,7 +1,7 @@
 package com.vomiter.survivorsdelight.core.food.trait;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.util.RLUtils;
+import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.capabilities.food.FoodTrait;
 import net.minecraft.resources.ResourceLocation;
 
@@ -11,7 +11,7 @@ public final class SDFoodTraits {
     private static boolean BOOTSTRAPPED = false;
 
     private static ResourceLocation id(String path) {
-        return RLUtils.build(SurvivorsDelight.MODID, path);
+        return SDUtils.RLUtils.build(SurvivorsDelight.MODID, path);
     }
     private static String translationKey(String path){return KEY_PREFIX + path;}
     private static FoodTrait create(String path, float decay){return FoodTrait.register(id(path), new FoodTrait(decay, translationKey(path)));

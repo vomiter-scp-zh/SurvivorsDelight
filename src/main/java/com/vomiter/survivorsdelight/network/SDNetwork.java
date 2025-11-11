@@ -7,7 +7,7 @@ import com.vomiter.survivorsdelight.network.cooking_pot.ClearCookingPotMealC2SPa
 import com.vomiter.survivorsdelight.network.cooking_pot.OpenBackToFDPotC2SPacket;
 import com.vomiter.survivorsdelight.network.cooking_pot.OpenPotFluidMenuC2SPacket;
 import com.vomiter.survivorsdelight.network.cooking_pot.PotFluidSyncS2CPacket;
-import com.vomiter.survivorsdelight.util.RLUtils;
+import com.vomiter.survivorsdelight.util.SDUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.network.NetworkDirection;
@@ -31,7 +31,7 @@ public class SDNetwork {
         initialized = true;
 
         CHANNEL = NetworkRegistry.newSimpleChannel(
-                RLUtils.build(SurvivorsDelight.MODID, "main"),
+                SDUtils.RLUtils.build(SurvivorsDelight.MODID, "main"),
                 () -> PROTOCOL, PROTOCOL::equals, PROTOCOL::equals
         );
 

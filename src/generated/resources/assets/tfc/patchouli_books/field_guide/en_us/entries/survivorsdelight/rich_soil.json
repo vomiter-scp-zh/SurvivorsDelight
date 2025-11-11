@@ -1,5 +1,10 @@
 {
   "category": "tfc:survivors_delight",
+  "extra_recipe_mappings": {
+    "farmersdelight:organic_compost": 4,
+    "farmersdelight:rich_soil": 0,
+    "farmersdelight:rich_soil_farmland": 2
+  },
   "icon": "farmersdelight:rich_soil_farmland",
   "name": "Rich Soil",
   "pages": [
@@ -48,6 +53,16 @@
       },
       "name": "Rich Soil Farmland",
       "text": ""
+    },
+    {
+      "type": "patchouli:text",
+      "text": "You can craft organic compost and place it in the world. The Compost will eventually become a rich soil block over time. Water, sky light, other rich soil blocks and mushrooms can accelerate the conversion."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "survivorsdelight:crafting/misc/organic_compost",
+      "recipe2": "survivorsdelight:crafting/misc/organic_compost2",
+      "title": "Crafting An Organic Compost"
     }
   ],
   "read_by_default": true,

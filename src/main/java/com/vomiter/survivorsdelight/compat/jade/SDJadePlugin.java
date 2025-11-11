@@ -1,7 +1,7 @@
 package com.vomiter.survivorsdelight.compat.jade;
 
 import com.vomiter.survivorsdelight.core.food.block.SDDecayingBlockEntity;
-import com.vomiter.survivorsdelight.util.RLUtils;
+import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -42,7 +42,7 @@ public class SDJadePlugin implements IWailaPlugin {
 
         @Override
         public ResourceLocation getUid() {
-            return RLUtils.build("survivorsdelight", "feast_decay");
+            return SDUtils.RLUtils.build("survivorsdelight", "feast_decay");
         }
     }
 

@@ -113,7 +113,7 @@ public class SDCabinetMenu extends AbstractContainerMenu {
         return ret;
     }
 
-    private static class SDCabinetSlot extends Slot {
+    public static class SDCabinetSlot extends Slot {
         SDCabinetBlockEntity cabinet;
         public SDCabinetSlot(Container container, int slot, int x, int y) {
             super(container, slot, x, y);

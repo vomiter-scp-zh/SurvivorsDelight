@@ -1,5 +1,8 @@
 {
   "category": "tfc:survivors_delight",
+  "extra_recipe_mappings": {
+    "farmersdelight:cooking_pot": 0
+  },
   "icon": "farmersdelight:cooking_pot",
   "name": "Cooking Pot",
   "pages": [

@@ -2,7 +2,7 @@ package com.vomiter.survivorsdelight.data.asset;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.core.registry.SDBlocks;
-import com.vomiter.survivorsdelight.util.RLUtils;
+import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
@@ -78,13 +78,13 @@ public class SDCabinetBlockStateProvider extends BlockStateProvider {
 
         if(wood.equals(Wood.OAK)){
             existingFileHelper.trackGenerated(
-                    RLUtils.build("farmersdelight", "block/oak_cabinet"),
+                    SDUtils.RLUtils.build("farmersdelight", "block/oak_cabinet"),
                     PackType.CLIENT_RESOURCES,
                     ".json",
                     "models"
             );
             existingFileHelper.trackGenerated(
-                    RLUtils.build("farmersdelight", "block/oak_cabinet_open"),
+                    SDUtils.RLUtils.build("farmersdelight", "block/oak_cabinet_open"),
                     PackType.CLIENT_RESOURCES,
                     ".json",
                     "models"
@@ -92,10 +92,10 @@ public class SDCabinetBlockStateProvider extends BlockStateProvider {
 
 
             closed = models().getExistingFile(
-                    RLUtils.build("farmersdelight", "block/oak_cabinet"));
+                    SDUtils.RLUtils.build("farmersdelight", "block/oak_cabinet"));
             open = models().getExistingFile(
-                    RLUtils.build("farmersdelight", "block/oak_cabinet_open"));
-            itemModels().withExistingParent("item/" + basePath, RLUtils.build("farmersdelight", "block/oak_cabinet"));
+                    SDUtils.RLUtils.build("farmersdelight", "block/oak_cabinet_open"));
+            itemModels().withExistingParent("item/" + basePath, SDUtils.RLUtils.build("farmersdelight", "block/oak_cabinet"));
         } else {
             itemModels().withExistingParent("item/" + basePath, modLoc("block/" + basePath));
         }

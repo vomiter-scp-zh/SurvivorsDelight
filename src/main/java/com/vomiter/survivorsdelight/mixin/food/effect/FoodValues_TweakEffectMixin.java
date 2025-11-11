@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.mixin.food;
+package com.vomiter.survivorsdelight.mixin.food.effect;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -13,12 +13,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import vectorwing.farmersdelight.common.FoodValues;
 
 @Mixin(value = FoodValues.class, remap = false)
-public abstract class FoodValuesMixin {
+public abstract class FoodValues_TweakEffectMixin {
 
     @Mutable @Shadow @Final public static FoodProperties APPLE_CIDER;
 
     @Inject(method = "<clinit>", at = @At("TAIL"))
-    private static void sd$tweakFoodValues(CallbackInfo ci) {
+    private static void sdtfc$tweakFoodValues(CallbackInfo ci) {
         APPLE_CIDER = (new FoodProperties.Builder())
                 .alwaysEat().effect(() -> new MobEffectInstance(MobEffects.ABSORPTION, 3600, 1), 1.0F).build();
     }

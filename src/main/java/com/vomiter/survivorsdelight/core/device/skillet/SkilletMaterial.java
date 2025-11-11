@@ -1,7 +1,7 @@
 package com.vomiter.survivorsdelight.core.device.skillet;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.util.RLUtils;
+import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.TerraFirmaCraft;
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.dries007.tfc.util.Metal;
@@ -19,9 +19,9 @@ public enum SkilletMaterial {
     STEEL(5.75f, 1, plank(Wood.CHESTNUT)),
     BLACK_STEEL(7, 1.5f, plank(Wood.DOUGLAS_FIR)),
     RED_STEEL(9, 2f,
-            RLUtils.build(TerraFirmaCraft.MOD_ID, "block/devices/crucible/side")),
+            SDUtils.RLUtils.build(TerraFirmaCraft.MOD_ID, "block/devices/crucible/side")),
     BLUE_STEEL(9, 2f,
-            RLUtils.build(TerraFirmaCraft.MOD_ID, "block/devices/crucible/side"));
+            SDUtils.RLUtils.build(TerraFirmaCraft.MOD_ID, "block/devices/crucible/side"));
     public final String material;
     public final int durability;
     public final boolean isWeapon;
@@ -55,17 +55,17 @@ public enum SkilletMaterial {
     }
 
     public String path() { return "skillet/" + material; }
-    public ResourceLocation location() { return RLUtils.build(SurvivorsDelight.MODID, path()); }
+    public ResourceLocation location() { return SDUtils.RLUtils.build(SurvivorsDelight.MODID, path()); }
 
     public String path_head(){ return "skillet_head/" + material;}
     public String path_uf(){ return "unfinished_skillet/" + material;}
 
     private static ResourceLocation plank(Wood wood){
-        return RLUtils.build(TerraFirmaCraft.MOD_ID, "block/" + Wood.BlockType.PLANKS.nameFor(wood));
+        return SDUtils.RLUtils.build(TerraFirmaCraft.MOD_ID, "block/" + Wood.BlockType.PLANKS.nameFor(wood));
     }
 
     private static ResourceLocation smooth_metal(Metal.Default metal){
-        return RLUtils.build(TerraFirmaCraft.MOD_ID, "block/metal/smooth/" + metal.getSerializedName());
+        return SDUtils.RLUtils.build(TerraFirmaCraft.MOD_ID, "block/metal/smooth/" + metal.getSerializedName());
     }
 
 

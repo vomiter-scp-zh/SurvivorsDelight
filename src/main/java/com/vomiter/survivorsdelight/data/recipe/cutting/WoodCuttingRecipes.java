@@ -1,7 +1,7 @@
 package com.vomiter.survivorsdelight.data.recipe.cutting;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.util.RLUtils;
+import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.TerraFirmaCraft;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.wood.Wood;
@@ -34,11 +34,11 @@ public class WoodCuttingRecipes{
         ItemLike bark = ModItems.TREE_BARK.get();
 
         final String woodName = wood.getSerializedName();
-        final ResourceLocation logRecipeId = RLUtils.build(
+        final ResourceLocation logRecipeId = SDUtils.RLUtils.build(
                 SurvivorsDelight.MODID,
                 "cutting/tfc/strip_wood/" + woodName + "_log"
         );
-        final ResourceLocation woodRecipeId = RLUtils.build(
+        final ResourceLocation woodRecipeId = SDUtils.RLUtils.build(
                 SurvivorsDelight.MODID,
                 "cutting/tfc/strip_wood/" + woodName + "_wood"
         );
@@ -70,12 +70,12 @@ public class WoodCuttingRecipes{
         Item lumber = TFCItems.LUMBER.get(wood).get();
         CuttingBoardRecipeBuilder.cuttingRecipe(
                 Ingredient.of(wood.getBlock(type).get()),
-                Ingredient.of(new TagKey<>(ResourceKey.createRegistryKey(RLUtils.build("minecraft", "item")), RLUtils.build(TerraFirmaCraft.MOD_ID, "saws"))),
+                Ingredient.of(new TagKey<>(ResourceKey.createRegistryKey(SDUtils.RLUtils.build("minecraft", "item")), SDUtils.RLUtils.build(TerraFirmaCraft.MOD_ID, "saws"))),
                 lumber,
                 count
         ).build(
                 out,
-                RLUtils.build(SurvivorsDelight.MODID, "cutting/tfc/salvage/wood_furniture/" + wood.getSerializedName() + "_" + type.name().toLowerCase(Locale.ROOT))
+                SDUtils.RLUtils.build(SurvivorsDelight.MODID, "cutting/tfc/salvage/wood_furniture/" + wood.getSerializedName() + "_" + type.name().toLowerCase(Locale.ROOT))
         );
     }
 
@@ -84,13 +84,13 @@ public class WoodCuttingRecipes{
         Block chain = TFCBlocks.METALS.get(metal).get(Metal.BlockType.CHAIN).get();
         CuttingBoardRecipeBuilder.cuttingRecipe(
                 Ingredient.of(TFCItems.HANGING_SIGNS.get(wood).get(metal).get()),
-                Ingredient.of(new TagKey<>(ResourceKey.createRegistryKey(RLUtils.build("minecraft", "item")), RLUtils.build(TerraFirmaCraft.MOD_ID, "saws"))),
+                Ingredient.of(new TagKey<>(ResourceKey.createRegistryKey(SDUtils.RLUtils.build("minecraft", "item")), SDUtils.RLUtils.build(TerraFirmaCraft.MOD_ID, "saws"))),
                 lumber,
                 2
                 )
                 .addResultWithChance(chain, 0.5f, 1)
                 .build(out,
-                RLUtils.build(SurvivorsDelight.MODID, "cutting/tfc/salvage/hanging_sign/" + wood.getSerializedName() + "_" + metal.getSerializedName())
+                SDUtils.RLUtils.build(SurvivorsDelight.MODID, "cutting/tfc/salvage/hanging_sign/" + wood.getSerializedName() + "_" + metal.getSerializedName())
         );
 
     }

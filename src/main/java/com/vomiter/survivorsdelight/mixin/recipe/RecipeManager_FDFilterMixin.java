@@ -81,7 +81,7 @@ public abstract class RecipeManager_FDFilterMixin {
             newRecipes.put(type, filteredById);
         }
 
-        // 3. 最後再指回去（這裡你要不要再包成 unmodifiable 看你要不要模仿 vanilla）
+        // 3. 最後再指回去
         this.recipes = Map.copyOf(newRecipes);
         this.byName = Map.copyOf(newByName);
     }

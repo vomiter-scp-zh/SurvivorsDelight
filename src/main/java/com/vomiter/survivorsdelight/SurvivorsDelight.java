@@ -24,6 +24,7 @@ import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.slf4j.Logger;
@@ -33,12 +34,15 @@ public class SurvivorsDelight {
     //TODO: add aquaculture support
     //TODO: add tfc cs compat
 
-    //TODO: add fallback for dynamic foods
-    //TODO: things about dumplings
-    //TODO: add recipe for not food
     //TODO: add washable tag for fd foods
+    //TODO: add ham in book entry
+    //TODO: add item interaction for ceramic feast bowl
+    //TODO: the remainder of feast
 
-    //TODO: add looting system (for ham)
+    //TODO: update description
+    //TODO: upload to modrinth
+
+    //TODO: add familiarity config for ham looting
     //TODO: transfer manual recipes to datagen
 
     //TODO: another mod - Basket and storage blocks
@@ -59,14 +63,20 @@ public class SurvivorsDelight {
         init(modBus);
     }
 
+    private void onCommonSetup(final FMLCommonSetupEvent event){
+        event.enqueueWork(() -> {
+        });
+    }
+
     private void commonSetup(IEventBus modBus) {
+        modBus.addListener(this::onCommonSetup);
         modBus.addListener(SDNetwork::onCommonSetup);
         modBus.addListener(RichSoilFarmlandBlockEntitySetup::onCommonSetup);
         modBus.addListener(SDSkilletBlocks.Compat::onCommonSetup);
         modBus.addListener(SDItemStackModifiers::onCommonSetUp);
     }
 
-    public void clientSetup(final FMLClientSetupEvent event) {
+    public void onClientSetup(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             MenuScreens.register(SDContainerTypes.CABINET.get(), SDCabinetScreen::new);
             MenuScreens.register(SDCookingPotFluidMenu.TYPE, SDPotFluidScreen::new);
@@ -86,7 +96,7 @@ public class SurvivorsDelight {
 
         if (FMLEnvironment.dist == Dist.CLIENT){
             ClientForgeEventHandler.init();
-            modBus.addListener(this::clientSetup);
+            modBus.addListener(this::onClientSetup);
             modBus.addListener(SkilletModels::onModelRegister);
             modBus.addListener(SkilletModels::onModelBake);
         }

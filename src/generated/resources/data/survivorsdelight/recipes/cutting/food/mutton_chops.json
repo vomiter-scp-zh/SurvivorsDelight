@@ -10,8 +10,13 @@
   ],
   "result": [
     {
-      "count": 2,
-      "item": "farmersdelight:mutton_chops"
+      "modifiers": [
+        "tfc:copy_food"
+      ],
+      "stack": {
+        "count": 2,
+        "item": "farmersdelight:mutton_chops"
+      }
     }
   ],
   "tool": {

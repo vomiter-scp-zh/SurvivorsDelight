@@ -1,5 +1,8 @@
 {
   "category": "tfc:survivors_delight",
+  "extra_recipe_mappings": {
+    "farmersdelight:stove": 0
+  },
   "icon": "farmersdelight:stove",
   "name": "Stove",
   "pages": [

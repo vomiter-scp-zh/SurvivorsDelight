@@ -2,7 +2,7 @@ package com.vomiter.survivorsdelight.data.size;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.vomiter.survivorsdelight.util.RLUtils;
+import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.capabilities.size.Size;
 import net.dries007.tfc.common.capabilities.size.Weight;
 import net.minecraft.data.CachedOutput;
@@ -130,6 +130,6 @@ public class SDItemSizeProvider implements DataProvider {
 
     /** 便捷：以 mod 內物品路徑建立 RL（等同 new ResourceLocation(modid, path)） */
     public ResourceLocation id(String path) {
-        return RLUtils.build(modid, path);
+        return SDUtils.RLUtils.build(modid, path);
     }
 }

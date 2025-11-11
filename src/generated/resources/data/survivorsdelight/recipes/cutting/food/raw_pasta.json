@@ -10,7 +10,13 @@
   ],
   "result": [
     {
-      "item": "farmersdelight:raw_pasta"
+      "modifiers": [
+        "tfc:copy_food"
+      ],
+      "stack": {
+        "count": 2,
+        "item": "farmersdelight:raw_pasta"
+      }
     }
   ],
   "tool": {

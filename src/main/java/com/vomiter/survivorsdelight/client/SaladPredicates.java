@@ -2,7 +2,7 @@ package com.vomiter.survivorsdelight.client;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
-import com.vomiter.survivorsdelight.util.RLUtils;
+import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.dries007.tfc.common.capabilities.food.FoodHandler;
 import net.dries007.tfc.common.capabilities.food.IFood;
@@ -14,11 +14,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import vectorwing.farmersdelight.common.registry.ModItems;
-import vectorwing.farmersdelight.common.tag.ForgeTags;
 
 public class SaladPredicates {
     private static ResourceLocation id(){
-        return RLUtils.build(SurvivorsDelight.MODID, "special_salad");
+        return SDUtils.RLUtils.build(SurvivorsDelight.MODID, "special_salad");
     }
 
     public static void addPredicate(){

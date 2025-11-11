@@ -1,11 +1,12 @@
 {
   "category": "tfc:survivors_delight",
+  "extra_recipe_mappings": {},
   "icon": "survivorsdelight:effect_icon/nourishment",
   "name": "Special Effects",
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Farmer's Delight dishes sometimes grant special effects that help you survive in the harsh world."
+      "text": "Farmer's Delight dishes sometimes grant special effects that help you survive in the harsh world. Note that rotten dishes provide no beneficial effects."
     },
     {
       "type": "patchouli:spotlight",

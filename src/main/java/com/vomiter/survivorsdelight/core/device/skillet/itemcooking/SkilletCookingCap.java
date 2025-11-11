@@ -1,7 +1,7 @@
 package com.vomiter.survivorsdelight.core.device.skillet.itemcooking;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.util.RLUtils;
+import com.vomiter.survivorsdelight.util.SDUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -18,7 +18,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class SkilletCookingCap {
-    public static final ResourceLocation ID = RLUtils.build(SurvivorsDelight.MODID, "skillet_cooking");
+    public static final ResourceLocation ID = SDUtils.RLUtils.build(SurvivorsDelight.MODID, "skillet_cooking");
     public static final Capability<ISkilletItemCookingData> CAPABILITY =
             CapabilityManager.get(new CapabilityToken<>() {});
 

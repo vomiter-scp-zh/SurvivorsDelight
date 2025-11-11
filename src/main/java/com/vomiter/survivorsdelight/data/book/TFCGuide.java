@@ -38,6 +38,8 @@ public class TFCGuide {
         public static final String THE_WORLD_ORES_AND_MINERALS_LAPIS_LAZULI = "the_world/ores_and_minerals#lapis_lazuli";
         public static final String THE_WORLD_ORES_AND_MINERALS_AMETHYST = "the_world/ores_and_minerals#amethyst";
         public static final String THE_WORLD_ORES_AND_MINERALS_OPAL = "the_world/ores_and_minerals#opal";
+        public static final String THE_WORLD_WILD_ANIMALS = "the_world/wild_animals";
+        public static final String THE_WORLD_WILD_ANIMALS_RAMMING = "the_world/wild_animals#ramming_prey";
     }
     public static class GettingStarted{
         public static final String GETTING_STARTED_INTRODUCTION = "getting_started/introduction";

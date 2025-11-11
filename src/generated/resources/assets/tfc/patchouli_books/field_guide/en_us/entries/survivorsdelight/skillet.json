@@ -1,5 +1,8 @@
 {
   "category": "tfc:survivors_delight",
+  "extra_recipe_mappings": {
+    "tag:survivorsdelight:skillets": 0
+  },
   "icon": "survivorsdelight:skillet/copper",
   "name": "Skillet",
   "pages": [

@@ -1,8 +1,15 @@
 {
   "values": [
     "farmersdelight:bone_broth",
+    "farmersdelight:tomato_sauce",
+    "farmersdelight:honey_glazed_ham_block",
+    "farmersdelight:roast_chicken_block",
+    "farmersdelight:rice_roll_medley_block",
+    "farmersdelight:shepherds_pie_block",
+    "farmersdelight:dog_food",
     "#survivorsdelight:soups",
     "#survivorsdelight:bowl_meals",
+    "#survivorsdelight:feast_servings",
     {
       "id": "#farmersdelight:drinks",
       "required": false

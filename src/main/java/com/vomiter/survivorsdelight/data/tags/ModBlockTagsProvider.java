@@ -1,10 +1,12 @@
 package com.vomiter.survivorsdelight.data.tags;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
+import com.vomiter.survivorsdelight.core.registry.SDBlocks;
 import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletBlocks;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.TFCBlocks;
+import net.dries007.tfc.common.blocks.wood.Wood;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
@@ -15,6 +17,7 @@ import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
 import vectorwing.farmersdelight.common.registry.ModBlocks;
+import vectorwing.farmersdelight.common.registry.ModItems;
 import vectorwing.farmersdelight.common.tag.ModTags;
 
 import javax.annotation.Nullable;
@@ -29,6 +32,15 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
+        SDBlocks.CABINETS.values().forEach(c -> tag(SDTags.BlockTags.CABINETS).add(c.get()));
+        tag(SDTags.BlockTags.FEAST_BLOCKS).add(
+                ModBlocks.HONEY_GLAZED_HAM_BLOCK.get(),
+                ModBlocks.ROAST_CHICKEN_BLOCK.get(),
+                ModBlocks.RICE_ROLL_MEDLEY_BLOCK.get(),
+                ModBlocks.SHEPHERDS_PIE_BLOCK.get(),
+                ModBlocks.STUFFED_PUMPKIN_BLOCK.get()
+        );
+
         TagKey<Block> STATIC_HEAT_250 = SDTags.BlockTags.STATIC_HEAT_LOW;
         TagKey<Block> STATIC_HEAT_500 = SDTags.BlockTags.STATIC_HEAT_MODERATE;
         TagKey<Block> STATIC_HEAT_1500 = SDTags.BlockTags.STATIC_HEAT_HIGH;

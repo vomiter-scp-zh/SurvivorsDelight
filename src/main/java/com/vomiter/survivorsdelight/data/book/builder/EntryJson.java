@@ -5,9 +5,15 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import com.vomiter.survivorsdelight.SurvivorsDelight;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,18 +21,30 @@ public final class EntryJson {
     private final String id;
     private final Map<String, JsonElement> map;
     private final List<JsonObject> pages;
+    private final Map<String, Integer> extraMapping;
 
-    private EntryJson(String id, Map<String, JsonElement> map, List<JsonObject> pages) {
-        this.id = id; this.map = map; this.pages = pages;
+    public static String id(String s){
+        return SurvivorsDelight.MODID + "/" + s;
     }
 
-    public String id() { return id; }
+    public String getId(){
+        return id;
+    }
+
+    private EntryJson(String id, Map<String, JsonElement> map, List<JsonObject> pages, @Nullable Map<String, Integer> extraMapping) {
+        this.id = id(id); this.map = map; this.pages = pages; this.extraMapping = extraMapping;
+    }
 
     public JsonObject toJson() {
         JsonObject obj = BookJson.mapToObj(map);
         JsonArray arr = new JsonArray();
         for (JsonObject p : pages) arr.add(p);
         obj.add("pages", arr);
+        if(extraMapping != null){
+            JsonObject obj2 = new JsonObject();
+            extraMapping.forEach(obj2::addProperty);
+            obj.add("extra_recipe_mappings", obj2);
+        }
         return obj;
     }
 
@@ -36,6 +54,7 @@ public final class EntryJson {
         private final String id;
         private final Map<String, JsonElement> m = Maps.newLinkedHashMap();
         private final List<JsonObject> pages = new ArrayList<>();
+        private final Map<String, Integer> extraMapping = new LinkedHashMap<>();
         public Builder(String id) { this.id = id; }
         public Builder setName(String name) { m.put("name", new JsonPrimitive(name)); return this; }
         public Builder setCategory(String rl) { m.put("category", new JsonPrimitive(rl)); return this; }
@@ -67,6 +86,7 @@ public final class EntryJson {
             if (title != null && !title.isEmpty()) p.addProperty("title", title);
             pages.add(p); return this;
         }
+
         public Builder addSpotlightPage(String item, String text) {
             JsonObject p = new JsonObject();
             p.addProperty("type", "patchouli:spotlight");
@@ -74,6 +94,15 @@ public final class EntryJson {
             if (text != null) p.addProperty("text", text);
             pages.add(p); return this;
         }
+
+        public Builder addSpotlightPage(JsonElement json, String text) {
+            JsonObject p = new JsonObject();
+            p.addProperty("type", "patchouli:spotlight");
+            p.add("item", json);
+            if (text != null) p.addProperty("text", text);
+            pages.add(p); return this;
+        }
+
 
         public Builder addSmeltingPage(String recipeRL, String text) {
             JsonObject p = new JsonObject();
@@ -142,6 +171,18 @@ public final class EntryJson {
             return addCraftingRecipe(recipeRL, null, title);
         }
 
-        public EntryJson build() { return new EntryJson(id, m, pages); }
+        public Builder extraRecipeMapping(RegistryObject<Item> item, int page){
+            assert item.getId() != null;
+            extraMapping.put(item.getId().toString(),page);
+            return this;
+        }
+
+        public Builder extraRecipeMapping(TagKey<Item> tagKey, int page){
+            extraMapping.put("tag:" + tagKey.location(), page);
+            return this;
+        }
+
+
+        public EntryJson build() { return new EntryJson(id, m, pages, extraMapping); }
     }
 }

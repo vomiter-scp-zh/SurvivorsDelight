@@ -3,15 +3,6 @@
   "category": "misc",
   "ingredients": [
     {
-      "item": "farmersdelight:tree_bark"
-    },
-    {
-      "item": "farmersdelight:tree_bark"
-    },
-    {
-      "item": "farmersdelight:tree_bark"
-    },
-    {
       "tag": "minecraft:dirt"
     },
     {
@@ -24,13 +15,19 @@
       "item": "minecraft:red_mushroom"
     },
     {
-      "item": "minecraft:rotten_flesh"
+      "item": "farmersdelight:tree_bark"
     },
     {
-      "item": "minecraft:rotten_flesh"
+      "item": "farmersdelight:tree_bark"
     },
     {
-      "item": "minecraft:rotten_flesh"
+      "item": "farmersdelight:tree_bark"
+    },
+    {
+      "item": "farmersdelight:tree_bark"
+    },
+    {
+      "item": "farmersdelight:tree_bark"
     }
   ],
   "result": {

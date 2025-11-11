@@ -1,7 +1,7 @@
 package com.vomiter.survivorsdelight.data.tags;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.util.RLUtils;
+import com.vomiter.survivorsdelight.util.SDUtils;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
@@ -12,7 +12,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 
-import javax.swing.text.html.HTML;
 import java.util.concurrent.CompletableFuture;
 
 public class SDTags {
@@ -35,7 +34,7 @@ public class SDTags {
         public static TagKey<Block> create(String path){
             return TagKey.create(
                     Registries.BLOCK,
-                    RLUtils.build(SurvivorsDelight.MODID, path)
+                    SDUtils.RLUtils.build(SurvivorsDelight.MODID, path)
             );
         }
 
@@ -46,22 +45,27 @@ public class SDTags {
         public static final TagKey<Block> HEAT_TO_IN_HAND_BLACKLIST = create("heat_to_in_hand_blacklist");
         public static final TagKey<Block> SKILLETS = create("skillets");
 
+        public static final TagKey<Block> CABINETS = create("cabinets");
+        public static final TagKey<Block> FEAST_BLOCKS = create("feast_blocks");
+
     }
 
     public static class ItemTags {
         public static TagKey<Item> create(String path){
             return TagKey.create(
                     Registries.ITEM,
-                    RLUtils.build(SurvivorsDelight.MODID, path)
+                    SDUtils.RLUtils.build(SurvivorsDelight.MODID, path)
             );
         }
 
         public static TagKey<Item> create(String namespace, String path){
             return TagKey.create(
                     Registries.ITEM,
-                    RLUtils.build(namespace, path)
+                    SDUtils.RLUtils.build(namespace, path)
             );
         }
+
+        public static final TagKey<Item> CABINETS = create("cabinets");
 
         public static final TagKey<Item> FOOD_MODEL_COATING = create("food_model_coating");
         public static final TagKey<Item> RETURN_COPPER_SKILLET = create("return_copper_skillet");
@@ -85,6 +89,8 @@ public class SDTags {
         public static final TagKey<Item> FEAST_SERVINGS = create("feast_servings");
         public static final TagKey<Item> PIE_SLICES = create("pie_slices");
         public static final TagKey<Item> SLICES_AND_SERVINGS = create("slices_and_servings");
+        public static final TagKey<Item> FEAST_BLOCKS = create("feast_blocks");
+        public static final TagKey<Item> PIE_BLOCKS = create("pie_blocks");
 
         public static final TagKey<Item> TFC_DOUGHS = create("tfc", "foods/dough");
         public static final TagKey<Item> TFC_GLASS_BOTTLES = create("tfc", "glass_bottles");
