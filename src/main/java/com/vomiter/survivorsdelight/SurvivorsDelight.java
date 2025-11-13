@@ -2,54 +2,78 @@ package com.vomiter.survivorsdelight;
 
 import com.mojang.logging.LogUtils;
 import com.vomiter.survivorsdelight.client.ClientForgeEventHandler;
+import com.vomiter.survivorsdelight.client.SaladPredicates;
+import com.vomiter.survivorsdelight.client.SandwichPredicates;
 import com.vomiter.survivorsdelight.core.ForgeEventHandler;
 import com.vomiter.survivorsdelight.core.device.skillet.itemcooking.SkilletCookingCap;
-import com.vomiter.survivorsdelight.core.food.block.SDDecayingBlockEntityRegistry;
-import com.vomiter.survivorsdelight.core.food.trait.SDFoodTraits;
-import com.vomiter.survivorsdelight.core.registry.SDSkilletBlocks;
-import com.vomiter.survivorsdelight.core.registry.SDSkilletItems;
-import com.vomiter.survivorsdelight.core.registry.SDSkilletPartItems;
+import com.vomiter.survivorsdelight.core.farming.RichSoilFarmlandBlockEntitySetup;
+import com.vomiter.survivorsdelight.core.registry.SDRegistries;
+import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletBlocks;
+import com.vomiter.survivorsdelight.data.food.SDFoodAndRecipeGenerator;
 import com.vomiter.survivorsdelight.network.SDNetwork;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
 import org.slf4j.Logger;
 
 @Mod(SurvivorsDelight.MODID)
 public class SurvivorsDelight {
+    //TODO: add aquaculture support
+    //TODO: add tfc cs compat
+
+    //TODO: add item interaction for ceramic feast bowl
+    //TODO: the remainder of feast
+
+    //TODO: transfer manual recipes to datagen
+
+    //TODO: another mod - Basket and storage blocks
+    //TODO: another mod - Unroasted block and buildable feast
+    //TODO: another mod - Beneath edition
 
     public static final String MODID = "survivorsdelight";
     public static final Logger LOGGER = LogUtils.getLogger();
-    public SurvivorsDelight(ModContainer mod, IEventBus bus) {
-        common(bus);
-        mod.registerConfig(ModConfig.Type.COMMON, Config.COMMON_SPEC);
+    public static final SDFoodAndRecipeGenerator foodAndCookingGenerator = new SDFoodAndRecipeGenerator(MODID);
+
+    public SurvivorsDelight(ModContainer mod, IEventBus modBus) {
+        init(modBus);
     }
 
-    public void common(IEventBus modBus){
-        SDNetwork.register(modBus);
+    private void onCommonSetup(final FMLCommonSetupEvent event) {
+        event.enqueueWork(() -> {
+        });
+    }
 
-        SDFoodTraits.TRAITS.register(modBus);
-        SDDecayingBlockEntityRegistry.register(modBus);
-        SDSkilletBlocks.BLOCKS.register(modBus);
-        SDSkilletItems.ITEMS.register(modBus);
-        SDSkilletPartItems.ITEMS.register(modBus);
+    private void commonSetup(IEventBus modBus) {
+        modBus.addListener(this::onCommonSetup);
+        modBus.addListener(RichSoilFarmlandBlockEntitySetup::onCommonSetup);
+        modBus.addListener(SDSkilletBlocks::onCommonSetup);
+        modBus.addListener(SkilletCookingCap::registerCaps);
 
-        SDCreativeTab.TABS.register(modBus);
+    }
+
+    private void onClientSetup(final FMLClientSetupEvent event) {
+        event.enqueueWork(() -> {
+            SandwichPredicates.addPredicate();
+            SaladPredicates.addPredicate();
+        });
+    }
+
+    private void init(IEventBus modBus) {
+        SDRegistries.register(modBus);
+        commonSetup(modBus);
+        modBus.addListener(SDNetwork::onRegisterPayloads);
+
+        // 你自己的 Forge/NeoForge 事件掛載（名稱不改也可）
         ForgeEventHandler.init();
 
-        modBus.addListener(SkilletCookingCap::registerCaps);         // RegisterCapabilitiesEvent
-
-        if (FMLEnvironment.dist == Dist.CLIENT){
-            ClientOnly.init(modBus);
-        }
-    }
-
-    static final class ClientOnly {
-        static void init(IEventBus modBus) {
-            ClientForgeEventHandler.init(modBus);
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            ClientForgeEventHandler.init();
+            modBus.addListener(ClientForgeEventHandler::registerMenuScreens);
+            modBus.addListener(this::onClientSetup);
         }
     }
 }

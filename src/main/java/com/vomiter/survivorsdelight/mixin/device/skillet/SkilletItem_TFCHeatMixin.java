@@ -4,7 +4,7 @@ import com.vomiter.survivorsdelight.core.device.skillet.SDSkilletItem;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletUtil;
 import com.vomiter.survivorsdelight.core.device.skillet.itemcooking.SkilletCookingCap;
-import com.vomiter.survivorsdelight.data.tags.SDItemTags;
+import com.vomiter.survivorsdelight.data.tags.SDTags;
 import com.vomiter.survivorsdelight.util.HeatHelper;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.component.food.FoodCapability;
@@ -136,7 +136,7 @@ public abstract class SkilletItem_TFCHeatMixin {
             if(skilletStack.getItem() instanceof SDSkilletItem){
                 skilletStack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
 
-                if(skilletStack.is(SDItemTags.RETURN_COPPER_SKILLET) && !(((SDSkilletItem) skilletStack.getItem()).canCook(skilletStack))){
+                if(skilletStack.is(SDTags.ItemTags.RETURN_COPPER_SKILLET) && !(((SDSkilletItem) skilletStack.getItem()).canCook(skilletStack))){
                     InteractionHand hand = player.getUsedItemHand();
                     var lookup = level.registryAccess(); // RegistryAccess implements HolderLookup.Provider
                     CompoundTag tag = (CompoundTag) skilletStack.save(lookup);

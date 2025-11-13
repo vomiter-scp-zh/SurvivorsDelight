@@ -1,4 +1,17 @@
 {
-  "survivorsdelight.tooltip.foodtrait.skillet_cooked": "平底鍋煎製",
-  "survivorsdelight.tooltip.foodtrait.food_model": "食物模型"
+  "itemGroup.survivorsdelight.main": "生存樂事",
+
+  "block.survivorsdelight.skillet.copper_tin": "鍍錫平底銅鍋",
+  "block.survivorsdelight.skillet.copper_silver": "鍍銀平底銅鍋",
+
+  "block.survivorsdelight.skillet.farmer": "農夫平底鍋",
+
+  "item.survivorsdelight.skillet_lining.silver": "銀質平底鍋鍍層",
+  "item.survivorsdelight.skillet_lining.tin": "錫質平底鍋鍍層",
+
+  "overlay.survivorsdelight.stove_fuel_amount": "燃料量",
+
+  "foodtrait.survivorsdelight.skillet_cooked": "平底鍋煎製",
+  "foodtrait.survivorsdelight.food_model": "食物模型",
+  "foodtrait.survivorsdelight.cabinet_stored": "櫥櫃貯藏"
 }

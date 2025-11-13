@@ -1,7 +1,7 @@
 package com.vomiter.survivorsdelight.core.device.skillet;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.core.registry.SDSkilletItems;
+import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletItems;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -50,20 +50,20 @@ public class SDSkilletItem extends SkilletItem {
     ) {
         return ItemAttributeModifiers.builder()
                 .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(
-                        BASE_ATTACK_DAMAGE_ID,
-                        attackDamage + tier.getAttackDamageBonus(),
-                        AttributeModifier.Operation.ADD_VALUE),
+                                BASE_ATTACK_DAMAGE_ID,
+                                attackDamage + tier.getAttackDamageBonus(),
+                                AttributeModifier.Operation.ADD_VALUE),
                         EquipmentSlotGroup.MAINHAND
                 )
                 .add(Attributes.ATTACK_SPEED, new AttributeModifier(
-                        BASE_ATTACK_SPEED_ID,
-                        (double)attackSpeed - 4,
-                        AttributeModifier.Operation.ADD_VALUE),
+                                BASE_ATTACK_SPEED_ID,
+                                (double)attackSpeed - 4,
+                                AttributeModifier.Operation.ADD_VALUE),
                         EquipmentSlotGroup.MAINHAND
                 )
                 .add(Attributes.ATTACK_KNOCKBACK, new AttributeModifier(
-                        FD_ATTACK_KNOCKBACK_UUID,
-                        attackKnockBack, AttributeModifier.Operation.ADD_VALUE),
+                                FD_ATTACK_KNOCKBACK_UUID,
+                                attackKnockBack, AttributeModifier.Operation.ADD_VALUE),
                         EquipmentSlotGroup.MAINHAND
                 ).build();
     }

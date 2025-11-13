@@ -17,8 +17,28 @@ repositories {
         url "https://cursemaven.com"
         content { includeGroup "curse.maven" }
     }
-    maven { url "https://maven.blamejared.com" }
+    maven { url = "https://maven.blamejared.com" }       // JEI
+    maven { url = "https://maven.neoforged.net/releases"} //（可選）
 }
+
+dependencies {
+
+    implementation "curse.maven:terrafirmacraft-302973:7035035"
+    implementation "curse.maven:patchouli-306770:6842247"
+    implementation "curse.maven:farmers-delight-398521:6917256"
+    implementation "curse.maven:survivors-abilities-1354890:7215794"
+
+
+    //compileOnly "curse.maven:firmalife-453394:6817407"
+    compileOnly "curse.maven:jade-324717:6853386"
+    runtimeOnly "curse.maven:jade-324717:6853386"
+
+    // JEI
+    compileOnly "mezz.jei:jei-1.21.1-common-api:${jei_version}"
+    compileOnly "mezz.jei:jei-1.21.1-neoforge-api:${jei_version}"
+    runtimeOnly  "mezz.jei:jei-1.21.1-neoforge:${jei_version}"
+}
+
 
 base {
     archivesName = mod_id
@@ -28,7 +48,6 @@ base {
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 neoForge {
-    // 使用 gradle.properties 內的版本鍵
     version = project.neo_version
 
     parchment {
@@ -36,14 +55,12 @@ neoForge {
         minecraftVersion = project.parchment_minecraft_version
     }
 
-    // 可選：Access Transformer
     // accessTransformers = project.files('src/main/resources/META-INF/accesstransformer.cfg')
 
     runs {
         client {
             client()
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-            // Mixin 偵錯（沿用你原始習慣）
             systemProperty 'mixin.env.remapRefMap', 'true'
             systemProperty 'mixin.debug.verbose', 'true'
             systemProperty 'mixin.debug.export', 'true'
@@ -99,16 +116,6 @@ configurations {
     runtimeClasspath.extendsFrom localRuntime
 }
 
-dependencies {
-
-    implementation "curse.maven:terrafirmacraft-302973:7035035"
-    implementation "curse.maven:patchouli-306770:6842247"
-    implementation "curse.maven:farmers-delight-398521:6917256"
-
-    //compileOnly "curse.maven:firmalife-453394:6817407"
-    compileOnly "curse.maven:jade-324717:6853386"
-}
-
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
     var replaceProperties = [
             minecraft_version       : minecraft_version,
@@ -155,4 +162,3 @@ idea {
         downloadJavadoc = true
     }
 }
-

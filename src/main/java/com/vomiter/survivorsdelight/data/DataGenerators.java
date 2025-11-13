@@ -1,13 +1,20 @@
 package com.vomiter.survivorsdelight.data;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.core.device.skillet.data.SDSkilletBlockStateProvider;
-import com.vomiter.survivorsdelight.core.device.skillet.data.SDSkilletBlockModelProvider;
-import com.vomiter.survivorsdelight.core.device.skillet.data.SDSkilletItemModelProvider;
-import com.vomiter.survivorsdelight.core.device.skillet.data.SDSkilletLootTableProvider;
+import com.vomiter.survivorsdelight.data.asset.SDCabinetBlockStateProvider;
+import com.vomiter.survivorsdelight.data.asset.SDLangProvider;
+import com.vomiter.survivorsdelight.data.asset.SDSkilletBlockStateProvider;
+import com.vomiter.survivorsdelight.data.book.content.SDBookEN;
+import com.vomiter.survivorsdelight.data.loot.SDCabinetLootTableProvider;
+import com.vomiter.survivorsdelight.data.loot.SDSkilletLootTableProvider;
+import com.vomiter.survivorsdelight.data.recipe.SDRecipeDumpProvider;
+import com.vomiter.survivorsdelight.data.recipe.SDRecipeProvider;
+import com.vomiter.survivorsdelight.data.size.SDItemSizeProvider;
+import com.vomiter.survivorsdelight.data.tags.SDTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -21,27 +28,30 @@ public class DataGenerators
 {
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
+
         DataGenerator generator = event.getGenerator();
         PackOutput output = generator.getPackOutput();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
         ExistingFileHelper helper = event.getExistingFileHelper();
 
-        ModBlockTagsProvider blockTags = new ModBlockTagsProvider(output, lookupProvider, helper);
-        ModItemTagsProvider itemTags = new ModItemTagsProvider(output, lookupProvider, blockTags.contentsGetter(), helper);
-        ModEntityTypeTagsProvider entityTags = new ModEntityTypeTagsProvider(output, lookupProvider, SurvivorsDelight.MODID, helper);
+        SDTags.gatherData(event);
 
-        SDSkilletBlockModelProvider skilletModelProvider = new SDSkilletBlockModelProvider(output, helper);
-        SDSkilletBlockStateProvider skilletBlockStateProvider = new SDSkilletBlockStateProvider(output, helper);
-        SDSkilletItemModelProvider skilletItemModelProvider = new SDSkilletItemModelProvider(output, helper);
-        SDSkilletLootTableProvider skilletLootTableProvider = new SDSkilletLootTableProvider(output);
+        generator.addProvider(event.includeServer(), new SDRecipeProvider(output, lookupProvider));
+        generator.addProvider(event.includeServer(), new SDRecipeDumpProvider(output));
+        generator.addProvider(event.includeServer(), new SDSkilletLootTableProvider(output));
+        generator.addProvider(event.includeServer(), new SDCabinetLootTableProvider(output));
 
-        generator.addProvider(event.includeServer(), blockTags);
-        generator.addProvider(event.includeServer(), itemTags);
-        generator.addProvider(event.includeServer(), entityTags);
+        generator.addProvider(event.includeClient(), new SDSkilletBlockStateProvider(output, helper));
+        generator.addProvider(event.includeClient(), new SDCabinetBlockStateProvider(output, helper));
 
-        generator.addProvider(true, skilletModelProvider);
-        generator.addProvider(true, skilletBlockStateProvider);
-        generator.addProvider(true, skilletItemModelProvider);
-        generator.addProvider(event.includeServer(), skilletLootTableProvider);
+        generator.addProvider(event.includeClient(), new SDLangProvider(output, "en_us"));
+        generator.addProvider(event.includeClient(), new SDLangProvider(output, "zh_tw"));
+
+        //generator.addProvider(event.includeServer(), new SDFoodDataProvider(output, SurvivorsDelight.MODID));
+        generator.addProvider(event.includeServer(), new SDItemSizeProvider(output, SurvivorsDelight.MODID));
+        generator.addProvider(event.includeServer(), SurvivorsDelight.foodAndCookingGenerator.provider());
+
+        SDBookEN.accept(event);
+
     }
 }

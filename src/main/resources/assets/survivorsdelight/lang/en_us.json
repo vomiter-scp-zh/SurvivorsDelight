@@ -4,33 +4,24 @@
   "block.survivorsdelight.skillet.copper_tin": "Tinned Copper Skillet",
   "block.survivorsdelight.skillet.copper_silver": "Silver-lined Copper Skillet",
 
-  "block.survivorsdelight.skillet.copper": "Copper Skillet",
-  "block.survivorsdelight.skillet.cast_iron": "Cast Iron Skillet",
-  "block.survivorsdelight.skillet.steel": "Steel Skillet",
   "block.survivorsdelight.skillet.farmer": "Farmer's Skillet",
-  "block.survivorsdelight.skillet.black_steel": "Black Steel Skillet",
-  "block.survivorsdelight.skillet.red_steel": "Red Steel Skillet",
-  "block.survivorsdelight.skillet.blue_steel": "Blue Steel Skillet",
-
-  "item.survivorsdelight.skillet_head.copper": "Copper Skillet Head",
-  "item.survivorsdelight.skillet_head.cast_iron": "Cast Iron Skillet Head",
-  "item.survivorsdelight.skillet_head.steel": "Steel Skillet Head",
-  "item.survivorsdelight.skillet_head.black_steel": "Black Steel Skillet Head",
-  "item.survivorsdelight.skillet_head.red_steel": "Red Steel Skillet Head",
-  "item.survivorsdelight.skillet_head.blue_steel": "Blue Steel Skillet Head",
-
-  "item.survivorsdelight.unfinished_skillet.copper": "Unfinished Copper Skillet",
-  "item.survivorsdelight.unfinished_skillet.cast_iron": "Unfinished Cast Iron Skillet",
-  "item.survivorsdelight.unfinished_skillet.steel": "Unfinished Steel Skillet",
-  "item.survivorsdelight.unfinished_skillet.black_steel": "Unfinished Black Steel Skillet",
-  "item.survivorsdelight.unfinished_skillet.red_steel": "Unfinished Red Steel Skillet",
-  "item.survivorsdelight.unfinished_skillet.blue_steel": "Unfinished Blue Steel Skillet",
 
   "item.survivorsdelight.skillet_lining.silver": "Silver Skillet Lining",
   "item.survivorsdelight.skillet_lining.tin": "Tin Skillet Lining",
 
   "overlay.survivorsdelight.stove_fuel_amount": "Fuel Amount",
 
-  "survivorsdelight.tooltip.foodtrait.skillet_cooked": "Skillet Cooked",
-  "survivorsdelight.tooltip.foodtrait.food_model": "Food Model"
+  "foodtrait.survivorsdelight.skillet_cooked": "Skillet Cooked",
+  "foodtrait.survivorsdelight.food_model": "Food Model",
+  "foodtrait.survivorsdelight.cabinet_stored": "Cabinet Stored",
+
+
+  "container.survivorsdelight.cabinet": "Cabinet",
+
+  "gui.survivorsdelight.pot.open_fluid": "Fluid Menu",
+  "gui.survivorsdelight.pot.fluid_menu": "Fluid Menu",
+  "gui.survivorsdelight.pot.pot_menu": "Pot Menu",
+  "tooltip.survivorsdelight.fluid_required": "Fluid Required",
+  "tooltip.survivorsdelight.foodfallback": "The food data shown here is the fallback value of a dynamic food. It can be different when you actually cook/craft it.",
+  "tooltip.survivorsdelight.cabinet_not_treated": "The cabinet is not treated yet. Food stored here decays as usual."
 }

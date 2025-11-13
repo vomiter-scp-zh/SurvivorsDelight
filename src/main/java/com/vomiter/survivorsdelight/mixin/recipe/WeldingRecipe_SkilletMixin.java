@@ -1,7 +1,9 @@
 package com.vomiter.survivorsdelight.mixin.recipe;
 
-import com.vomiter.survivorsdelight.core.registry.SDSkilletPartItems;
-import com.vomiter.survivorsdelight.data.tags.SDItemTags;
+import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletPartItems;
+import com.vomiter.survivorsdelight.data.tags.SDTags;
+import net.dries007.tfc.common.component.TFCComponents;
+import net.dries007.tfc.common.component.forge.ForgingBonus;
 import net.dries007.tfc.common.component.forge.ForgingBonusComponent;
 import net.dries007.tfc.common.recipes.WeldingRecipe;
 import net.dries007.tfc.common.recipes.outputs.ItemStackProvider;
@@ -22,20 +24,19 @@ public class WeldingRecipe_SkilletMixin {
             at = @At("RETURN"),
             cancellable = true
     )
-    private void applyForgingBonus(WeldingRecipe.Inventory inventory, CallbackInfoReturnable<ItemStack> cir){
-        if(!cir.getReturnValue().is(SDItemTags.SKILLETS)) return;
-        ItemStack output = cir.getReturnValue().copy();
-        if(
-                SDSkilletPartItems.HEADS.values().stream().anyMatch(
-                        ro -> inventory.getLeft().is(ro))
-        ){
-            ForgingBonusComponent.set(output, ForgingBonusComponent.get(inventory.getLeft()));
-        } else if (
-                SDSkilletPartItems.HEADS.values().stream().anyMatch(
-                        ro -> inventory.getRight().is(ro.get()))
-        ) {
-            ForgingBonusComponent.set(output, ForgingBonusComponent.get(inventory.getRight()));
+    private void applyForgingBonus(WeldingRecipe.Inventory input, CallbackInfoReturnable<ItemStack> cir) {
+        ItemStack result = cir.getReturnValue();
+        boolean leftIsHead  =
+                SDSkilletPartItems.HEADS.values().stream()
+                        .anyMatch(ro -> input.getLeft().is(ro.get()));
+        boolean rightIsHead =
+                SDSkilletPartItems.HEADS.values().stream()
+                        .anyMatch(ro -> input.getRight().is(ro.get()));
+        ForgingBonusComponent bonusComponent = leftIsHead ? input.getLeft().get(TFCComponents.FORGING_BONUS.get()) : (rightIsHead ? input.getRight().get(TFCComponents.FORGING_BONUS.get()) : null);
+        ForgingBonus bonus = bonusComponent == null ? ForgingBonus.NONE : bonusComponent.type();
+        if (!bonus.equals(ForgingBonus.NONE)) {
+            result.set(TFCComponents.FORGING_BONUS.get(), bonusComponent);
         }
-        cir.setReturnValue(output);
+        cir.setReturnValue(result);
     }
 }

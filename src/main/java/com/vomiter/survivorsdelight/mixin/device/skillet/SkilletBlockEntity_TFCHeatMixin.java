@@ -4,7 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.vomiter.survivorsdelight.core.device.skillet.SDSkilletItem;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletUtil;
-import com.vomiter.survivorsdelight.data.tags.SDItemTags;
+import com.vomiter.survivorsdelight.data.tags.SDTags;
 import com.vomiter.survivorsdelight.util.HeatHelper;
 import net.dries007.tfc.common.component.food.FoodCapability;
 import net.dries007.tfc.common.component.heat.HeatCapability;
@@ -45,7 +45,7 @@ import java.util.Objects;
 public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEntity {
 
     @Unique private static final Logger survivorsDelight$LOG = LogUtils.getLogger();
-    
+
     @Final @Shadow private ItemStackHandler inventory;
     @Shadow private int cookingTime;
 
@@ -111,7 +111,7 @@ public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEn
 
         if (level == null || cookingStack.isEmpty()) return;
         if(skilletStack.getItem() instanceof SDSkilletItem sdSkilletItem){
-            if(!sdSkilletItem.canCook(skilletStack) && skilletStack.is(SDItemTags.RETURN_COPPER_SKILLET)){
+            if(!sdSkilletItem.canCook(skilletStack) && skilletStack.is(SDTags.ItemTags.RETURN_COPPER_SKILLET)){
                 var lookup = level.registryAccess(); // RegistryAccess implements HolderLookup.Provider
                 CompoundTag tag = (CompoundTag) skilletStack.save(lookup);
                 tag.putString("id", SkilletMaterial.COPPER.location().toString());

@@ -1,22 +1,16 @@
 package com.vomiter.survivorsdelight.core.farming;
 
-import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.mixin.BlockEntityTypeAccessor;
 import net.dries007.tfc.common.blockentities.FarmlandBlockEntity;
 import net.dries007.tfc.common.blockentities.TFCBlockEntities;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import vectorwing.farmersdelight.common.registry.ModBlocks;
 
 import java.util.HashSet;
 
-@EventBusSubscriber(modid = SurvivorsDelight.MODID)
 public class RichSoilFarmlandBlockEntitySetup {
-
-    @SubscribeEvent
     public static void onCommonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             BlockEntityType<FarmlandBlockEntity> type = TFCBlockEntities.FARMLAND.get();

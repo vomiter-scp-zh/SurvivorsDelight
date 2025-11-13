@@ -26,21 +26,29 @@ public interface IStoveBlockEntity {
     }
     HeatingRecipe[] sdtfc$getCachedRecipes();
 
+    static float sdtfc$getStaticTemperature(){
+        return 550;
+    }
+    static int sdtfc$getMaxDuration(){ return 7 * 20 * 60 * 20;}
+
     default boolean sdtfc$addItem(ItemStack itemStackIn, int slot, StoveBlockEntity stove, Player player) {
         var inventory = stove.getInventory();
         if (0 <= slot && slot < inventory.getSlots()) {
             ItemStack slotStack = inventory.getStackInSlot(slot);
             if (slotStack.isEmpty()) {
-                HeatingRecipe recipe = HeatingRecipe.getRecipe(itemStackIn);
+                var recipe = HeatingRecipe.getRecipe((itemStackIn));
                 if(recipe == null) return false;
                 if(recipe.getTemperature() > 500) return false;
+                assert stove.getLevel() != null;
                 if(recipe.getResultItem(stove.getLevel().registryAccess()).isEmpty()) return false;
                 var acc = (StoveBlockEntity_Accessor)stove;
                 acc.getCookingTimesTotal()[slot] = 24 * 60 * 60 * 20;
                 acc.getCookingTimes()[slot] = 0;
-                inventory.setStackInSlot(slot, player.isCreative()?
-                        new ItemStack(itemStackIn.getItem()):
-                        itemStackIn.split(1));
+                inventory.setStackInSlot(slot,
+                        player.isCreative()?
+                                new ItemStack(itemStackIn.getItem()) :
+                                itemStackIn.split(1)
+                );
                 stove.setChanged();
                 Level level = stove.getLevel();
                 if(level != null){
@@ -91,14 +99,14 @@ public interface IStoveBlockEntity {
                 }
             }
             else if(cachedRecipes[slot].isValidTemperature(heat.getTemperature())){
-                final ItemStack result = cachedRecipes[slot].assembleItem(slotStack);
+                assert stove.getLevel() != null;
+                final ItemStack result = cachedRecipes[slot].assembleItem((slotStack));
                 FoodCapability.applyTrait(result, FoodTraits.WOOD_GRILLED);
-
                 sdtfc$ejectItem(stove, result.copy());
                 inventory.extractItem(slot, 1, false);
                 stove.setChanged();
-                level.sendBlockUpdated(pos, stove.getBlockState(), stove.getBlockState(), 3);
                 cachedRecipes[slot] = null;
+                level.sendBlockUpdated(pos, stove.getBlockState(), stove.getBlockState(), 3);
             }
         }
 

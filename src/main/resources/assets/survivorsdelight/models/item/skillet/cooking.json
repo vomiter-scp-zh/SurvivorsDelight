@@ -1,5 +1,5 @@
 {
-  "parent": "builtin/entity",
+  "parent": "survivorsdelight:block/skillet/skillet",
   "display": {
     "thirdperson_righthand": {
       "rotation": [70, 0, 0],

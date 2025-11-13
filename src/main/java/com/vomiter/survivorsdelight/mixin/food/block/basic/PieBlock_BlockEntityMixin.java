@@ -2,10 +2,9 @@ package com.vomiter.survivorsdelight.mixin.food.block.basic;
 
 import com.vomiter.survivorsdelight.core.food.block.DecayingPieBlockEntity;
 import com.vomiter.survivorsdelight.core.food.block.ISDDecayingBlock;
-import com.vomiter.survivorsdelight.core.food.block.SDDecayingBlockEntityRegistry;
 import com.vomiter.survivorsdelight.core.food.trait.SDFoodTraits;
-import com.vomiter.survivorsdelight.data.tags.SDItemTags;
-
+import com.vomiter.survivorsdelight.core.registry.SDBlockEntityTypes;
+import com.vomiter.survivorsdelight.data.tags.SDTags;
 import net.dries007.tfc.common.component.food.FoodCapability;
 import net.dries007.tfc.common.component.food.IFood;
 import net.minecraft.core.BlockPos;
@@ -48,7 +47,7 @@ public abstract class PieBlock_BlockEntityMixin extends Block implements EntityB
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> type) {
-        return type == SDDecayingBlockEntityRegistry.PIE_DECAYING.get()
+        return type == SDBlockEntityTypes.PIE_DECAYING.get()
                 ? (l, p, st, be) -> DecayingPieBlockEntity.serverTick(l, p, st, (DecayingPieBlockEntity) be)
                 : null;
     }
@@ -66,7 +65,7 @@ public abstract class PieBlock_BlockEntityMixin extends Block implements EntityB
         if(srcFood.hasTrait(SDFoodTraits.FOOD_MODEL)){
             cir.setReturnValue(ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION);
         }
-        else if(usedItem.is(SDItemTags.FOOD_MODEL_COATING) && usedItem.getCount() >= servingNumber){
+        else if(usedItem.is(SDTags.ItemTags.FOOD_MODEL_COATING) && usedItem.getCount() >= servingNumber){
             srcFood.getTraits().add(SDFoodTraits.FOOD_MODEL.get());
             usedItem.shrink(servingNumber);
             cir.setReturnValue(ItemInteractionResult.SUCCESS);

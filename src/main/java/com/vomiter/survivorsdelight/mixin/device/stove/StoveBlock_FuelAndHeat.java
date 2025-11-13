@@ -23,7 +23,7 @@ import vectorwing.farmersdelight.common.block.entity.StoveBlockEntity;
 public class StoveBlock_FuelAndHeat{
     @Inject(method = "useItemOn", at = @At("HEAD"), cancellable = true, remap = true)
     private void addFuel(ItemStack heldItem, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit, CallbackInfoReturnable<ItemInteractionResult> cir
-            )
+    )
     {
         BlockEntity tileEntity = level.getBlockEntity(pos);
         if (tileEntity instanceof IStoveBlockEntity stoveEntity) {

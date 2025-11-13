@@ -1,25 +1,7 @@
 {
-  "type": "tfc:advanced_shaped_crafting",
-  "pattern": [
-    "X",
-    "Y"
-  ],
-  "key": {
-    "X": {
-      "item": "survivorsdelight:unfinished_skillet/steel"
-    },
-    "Y": {
-      "tag": "forge:ingots/brick"
+  "conditions": [
+    {
+      "type": "forge:false"
     }
-  },
-  "result": {
-    "stack": {
-      "item": "survivorsdelight:skillet/farmer"
-    },
-    "modifiers": [
-      "tfc:copy_forging_bonus"
-    ]
-  },
-  "input_row": 0,
-  "input_column": 0
+  ]
 }
