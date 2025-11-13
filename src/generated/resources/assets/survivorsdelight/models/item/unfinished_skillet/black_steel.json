@@ -1,9 +1,0 @@
-{
-  "parent": "survivorsdelight:item/skillet/black_steel",
-  "textures": {
-    "0": "tfc:block/metal/smooth/black_steel",
-    "1": "tfc:block/metal/smooth/black_steel",
-    "2": "tfc:block/metal/smooth/black_steel",
-    "particle": "tfc:block/metal/smooth/black_steel"
-  }
-}

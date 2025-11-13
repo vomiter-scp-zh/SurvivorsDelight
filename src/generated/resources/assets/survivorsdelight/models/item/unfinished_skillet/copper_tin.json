@@ -1,9 +1,0 @@
-{
-  "parent": "survivorsdelight:item/skillet/copper_tin",
-  "textures": {
-    "0": "tfc:block/metal/smooth/copper",
-    "1": "tfc:block/metal/smooth/tin",
-    "2": "tfc:block/metal/smooth/copper",
-    "particle": "tfc:block/metal/smooth/copper"
-  }
-}

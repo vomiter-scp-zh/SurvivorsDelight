@@ -1,0 +1,7 @@
+{
+  "sources": [
+    {"type": "single", "resource": "farmersdelight:mob_effect/comfort"},
+    {"type": "single", "resource": "farmersdelight:mob_effect/nourishment"},
+    {"type": "single", "resource": "survivorsabilities:mob_effect/workhorse"}
+  ]
+}
