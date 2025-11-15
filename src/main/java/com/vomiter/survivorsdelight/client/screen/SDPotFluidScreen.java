@@ -53,6 +53,7 @@ public class SDPotFluidScreen extends AbstractContainerScreen<SDCookingPotFluidM
                 sdtfc$bucketX(), sdtfc$bucketY(), Component.translatable("gui.survivorsdelight.pot.pot_menu")
         );
         this.addRenderableWidget(potButton);
+        SDClientMouseMemory.restoreAndClear(); // 把游標移回之前的 GUI 位置
     }
 
     @Override public void render(@NotNull GuiGraphics gg, int mouseX, int mouseY, float partial) {

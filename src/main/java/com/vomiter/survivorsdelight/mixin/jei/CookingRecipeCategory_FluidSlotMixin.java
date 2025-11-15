@@ -1,13 +1,16 @@
 package com.vomiter.survivorsdelight.mixin.jei;
 
 import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.IFluidRequiringRecipe;
+import com.vomiter.survivorsdelight.core.registry.recipe.SDCookingPotRecipe;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import net.dries007.tfc.compat.jei.category.BaseRecipeCategory;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
 import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -21,16 +24,20 @@ import java.util.List;
 
 @Mixin(value = CookingRecipeCategory.class, remap = false)
 public abstract class CookingRecipeCategory_FluidSlotMixin {
-    /*
+
     @Unique
     private static final int SD_FLUID_X = 0;
     @Unique
     private static final int SD_FLUID_Y = 36;
 
-    @Inject(method = "setRecipe*", at = @At("TAIL"))
-    private void sdtfc$addFluidSlot(IRecipeLayoutBuilder builder, CookingPotRecipe recipe, IFocusGroup focus, CallbackInfo ci) {
-        SizedFluidIngredient ingredient = ((IFluidRequiringRecipe)recipe).sdtfc$getFluidIngredient();
-        if(ingredient == null) return;
+    @Inject(method = "setRecipe(Lmezz/jei/api/gui/builder/IRecipeLayoutBuilder;Lnet/minecraft/world/item/crafting/RecipeHolder;Lmezz/jei/api/recipe/IFocusGroup;)V", at = @At("TAIL"))
+    private void sdtfc$addFluidSlot(IRecipeLayoutBuilder builder, RecipeHolder<CookingPotRecipe> holder, IFocusGroup focusGroup, CallbackInfo ci) {
+        if(!(holder.value() instanceof SDCookingPotRecipe sdCookingPotRecipe)) return;
+        int fluidAmount = sdCookingPotRecipe.getFluidAmountMb();
+        if(fluidAmount <= 0) return;
+        FluidIngredient fluidIngredient = sdCookingPotRecipe.getFluid();
+        if(fluidIngredient == null) return;
+        SizedFluidIngredient ingredient = new SizedFluidIngredient(fluidIngredient, fluidAmount);
         List<FluidStack> fluids = BaseRecipeCategory.collapse(ingredient);
 
         if (!fluids.isEmpty()) {
@@ -44,5 +51,5 @@ public abstract class CookingRecipeCategory_FluidSlotMixin {
         }
     }
 
-     */
+
 }

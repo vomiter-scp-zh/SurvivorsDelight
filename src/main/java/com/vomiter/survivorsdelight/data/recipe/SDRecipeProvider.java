@@ -20,6 +20,7 @@ public class SDRecipeProvider extends RecipeProvider {
     SDCraftingRecipes craftingRecipes = new SDCraftingRecipes();
     SDFoodRecipes cookingPotRecipes = new SDFoodRecipes();
     SDFoodCuttingRecipes foodCuttingRecipes = new SDFoodCuttingRecipes();
+    SDAnvilAndWeldingRecipes anvilRecipes = new SDAnvilAndWeldingRecipes();
 
     public SDRecipeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
         super(output, registries);
@@ -39,5 +40,6 @@ public class SDRecipeProvider extends RecipeProvider {
         craftingRecipes.save(out);
         cookingPotRecipes.save(out);
         foodCuttingRecipes.cut2(out);
+        anvilRecipes.save(out);
     }
 }

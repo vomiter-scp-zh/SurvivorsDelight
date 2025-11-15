@@ -67,7 +67,7 @@ public class SDFoodCuttingRecipes {
 
         SDCuttingRecipeBuilder.cuttingNotRotten(Ingredient.of(SDTags.ItemTags.TFC_DOUGHS))
             .tool(knife)
-            .addResult(ItemStackProvider.of(new ItemStack(ModItems.RAW_PASTA.get(), 2), CopyFoodModifier.INSTANCE))
+            .addResult(ItemStackProvider.of(new ItemStack(ModItems.RAW_PASTA.get(), 1), CopyFoodModifier.INSTANCE))
             .save(out, SDUtils.RLUtils.build(SurvivorsDelight.MODID, "cutting/food/raw_pasta"));
     }
 }

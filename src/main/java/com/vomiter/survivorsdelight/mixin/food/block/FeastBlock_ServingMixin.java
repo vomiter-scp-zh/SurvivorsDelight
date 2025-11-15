@@ -53,6 +53,6 @@ public abstract class FeastBlock_ServingMixin extends Block {
         if (srcFood == null || servingFood == null) return serving;
 
         FoodCapability.setCreationDate(serving, srcFood.getCreationDate());
-        servingFood.getTraits().addAll(srcFood.getTraits());
+        FoodCapability.updateFoodFromPrevious(src, serving);
         return serving;
     }}

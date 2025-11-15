@@ -14,6 +14,7 @@ import net.dries007.tfc.common.items.TFCItems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,6 +24,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import vectorwing.farmersdelight.common.block.entity.CookingPotBlockEntity;
+import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;
 
 @Mixin(value = CookingPotBlockEntity.class, remap = false)
 public abstract class CookingPotBlockEntity_ContainerMixin {
@@ -100,5 +102,24 @@ public abstract class CookingPotBlockEntity_ContainerMixin {
         }
         ci.cancel();
     }
+
+    @Shadow protected abstract void ejectIngredientRemainder(ItemStack remainderStack);
+
+    @Inject(
+            method = "processCooking",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/item/ItemStack;shrink(I)V",
+                    remap = true
+            )
+    )
+    private void beforeIngredientShrink(
+            RecipeHolder<CookingPotRecipe> recipe, CookingPotBlockEntity cookingPot, CallbackInfoReturnable<Boolean> cir, @Local(name = "slotStack") ItemStack slotStack
+    ) {
+        if(slotStack.hasCraftingRemainingItem()) return;
+        var bowlComponent = slotStack.get(TFCComponents.BOWL);
+        if(bowlComponent != null) ejectIngredientRemainder(bowlComponent.stack());
+    }
+
 
 }

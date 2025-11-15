@@ -20,8 +20,7 @@ public final class SDHeatingRecipes {
     }
 
     /** 呼叫這個方法，把所有「生肉切片 → 熟肉切片」丟進 out */
-    public void generate(BiConsumer<ResourceLocation, JsonObject> out) {
-        // 1) 建 raw->cooked 對映。
+    public void foods(BiConsumer<ResourceLocation, JsonObject> out) {
         Map<Item, Item> rawToCooked = new LinkedHashMap<>();
         rawToCooked.put(ModItems.CHICKEN_CUTS.get(),         ModItems.COOKED_CHICKEN_CUTS.get());
         rawToCooked.put(ModItems.BACON.get(),                 ModItems.COOKED_BACON.get());
@@ -31,8 +30,6 @@ public final class SDHeatingRecipes {
         rawToCooked.put(ModItems.MINCED_BEEF.get(),          ModItems.BEEF_PATTY.get());
         rawToCooked.put(ModItems.HAM.get(),                  ModItems.SMOKED_HAM.get());
 
-
-        // 2) 針對每個 raw→cooked 輸出 heating/farmersdelight/<raw_path>.json
         for (Map.Entry<Item, Item> e : rawToCooked.entrySet()) {
             Item raw = e.getKey();
             Item cooked = e.getValue();

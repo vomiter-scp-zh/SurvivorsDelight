@@ -3,9 +3,12 @@ package com.vomiter.survivorsdelight.core.registry.recipe;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.vomiter.survivorsdelight.core.device.cooking_pot.wrap.CookingPotFluidRecipeWrapper;
-import com.vomiter.survivorsdelight.core.device.cooking_pot.wrap.IFluidAccess;
+import com.vomiter.survivorsdelight.core.device.cooking_pot.wrap.ICookingPotRecipeFluidAccess;
 import com.vomiter.survivorsdelight.core.registry.SDRecipeSerializers;
+import net.dries007.tfc.common.component.TFCComponents;
+import net.dries007.tfc.common.component.food.FoodComponent;
+import net.dries007.tfc.common.component.food.FoodData;
+import net.dries007.tfc.common.component.food.Nutrient;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -24,7 +27,6 @@ import vectorwing.farmersdelight.common.registry.ModRecipeTypes;
 // 若你有自訂的 wrapper（例如可讀取鍋內流體的 wrapper），請替換這個 import
 import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 
-import java.util.List;
 import java.util.Optional;
 
 public class SDCookingPotRecipe extends CookingPotRecipe {
@@ -71,7 +73,7 @@ public class SDCookingPotRecipe extends CookingPotRecipe {
 
         if (fluid == null || fluidAmountMb <= 0) return true;
 
-        if (inv instanceof IFluidAccess acc) {
+        if (inv instanceof ICookingPotRecipeFluidAccess acc) {
             return acc.matchesFluid(fluid, fluidAmountMb);
         }
         return false; // 沒有流體能力就不匹配
@@ -91,6 +93,20 @@ public class SDCookingPotRecipe extends CookingPotRecipe {
     public ItemStack getContainerOverrideStack() { return containerOverride.copy(); }
     public int getCookingTime() { return cookingTime; }
     public float getExperience() { return experience; }
+    public boolean shouldCalcDynamic(){
+        FoodComponent foodComponent = result.get(TFCComponents.FOOD);
+        if(foodComponent == null) return true;
+        FoodData foodData = foodComponent.getData();
+        float anyValue = 0;
+        anyValue += foodData.hunger();
+        anyValue += foodData.saturation();
+        anyValue += foodData.water();
+        anyValue += foodData.intoxication();
+        for (Nutrient value : Nutrient.VALUES) {
+            anyValue += foodData.nutrient(value);
+        }
+        return anyValue == 0;
+    }
 
     // ---- 1.21：MapCodec + StreamCodec ----
     public enum Serializer implements RecipeSerializer<SDCookingPotRecipe> {
@@ -126,8 +142,8 @@ public class SDCookingPotRecipe extends CookingPotRecipe {
         public static final StreamCodec<RegistryFriendlyByteBuf, SDCookingPotRecipe> STREAM_CODEC =
                 StreamCodec.of(Serializer::toNetwork0, Serializer::fromNetwork0);
 
-        @Override public MapCodec<SDCookingPotRecipe> codec() { return CODEC; }
-        @Override public StreamCodec<RegistryFriendlyByteBuf, SDCookingPotRecipe> streamCodec() { return STREAM_CODEC; }
+        @Override public @NotNull MapCodec<SDCookingPotRecipe> codec() { return CODEC; }
+        @Override public @NotNull StreamCodec<RegistryFriendlyByteBuf, SDCookingPotRecipe> streamCodec() { return STREAM_CODEC; }
 
         private static void toNetwork0(RegistryFriendlyByteBuf buf, SDCookingPotRecipe r) {
             buf.writeUtf(r.getGroup());

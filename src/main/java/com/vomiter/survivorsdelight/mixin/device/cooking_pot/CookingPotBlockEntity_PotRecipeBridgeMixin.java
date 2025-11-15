@@ -46,6 +46,7 @@ import java.util.*;
 
 @Mixin(value = CookingPotBlockEntity.class, remap = false)
 public abstract class CookingPotBlockEntity_PotRecipeBridgeMixin extends SyncedBlockEntity implements ICookingPotRecipeBridge {
+
     @Shadow @Final private ItemStackHandler inventory;
     @Shadow private int cookTime;
 

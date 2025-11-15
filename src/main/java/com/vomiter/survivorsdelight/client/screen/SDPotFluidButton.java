@@ -32,6 +32,7 @@ public class SDPotFluidButton extends AbstractButton {
 
     @Override
     public void onPress() {
+        SDClientMouseMemory.rememberCurrent();          // 先記目前滑鼠
         SDNetwork.sendToServer(new OpenPotFluidMenuC2SPayload(this.menu.containerId, this.menu.blockEntity.getBlockPos()));
     }
 

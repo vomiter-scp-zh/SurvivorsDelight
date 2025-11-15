@@ -38,6 +38,6 @@ public final class SkilletSlotSizeLimitHandler extends ItemStackHandler {
 
     @Override
     public int getSlotLimit(int slot) {
-        return SDConfig.COMMON.skilletSlotNumber.get();
+        return SDConfig.SKILLET_SLOT_LIMIT;
     }
 }

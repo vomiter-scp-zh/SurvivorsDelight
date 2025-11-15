@@ -11,6 +11,7 @@ import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.items.Food;
 import net.dries007.tfc.common.items.TFCItems;
+import net.dries007.tfc.util.registry.RegistryHolder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
@@ -18,7 +19,9 @@ import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
 import vectorwing.farmersdelight.common.registry.ModItems;
@@ -78,6 +81,22 @@ public class ModItemTagsProvider extends ItemTagsProvider {
     }
 
     private void addFoodTags(){
+        tag(ModTags.CABBAGE_ROLL_INGREDIENTS)
+                .addTag(SDTags.ItemTags.TFC_RAW_MEATS)
+                .addTag(SDTags.ItemTags.TFC_GRAINS);
+
+        List<Food> cookedBirdMeats = List.of(
+                Food.COOKED_CHICKEN,
+                Food.COOKED_QUAIL,
+                Food.COOKED_PHEASANT,
+                Food.COOKED_GROUSE,
+                Food.COOKED_TURKEY,
+                Food.COOKED_PEAFOWL,
+                Food.COOKED_DUCK
+        );
+        tag(SDTags.ItemTags.COOKED_POULTRY)
+                .add(cookedBirdMeats.stream().map(TFCItems.FOOD::get).map(RegistryHolder::get).toArray(Item[]::new));
+
         tag(SDTags.ItemTags.FEAST_BLOCKS).add(
                 ModItems.HONEY_GLAZED_HAM_BLOCK.get(),
                 ModItems.ROAST_CHICKEN_BLOCK.get(),

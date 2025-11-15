@@ -9,6 +9,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
@@ -24,10 +25,21 @@ public class SDTags {
         ModBlockTagsProvider blockTags = new ModBlockTagsProvider(output, lookupProvider, helper);
         ModItemTagsProvider itemTags = new ModItemTagsProvider(output, lookupProvider, blockTags, helper);
         ModEntityTypeTagsProvider entityTags = new ModEntityTypeTagsProvider(output, lookupProvider, SurvivorsDelight.MODID, helper);
+        ModFluidTagsProvider fluidTags = new ModFluidTagsProvider(output, lookupProvider, SurvivorsDelight.MODID, helper);
 
         generator.addProvider(event.includeServer(), blockTags);
         generator.addProvider(event.includeServer(), itemTags);
         generator.addProvider(event.includeServer(), entityTags);
+        generator.addProvider(event.includeServer(), fluidTags);
+    }
+
+    public static class FluidTags{
+        public static TagKey<Fluid> create(String path){
+            return TagKey.create(
+                    Registries.FLUID,
+                    SDUtils.RLUtils.build(SurvivorsDelight.MODID, path)
+            );
+        }
     }
 
     public static class BlockTags{
@@ -91,15 +103,16 @@ public class SDTags {
         public static final TagKey<Item> SLICES_AND_SERVINGS = create("slices_and_servings");
         public static final TagKey<Item> FEAST_BLOCKS = create("feast_blocks");
         public static final TagKey<Item> PIE_BLOCKS = create("pie_blocks");
+        public static final TagKey<Item> COOKED_POULTRY = create("cooked_poultry");
 
         public static final TagKey<Item> TFC_DOUGHS = create("c", "foods/dough");
         public static final TagKey<Item> TFC_GLASS_BOTTLES = create("tfc", "glass_bottles");
         public static final TagKey<Item> TFC_RAW_MEATS = create("c", "foods/raw_meats");
         public static final TagKey<Item> TFC_COOKED_MEATS = create("c", "foods/cooked_meats");
         public static final TagKey<Item> TFC_VEGETABLES = create("c", "foods/vegetables");
-        public static final TagKey<Item> TFC_GRAINS = create("c", "foods/grains");
+        public static final TagKey<Item> TFC_GRAINS = create("c", "foods/grain");
         public static final TagKey<Item> TFC_FRUITS = create("c", "foods/fruits");
-        public static final TagKey<Item> TFC_SWEETENER = create("tfc", "sweetener");
+        public static final TagKey<Item> TFC_SWEETENER = create("tfc", "foods/sweeteners");
 
     }
 

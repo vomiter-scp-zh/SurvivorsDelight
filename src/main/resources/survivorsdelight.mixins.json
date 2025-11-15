@@ -12,9 +12,11 @@
     "device.cooking_pot.CookingPotBlock_AddPlayerMixin",
     "device.cooking_pot.CookingPotBlockEntity_Accessor",
     "device.cooking_pot.CookingPotBlockEntity_FluidHandleMixin",
-    "device.cooking_pot.CookingPotBlockEntity_PotRecipeBridgeMixin",
+    "device.cooking_pot.CookingPotBlockEntity_FluidRequiringRecipesMixin",
+    "device.cooking_pot.CookingPotBlockEntity_TFCPotBridgeMixin",
     "device.cooking_pot.CookingPotMenu_CommonMixin",
-    "device.cutting.CuttingBoardBlockEntityMixin",
+    "device.cooking_pot.SyncedBlockEntity_CookingPotMixin",
+    "device.cutting.CuttingBoardBlockEntity_ISPMixin",
     "device.skillet.SkilletBlockEntity_SlotLimitMixin",
     "device.skillet.SkilletBlockEntity_TFCHeatMixin",
     "device.skillet.SkilletItem_TFCHeatMixin",
@@ -53,9 +55,7 @@
     "loot.LivingEntity_HamConvertMixin",
     "recipe.AnvilBlockEntity_WeldingSkilletMixin",
     "recipe.RecipeManager_FDFilterMixin",
-    "recipe.WeldingRecipe_SkilletMixin",
-    "recipe.cutting.CuttingBoardBlockEntity_ISPMixin",
-    "recipe.cutting.CuttingBoardRecipeSerializer_ISPMixin"
+    "recipe.WeldingRecipe_SkilletMixin"
   ],
   "client": [
     "client.CookingPotScreen_ButtonMixin",

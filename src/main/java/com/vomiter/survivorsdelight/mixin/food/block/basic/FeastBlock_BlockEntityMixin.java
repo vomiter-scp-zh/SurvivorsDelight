@@ -63,7 +63,7 @@ public abstract class FeastBlock_BlockEntityMixin extends Block implements Entit
             cir.setReturnValue(ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION);
         }
         else if(usedItem.is(SDTags.ItemTags.FOOD_MODEL_COATING) && usedItem.getCount() >= servingNumber){
-            srcFood.getTraits().add(SDFoodTraits.FOOD_MODEL.get());
+            FoodCapability.applyTrait(src, SDFoodTraits.FOOD_MODEL);
             usedItem.shrink(servingNumber);
             cir.setReturnValue(ItemInteractionResult.SUCCESS);
             level.sendBlockUpdated(pos, state, state, 3);

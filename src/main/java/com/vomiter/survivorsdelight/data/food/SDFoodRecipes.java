@@ -4,6 +4,8 @@ import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.TFCTags;
+import net.dries007.tfc.common.blocks.TFCBlocks;
+import net.dries007.tfc.common.blocks.plant.Plant;
 import net.dries007.tfc.common.component.food.FoodData;
 import net.dries007.tfc.common.component.food.Nutrient;
 import net.dries007.tfc.common.fluids.SimpleFluid;
@@ -11,7 +13,6 @@ import net.dries007.tfc.common.fluids.TFCFluids;
 import net.dries007.tfc.common.items.Food;
 import net.dries007.tfc.common.items.Powder;
 import net.dries007.tfc.common.items.TFCItems;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -19,15 +20,16 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
+import net.neoforged.neoforge.common.Tags;
 import vectorwing.farmersdelight.common.registry.ModItems;
 import vectorwing.farmersdelight.common.tag.ModTags;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class SDFoodRecipes {
-    TagKey<Fluid> milks = TagKey.create(Registries.FLUID, SDUtils.RLUtils.build("tfc", "milks"));
-
+    TagKey<Fluid> milks = Tags.Fluids.MILK;
     private SDFoodAndRecipeGenerator.CookingBuilder cook(String id, ItemLike outItem, int count, int time, int exp) {
         return SurvivorsDelight.foodAndCookingGenerator.cooking(id, outItem, count, time, exp, null);
     }
@@ -120,7 +122,7 @@ public class SDFoodRecipes {
                 .food(SDTags.ItemTags.MEATS_FOR_SHEPHERDS_PIE)
                 .food(SDTags.ItemTags.MEATS_FOR_SHEPHERDS_PIE)
                 .food(SDTags.ItemTags.MEATS_FOR_SHEPHERDS_PIE)
-                .food(TFCItems.FOOD.get(Food.BARLEY_DOUGH).get()) // 修正 TFC_DOUGHS
+                .food(SDTags.ItemTags.TFC_DOUGHS, getTFCFoodData(Food.BARLEY_DOUGH))
                 .food(TFCItems.SALADS.get(Nutrient.VEGETABLES).get())
                 .fluid(milks, 100)
                 .build(out) // 修正呼叫
@@ -130,22 +132,29 @@ public class SDFoodRecipes {
                 .nonfood(SDTags.ItemTags.TFC_SWEETENER)
                 .food(ModItems.SMOKED_HAM.get())
                 .food(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE)
-                .food(TFCItems.FOOD.get(Food.BARLEY_DOUGH).get()) // 修正 TFC_DOUGHS
+                .food(SDTags.ItemTags.TFC_DOUGHS)
                 .fluid(oliveOil, 100)
-                .build(out) // 修正呼叫
+                .build(out)
                 .saveFoodData();
 
         cook("feast/honey_glazed_ham2", ModItems.HONEY_GLAZED_HAM_BLOCK.get(), 1, 1200, 20, Items.BOWL)
                 .nonfood(SDTags.ItemTags.TFC_SWEETENER)
                 .food(ModItems.SMOKED_HAM.get())
                 .food(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE)
-                .food(Ingredient.of(Stream.of(
-                        Ingredient.of(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE).getItems(),
-                        Ingredient.of(SDTags.ItemTags.TFC_VEGETABLES).getItems()
-                ).flatMap(Arrays::stream))) // 修正 Ingredient.merge
-                .food(TFCItems.FOOD.get(Food.BARLEY_DOUGH).get()) // 修正 TFC_DOUGHS
+                .food(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE)
+                .food(SDTags.ItemTags.TFC_DOUGHS)
                 .fluid(oliveOil, 100)
-                .build(out); // 修正呼叫
+                .build(out);
+
+        cook("feast/honey_glazed_ham3", ModItems.HONEY_GLAZED_HAM_BLOCK.get(), 1, 1200, 20, Items.BOWL)
+                .nonfood(SDTags.ItemTags.TFC_SWEETENER)
+                .food(ModItems.SMOKED_HAM.get())
+                .food(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE)
+                .food(SDTags.ItemTags.TFC_VEGETABLES)
+                .food(SDTags.ItemTags.TFC_DOUGHS)
+                .fluid(oliveOil, 100)
+                .build(out);
+
 
         cook("feast/stuffed_pumpkin", ModItems.STUFFED_PUMPKIN_BLOCK.get(), 1, 1200, 20, Items.CARVED_PUMPKIN)
                 .food(Items.BROWN_MUSHROOM)
@@ -154,7 +163,7 @@ public class SDFoodRecipes {
                 .food(SDTags.ItemTags.TFC_VEGETABLES)
                 .food(Food.ONION)
                 .fluid(oliveOil, 100)
-                .build(out) // 修正呼叫
+                .build(out)
                 .saveFoodData();
 
         cook("feast/roasted_chicken", ModItems.ROAST_CHICKEN_BLOCK.get(), 1, 1200, 20, Items.BOWL)
@@ -216,9 +225,9 @@ public class SDFoodRecipes {
 
         cook("meal/vegetable_noodles", ModItems.VEGETABLE_NOODLES.get(), 1, 1200, 15, Items.BOWL)
                 .food(ModItems.RAW_PASTA.get())
-                .food(SDTags.ItemTags.create("tfc", "foods/vegetables"))
-                .food(SDTags.ItemTags.create("tfc", "foods/vegetables"))
-                .food(SDTags.ItemTags.create("tfc", "foods/vegetables"))
+                .food(SDTags.ItemTags.TFC_VEGETABLES)
+                .food(SDTags.ItemTags.TFC_VEGETABLES)
+                .food(SDTags.ItemTags.TFC_VEGETABLES)
                 .fluid(oliveOil, 100)
                 .build(out) // 修正呼叫
                 .saveFoodData();
@@ -234,9 +243,9 @@ public class SDFoodRecipes {
         cook("meal/ratatouille", ModItems.RATATOUILLE.get(), 1, 1200, 15, Items.BOWL)
                 .food(ModItems.TOMATO_SAUCE.get())
                 .food(Food.ONION)
-                .food(SDTags.ItemTags.create("tfc", "foods/vegetables"))
-                .food(SDTags.ItemTags.create("tfc", "foods/vegetables"))
-                .food(SDTags.ItemTags.create("tfc", "foods/vegetables"))
+                .food(SDTags.ItemTags.TFC_VEGETABLES)
+                .food(SDTags.ItemTags.TFC_VEGETABLES)
+                .food(SDTags.ItemTags.TFC_VEGETABLES)
                 .fluid(oliveOil, 100)
                 .build(out) // 修正呼叫
                 .saveFoodData();
@@ -269,14 +278,13 @@ public class SDFoodRecipes {
 
     /* ---------------------- SOUP ---------------------- */
     public void soup(RecipeOutput out){ // 修正簽章
-        var TFCSoups = SDTags.ItemTags.create("tfc", "soups");
+        var TFCSoups = SDTags.ItemTags.create("c", "foods/soup");
         var vegetableAndFruitSoup = Ingredient.of(
                 Stream.of(
                         Ingredient.of(TFCItems.SOUPS.get(Nutrient.VEGETABLES).get()).getItems(),
                         Ingredient.of(TFCItems.SOUPS.get(Nutrient.FRUIT).get()).getItems()
                 ).flatMap(Arrays::stream)
         );
-        TagKey<Fluid> MILKS_TAG = TagKey.create(Registries.FLUID, SDUtils.RLUtils.build("tfc", "milks"));
         cook("soup/bone_broth", ModItems.BONE_BROTH.get(), 4, 3600, 15, Items.BOWL)
                 .nonfood(Items.BONE.asItem())
                 .nonfood(Items.BONE.asItem())
@@ -301,7 +309,7 @@ public class SDFoodRecipes {
         cook("soup/pumpkin_soup", ModItems.PUMPKIN_SOUP.get(), 1, 600, 15, Items.BOWL)
                 .food(TFCItems.SOUPS.get(Nutrient.PROTEIN).get())
                 .food(TFCItems.FOOD.get(Food.PUMPKIN_CHUNKS).get())
-                .fluid(MILKS_TAG, 100)
+                .fluid(milks, 100)
                 .build(out) // 修正呼叫
                 .saveFoodData();
 
@@ -313,7 +321,7 @@ public class SDFoodRecipes {
                 .saveFoodData();
 
         cook("soup/chicken_soup", ModItems.CHICKEN_SOUP.get(), 1, 600, 15, Items.BOWL)
-                .food(SDTags.ItemTags.create("forge", "cooked_chicken"))
+                .food(SDTags.ItemTags.COOKED_POULTRY)
                 .food(TFCSoups)
                 .food(ModItems.BONE_BROTH.get())
                 .build(out) // 修正呼叫
@@ -369,14 +377,15 @@ public class SDFoodRecipes {
                 .setWater(5)
                 .save();
 
+        var redDyePlants = List.of(Plant.GUZMANIA, Plant.POPPY, Plant.ROSE, Plant.SNAPDRAGON_RED, Plant.TROPICAL_MILKWEED, Plant.TULIP_RED, Plant.VRIESEA, Plant.ANTHURIUM, Plant.BLOOD_LILY, Plant.HELICONIA, Plant.KANGAROO_PAW, Plant.TANK_BROMELIAD, Plant.KINNIKINNICK);
         cook("pie/apple_pie", ModItems.APPLE_PIE.get(), 1, 1200, 10, ModItems.PIE_CRUST.get())
                 .food(SDTags.ItemTags.APPLE_FOR_CIDER, getTFCFoodData(Food.RED_APPLE))
                 .food(SDTags.ItemTags.APPLE_FOR_CIDER, getTFCFoodData(Food.RED_APPLE))
                 .food(SDTags.ItemTags.APPLE_FOR_CIDER, getTFCFoodData(Food.RED_APPLE))
                 .nonfood(SDTags.ItemTags.TFC_SWEETENER)
                 .nonfood(SDTags.ItemTags.TFC_SWEETENER)
-                .nonfood(SDTags.ItemTags.create("tfc", "makes_red_dye"))
-                .build(out) // 修正呼叫
+                .nonfood(Ingredient.of(redDyePlants.stream().map(TFCBlocks.PLANTS::get).toArray(ItemLike[]::new)))
+                .build(out)
                 .getFoodData()
                 .addNutrientsAndSetMaxHunger(Food.RED_APPLE, 0.8f)
                 .save();
@@ -387,7 +396,7 @@ public class SDFoodRecipes {
                 .defineFood('C', SDTags.ItemTags.CHEESE_FOR_CHEESECAKE, getTFCFoodData(Food.CHEESE))
                 .defineNonFood('S', SDTags.ItemTags.TFC_SWEETENER)
                 .defineFood('P', ModItems.PIE_CRUST.get())
-                .build(out) // 修正呼叫
+                .build(out)
                 .saveFoodData();
 
         craft("pie/chocolate_pie", ModItems.CHOCOLATE_PIE.get(), 1)
@@ -396,27 +405,26 @@ public class SDFoodRecipes {
                 .defineFood('C', SDTags.ItemTags.CHEESE_FOR_CHEESECAKE, getTFCFoodData(Food.CHEESE))
                 .defineNonFood('S', SDTags.ItemTags.TFC_SWEETENER)
                 .defineFood('P', ModItems.PIE_CRUST.get())
-                .build(out) // 修正呼叫
+                .build(out)
                 .saveFoodData();
 
     }
 
     /* ---------------------- DRINKS ---------------------- */
-    public void drinks(RecipeOutput out){ // 修正簽章
+    public void drinks(RecipeOutput out){
         appleCider(out);
         melonJuice(out);
         hotCocoa(out);
     }
 
-    public void hotCocoa(RecipeOutput out){ // 修正簽章
-        TagKey<Fluid> MILKS_TAG = TagKey.create(Registries.FLUID, SDUtils.RLUtils.build("tfc", "milks"));
+    public void hotCocoa(RecipeOutput out){
         FoodData empty = new FoodData(0,0,0,0,new float[Nutrient.VALUES.length],0); // 修正 FoodData.EMPTY
 
         cook("drink/hot_cocoa", ModItems.HOT_COCOA.get(), 1, 1200, 10, Items.GLASS_BOTTLE)
                 .food(SDTags.ItemTags.COCOA_POWDER, empty)
                 .food(SDTags.ItemTags.COCOA_POWDER, empty)
-                .nonfood(net.minecraft.world.item.crafting.Ingredient.of(SDTags.ItemTags.create("tfc", "sweetener")))
-                .fluid(MILKS_TAG, 200)
+                .nonfood(net.minecraft.world.item.crafting.Ingredient.of(SDTags.ItemTags.TFC_SWEETENER))
+                .fluid(milks, 200)
                 .whenModLoaded("firmalife")
                 .build(out) // 修正呼叫
                 .getFoodData()
@@ -428,13 +436,13 @@ public class SDFoodRecipes {
                 .save();
     }
 
-    public void appleCider(RecipeOutput out) { // 修正簽章
+    public void appleCider(RecipeOutput out) {
         cook("drink/apple_cider", ModItems.APPLE_CIDER.get(), 1, 1200, 10, Items.GLASS_BOTTLE)
                 .food(SDTags.ItemTags.APPLE_FOR_CIDER, getTFCFoodData(Food.RED_APPLE))
                 .food(SDTags.ItemTags.APPLE_FOR_CIDER, getTFCFoodData(Food.RED_APPLE))
                 .food(SDTags.ItemTags.APPLE_FOR_CIDER, getTFCFoodData(Food.RED_APPLE))
                 .food(SDTags.ItemTags.APPLE_FOR_CIDER, getTFCFoodData(Food.RED_APPLE))
-                .nonfood(SDTags.ItemTags.create("tfc", "sweetener"))
+                .nonfood(SDTags.ItemTags.TFC_SWEETENER)
                 .fluid(TFCFluids.SIMPLE_FLUIDS.get(SimpleFluid.CIDER).getSource(), 400)
                 .build(out) // 修正呼叫
                 .getFoodData()
@@ -446,7 +454,7 @@ public class SDFoodRecipes {
                 .save();
     }
 
-    public void melonJuice(RecipeOutput out){ // 修正簽章
+    public void melonJuice(RecipeOutput out){
         cook("drink/melon_juice", ModItems.MELON_JUICE.get(), 1, 1200, 10, Items.GLASS_BOTTLE)
                 .factorPerIngredient(0f)
                 .food(Food.MELON_SLICE)

@@ -3,6 +3,12 @@ plugins {
     id 'maven-publish'
     id 'net.neoforged.moddev' version '2.0.107'
     id 'idea'
+
+    id 'com.vomiter.langmerge'
+}
+
+langMerge {
+    modId = mod_id
 }
 
 tasks.named('wrapper', Wrapper).configure {
@@ -23,7 +29,7 @@ repositories {
 
 dependencies {
 
-    implementation "curse.maven:terrafirmacraft-302973:7035035"
+    implementation "curse.maven:terrafirmacraft-302973:7200482"
     implementation "curse.maven:patchouli-306770:6842247"
     implementation "curse.maven:farmers-delight-398521:6917256"
     implementation "curse.maven:survivors-abilities-1354890:7215794"
@@ -108,8 +114,17 @@ neoForge {
     }
 }
 
-// 讓 datagen 產物併入主資源
-sourceSets.main.resources { srcDir 'src/generated/resources' }
+sourceSets {
+    main {
+        resources {
+            // 讓 IDE & 編譯都看得到 datagen 產物
+            srcDir 'src/generated/resources'
+            // 統一把 assets/<modid>/lang/*.json 從「預設資源」裡排掉
+            // 讓 LangMergePlugin 來決定要放哪一份 lang
+            exclude "assets/${mod_id}/lang/*.json"
+        }
+    }
+}
 
 // 建立一個「可選的執行期」相依（不外發）
 configurations {

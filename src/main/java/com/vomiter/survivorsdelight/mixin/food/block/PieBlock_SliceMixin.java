@@ -81,7 +81,6 @@ public abstract class PieBlock_SliceMixin{
         if (srcFood == null || sliceFood == null) return;
 
         FoodCapability.setCreationDate(slice, srcFood.getCreationDate());
-        sliceFood.getTraits().clear();
-        sliceFood.getTraits().addAll(srcFood.getTraits());
+        FoodCapability.updateFoodFromPrevious(src, slice);
     }
 }

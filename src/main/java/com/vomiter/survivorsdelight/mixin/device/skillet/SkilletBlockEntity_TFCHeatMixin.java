@@ -38,6 +38,7 @@ import vectorwing.farmersdelight.common.block.entity.HeatableBlockEntity;
 import vectorwing.farmersdelight.common.block.entity.SkilletBlockEntity;
 import vectorwing.farmersdelight.common.registry.ModSounds;
 import vectorwing.farmersdelight.common.utility.ItemUtils;
+import vectorwing.farmersdelight.common.utility.TextUtils;
 
 import java.util.Objects;
 
@@ -69,9 +70,9 @@ public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEn
         // Mimicking original behavior
         // 1) not allowed if Waterlogged
         final BlockState state = self.getBlockState();
-        if (state.hasProperty(vectorwing.farmersdelight.common.block.SkilletBlock.WATERLOGGED) &&
-                state.getValue(vectorwing.farmersdelight.common.block.SkilletBlock.WATERLOGGED)) {
-            player.displayClientMessage(vectorwing.farmersdelight.common.utility.TextUtils.getTranslation("block.skillet.underwater"), true);
+        if (state.hasProperty(SkilletBlock.WATERLOGGED) &&
+                state.getValue(SkilletBlock.WATERLOGGED)) {
+            player.displayClientMessage(TextUtils.getTranslation("block.skillet.underwater"), true);
             cir.setReturnValue(addedStack);
             return;
         }

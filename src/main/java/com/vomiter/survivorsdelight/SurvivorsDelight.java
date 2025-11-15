@@ -5,6 +5,7 @@ import com.vomiter.survivorsdelight.client.ClientForgeEventHandler;
 import com.vomiter.survivorsdelight.client.SaladPredicates;
 import com.vomiter.survivorsdelight.client.SandwichPredicates;
 import com.vomiter.survivorsdelight.core.ForgeEventHandler;
+import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.SDCookingPotCapabilities;
 import com.vomiter.survivorsdelight.core.device.skillet.itemcooking.SkilletCookingCap;
 import com.vomiter.survivorsdelight.core.farming.RichSoilFarmlandBlockEntitySetup;
 import com.vomiter.survivorsdelight.core.registry.SDRegistries;
@@ -15,6 +16,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
@@ -40,6 +42,10 @@ public class SurvivorsDelight {
 
     public SurvivorsDelight(ModContainer mod, IEventBus modBus) {
         init(modBus);
+        mod.registerConfig(
+                ModConfig.Type.COMMON,
+                SDConfig.COMMON_SPEC
+        );
     }
 
     private void onCommonSetup(final FMLCommonSetupEvent event) {
@@ -51,7 +57,8 @@ public class SurvivorsDelight {
         modBus.addListener(this::onCommonSetup);
         modBus.addListener(RichSoilFarmlandBlockEntitySetup::onCommonSetup);
         modBus.addListener(SDSkilletBlocks::onCommonSetup);
-        modBus.addListener(SkilletCookingCap::registerCaps);
+        modBus.addListener(SkilletCookingCap::onRegisterCaps);
+        modBus.addListener(SDCookingPotCapabilities::onRegisterCaps);
 
     }
 
@@ -67,6 +74,7 @@ public class SurvivorsDelight {
         commonSetup(modBus);
         modBus.addListener(SDNetwork::onRegisterPayloads);
 
+
         // 你自己的 Forge/NeoForge 事件掛載（名稱不改也可）
         ForgeEventHandler.init();
 
@@ -74,6 +82,9 @@ public class SurvivorsDelight {
             ClientForgeEventHandler.init();
             modBus.addListener(ClientForgeEventHandler::registerMenuScreens);
             modBus.addListener(this::onClientSetup);
+            modBus.addListener(ClientForgeEventHandler::registerClientExtensions);
+            modBus.addListener(ClientForgeEventHandler::onClientSetup);
+
         }
     }
 }

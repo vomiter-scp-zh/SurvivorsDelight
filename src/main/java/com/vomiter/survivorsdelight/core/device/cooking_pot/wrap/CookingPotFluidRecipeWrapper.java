@@ -5,7 +5,7 @@ import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 
 
-public class CookingPotFluidRecipeWrapper extends RecipeWrapper implements IFluidAccess {
+public class CookingPotFluidRecipeWrapper extends RecipeWrapper implements ICookingPotRecipeFluidAccess {
     private final FluidStack tank;
     public CookingPotFluidRecipeWrapper(IItemHandler items, FluidStack tankSnapshot) {
         super(items);

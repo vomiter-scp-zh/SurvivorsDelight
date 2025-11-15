@@ -237,8 +237,6 @@ public class SDCuttingRecipe extends CuttingBoardRecipe {
         }
 
 
-        // ✅ fromNetwork / toNetwork 實作
-
         private static SDCuttingRecipe fromNetwork(RegistryFriendlyByteBuf buf) {
             String group = buf.readUtf();
 

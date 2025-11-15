@@ -27,7 +27,7 @@ public class RichSoil_RandomTickMixin {
     )
     private void tfc_tree_growth_boost(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand, CallbackInfo ci){
         if(level.getBlockEntity(pos.above()) instanceof TickCounterBlockEntity tickCounter){
-            tickCounter.reduceCounter(-1L * SDConfig.COMMON.richSoilGrowthBoostTick.get());
+            tickCounter.reduceCounter(-1L * SDConfig.RICH_SOIL_GROWTH_BOOST_TICK);
             level.levelEvent(2005, pos.above(), 0);
             level.sendBlockUpdated(pos.above(), level.getBlockState(pos.above()), level.getBlockState(pos.above()), 3);
             ci.cancel();
@@ -50,7 +50,7 @@ public class RichSoil_RandomTickMixin {
         if(level.getBlockState(pos.above()).getBlock() instanceof BonemealableBlock) return;
         if(level.getBlockEntity(pos.above()) instanceof TickCounterBlockEntity tickCounter){
             if ((double) MathUtils.RAND.nextFloat() <= Configuration.RICH_SOIL_BOOST_CHANCE.get()) {
-                tickCounter.reduceCounter(-1L * SDConfig.COMMON.richSoilGrowthBoostTick.get());
+                tickCounter.reduceCounter(-1L * SDConfig.RICH_SOIL_GROWTH_BOOST_TICK);
                 level.levelEvent(2005, pos.above(), 0);
                 level.sendBlockUpdated(pos.above(), level.getBlockState(pos.above()), level.getBlockState(pos.above()), 3);
                 ci.cancel();

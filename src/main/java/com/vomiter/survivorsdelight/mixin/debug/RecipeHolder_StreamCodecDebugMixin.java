@@ -20,6 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(RecipeHolder.class)
 public abstract class RecipeHolder_StreamCodecDebugMixin {
 
+    /*
     @Shadow @Final @Mutable
     public static StreamCodec<RegistryFriendlyByteBuf, RecipeHolder<?>> STREAM_CODEC;
 
@@ -79,4 +80,6 @@ public abstract class RecipeHolder_StreamCodecDebugMixin {
 
         SurvivorsDelight.LOGGER.info("[SD-DEBUG] Wrapped RecipeHolder.STREAM_CODEC for debug");
     }
+    /*
+     */
 }

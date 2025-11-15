@@ -1,25 +1,30 @@
 package com.vomiter.survivorsdelight.data.recipe;
 
+import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
+import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletItems;
+import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletPartItems;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.dries007.tfc.common.items.Food;
 import net.dries007.tfc.common.items.TFCItems;
-import net.dries007.tfc.common.recipes.ingredients.NotRottenIngredient;
+import net.dries007.tfc.util.DataGenerationHelpers;
+import net.dries007.tfc.util.Metal;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeOutput; // 修正 import
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import vectorwing.farmersdelight.common.registry.ModItems;
 
-// 移除 import java.util.function.Consumer;
-// 移除 import net.minecraft.data.recipes.FinishedRecipe;
+import java.util.Arrays;
 
 import static com.vomiter.survivorsdelight.SurvivorsDelight.MODID;
 import static com.vomiter.survivorsdelight.core.registry.SDBlocks.CABINETS;
@@ -27,6 +32,47 @@ import static com.vomiter.survivorsdelight.core.registry.SDBlocks.CABINETS;
 public class SDCraftingRecipes {
     public void save(RecipeOutput out){ // 修正簽章
         misc(out);
+        skillets(out);
+    }
+
+    private DataGenerationHelpers.Builder recipe(RecipeOutput out, String path) {
+        return new DataGenerationHelpers.Builder((name, recipe) -> {
+            // 這邊完全不用管 Builder 傳進來的 name，直接用你自己的路徑
+            ResourceLocation id = SDUtils.RLUtils.build(path);
+            out.accept(id, recipe, null); // 第三個參數是 advancement，可以先給 null
+        });
+    }
+
+    public void skillets(RecipeOutput out){
+        for (SkilletMaterial value : SkilletMaterial.values()){
+            boolean isDefaultMetal = Arrays.stream(Metal.values()).anyMatch(m -> m.name().equals(value.name()));
+            if(!isDefaultMetal && !value.equals(SkilletMaterial.CAST_IRON)) continue;
+            Item unfinished = SDSkilletPartItems.UNFINISHED.get(value).get();
+            Item skillet = SDSkilletItems.SKILLETS.get(value).get();
+            String path = "crafting/skillet/" + value.material;
+            Ingredient woodRod = Ingredient.of(SDUtils.TagUtils.itemTag("c", "rods/wooden"));
+
+            //unfinished + woodRod = skillet
+            recipe(out, path)
+                    .input('U', unfinished)     // unfinished 頭
+                    .input('R', woodRod)        // 木棒 tag
+                    .pattern("U")
+                    .pattern("R")
+                    .copyForging()
+                    .source(0, 0)
+                    .shaped(skillet);
+
+            if(value.equals(SkilletMaterial.STEEL)){
+                recipe(out, "crafting/skillet/farmer")
+                        .input('U', unfinished)     // unfinished 頭
+                        .input('R', woodRod)        // 木棒 tag
+                        .pattern("U")
+                        .pattern("R")
+                        .copyForging()
+                        .source(0, 0)
+                        .shaped(SDSkilletItems.FARMER.get());
+            }
+        }
     }
 
     public void misc(RecipeOutput out){ // 修正簽章

@@ -1,5 +1,6 @@
 package com.vomiter.survivorsdelight.mixin.device.cooking_pot;
 
+import com.vomiter.survivorsdelight.core.device.cooking_pot.ICookingPotHasChanged;
 import com.vomiter.survivorsdelight.core.device.cooking_pot.bridge.ICookingPotRecipeBridge;
 import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.ICookingPotFluidAccess;
 import com.vomiter.survivorsdelight.core.registry.recipe.SDCookingPotRecipe;
@@ -103,6 +104,7 @@ public abstract class CookingPotBlockEntity_FluidHandleMixin extends BlockEntity
         {
             //Basically copied from barrel
             FluidHelpers.transferBetweenBlockEntityAndItem(input, this, level, worldPosition, (newOriginalStack, newContainerStack) -> {
+                ((ICookingPotHasChanged)this).sdtfc$setChanged(true);
                 if(this instanceof ICookingPotRecipeBridge bridgePot) bridgePot.sdtfc$setCachedBridge(null); //to make it match pot recipe again
                 if (newContainerStack.isEmpty())
                 {

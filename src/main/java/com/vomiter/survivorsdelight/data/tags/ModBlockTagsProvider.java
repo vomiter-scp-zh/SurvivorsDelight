@@ -71,5 +71,11 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
 
         tag(TFCTags.Blocks.FARMLANDS)
                 .add(ModBlocks.RICH_SOIL_FARMLAND.get());
+
+        tag(ModTags.TRAY_HEAT_SOURCES)
+                .add(TFCBlocks.FIREPIT.get())
+                .add(TFCBlocks.GRILL.get())
+                .add(TFCBlocks.STOVE.get());
+
     }
 }

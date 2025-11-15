@@ -202,7 +202,7 @@ public final class SDBookEN {
         // Entry: 6 Rich Soil
         var text6_1 = TextBuilder.of("Rich Soil is a special type of soil that accelerates natural growth.")
                 .appendWithSpace("It shortens the preparation time for saplings to grow.")
-                .appendWithSpace("If the block above Rich Soil is air, it has a chance to randomly generate brown or red mushrooms.")
+                .appendWithSpace("If the block above Rich Soil is air, it has a chance to randomly foods brown or red mushrooms.")
                 .appendWithSpace("These mushrooms can later grow into full mushroom colonies over time.");
 
 
