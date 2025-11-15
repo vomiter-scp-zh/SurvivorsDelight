@@ -1,0 +1,19 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "tfc:wood/scribing_table/blackwood"
+    }
+  ],
+  "result": [
+    {
+      "item": {
+        "count": 14,
+        "id": "tfc:wood/lumber/blackwood"
+      }
+    }
+  ],
+  "tool": {
+    "tag": "tfc:tools/saw"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "category": "tfc:survivors_delight",
+  "extra_recipe_mappings": {
+    "tag:survivorsdelight:feast_blocks": 0,
+    "tag:survivorsdelight:pie_blocks": 0
+  },
+  "icon": "farmersdelight:honey_glazed_ham_block",
+  "name": "Pie And Feast",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "You can make placeable food blocks, including pies and feasts. Most feasts provide $(l:survivorsdelight/effects)nourishment$() while pies provides speed effect. Feasts need you to use a bowl to take a serving to eat while pies can be eaten directly or cut into slices with a knife."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "tag:survivorsdelight:food_model_coating",
+      "text": "These blocks decay as normal foods, and when they get rotten, they also turn greenish. Tou could use special agents to make them food models, which never expire, although this also renders them inedible."
+    }
+  ],
+  "read_by_default": true,
+  "sortnum": 8
+}

@@ -1,0 +1,17 @@
+{
+  "type": "tfc:anvil",
+  "apply_bonus": true,
+  "ingredient": {
+    "item": "survivorsdelight:skillet/black_steel"
+  },
+  "result": {
+    "count": 1,
+    "id": "survivorsdelight:skillet/black_steel"
+  },
+  "rules": [
+    "bend_third_last",
+    "hit_second_last",
+    "draw_last"
+  ],
+  "tier": 5
+}

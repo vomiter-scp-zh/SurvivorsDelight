@@ -1,0 +1,9 @@
+{
+  "parent": "survivorsdelight:item/skillet/red_steel",
+  "textures": {
+    "0": "tfc:block/metal/smooth/red_steel",
+    "1": "tfc:block/metal/smooth/red_steel",
+    "2": "tfc:block/metal/smooth/red_steel",
+    "particle": "tfc:block/metal/smooth/red_steel"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "tfc:wood/sluice/oak"
+    }
+  ],
+  "result": [
+    {
+      "item": {
+        "count": 3,
+        "id": "tfc:wood/lumber/oak"
+      }
+    }
+  ],
+  "tool": {
+    "tag": "tfc:tools/saw"
+  }
+}

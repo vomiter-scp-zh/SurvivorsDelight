@@ -1,0 +1,63 @@
+{
+  "type": "survivorsdelight:sd_cooking_pot",
+  "container": {
+    "count": 1,
+    "id": "minecraft:bowl"
+  },
+  "cookingtime": 600,
+  "experience": 15.0,
+  "fluid": {
+    "fluid": "tfc:olive_oil"
+  },
+  "fluid_amount": 100,
+  "ingredients": [
+    {
+      "type": "tfc:and",
+      "children": [
+        {
+          "item": "farmersdelight:tomato_sauce"
+        },
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    },
+    {
+      "type": "tfc:and",
+      "children": [
+        {
+          "item": "farmersdelight:raw_pasta"
+        },
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    },
+    {
+      "type": "tfc:and",
+      "children": [
+        {
+          "item": "farmersdelight:beef_patty"
+        },
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    },
+    {
+      "type": "tfc:and",
+      "children": [
+        {
+          "item": "farmersdelight:beef_patty"
+        },
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "farmersdelight:pasta_with_meatballs"
+  }
+}

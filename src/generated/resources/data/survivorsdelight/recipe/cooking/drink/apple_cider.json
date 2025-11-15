@@ -1,0 +1,66 @@
+{
+  "type": "survivorsdelight:sd_cooking_pot",
+  "container": {
+    "count": 1,
+    "id": "minecraft:glass_bottle"
+  },
+  "cookingtime": 1200,
+  "experience": 10.0,
+  "fluid": {
+    "fluid": "tfc:cider"
+  },
+  "fluid_amount": 400,
+  "ingredients": [
+    {
+      "type": "tfc:and",
+      "children": [
+        {
+          "tag": "survivorsdelight:apple_for_cider"
+        },
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    },
+    {
+      "type": "tfc:and",
+      "children": [
+        {
+          "tag": "survivorsdelight:apple_for_cider"
+        },
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    },
+    {
+      "type": "tfc:and",
+      "children": [
+        {
+          "tag": "survivorsdelight:apple_for_cider"
+        },
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    },
+    {
+      "type": "tfc:and",
+      "children": [
+        {
+          "tag": "survivorsdelight:apple_for_cider"
+        },
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    },
+    {
+      "tag": "tfc:foods/sweeteners"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "farmersdelight:apple_cider"
+  }
+}

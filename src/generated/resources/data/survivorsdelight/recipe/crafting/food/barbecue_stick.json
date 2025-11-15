@@ -1,0 +1,29 @@
+{
+  "type": "survivorsdelight:nutrition_crafting",
+  "balance_factor": 0.04,
+  "decay": 4.5,
+  "hunger": -1,
+  "vanilla": {
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "key": {
+      "M": {
+        "tag": "c:foods/cooked_meats"
+      },
+      "S": {
+        "tag": "c:rods/wooden"
+      },
+      "V": {
+        "tag": "c:foods/vegetables"
+      }
+    },
+    "pattern": [
+      "MV",
+      "VS"
+    ],
+    "result": {
+      "count": 1,
+      "id": "farmersdelight:barbecue_stick"
+    }
+  }
+}

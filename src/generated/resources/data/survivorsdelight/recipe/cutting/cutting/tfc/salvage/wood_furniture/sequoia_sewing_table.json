@@ -1,0 +1,19 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "tfc:wood/sewing_table/sequoia"
+    }
+  ],
+  "result": [
+    {
+      "item": {
+        "count": 24,
+        "id": "tfc:wood/lumber/sequoia"
+      }
+    }
+  ],
+  "tool": {
+    "tag": "tfc:tools/saw"
+  }
+}

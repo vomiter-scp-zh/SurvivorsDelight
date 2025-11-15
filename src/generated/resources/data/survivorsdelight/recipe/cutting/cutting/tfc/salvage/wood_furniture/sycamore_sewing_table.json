@@ -1,0 +1,19 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "tfc:wood/sewing_table/sycamore"
+    }
+  ],
+  "result": [
+    {
+      "item": {
+        "count": 24,
+        "id": "tfc:wood/lumber/sycamore"
+      }
+    }
+  ],
+  "tool": {
+    "tag": "tfc:tools/saw"
+  }
+}

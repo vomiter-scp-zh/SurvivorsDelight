@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_pine_lumber": {
+      "conditions": {
+        "items": [
+          {
+            "items": "tfc:wood/lumber/pine"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_pine_trapdoor": {
+      "conditions": {
+        "items": [
+          {
+            "items": "tfc:wood/trapdoor/pine"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "survivorsdelight:crafting/cabinet/pine"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_pine_lumber",
+      "has_pine_trapdoor"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "survivorsdelight:crafting/cabinet/pine"
+    ]
+  }
+}

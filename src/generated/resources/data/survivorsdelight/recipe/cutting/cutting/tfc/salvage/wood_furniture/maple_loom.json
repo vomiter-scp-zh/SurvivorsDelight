@@ -1,0 +1,19 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "tfc:wood/loom/maple"
+    }
+  ],
+  "result": [
+    {
+      "item": {
+        "count": 7,
+        "id": "tfc:wood/lumber/maple"
+      }
+    }
+  ],
+  "tool": {
+    "tag": "tfc:tools/saw"
+  }
+}

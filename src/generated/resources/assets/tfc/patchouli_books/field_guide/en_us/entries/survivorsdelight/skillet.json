@@ -1,0 +1,76 @@
+{
+  "category": "tfc:survivors_delight",
+  "extra_recipe_mappings": {
+    "tag:survivorsdelight:skillets": 0
+  },
+  "icon": "survivorsdelight:skillet/copper",
+  "name": "Skillet",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "You can use a skillet to $(l:mechanics/heating)heat things up.$() Skillets can be used as a placed block or as a held item. Skillets made of steel and better material can be used as a melee weapon to deal $(l:mechanics/damage_types)crushing damage.$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "To use a skillet as a held item, hold a skillet in your main hand and a food ingredient in your off-hand, and stand close to a heat source. Then hold $(item)$(k:key.use)$() to heat one item from the ingredient stack. This process consumes the skillet's durability."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A placed skillet can hold up to 8 of the same ingredient and heat them all. This is a more efficient way to cook food. However, it may consume extra durability if the heat source temperature is close to the skillet's $(l:mechanics/anvils#working)melting point$()"
+    },
+    {
+      "type": "patchouli:multiblock",
+      "enable_visualize": false,
+      "multiblock": {
+        "mapping": {
+          "X": "#survivorsdelight:skillets"
+        },
+        "pattern": [
+          [
+            "X"
+          ],
+          [
+            "0"
+          ]
+        ]
+      },
+      "name": "Skillet variants",
+      "text": ""
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "make_a_skillet",
+      "text": "Valid metal material for a skillet includes $(thing)copper, cast iron, steel, black steel, red steel and blue steel.$() A skillet made of better material is more durable. A skillet made of $(thing)copper$() requires extra steps before it becomes a usable cooking utensil.",
+      "title": "Make A Skillet"
+    },
+    {
+      "type": "tfc:anvil_recipe",
+      "recipe": "survivorsdelight:anvil/skillet_head/steel",
+      "text": "A metal double sheet is forged into a skillet head."
+    },
+    {
+      "type": "tfc:welding_recipe",
+      "recipe": "survivorsdelight:welding/unfinished_skillet/steel",
+      "text": "The skillet head is welded with a rod of the same metal."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "survivorsdelight:crafting/skillet/steel",
+      "recipe2": "survivorsdelight:crafting/skillet/farmer",
+      "title": "Assemble A Skillet"
+    },
+    {
+      "type": "tfc:anvil_recipe",
+      "recipe": "survivorsdelight:anvil/skillet_lining/silver",
+      "text": "A special lining for copper skillets prevents toxic copper ions from leaching into food. This can be made with $(thing)silver$() or $(thing)tin$(). A copper skillet must be welded with a lining before it becomes a usable cooking utensil."
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "repair",
+      "text": "A skillet stops being usable as a cooking utensil when only one point of durability remains. A placed skillet will also drop as an item in this state. Most of skillets can be reforged to restore their full durability, or melted back into their source material without any loss. Unlike others, a copper skillet only needs re-welding with a layer of lining to become usable again.",
+      "title": "Repair A Skillet"
+    }
+  ],
+  "read_by_default": true,
+  "sortnum": 1
+}

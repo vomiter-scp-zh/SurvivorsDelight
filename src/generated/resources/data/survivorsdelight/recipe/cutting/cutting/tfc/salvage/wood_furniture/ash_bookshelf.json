@@ -1,0 +1,19 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "tfc:wood/bookshelf/ash"
+    }
+  ],
+  "result": [
+    {
+      "item": {
+        "count": 6,
+        "id": "tfc:wood/lumber/ash"
+      }
+    }
+  ],
+  "tool": {
+    "tag": "tfc:tools/saw"
+  }
+}

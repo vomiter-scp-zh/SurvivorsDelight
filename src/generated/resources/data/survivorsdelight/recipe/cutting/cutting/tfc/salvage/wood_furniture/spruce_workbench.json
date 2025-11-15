@@ -1,0 +1,19 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "tfc:wood/workbench/spruce"
+    }
+  ],
+  "result": [
+    {
+      "item": {
+        "count": 16,
+        "id": "tfc:wood/lumber/spruce"
+      }
+    }
+  ],
+  "tool": {
+    "tag": "tfc:tools/saw"
+  }
+}

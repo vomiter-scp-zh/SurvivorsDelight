@@ -1,0 +1,36 @@
+{
+  "type": "survivorsdelight:sd_cooking_pot",
+  "experience": 5.0,
+  "fluid": {
+    "tag": "c:milk"
+  },
+  "fluid_amount": 100,
+  "ingredients": [
+    {
+      "type": "tfc:and",
+      "children": [
+        {
+          "item": "tfc:food/baked_potato"
+        },
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    },
+    {
+      "type": "tfc:and",
+      "children": [
+        {
+          "tag": "c:foods/raw_meats"
+        },
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "farmersdelight:stuffed_potato"
+  }
+}

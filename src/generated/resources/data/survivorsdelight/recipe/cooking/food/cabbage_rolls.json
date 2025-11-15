@@ -1,0 +1,32 @@
+{
+  "type": "survivorsdelight:sd_cooking_pot",
+  "experience": 5.0,
+  "ingredients": [
+    {
+      "type": "tfc:and",
+      "children": [
+        {
+          "item": "tfc:food/cabbage"
+        },
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    },
+    {
+      "type": "tfc:and",
+      "children": [
+        {
+          "tag": "farmersdelight:cabbage_roll_ingredients"
+        },
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "farmersdelight:cabbage_rolls"
+  }
+}

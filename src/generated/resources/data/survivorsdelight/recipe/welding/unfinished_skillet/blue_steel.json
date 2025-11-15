@@ -1,0 +1,15 @@
+{
+  "type": "tfc:welding",
+  "bonus": "copy_best",
+  "first_input": {
+    "item": "survivorsdelight:skillet_head/blue_steel"
+  },
+  "result": {
+    "count": 1,
+    "id": "survivorsdelight:unfinished_skillet/blue_steel"
+  },
+  "second_input": {
+    "item": "tfc:metal/rod/blue_steel"
+  },
+  "tier": 5
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "survivorsdelight:item/skillet/copper_silver",
+  "textures": {
+    "0": "tfc:block/metal/smooth/copper",
+    "1": "tfc:block/metal/smooth/silver",
+    "2": "tfc:block/metal/smooth/copper",
+    "particle": "tfc:block/metal/smooth/copper"
+  }
+}

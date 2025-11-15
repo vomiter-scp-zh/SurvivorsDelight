@@ -1,0 +1,35 @@
+{
+  "category": "tfc:survivors_delight",
+  "extra_recipe_mappings": {
+    "tag:survivorsdelight:cabinets": 0
+  },
+  "icon": "survivorsdelight:planks/cabinet/ash",
+  "name": "Cabinet",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A cabinet is a wooden container used to preserve food and store cooking utensils. Use $(item)$(k:key.use)$() on it with a $(l:mechanics/lamps#tallow)bucket of tallow$() to treat it. A treated cabinet can $(l:mechanics/decay)preserve food$() for longer."
+    },
+    {
+      "type": "patchouli:multiblock",
+      "enable_visualize": false,
+      "multiblock": {
+        "mapping": {
+          "X": "#survivorsdelight:cabinets"
+        },
+        "pattern": [
+          [
+            "X"
+          ],
+          [
+            "0"
+          ]
+        ]
+      },
+      "name": "Cabinet variants",
+      "text": ""
+    }
+  ],
+  "read_by_default": true,
+  "sortnum": 3
+}

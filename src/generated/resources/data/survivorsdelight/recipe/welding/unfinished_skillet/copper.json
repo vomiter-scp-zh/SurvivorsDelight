@@ -1,0 +1,14 @@
+{
+  "type": "tfc:welding",
+  "bonus": "copy_best",
+  "first_input": {
+    "item": "survivorsdelight:skillet_head/copper"
+  },
+  "result": {
+    "count": 1,
+    "id": "survivorsdelight:unfinished_skillet/copper"
+  },
+  "second_input": {
+    "item": "tfc:metal/rod/copper"
+  }
+}

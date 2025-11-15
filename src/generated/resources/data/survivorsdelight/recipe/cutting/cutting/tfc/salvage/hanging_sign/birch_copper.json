@@ -1,0 +1,26 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "tfc:wood/hanging_sign/copper/birch"
+    }
+  ],
+  "result": [
+    {
+      "item": {
+        "count": 2,
+        "id": "tfc:wood/lumber/birch"
+      }
+    },
+    {
+      "chance": 0.5,
+      "item": {
+        "count": 1,
+        "id": "tfc:metal/chain/copper"
+      }
+    }
+  ],
+  "tool": {
+    "tag": "tfc:saws"
+  }
+}

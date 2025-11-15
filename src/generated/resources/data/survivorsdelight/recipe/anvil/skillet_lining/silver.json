@@ -1,0 +1,15 @@
+{
+  "type": "tfc:anvil",
+  "ingredient": {
+    "item": "tfc:metal/ingot/silver"
+  },
+  "result": {
+    "count": 4,
+    "id": "survivorsdelight:skillet_lining/silver"
+  },
+  "rules": [
+    "bend_any",
+    "bend_any",
+    "bend_any"
+  ]
+}

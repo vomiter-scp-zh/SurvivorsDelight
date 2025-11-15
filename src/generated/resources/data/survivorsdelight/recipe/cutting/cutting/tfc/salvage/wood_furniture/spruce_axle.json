@@ -1,0 +1,19 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "tfc:wood/axle/spruce"
+    }
+  ],
+  "result": [
+    {
+      "item": {
+        "count": 4,
+        "id": "tfc:wood/lumber/spruce"
+      }
+    }
+  ],
+  "tool": {
+    "tag": "tfc:tools/saw"
+  }
+}

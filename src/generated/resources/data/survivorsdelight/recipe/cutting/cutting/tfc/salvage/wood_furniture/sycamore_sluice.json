@@ -1,0 +1,19 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "tfc:wood/sluice/sycamore"
+    }
+  ],
+  "result": [
+    {
+      "item": {
+        "count": 3,
+        "id": "tfc:wood/lumber/sycamore"
+      }
+    }
+  ],
+  "tool": {
+    "tag": "tfc:tools/saw"
+  }
+}

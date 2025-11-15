@@ -1,0 +1,19 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "tfc:wood/bookshelf/willow"
+    }
+  ],
+  "result": [
+    {
+      "item": {
+        "count": 6,
+        "id": "tfc:wood/lumber/willow"
+      }
+    }
+  ],
+  "tool": {
+    "tag": "tfc:tools/saw"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "firmalife"
+    }
+  ],
+  "type": "survivorsdelight:sd_cooking_pot",
+  "container": {
+    "count": 1,
+    "id": "minecraft:glass_bottle"
+  },
+  "cookingtime": 1200,
+  "experience": 10.0,
+  "fluid": {
+    "tag": "c:milk"
+  },
+  "fluid_amount": 200,
+  "ingredients": [
+    {
+      "type": "tfc:and",
+      "children": [
+        {
+          "tag": "survivorsdelight:cocoa_powder"
+        },
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    },
+    {
+      "type": "tfc:and",
+      "children": [
+        {
+          "tag": "survivorsdelight:cocoa_powder"
+        },
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    },
+    {
+      "tag": "tfc:foods/sweeteners"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "farmersdelight:hot_cocoa"
+  }
+}

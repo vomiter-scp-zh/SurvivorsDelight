@@ -1,0 +1,19 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "tfc:wood/barrel/palm"
+    }
+  ],
+  "result": [
+    {
+      "item": {
+        "count": 7,
+        "id": "tfc:wood/lumber/palm"
+      }
+    }
+  ],
+  "tool": {
+    "tag": "tfc:tools/saw"
+  }
+}

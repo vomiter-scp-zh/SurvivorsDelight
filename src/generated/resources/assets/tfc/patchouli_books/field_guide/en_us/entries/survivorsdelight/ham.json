@@ -1,0 +1,22 @@
+{
+  "category": "tfc:survivors_delight",
+  "extra_recipe_mappings": {
+    "farmersdelight:ham": 0,
+    "farmersdelight:smoked_ham": 0
+  },
+  "icon": "farmersdelight:smoked_ham",
+  "name": "Ham",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Ham is a large cut of meat from a Suidae. It can be a $(l:mechanics/animal_husbandry#pig)domestic pig$() or a $(l:the_world/wild_animals#ramming_prey)boar.$() You can only get hams when you kill the animal with $(l:mechanics/damage_types)piercing damage.$() An animal can drop 2 hams at most. The drop chance is affected by its body size and familiarity (if any)."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "farmersdelight:ham",
+      "text": "A ham item."
+    }
+  ],
+  "read_by_default": true,
+  "sortnum": 7
+}

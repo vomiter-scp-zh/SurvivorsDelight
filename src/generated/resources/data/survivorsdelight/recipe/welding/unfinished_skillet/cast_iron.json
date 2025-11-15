@@ -1,0 +1,14 @@
+{
+  "type": "tfc:welding",
+  "bonus": "copy_best",
+  "first_input": {
+    "item": "survivorsdelight:skillet_head/cast_iron"
+  },
+  "result": {
+    "count": 1,
+    "id": "survivorsdelight:unfinished_skillet/cast_iron"
+  },
+  "second_input": {
+    "item": "tfc:metal/rod/cast_iron"
+  }
+}

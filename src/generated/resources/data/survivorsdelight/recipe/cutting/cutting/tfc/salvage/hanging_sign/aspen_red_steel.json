@@ -1,0 +1,26 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "tfc:wood/hanging_sign/red_steel/aspen"
+    }
+  ],
+  "result": [
+    {
+      "item": {
+        "count": 2,
+        "id": "tfc:wood/lumber/aspen"
+      }
+    },
+    {
+      "chance": 0.5,
+      "item": {
+        "count": 1,
+        "id": "tfc:metal/chain/red_steel"
+      }
+    }
+  ],
+  "tool": {
+    "tag": "tfc:saws"
+  }
+}

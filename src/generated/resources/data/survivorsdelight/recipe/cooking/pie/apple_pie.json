@@ -1,0 +1,98 @@
+{
+  "type": "survivorsdelight:sd_cooking_pot",
+  "container": {
+    "count": 1,
+    "id": "farmersdelight:pie_crust"
+  },
+  "cookingtime": 1200,
+  "experience": 10.0,
+  "ingredients": [
+    {
+      "type": "tfc:and",
+      "children": [
+        {
+          "tag": "survivorsdelight:apple_for_cider"
+        },
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    },
+    {
+      "type": "tfc:and",
+      "children": [
+        {
+          "tag": "survivorsdelight:apple_for_cider"
+        },
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    },
+    {
+      "type": "tfc:and",
+      "children": [
+        {
+          "tag": "survivorsdelight:apple_for_cider"
+        },
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    },
+    {
+      "tag": "tfc:foods/sweeteners"
+    },
+    {
+      "tag": "tfc:foods/sweeteners"
+    },
+    {
+      "type": "neoforge:compound",
+      "children": [
+        {
+          "item": "tfc:plant/guzmania"
+        },
+        {
+          "item": "tfc:plant/poppy"
+        },
+        {
+          "item": "tfc:plant/rose"
+        },
+        {
+          "item": "tfc:plant/snapdragon_red"
+        },
+        {
+          "item": "tfc:plant/tropical_milkweed"
+        },
+        {
+          "item": "tfc:plant/tulip_red"
+        },
+        {
+          "item": "tfc:plant/vriesea"
+        },
+        {
+          "item": "tfc:plant/anthurium"
+        },
+        {
+          "item": "tfc:plant/blood_lily"
+        },
+        {
+          "item": "tfc:plant/heliconia"
+        },
+        {
+          "item": "tfc:plant/kangaroo_paw"
+        },
+        {
+          "item": "tfc:plant/tank_bromeliad"
+        },
+        {
+          "item": "tfc:plant/kinnikinnick"
+        }
+      ]
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "farmersdelight:apple_pie"
+  }
+}

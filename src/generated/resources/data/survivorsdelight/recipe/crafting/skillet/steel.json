@@ -1,0 +1,26 @@
+{
+  "type": "tfc:advanced_shaped_crafting",
+  "key": {
+    "R": {
+      "tag": "c:rods/wooden"
+    },
+    "U": {
+      "item": "survivorsdelight:unfinished_skillet/steel"
+    }
+  },
+  "pattern": [
+    "U",
+    "R"
+  ],
+  "result": {
+    "modifiers": [
+      {
+        "type": "tfc:copy_forging_bonus"
+      }
+    ],
+    "stack": {
+      "count": 1,
+      "id": "survivorsdelight:skillet/steel"
+    }
+  }
+}

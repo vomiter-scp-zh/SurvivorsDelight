@@ -1,0 +1,13 @@
+{
+  "type": "tfc:welding",
+  "first_input": {
+    "item": "survivorsdelight:skillet_lining/silver"
+  },
+  "result": {
+    "count": 1,
+    "id": "survivorsdelight:skillet/copper_silver"
+  },
+  "second_input": {
+    "item": "survivorsdelight:skillet/copper"
+  }
+}

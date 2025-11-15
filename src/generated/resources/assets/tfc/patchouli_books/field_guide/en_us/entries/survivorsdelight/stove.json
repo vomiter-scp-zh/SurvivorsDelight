@@ -1,0 +1,35 @@
+{
+  "category": "tfc:survivors_delight",
+  "extra_recipe_mappings": {
+    "farmersdelight:stove": 0
+  },
+  "icon": "farmersdelight:stove",
+  "name": "Stove",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A stove is an advanced way to harness $(l:mechanics/heating)heat$(). This block accepts $(thing)logs$(), $(thing)coal$(), and $(thing)charcoal$() as fuel for cooking or for providing heat to other cooking devices. When it's lit but not actively cooking, fuel consumption is minimal."
+    },
+    {
+      "type": "patchouli:multiblock",
+      "enable_visualize": false,
+      "multiblock": {
+        "mapping": {
+          "X": "farmersdelight:stove"
+        },
+        "pattern": [
+          [
+            "X"
+          ],
+          [
+            "0"
+          ]
+        ]
+      },
+      "name": "Stove",
+      "text": ""
+    }
+  ],
+  "read_by_default": true,
+  "sortnum": 2
+}

@@ -1,0 +1,26 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "tfc:wood/hanging_sign/bismuth_bronze/douglas_fir"
+    }
+  ],
+  "result": [
+    {
+      "item": {
+        "count": 2,
+        "id": "tfc:wood/lumber/douglas_fir"
+      }
+    },
+    {
+      "chance": 0.5,
+      "item": {
+        "count": 1,
+        "id": "tfc:metal/chain/bismuth_bronze"
+      }
+    }
+  ],
+  "tool": {
+    "tag": "tfc:saws"
+  }
+}

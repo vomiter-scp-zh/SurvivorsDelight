@@ -1,0 +1,18 @@
+{
+  "values": [
+    "farmersdelight:bone_broth",
+    "farmersdelight:tomato_sauce",
+    "farmersdelight:pie_crust",
+    "farmersdelight:barbecue_stick",
+    "farmersdelight:dumplings",
+    "farmersdelight:cabbage_rolls",
+    "farmersdelight:stuffed_potato",
+    "#survivorsdelight:slices_and_servings",
+    "#survivorsdelight:soups",
+    "#survivorsdelight:bowl_meals",
+    {
+      "id": "#farmersdelight:drinks",
+      "required": false
+    }
+  ]
+}

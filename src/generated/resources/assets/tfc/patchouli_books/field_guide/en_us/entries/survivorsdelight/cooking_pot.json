@@ -1,0 +1,43 @@
+{
+  "category": "tfc:survivors_delight",
+  "extra_recipe_mappings": {
+    "farmersdelight:cooking_pot": 0
+  },
+  "icon": "farmersdelight:cooking_pot",
+  "name": "Cooking Pot",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A cooking pot is an alternative to the ceramic pot. This device is designed to process food more efficiently. It can cook soup and boil eggs faster. However, it cannot be used for recipes that produce fluid. Besides ceramic pot recipes, there are also several recipes exclusive to the metal cooking pot."
+    },
+    {
+      "type": "patchouli:multiblock",
+      "enable_visualize": false,
+      "multiblock": {
+        "mapping": {
+          "X": "farmersdelight:cooking_pot"
+        },
+        "pattern": [
+          [
+            "X"
+          ],
+          [
+            "0"
+          ]
+        ]
+      },
+      "name": "Cooking Pot",
+      "text": ""
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A bucket button is located on the left side of the cooking pot's interaction menu. The button opens a barrel‑like menu, letting you put fluid into the cooking pot. The fluid can later be used in a pot or cooking‑pot recipe."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Some cooking pot outputs require a food container, which is often a bowl or a glass bottle. Both ceramic and wooden bowls are valid for bowl foods. All four types of glass bottles are valid for bottled drinks as well."
+    }
+  ],
+  "read_by_default": true,
+  "sortnum": 4
+}

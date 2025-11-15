@@ -1,0 +1,19 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "tfc:wood/workbench/white_cedar"
+    }
+  ],
+  "result": [
+    {
+      "item": {
+        "count": 16,
+        "id": "tfc:wood/lumber/white_cedar"
+      }
+    }
+  ],
+  "tool": {
+    "tag": "tfc:tools/saw"
+  }
+}

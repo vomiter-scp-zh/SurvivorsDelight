@@ -1,0 +1,19 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "tfc:wood/scribing_table/douglas_fir"
+    }
+  ],
+  "result": [
+    {
+      "item": {
+        "count": 14,
+        "id": "tfc:wood/lumber/douglas_fir"
+      }
+    }
+  ],
+  "tool": {
+    "tag": "tfc:tools/saw"
+  }
+}

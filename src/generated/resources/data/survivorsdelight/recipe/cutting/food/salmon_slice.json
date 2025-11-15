@@ -1,0 +1,43 @@
+{
+  "type": "survivorsdelight:sd_cutting",
+  "ingredients": [
+    {
+      "type": "tfc:and",
+      "children": [
+        [
+          {
+            "item": "tfc:food/salmon"
+          },
+          {
+            "item": "tfc:food/lake_trout"
+          },
+          {
+            "item": "tfc:food/rainbow_trout"
+          }
+        ],
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    }
+  ],
+  "result": [
+    {
+      "type": "survivorsdelight:provider",
+      "provider": {
+        "modifiers": [
+          {
+            "type": "tfc:copy_food"
+          }
+        ],
+        "stack": {
+          "count": 2,
+          "id": "farmersdelight:salmon_slice"
+        }
+      }
+    }
+  ],
+  "tool": {
+    "tag": "c:tools/knife"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "tfc:wood/lectern/birch"
+    }
+  ],
+  "result": [
+    {
+      "item": {
+        "count": 10,
+        "id": "tfc:wood/lumber/birch"
+      }
+    }
+  ],
+  "tool": {
+    "tag": "tfc:tools/saw"
+  }
+}

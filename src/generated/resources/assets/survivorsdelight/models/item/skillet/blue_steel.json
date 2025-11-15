@@ -1,0 +1,17 @@
+{
+  "parent": "survivorsdelight:item/skillet/skillet",
+  "overrides": [
+    {
+      "model": "survivorsdelight:item/skillet/cooking",
+      "predicate": {
+        "minecraft:cooking": 1.0
+      }
+    }
+  ],
+  "textures": {
+    "0": "tfc:block/metal/smooth/blue_steel",
+    "1": "tfc:block/metal/smooth/blue_steel",
+    "2": "tfc:block/devices/crucible/side",
+    "particle": "tfc:block/metal/smooth/blue_steel"
+  }
+}

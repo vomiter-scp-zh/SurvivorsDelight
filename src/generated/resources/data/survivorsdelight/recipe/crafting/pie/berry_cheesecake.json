@@ -1,0 +1,33 @@
+{
+  "type": "survivorsdelight:nutrition_crafting",
+  "balance_factor": 0.04,
+  "decay": 4.5,
+  "hunger": -1,
+  "vanilla": {
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "key": {
+      "C": {
+        "tag": "survivorsdelight:cheese_for_cheesecake"
+      },
+      "F": {
+        "tag": "survivorsdelight:fruit_for_cheesecake"
+      },
+      "P": {
+        "item": "farmersdelight:pie_crust"
+      },
+      "S": {
+        "tag": "tfc:foods/sweeteners"
+      }
+    },
+    "pattern": [
+      "FFF",
+      "SCS",
+      "SPS"
+    ],
+    "result": {
+      "count": 1,
+      "id": "farmersdelight:sweet_berry_cheesecake"
+    }
+  }
+}

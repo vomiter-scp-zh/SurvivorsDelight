@@ -1,0 +1,17 @@
+{
+  "type": "tfc:anvil",
+  "apply_bonus": true,
+  "ingredient": {
+    "item": "survivorsdelight:skillet/copper"
+  },
+  "result": {
+    "count": 1,
+    "id": "survivorsdelight:skillet/copper"
+  },
+  "rules": [
+    "bend_third_last",
+    "hit_second_last",
+    "draw_last"
+  ],
+  "tier": 1
+}

@@ -1,0 +1,17 @@
+{
+  "type": "tfc:anvil",
+  "apply_bonus": true,
+  "ingredient": {
+    "tag": "c:double_sheets/cast_iron"
+  },
+  "result": {
+    "count": 1,
+    "id": "survivorsdelight:skillet_head/cast_iron"
+  },
+  "rules": [
+    "bend_third_last",
+    "hit_second_last",
+    "draw_last"
+  ],
+  "tier": 1
+}

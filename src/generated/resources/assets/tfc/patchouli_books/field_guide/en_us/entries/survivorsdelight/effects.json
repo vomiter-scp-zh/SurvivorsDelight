@@ -1,0 +1,29 @@
+{
+  "category": "tfc:survivors_delight",
+  "extra_recipe_mappings": {},
+  "icon": "survivorsdelight:effect_icon/nourishment",
+  "name": "Special Effects",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Farmer's Delight dishes sometimes grant special effects that help you survive in the harsh world. Note that rotten dishes provide no beneficial effects."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "survivorsdelight:effect_icon/nourishment",
+      "text": "Nourishment prevents your hunger and thirst from decreasing. However, it stops working if you take damage and natural passive healing is active. It resumes when you return to full health, or when your hunger or thirst is too low for natural healing."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "survivorsdelight:effect_icon/comfort",
+      "text": "Comfort lets you recover health even when your hunger or thirst is too low for natural regeneration. It also boosts your healing rate to what you'd get at full hunger and thirst. It can work with Nourishment to help you survive difficult situations."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "survivorsdelight:effect_icon/workhorse",
+      "text": "Workhorse allows horses or players to carry more very large or heavy items without becoming overburdened.It can be applied to a horse by feeding it a horse‑feed item if its familiarity is at least 35%."
+    }
+  ],
+  "read_by_default": true,
+  "sortnum": 5
+}

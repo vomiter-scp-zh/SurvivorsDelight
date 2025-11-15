@@ -1,0 +1,19 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "tfc:wood/sewing_table/hickory"
+    }
+  ],
+  "result": [
+    {
+      "item": {
+        "count": 24,
+        "id": "tfc:wood/lumber/hickory"
+      }
+    }
+  ],
+  "tool": {
+    "tag": "tfc:tools/saw"
+  }
+}
