@@ -39,6 +39,9 @@ public class ModItemTagsProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
+        tag(TFCTags.Items.COMPOST_BROWNS_HIGH).add(Items.BROWN_MUSHROOM);
+        tag(TFCTags.Items.COMPOST_BROWNS).add(ModItems.STRAW.get(), ModItems.TREE_BARK.get());
+
         SDBlocks.CABINETS.values().forEach(c -> tag(SDTags.ItemTags.CABINETS).add(c.get().asItem()));
 
         addSkilletTags();

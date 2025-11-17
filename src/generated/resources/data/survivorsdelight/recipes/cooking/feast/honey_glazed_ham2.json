@@ -29,10 +29,10 @@
       "type": "tfc:not_rotten",
       "ingredient": [
         {
-          "tag": "tfc:foods/vegetables"
+          "tag": "survivorsdelight:fruit_for_cheesecake"
         },
         {
-          "tag": "survivorsdelight:fruit_for_cheesecake"
+          "tag": "tfc:foods/vegetables"
         }
       ]
     },

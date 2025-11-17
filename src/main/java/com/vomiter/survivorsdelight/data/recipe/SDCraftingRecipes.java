@@ -2,6 +2,7 @@ package com.vomiter.survivorsdelight.data.recipe;
 
 import com.vomiter.survivorsdelight.data.tags.SDTags;
 import com.vomiter.survivorsdelight.util.SDUtils;
+import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.dries007.tfc.common.items.Food;
@@ -14,11 +15,15 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistries;
 import vectorwing.farmersdelight.common.registry.ModItems;
 
+import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 import static com.vomiter.survivorsdelight.SurvivorsDelight.MODID;
 import static com.vomiter.survivorsdelight.core.registry.SDBlocks.CABINETS;
@@ -50,19 +55,32 @@ public class SDCraftingRecipes {
                 .save(out, SDUtils.RLUtils.build("crafting/misc/dog_food"));
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.ORGANIC_COMPOST.get())
-                .requires(ModItems.TREE_BARK.get(), 2)
+                .requires(TFCTags.Items.COMPOST_BROWNS_HIGH)
+                .requires(TFCTags.Items.COMPOST_BROWNS_HIGH)
+                .requires(TFCTags.Items.COMPOST_GREENS_HIGH)
+                .requires(TFCTags.Items.COMPOST_GREENS_HIGH)
                 .requires(SDTags.ItemTags.create("minecraft", "dirt"))
-                .requires(TFCItems.COMPOST.get(), 2)
+                .requires(TFCItems.COMPOST.get())
                 .requires(TFCItems.ROTTEN_COMPOST.get())
-                .requires(Items.ROTTEN_FLESH, 3)
+                .requires(Items.ROTTEN_FLESH)
                 .unlockedBy("has_rotten_flesh", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ROTTEN_FLESH))
                 .save(out, SDUtils.RLUtils.build("crafting/misc/organic_compost"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.ORGANIC_COMPOST.get())
-                .requires(SDTags.ItemTags.create("minecraft", "dirt"))
-                .requires(Items.BROWN_MUSHROOM, 2)
-                .requires(Items.RED_MUSHROOM)
-                .requires(ModItems.TREE_BARK.get(), 5)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.ORGANIC_COMPOST.get(), 2)
+                .requires(ModItems.RICH_SOIL.get())
+                .requires(Items.BROWN_MUSHROOM, 1)
+                .requires(Ingredient.merge(
+                        Stream.of(
+                                TFCTags.Items.COMPOST_BROWNS,
+                                TFCTags.Items.COMPOST_BROWNS_HIGH,
+                                TFCTags.Items.COMPOST_BROWNS_LOW
+                        ).map(Ingredient::of).toList()))
+                .requires(Ingredient.merge(
+                        Stream.of(
+                                TFCTags.Items.COMPOST_GREENS,
+                                TFCTags.Items.COMPOST_GREENS_HIGH,
+                                TFCTags.Items.COMPOST_GREENS_LOW
+                        ).map(Ingredient::of).toList()))
                 .unlockedBy("has_organic_compost", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ORGANIC_COMPOST.get()))
                 .save(out, SDUtils.RLUtils.build("crafting/misc/organic_compost_with_mushroom"));
     }
