@@ -10,6 +10,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -21,14 +22,16 @@ public class SDRecipeProvider extends RecipeProvider {
     SDFoodRecipes cookingPotRecipes = new SDFoodRecipes();
     SDFoodCuttingRecipes foodCuttingRecipes = new SDFoodCuttingRecipes();
     SDAnvilAndWeldingRecipes anvilRecipes = new SDAnvilAndWeldingRecipes();
+    SDHeatingRecipes heatingRecipes;
 
-    public SDRecipeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
+    public SDRecipeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, ExistingFileHelper exh) {
         super(output, registries);
         SurvivorsDelight.foodAndCookingGenerator.injectPackOutput(output);
+        heatingRecipes = new SDHeatingRecipes(exh);
     }
 
     @Override
-    protected void buildRecipes(@NotNull RecipeOutput out) { // 修正簽章
+    protected void buildRecipes(@NotNull RecipeOutput out) {
         TFCBlocks.WOODS.forEach((wood, blockTypes) -> {
             woodCuttingRecipes.stripForBark(wood, out);
             woodCuttingRecipes.salvageWoodFurniture(wood, out);
@@ -41,5 +44,6 @@ public class SDRecipeProvider extends RecipeProvider {
         cookingPotRecipes.save(out);
         foodCuttingRecipes.cut2(out);
         anvilRecipes.save(out);
+        heatingRecipes.save(out);
     }
 }

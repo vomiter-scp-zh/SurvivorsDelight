@@ -78,13 +78,11 @@ public class SDCabinetBlock extends CabinetBlock {
         }
 
         if (!level.isClientSide) {
-            // 1.21：改用 openMenu，BlockPos 用 StreamCodec/InitData 同步
             player.openMenu(cabinet, buf -> buf.writeBlockPos(pos));
         }
         return InteractionResult.SUCCESS;
     }
 
-    /* ========= 把「是否可用手上物品進行處理」改成接收 ItemStack/hand ========= */
     @Unique
     private boolean sdtfc$tryTreatWithItem(Level level, BlockPos pos, Player player,
                                            InteractionHand hand, ItemStack stack) {

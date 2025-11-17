@@ -7,14 +7,13 @@ import com.vomiter.survivorsdelight.data.asset.SDSkilletBlockStateProvider;
 import com.vomiter.survivorsdelight.data.book.content.SDBookEN;
 import com.vomiter.survivorsdelight.data.loot.SDCabinetLootTableProvider;
 import com.vomiter.survivorsdelight.data.loot.SDSkilletLootTableProvider;
-import com.vomiter.survivorsdelight.data.recipe.SDRecipeDumpProvider;
+import com.vomiter.survivorsdelight.data.recipe.SDHeatingRecipes;
 import com.vomiter.survivorsdelight.data.recipe.SDRecipeProvider;
 import com.vomiter.survivorsdelight.data.size.SDItemSizeProvider;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -36,8 +35,7 @@ public class DataGenerators
 
         SDTags.gatherData(event);
 
-        generator.addProvider(event.includeServer(), new SDRecipeProvider(output, lookupProvider));
-        generator.addProvider(event.includeServer(), new SDRecipeDumpProvider(output));
+        generator.addProvider(event.includeServer(), new SDRecipeProvider(output, lookupProvider, helper));
         generator.addProvider(event.includeServer(), new SDSkilletLootTableProvider(output));
         generator.addProvider(event.includeServer(), new SDCabinetLootTableProvider(output));
 

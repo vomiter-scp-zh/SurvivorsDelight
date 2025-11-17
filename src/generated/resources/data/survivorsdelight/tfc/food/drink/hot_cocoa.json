@@ -6,5 +6,6 @@
   "saturation": 0.0,
   "water": 10.0,
   "decay_modifier": 0.5,
-  "dairy": 1.0
+  "dairy": 1.0,
+  "type": "dynamic"
 }

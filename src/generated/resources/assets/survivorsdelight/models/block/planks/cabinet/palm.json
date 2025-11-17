@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "survivorsdelight:block/planks/cabinet/palm_front",
+    "side": "survivorsdelight:block/planks/cabinet/palm_side",
+    "top": "survivorsdelight:block/planks/cabinet/palm_top"
+  }
+}

@@ -3,10 +3,26 @@
   "category": "misc",
   "key": {
     "F": {
-      "item": "farmersdelight:salmon_slice"
+      "type": "tfc:and",
+      "children": [
+        {
+          "item": "farmersdelight:salmon_slice"
+        },
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
     },
     "R": {
-      "item": "tfc:food/cooked_rice"
+      "type": "tfc:and",
+      "children": [
+        {
+          "item": "tfc:food/cooked_rice"
+        },
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
     }
   },
   "pattern": [

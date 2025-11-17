@@ -1,0 +1,47 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "survivorsdelight:block/skillet/copper"
+      },
+      "when": {
+        "facing": "north"
+      }
+    },
+    {
+      "apply": {
+        "model": "survivorsdelight:block/skillet/copper",
+        "y": 180
+      },
+      "when": {
+        "facing": "south"
+      }
+    },
+    {
+      "apply": {
+        "model": "survivorsdelight:block/skillet/copper",
+        "y": 90
+      },
+      "when": {
+        "facing": "east"
+      }
+    },
+    {
+      "apply": {
+        "model": "survivorsdelight:block/skillet/copper",
+        "y": 270
+      },
+      "when": {
+        "facing": "west"
+      }
+    },
+    {
+      "apply": {
+        "model": "survivorsdelight:block/skillet/tray"
+      },
+      "when": {
+        "support": "true"
+      }
+    }
+  ]
+}

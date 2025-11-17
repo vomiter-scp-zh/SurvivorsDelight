@@ -3,31 +3,28 @@
   "category": "misc",
   "ingredients": [
     {
-      "item": "farmersdelight:tree_bark"
+      "tag": "tfc:compost_browns/high"
     },
     {
-      "item": "farmersdelight:tree_bark"
+      "tag": "tfc:compost_browns/high"
+    },
+    {
+      "tag": "tfc:compost_greens/high"
+    },
+    {
+      "tag": "tfc:compost_greens/high"
     },
     {
       "tag": "minecraft:dirt"
     },
     {
-      "item": "tfc:compost"
+      "item": "minecraft:rotten_flesh"
     },
     {
       "item": "tfc:compost"
     },
     {
       "item": "tfc:rotten_compost"
-    },
-    {
-      "item": "minecraft:rotten_flesh"
-    },
-    {
-      "item": "minecraft:rotten_flesh"
-    },
-    {
-      "item": "minecraft:rotten_flesh"
     }
   ],
   "result": {

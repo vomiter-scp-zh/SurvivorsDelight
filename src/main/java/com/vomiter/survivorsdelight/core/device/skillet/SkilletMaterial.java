@@ -7,6 +7,7 @@ import net.dries007.tfc.common.blocks.wood.Wood;
 import net.dries007.tfc.util.Metal;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -59,6 +60,13 @@ public enum SkilletMaterial {
 
     public String path_head(){ return "skillet_head/" + material;}
     public String path_uf(){ return "unfinished_skillet/" + material;}
+    public Metal getDefault(){
+        if(Arrays.stream(Metal.values()).anyMatch(metal -> metal.name().equals(name()))){
+            return Metal.valueOf(name());
+        };
+        if(name().startsWith("COPPER")) return Metal.COPPER;
+        return Metal.UNKNOWN;
+    }
 
     private static ResourceLocation plank(Wood wood){
         return SDUtils.RLUtils.build(TerraFirmaCraft.MOD_ID, "block/" + Wood.BlockType.PLANKS.nameFor(wood));

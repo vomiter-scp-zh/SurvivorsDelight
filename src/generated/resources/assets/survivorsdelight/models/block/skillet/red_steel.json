@@ -1,0 +1,9 @@
+{
+  "parent": "survivorsdelight:block/skillet/skillet",
+  "textures": {
+    "0": "tfc:block/metal/smooth/red_steel",
+    "1": "tfc:block/metal/smooth/red_steel",
+    "2": "tfc:block/devices/crucible/side",
+    "particle": "tfc:block/metal/smooth/red_steel"
+  }
+}

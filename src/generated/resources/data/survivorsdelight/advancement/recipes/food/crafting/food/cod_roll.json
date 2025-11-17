@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_result": {
+    "has_fish_slice": {
       "conditions": {
         "items": [
           {
-            "items": "farmersdelight:cod_roll"
+            "items": "farmersdelight:cod_slice"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_result"
+      "has_fish_slice"
     ]
   ],
   "rewards": {

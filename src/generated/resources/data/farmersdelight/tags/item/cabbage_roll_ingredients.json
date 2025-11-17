@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "#c:foods/raw_meats",
+      "required": false
+    },
+    {
+      "id": "#c:foods/grain",
+      "required": false
+    }
+  ]
+}

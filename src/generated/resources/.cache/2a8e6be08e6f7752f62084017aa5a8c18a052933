@@ -1,7 +1,8 @@
-// 1.21.1	2025-11-15T13:59:03.3311693	Tags for minecraft:item mod id survivorsdelight
+// 1.21.1	2025-11-17T21:14:37.6852182	Tags for minecraft:item mod id survivorsdelight
 1889be7c728000215731e30c24beb0ff82bdb0f2 data/c/tags/item/foods/cooked_meats.json
 885e0e6294d31e7fd0898ade570037d59ab1d10a data/c/tags/item/foods/raw_meats.json
-1a1920729321b2f045d6a73a775d2a62d8eaa763 data/c/tags/item/foods/vegetables.json
+1a1920729321b2f045d6a73a775d2a62d8eaa763 data/c/tags/item/foods/vegetable.json
+12efb60fc65b740a6624152e2d04ab0577e8dee9 data/farmersdelight/tags/item/cabbage_roll_ingredients.json
 40b652b24436faae09a81968c0e3b05df79c5fcb data/farmersdelight/tags/item/serving_containers.json
 7f643c6c57641a1520ad0a404848b8ffeb917416 data/survivorsdelight/tags/item/apple_for_cider.json
 3e2b6a53b65bd9954ab899d873d2377fc367e64a data/survivorsdelight/tags/item/bowl_meals.json
@@ -29,6 +30,8 @@ d24803dbd556800b0f66981589c15a644ec1d05d data/survivorsdelight/tags/item/soups.j
 301b6b48661015a4257a45bb19e34935f9385e61 data/survivorsdelight/tags/item/unfinished_skillets.json
 726af5ca1eba8b31f861aea8d399c40634890081 data/survivorsdelight/tags/item/washable.json
 01e10127e6b2af3bd335512fae681e12e7c66e80 data/survivorsdelight/tags/item/wood_preservatives.json
+cb38fda423196e95871dfdc12d7cd2182f3619cf data/tfc/tags/item/compost_browns/high.json
+df1070a5a59713b98ef8aa62a60387e18853d991 data/tfc/tags/item/compost_browns/medium.json
 f0d6a4f8105c8526940536f8b97ec6d34fb72ad7 data/tfc/tags/item/deals_crushing_damage.json
 4ef3fc939109c931217ff1c50fd460a35d358b73 data/tfc/tags/item/dog_food.json
 cb38fda423196e95871dfdc12d7cd2182f3619cf data/tfc/tags/item/foods/usable_in_soup.json

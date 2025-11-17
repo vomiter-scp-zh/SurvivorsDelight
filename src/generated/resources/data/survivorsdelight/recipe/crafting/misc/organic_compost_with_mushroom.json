@@ -3,35 +3,23 @@
   "category": "misc",
   "ingredients": [
     {
-      "item": "farmersdelight:tree_bark"
-    },
-    {
-      "item": "farmersdelight:tree_bark"
-    },
-    {
-      "item": "farmersdelight:tree_bark"
-    },
-    {
-      "item": "farmersdelight:tree_bark"
-    },
-    {
-      "item": "farmersdelight:tree_bark"
-    },
-    {
       "tag": "minecraft:dirt"
     },
     {
       "item": "minecraft:brown_mushroom"
     },
     {
-      "item": "minecraft:brown_mushroom"
+      "tag": "tfc:compost_browns"
     },
     {
-      "item": "minecraft:red_mushroom"
+      "tag": "tfc:compost_greens"
+    },
+    {
+      "item": "farmersdelight:rich_soil"
     }
   ],
   "result": {
-    "count": 1,
+    "count": 2,
     "id": "farmersdelight:organic_compost"
   }
 }

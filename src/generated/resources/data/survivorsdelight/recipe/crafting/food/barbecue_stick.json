@@ -11,10 +11,10 @@
         "tag": "c:foods/cooked_meats"
       },
       "S": {
-        "tag": "c:rods/wooden"
+        "tag": "forge:rods/wooden"
       },
       "V": {
-        "tag": "c:foods/vegetables"
+        "tag": "c:foods/vegetable"
       }
     },
     "pattern": [

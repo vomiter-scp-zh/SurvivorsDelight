@@ -24,6 +24,7 @@
     "device.stove.StoveBlock_PlacePot",
     "device.stove.StoveBlockEntity_Accessor",
     "device.stove.StoveBlockEntity_FuelAndHeat",
+    "farming.farmland.Block_CropExtraSeedDropMixin",
     "farming.farmland.CropHelper_RSFarmlandBuff",
     "farming.farmland.FarmlandBlock_RichSoilTooltip",
     "farming.farmland.RichSoilFarmland_AddBlockEntityMixin",

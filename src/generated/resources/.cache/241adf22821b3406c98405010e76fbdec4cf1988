@@ -1,4 +1,4 @@
-// 1.21.1	2025-11-14T03:29:55.8547894	survivorsdelight Food Data for Cooking
+// 1.21.1	2025-11-17T20:29:22.8102974	survivorsdelight Food Data for Cooking
 b0f20e52e59042b00c20517311537aa919edb10b data/survivorsdelight/tfc/food/cut/bacon.json
 a612ddb782911aa9827297950755275e83752fa9 data/survivorsdelight/tfc/food/cut/beef_patty.json
 e0d14b0cae3cc9730d21b35b0477959dd302f5a8 data/survivorsdelight/tfc/food/cut/cabbage_leaf.json
@@ -14,7 +14,7 @@ a0060c2816e21eff8e84979bab97a0f0858567be data/survivorsdelight/tfc/food/cut/mutt
 46c3ae16be43f8b84ad6f5698e2f6ac62200ee07 data/survivorsdelight/tfc/food/cut/raw_pasta.json
 608e30603e841e581abb0d64a980ed79145b9e70 data/survivorsdelight/tfc/food/cut/salmon_slice.json
 8692164fb51d0ca54f7ff15ab8ad52465acb2b9b data/survivorsdelight/tfc/food/drink/apple_cider.json
-4e81b36d56010b28491d7925909ba1428f7cce28 data/survivorsdelight/tfc/food/drink/hot_cocoa.json
+b7d98df4ed6a26f85613645bd31814f7998595b2 data/survivorsdelight/tfc/food/drink/hot_cocoa.json
 c7b083c345c0e78f0673818e4ddaef832d27b064 data/survivorsdelight/tfc/food/drink/melon_juice.json
 83ba0c115bbff15183e13d4795deb3eded840e30 data/survivorsdelight/tfc/food/feast/honey_glazed_ham.json
 59491687eebff90561656a20618bbf2e4326e588 data/survivorsdelight/tfc/food/feast/roasted_chicken.json
