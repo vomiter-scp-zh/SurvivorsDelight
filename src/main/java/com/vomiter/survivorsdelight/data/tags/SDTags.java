@@ -111,7 +111,7 @@ public class SDTags {
         public static final TagKey<Item> TFC_COOKED_MEATS = create("c", "foods/cooked_meats");
         public static final TagKey<Item> TFC_VEGETABLES = create("c", "foods/vegetable");
         public static final TagKey<Item> TFC_GRAINS = create("c", "foods/grain");
-        public static final TagKey<Item> TFC_FRUITS = create("c", "foods/fruits");
+        public static final TagKey<Item> TFC_FRUITS = create("c", "foods/fruit");
         public static final TagKey<Item> TFC_SWEETENER = create("tfc", "foods/sweeteners");
 
     }
