@@ -29,8 +29,7 @@ public class SurvivorsDelight {
 
     //TODO: add item interaction for ceramic feast bowl
     //TODO: the remainder of feast
-
-    //TODO: transfer manual recipes to datagen
+    //TODO: test effect in actual instance
 
     //TODO: another mod - Basket and storage blocks
     //TODO: another mod - Unroasted block and buildable feast

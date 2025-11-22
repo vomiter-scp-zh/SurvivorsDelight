@@ -41,6 +41,7 @@
     "food.effect.LivingEntity_AddEatEffectMixin",
     "food.effect.MelonJuiceItemMixin",
     "food.effect.NourishmentEffect_Mixin",
+    "food.effect.TFCComponents_FoodEffectMixin",
     "food.mushroom.MushroomBlock_PreventPlace",
     "food.mushroom.MushroomItem_PreventRottenPlace",
     "food.pet_food.DogFoodItem_DogFoodItemForDogs",
