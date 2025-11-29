@@ -1,13 +1,20 @@
 package com.vomiter.survivorsdelight.mixin.food.block;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.vomiter.survivorsdelight.core.food.block.DecayingFeastBlockEntity;
+import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.dries007.tfc.common.capabilities.food.FoodHandler;
 import net.dries007.tfc.common.capabilities.food.IFood;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -29,18 +36,31 @@ public abstract class FeastBlock_ServingMixin extends Block {
         super(p_49795_);
     }
 
+    @WrapOperation(
+            method = "takeServing",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;isSameItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z", remap = true)
+    )
+    private boolean acceptCeramicBowl(ItemStack held, ItemStack compared, Operation<Boolean> original){
+        if(compared.is(Items.BOWL) && held.is(TFCBlocks.CERAMIC_BOWL.get().asItem())){
+            return true;
+        }
+        return original.call(held, compared);
+    }
+
     @ModifyVariable(
             method = "takeServing",
             at = @At(
                     value = "INVOKE_ASSIGN",
                     target = "Lvectorwing/farmersdelight/common/block/FeastBlock;getServingItem(Lnet/minecraft/world/level/block/state/BlockState;)Lnet/minecraft/world/item/ItemStack;"
-            )
-    )
-    private ItemStack sdtfc$patchServingAfterBuilt(
+            ),
+            name = "serving")
+    private ItemStack patchServingAfterBuilt(
             ItemStack serving,
-            @Local(argsOnly = true) LevelAccessor level,
-            @Local(argsOnly = true) BlockPos pos,
-            @Local(argsOnly = true) BlockState state
+            @Local(argsOnly = true, name = "arg1") LevelAccessor level,
+            @Local(argsOnly = true, name = "arg2") BlockPos pos,
+            @Local(argsOnly = true, name = "arg3") BlockState state,
+            @Local(argsOnly = true, name = "arg4") Player player,
+            @Local(argsOnly = true, name = "arg5") InteractionHand hand
     ) {
         if (serving.isEmpty() || serving.getItem() != servingItem.get()) return serving;
 
@@ -57,6 +77,10 @@ public abstract class FeastBlock_ServingMixin extends Block {
         servingFood.getTraits().addAll(srcFood.getTraits());
         if(servingFood instanceof FoodHandler.Dynamic dynamic){
             dynamic.setFood(srcFood.getData());
+        }
+        if(player.getItemInHand(hand).is(TFCBlocks.CERAMIC_BOWL.get().asItem())){
+            CompoundTag compoundTag = serving.getOrCreateTag();
+            compoundTag.put("Container", player.getItemInHand(hand).copyWithCount(1).serializeNBT());
         }
         return serving;
     }}
