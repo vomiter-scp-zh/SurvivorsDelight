@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class BlockItem_SetDecayStackMixin {
 
     @Inject(method = "updateCustomBlockEntityTag(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/level/block/state/BlockState;)Z", at = @At("TAIL"))
-    private void sdtfc$afterPlaced(BlockPos pos, Level level, Player player,
+    private void afterPlaced(BlockPos pos, Level level, Player player,
                                    ItemStack stack, BlockState state, CallbackInfoReturnable<Boolean> cir) {
         if (!(state.getBlock() instanceof ISDDecayingBlock)) return;
 

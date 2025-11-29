@@ -45,22 +45,22 @@ public abstract class PieBlock_SliceMixin{
         cir.setReturnValue(InteractionResult.SUCCESS);
     }
 
-    @ModifyVariable(method = "consumeBite", at = @At(value = "STORE"), ordinal = 0)
+    @ModifyVariable(method = "consumeBite", at = @At(value = "STORE"), name = "sliceStack")
     private ItemStack sdtfc$applyDecayToSlice(
             ItemStack value,
-            @Local(argsOnly = true) Level level,
-            @Local(argsOnly = true) BlockPos pos
+            @Local(argsOnly = true, name = "arg1") Level level,
+            @Local(argsOnly = true, name = "arg2") BlockPos pos
     ){
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if(blockEntity instanceof DecayingPieBlockEntity decay) sdtfc$applyFoodFromDecay(decay, value);
         return value;
     }
 
-    @ModifyVariable(method = "consumeBite", at = @At(value = "STORE"))
+    @ModifyVariable(method = "consumeBite", at = @At(value = "STORE"), name = "sliceFood")
     private FoodProperties sdtfc$modifyAddedEffects(
             FoodProperties value,
-            @Local(argsOnly = true) Level level,
-            @Local(argsOnly = true) BlockPos pos
+            @Local(argsOnly = true, name = "arg1") Level level,
+            @Local(argsOnly = true, name = "arg2") BlockPos pos
     ){
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if(blockEntity instanceof DecayingPieBlockEntity decay) {

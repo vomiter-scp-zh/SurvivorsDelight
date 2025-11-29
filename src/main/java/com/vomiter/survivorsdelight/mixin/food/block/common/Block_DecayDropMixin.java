@@ -2,11 +2,14 @@ package com.vomiter.survivorsdelight.mixin.food.block.common;
 
 import com.vomiter.survivorsdelight.core.food.block.SDDecayingBlockEntity;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
+import net.dries007.tfc.common.capabilities.food.FoodHandler;
 import net.dries007.tfc.common.capabilities.food.IFood;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -17,6 +20,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import javax.annotation.Nullable;
+import java.util.Comparator;
 import java.util.List;
 
 @Mixin(Block.class)
@@ -24,15 +28,28 @@ public abstract class Block_DecayDropMixin{
     @Unique
     private static List<ItemStack> sdtfc$modifyDecayDrop(@Nullable BlockEntity blockEntity, List<ItemStack> drops){
         if(blockEntity instanceof SDDecayingBlockEntity decay){
-            IFood srcFood = FoodCapability.get(decay.getStack());
+            ItemStack srcStack = decay.getStack();
+            IFood srcFood = FoodCapability.get(srcStack);
             if(srcFood == null) return drops;
             drops.stream().forEach(drop -> {
                 IFood dropFood = FoodCapability.get(drop);
                 if(dropFood == null) return;
+                if(dropFood instanceof FoodHandler.Dynamic dynamic && srcFood instanceof FoodHandler.Dynamic srcDynamic){
+                    dynamic.setFood(srcFood.getData());
+                    dynamic.setIngredients(srcDynamic.getIngredients());
+                }
                 dropFood.setCreationDate(srcFood.getCreationDate());
                 dropFood.getTraits().addAll(srcFood.getTraits());
             });
+            if(drops.get(0).is(Items.BOWL)){
+                CompoundTag tag = srcStack.getTag();
+                if(tag != null && tag.get("Container") instanceof CompoundTag container){
+                    drops.remove(0);
+                    drops.add(ItemStack.of(container));
+                }
+            }
         }
+
         return drops;
     }
 
