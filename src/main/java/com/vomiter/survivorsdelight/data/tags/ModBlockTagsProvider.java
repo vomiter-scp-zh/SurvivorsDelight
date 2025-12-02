@@ -30,6 +30,8 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
+        tag(ModTags.TRAY_HEAT_SOURCES).add(TFCBlocks.FIREPIT.get());
+
         SDBlocks.CABINETS.values().forEach(c -> tag(SDTags.BlockTags.CABINETS).add(c.get()));
         tag(SDTags.BlockTags.FEAST_BLOCKS).add(
                 ModBlocks.HONEY_GLAZED_HAM_BLOCK.get(),
