@@ -1,21 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "BiB",
-    "BCB"
-  ],
+  "category": "misc",
   "key": {
-    "i": {
-      "item": "tfc:wrought_iron_grill"
-    },
     "B": {
       "item": "minecraft:bricks"
     },
-    "C": {
-      "item": "minecraft:fire_charge"
+    "I": {
+      "item": "tfc:wrought_iron_grill"
     }
   },
+  "pattern": [
+    "BIB",
+    "B B"
+  ],
   "result": {
     "item": "farmersdelight:stove"
-  }
+  },
+  "show_notification": true
 }

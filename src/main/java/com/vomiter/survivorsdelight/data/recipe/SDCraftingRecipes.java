@@ -14,10 +14,13 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.ForgeRegistries;
+import vectorwing.farmersdelight.common.registry.ModBlocks;
 import vectorwing.farmersdelight.common.registry.ModItems;
 
 import java.util.List;
@@ -34,6 +37,25 @@ public class SDCraftingRecipes {
     }
 
     public void misc(Consumer<FinishedRecipe> out){
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.STOVE.get())
+                .pattern("BIB")
+                .pattern("B B")
+                .define('B', Blocks.BRICKS)
+                .define('I', TFCItems.WROUGHT_IRON_GRILL.get())
+                .unlockedBy("has_firestick", InventoryChangeTrigger.TriggerInstance.hasItems(TFCItems.FIRESTARTER.get()))
+                .save(out, SDUtils.RLUtils.build("crafting/misc/stove"));
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.STRAW.get())
+                .requires(TFCItems.STRAW.get(), 3)
+                .unlockedBy("has_straw", InventoryChangeTrigger.TriggerInstance.hasItems(TFCItems.STRAW.get()))
+                .save(out, SDUtils.RLUtils.build("crafting/misc/tfc_straw2fd_straw"));
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, TFCItems.STRAW.get(), 3)
+                .requires(ModItems.STRAW.get())
+                .unlockedBy("has_straw", InventoryChangeTrigger.TriggerInstance.hasItems(TFCItems.STRAW.get()))
+                .save(out, SDUtils.RLUtils.build("crafting/misc/fd_straw2tfc_straw"));
+
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.HORSE_FEED.get())
                 .pattern("AC")
                 .pattern("SA")
@@ -83,19 +105,6 @@ public class SDCraftingRecipes {
                         ).map(Ingredient::of).toList()))
                 .unlockedBy("has_organic_compost", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ORGANIC_COMPOST.get()))
                 .save(out, SDUtils.RLUtils.build("crafting/misc/organic_compost_with_mushroom"));
-    }
-
-
-    public void fishRoll(Consumer<FinishedRecipe> out, Item result, Item fish){
-        ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, result)
-                .pattern("F")
-                .pattern("R")
-                .define('F', NotRottenIngredient.of(fish))
-                .define('R', NotRottenIngredient.of(TFCItems.FOOD.get(Food.COOKED_RICE).get()))
-                .unlockedBy(
-                        "has_fish_slice",
-                        InventoryChangeTrigger.TriggerInstance.hasItems(fish))
-                .save(out, SDUtils.RLUtils.build(MODID, "crafting/food/" + ForgeRegistries.ITEMS.getKey(result).getPath()));
     }
 
     public void cabinetForWood(Wood wood, Consumer<FinishedRecipe> out) {
