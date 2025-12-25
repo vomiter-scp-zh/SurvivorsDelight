@@ -41,23 +41,18 @@ public abstract class RecipeManager_FDFilterMixin {
                                         ProfilerFiller profiler,
                                         CallbackInfo ci) {
 
-        // 1. 拿到真正的 registryAccess（你前面提到的需求）
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
         RegistryAccess access = server != null ? server.registryAccess() : RegistryAccess.EMPTY;
 
-        // 2. 先做「外層」的可變拷貝
         Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> newRecipes = new HashMap<>();
-        // 這個也要做可變拷貝
         Map<ResourceLocation, Recipe<?>> newByName = new HashMap<>(this.byName);
 
         for (Map.Entry<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> entry : this.recipes.entrySet()) {
             RecipeType<?> type = entry.getKey();
             Map<ResourceLocation, Recipe<?>> originalById = entry.getValue();
 
-            // 先把裡層也複製成可變的
             Map<ResourceLocation, Recipe<?>> filteredById = new HashMap<>(originalById);
 
-            // 只處理你要的三類，其他原樣塞回去
             if (type == RecipeType.CRAFTING
                     || type == ModRecipeTypes.CUTTING.get()
                     || type == ModRecipeTypes.COOKING.get()) {
@@ -69,19 +64,15 @@ public abstract class RecipeManager_FDFilterMixin {
                     Recipe<?> recipe = e.getValue();
 
                     if (FDRecipeBlocker.shouldBlock(id, recipe, access)) {
-                        // 從這一個 type 底下移掉
                         it.remove();
-                        // 同時也要從全域 byName 移掉
                         newByName.remove(id);
                     }
                 }
             }
 
-            // 把處理好的這一個 type 塞回新的 map
             newRecipes.put(type, filteredById);
         }
 
-        // 3. 最後再指回去
         this.recipes = Map.copyOf(newRecipes);
         this.byName = Map.copyOf(newByName);
     }

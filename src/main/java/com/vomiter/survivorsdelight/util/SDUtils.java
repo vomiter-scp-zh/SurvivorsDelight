@@ -76,7 +76,7 @@ public class SDUtils {
     public static class TagUtils{
         public static boolean fluidIngredientMatchesTag(FluidStackIngredient ingredient, TagKey<Fluid> fluidTag) {
             var tags = ForgeRegistries.FLUIDS.tags();
-            if (tags == null) return false;
+            if (tags == null || ingredient==null) return false;
 
             final int amount = Math.max(1, ingredient.amount());
             for (Fluid f : tags.getTag(fluidTag)) {

@@ -13,12 +13,18 @@ import vectorwing.farmersdelight.common.crafting.CuttingBoardRecipe;
 import vectorwing.farmersdelight.common.registry.ModItems;
 import vectorwing.farmersdelight.common.registry.ModRecipeTypes;
 
+import java.util.List;
+
 /**
  * 用來判斷「這個配方要不要被擋掉」的工具類
  */
 public final class FDRecipeBlocker {
 
     public static final String FD_NAMESPACE = FarmersDelight.MODID;
+
+    private static final List<String> OTHER_BLOCKING_ID = List.of(
+            "canvas"
+    );
 
     private static final Ingredient OTHER_BLOCKING_TARGET = Ingredient.of(
             ModItems.HORSE_FEED.get(),
@@ -36,7 +42,7 @@ public final class FDRecipeBlocker {
     /**
      * @param id  配方的 id
      * @param recipe  配方實例
-     * @param access  RecipeManager 裡的 RegistryAccess（1.20.1 有這個）
+     * @param access  RecipeManager 裡的 RegistryAccess
      * @return true = 這個配方應該被移除/忽略
      */
     public static boolean shouldBlock(ResourceLocation id, Recipe<?> recipe, RegistryAccess access) {
@@ -53,6 +59,7 @@ public final class FDRecipeBlocker {
         // 3. 看成品是不是食物
         ItemStack result = recipe.getResultItem(access);
         if(isFood(result)) return true;
+        if(OTHER_BLOCKING_ID.contains( id.getPath())) return true;
         return OTHER_BLOCKING_TARGET.test(result);
     }
 
