@@ -186,8 +186,28 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                     var item = ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(s));
                     if (item != null) tag(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE).add(item);
                 });
-        tag(SDTags.ItemTags.CHEESE_FOR_CHEESECAKE).add(TFCItems.FOOD.get(Food.CHEESE).get()).addOptional(SDUtils.RLUtils.build("firmalife", "foods/cheeses"));
-        tag(SDTags.ItemTags.CHOCOLATE_FOR_CHEESECAKE).addOptionalTag(SDUtils.RLUtils.build("firmalife", "chocolate_blends"));
+        tag(SDTags.ItemTags.CHEESE_FOR_CHEESECAKE)
+                .add(TFCItems.FOOD.get(Food.CHEESE).get())
+                .addOptionalTag(SDUtils.RLUtils.build("firmalife", "foods/cheeses"));
+        tag(SDTags.ItemTags.CHOCOLATE_FOR_CHEESECAKE)
+                .addOptionalTag(SDUtils.RLUtils.build("firmalife", "chocolate_blends"));
+        tag(SDTags.ItemTags.RAW_POULTRY)
+                .add(SDUtils.getTFCFoodItem(Food.CHICKEN))
+                .add(SDUtils.getTFCFoodItem(Food.DUCK))
+                .add(SDUtils.getTFCFoodItem(Food.QUAIL));
+        tag(SDTags.ItemTags.COOKED_POULTRY)
+                .add(SDUtils.getTFCFoodItem(Food.COOKED_CHICKEN))
+                .add(SDUtils.getTFCFoodItem(Food.COOKED_DUCK))
+                .add(SDUtils.getTFCFoodItem(Food.COOKED_QUAIL));
+        tag(SDTags.ItemTags.RAW_NUTRIENT_FOWL)
+                .add(SDUtils.getTFCFoodItem(Food.CHICKEN))
+                .add(SDUtils.getTFCFoodItem(Food.PEAFOWL))
+                .add(SDUtils.getTFCFoodItem(Food.TURKEY));
+        tag(SDTags.ItemTags.COOKED_NUTRIENT_FOWL)
+                .add(SDUtils.getTFCFoodItem(Food.COOKED_CHICKEN))
+                .add(SDUtils.getTFCFoodItem(Food.COOKED_PEAFOWL))
+                .add(SDUtils.getTFCFoodItem(Food.COOKED_TURKEY));
+
     }
 
     private void addSkilletTags(){

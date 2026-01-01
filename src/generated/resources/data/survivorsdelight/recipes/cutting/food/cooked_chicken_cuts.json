@@ -4,7 +4,7 @@
     {
       "type": "tfc:not_rotten",
       "ingredient": {
-        "item": "tfc:food/cooked_chicken"
+        "tag": "survivorsdelight:cooked_nutrient_fowl"
       }
     }
   ],

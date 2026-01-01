@@ -2,7 +2,7 @@
   "values": [
     "tfc:food/cheese",
     {
-      "id": "firmalife:foods/cheeses",
+      "id": "#firmalife:foods/cheeses",
       "required": false
     }
   ]

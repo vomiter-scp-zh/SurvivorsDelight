@@ -159,14 +159,13 @@ public class SDFoodRecipes {
                 .saveFoodData();
 
         cook("feast/roasted_chicken", ModItems.ROAST_CHICKEN_BLOCK.get(), 1, 1200, 20, Items.BOWL)
-                .food(SDUtils.getTFCFoodItem(Food.CHICKEN))
+                .food(SDTags.ItemTags.RAW_POULTRY)
                 .food(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE)
                 .food(SDTags.ItemTags.TFC_VEGETABLES)
                 .food(SDTags.ItemTags.TFC_GRAINS)
                 .fluid(oliveOil, 100)
                 .build(out)
                 .saveFoodData();
-
     }
 
     /* ---------------------- MEAL ---------------------- */

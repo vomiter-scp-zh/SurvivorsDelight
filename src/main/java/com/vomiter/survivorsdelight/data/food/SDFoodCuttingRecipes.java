@@ -35,6 +35,12 @@ public class SDFoodCuttingRecipes {
                 if(cutSpec.from().name().contains("COOKED")) fishType =  fishType.stream().map(f -> Food.valueOf("COOKED " + f.name())).toList();
                 ingredient = Ingredient.of(fishType.stream().map(f -> TFCItems.FOOD.get(f).get().getDefaultInstance()));
             }
+            else if(cutSpec.from().equals(Food.CHICKEN)){
+                ingredient = Ingredient.of(SDTags.ItemTags.RAW_NUTRIENT_FOWL);
+            }
+            else if(cutSpec.from().equals(Food.COOKED_CHICKEN)){
+                ingredient = Ingredient.of(SDTags.ItemTags.COOKED_NUTRIENT_FOWL);
+            }
             ItemStackProvider isp = ItemStackProvider.of(
                     cutSpec.item().get().getDefaultInstance().copyWithCount(cutSpec.slices()),
                     CopyFoodModifier.INSTANCE

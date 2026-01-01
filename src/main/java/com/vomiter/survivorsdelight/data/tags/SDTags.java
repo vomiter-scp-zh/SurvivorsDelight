@@ -91,6 +91,10 @@ public class SDTags {
         public static final TagKey<Item> SLICES_AND_SERVINGS = create("slices_and_servings");
         public static final TagKey<Item> FEAST_BLOCKS = create("feast_blocks");
         public static final TagKey<Item> PIE_BLOCKS = create("pie_blocks");
+        public static final TagKey<Item> RAW_POULTRY = create("raw_poultry");
+        public static final TagKey<Item> COOKED_POULTRY = create("cooked_poultry");
+        public static final TagKey<Item> RAW_NUTRIENT_FOWL = create("raw_nutrient_fowl");
+        public static final TagKey<Item> COOKED_NUTRIENT_FOWL = create("cooked_nutrient_fowl");
 
         public static final TagKey<Item> TFC_DOUGHS = create("tfc", "foods/dough");
         public static final TagKey<Item> TFC_GLASS_BOTTLES = create("tfc", "glass_bottles");
