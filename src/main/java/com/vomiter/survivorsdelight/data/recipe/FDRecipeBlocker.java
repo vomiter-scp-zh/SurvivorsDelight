@@ -1,5 +1,6 @@
 package com.vomiter.survivorsdelight.data.recipe;
 
+import com.vomiter.survivorsdelight.util.SDUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.item.ItemStack;
@@ -19,6 +20,11 @@ import java.util.List;
  * 用來判斷「這個配方要不要被擋掉」的工具類
  */
 public final class FDRecipeBlocker {
+
+    private static final List<ResourceLocation> RLS = List.of(
+            SDUtils.RLUtils.build("crafting/fd_straw2tfc_straw.json"),
+            SDUtils.RLUtils.build("crafting/tfc_straw2fd_straw.json")
+    );
 
     public static final String FD_NAMESPACE = FarmersDelight.MODID;
 
@@ -46,6 +52,8 @@ public final class FDRecipeBlocker {
      * @return true = 這個配方應該被移除/忽略
      */
     public static boolean shouldBlock(ResourceLocation id, Recipe<?> recipe, RegistryAccess access) {
+        if(RLS.contains(id)) return true;
+
         // 1. 只處理 farmersdelight:xxx 的配方
         if (!FD_NAMESPACE.equals(id.getNamespace())) {
             return false;
