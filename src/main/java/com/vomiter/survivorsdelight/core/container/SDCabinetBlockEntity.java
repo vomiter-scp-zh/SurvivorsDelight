@@ -22,13 +22,17 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import vectorwing.farmersdelight.common.item.SkilletItem;
 import vectorwing.farmersdelight.common.registry.ModSounds;
 
+import java.util.EnumMap;
 import java.util.stream.IntStream;
 
 public class SDCabinetBlockEntity extends RandomizableContainerBlockEntity implements WorldlyContainer {
@@ -143,7 +147,7 @@ public class SDCabinetBlockEntity extends RandomizableContainerBlockEntity imple
     public boolean canPlaceItem(int slot, @NotNull ItemStack stack) {
         return isValid(stack);
     }
-    
+
     @Override
     public int @NotNull [] getSlotsForFace(@NotNull Direction side) {
         return ALL_SLOTS;
@@ -228,7 +232,24 @@ public class SDCabinetBlockEntity extends RandomizableContainerBlockEntity imple
     =====
      */
 
-    //TODO: add cap
+    private final IItemHandler unsidedHandler = new TraitItemHandler(this, Direction.UP);
+    private final EnumMap<Direction, IItemHandler> sidedHandlers = new EnumMap<>(Direction.class);
+
+    public IItemHandler getItemHandler(@Nullable Direction side) {
+        if (side == null) {
+            return unsidedHandler;
+        }
+        return sidedHandlers.computeIfAbsent(side, s -> new TraitItemHandler(this, s));
+    }
+
+    public static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(
+                Capabilities.ItemHandler.BLOCK,
+                SDBlockEntityTypes.SD_CABINET.get(),
+                SDCabinetBlockEntity::getItemHandler
+        );
+    }
+
 
     private static class TraitItemHandler extends SidedInvWrapper {
         private final SDCabinetBlockEntity be;

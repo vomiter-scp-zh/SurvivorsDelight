@@ -1,5 +1,6 @@
 package com.vomiter.survivorsdelight.data.recipe;
 
+import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
 import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletItems;
 import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletPartItems;
@@ -11,10 +12,12 @@ import net.dries007.tfc.common.recipes.WeldingRecipe;
 import net.dries007.tfc.common.recipes.outputs.ItemStackProvider;
 import net.dries007.tfc.util.Metal;
 import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import vectorwing.farmersdelight.common.registry.ModItems;
 
 import java.util.Arrays;
 import java.util.List;
@@ -66,6 +69,19 @@ public class SDAnvilAndWeldingRecipes {
     }
 
     private void skilletRecipes(RecipeOutput out) {
+        var wIronDS = SDUtils.TagUtils.itemTag("c", "double_sheets/wrought_iron");
+        out.accept(
+                ResourceLocation.fromNamespaceAndPath(SurvivorsDelight.MODID, "anvil/cooking_pot"),
+                new AnvilRecipe(
+                        Ingredient.of(wIronDS),
+                        Metal.WROUGHT_IRON.tier(),
+                        skilletRules,
+                        false,
+                        ItemStackProvider.of(ModItems.COOKING_POT.get())
+                ),
+                null
+        );
+
         for (SkilletMaterial value : SkilletMaterial.values()) {
             TagKey<Item> doubleSheet = SDUtils.TagUtils.itemTag("c", "double_sheets/" + value.material);
             Item skillet = SDSkilletItems.get(value).get();

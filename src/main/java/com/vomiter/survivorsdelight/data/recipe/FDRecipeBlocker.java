@@ -27,7 +27,8 @@ public final class FDRecipeBlocker {
             ModItems.HONEY_GLAZED_HAM_BLOCK.get(),
             ModItems.ROAST_CHICKEN_BLOCK.get(),
             ModItems.STUFFED_PUMPKIN_BLOCK.get(),
-            ModItems.SHEPHERDS_PIE_BLOCK.get()
+            ModItems.SHEPHERDS_PIE_BLOCK.get(),
+            ModItems.COOKING_POT.get()
     );
 
     private FDRecipeBlocker() {}

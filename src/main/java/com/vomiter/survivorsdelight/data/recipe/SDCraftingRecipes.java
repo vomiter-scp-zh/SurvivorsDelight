@@ -64,7 +64,7 @@ public class SDCraftingRecipes {
             if(value.equals(SkilletMaterial.STEEL)){
                 recipe(out, "crafting/skillet/farmer")
                         .input('U', unfinished)     // unfinished 頭
-                        .input('R', woodRod)        // 木棒 tag
+                        .input('R', Items.BRICK)
                         .pattern("U")
                         .pattern("R")
                         .copyForging()

@@ -23,5 +23,7 @@
   "gui.survivorsdelight.pot.pot_menu": "Pot Menu",
   "tooltip.survivorsdelight.fluid_required": "Fluid Required",
   "tooltip.survivorsdelight.foodfallback": "The food data shown here is the fallback value of a dynamic food. It can be different when you actually cook/craft it.",
-  "tooltip.survivorsdelight.cabinet_not_treated": "The cabinet is not treated yet. Food stored here decays as usual."
+  "tooltip.survivorsdelight.cabinet_not_treated": "The cabinet is not treated yet. Food stored here decays as usual.",
+
+  "config.jade.plugin_survivorsdelight.feast_decay": "Feast decay"
 }

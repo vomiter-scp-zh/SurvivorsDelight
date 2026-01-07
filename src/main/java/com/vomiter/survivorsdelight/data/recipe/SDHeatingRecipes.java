@@ -77,7 +77,7 @@ public final class SDHeatingRecipes{
                 new HeatingRecipe(
                         Ingredient.of(SDSkilletItems.FARMER.get()),
                         ItemStackProvider.empty(),
-                        new FluidStack(meltFluidFor(Metal.STEEL), 250),
+                        new FluidStack(meltFluidFor(Metal.STEEL), 450),
                         temperatureOf(Metal.STEEL),
                         false
                 ),
@@ -92,7 +92,7 @@ public final class SDHeatingRecipes{
                     new HeatingRecipe(
                             Ingredient.of(s.get()),
                             ItemStackProvider.empty(),
-                            new FluidStack(meltFluidFor(defaultMetal), 250),
+                            new FluidStack(meltFluidFor(defaultMetal), 450),
                             temperatureOf(defaultMetal),
                             false
                     ),
@@ -109,7 +109,7 @@ public final class SDHeatingRecipes{
                         new HeatingRecipe(
                                 Ingredient.of(part),
                                 ItemStackProvider.empty(),
-                                new FluidStack(meltFluidFor(defaultMetal), (name.equals("unfinished_skillet")? 250: 200)),
+                                new FluidStack(meltFluidFor(defaultMetal), (name.equals("unfinished_skillet")? 450: 400)),
                                 temperatureOf(defaultMetal),
                                 false
                         ),

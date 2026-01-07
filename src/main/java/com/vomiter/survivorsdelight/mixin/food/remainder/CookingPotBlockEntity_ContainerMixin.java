@@ -48,7 +48,7 @@ public abstract class CookingPotBlockEntity_ContainerMixin {
             var mealToGive = mealStack.split(1);
             mealToGive.set(TFCComponents.BOWL, Bowl.of(container));
             cir.setReturnValue(mealToGive);
-        } else if (!ItemStack.isSameItem(mealStack.getCraftingRemainingItem(), container)) {
+        } else {
             var mealToGive = mealStack.split(1);
             mealToGive.set(SDDataComponents.FOOD_CONTAINER, new SDContainer(BuiltInRegistries.ITEM.getKey(container.getItem())));
             cir.setReturnValue(mealToGive);

@@ -5,6 +5,7 @@ import com.vomiter.survivorsdelight.client.ClientForgeEventHandler;
 import com.vomiter.survivorsdelight.client.SaladPredicates;
 import com.vomiter.survivorsdelight.client.SandwichPredicates;
 import com.vomiter.survivorsdelight.core.ForgeEventHandler;
+import com.vomiter.survivorsdelight.core.container.SDCabinetBlockEntity;
 import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.SDCookingPotCapabilities;
 import com.vomiter.survivorsdelight.core.device.skillet.itemcooking.SkilletCookingCap;
 import com.vomiter.survivorsdelight.core.farming.RichSoilFarmlandBlockEntitySetup;
@@ -27,8 +28,6 @@ public class SurvivorsDelight {
     //TODO: add aquaculture support
     //TODO: add tfc cs compat
 
-    //TODO: add item interaction for ceramic feast bowl
-    //TODO: the remainder of feast
     //TODO: test effect in actual instance
 
     //TODO: another mod - Basket and storage blocks
@@ -58,6 +57,7 @@ public class SurvivorsDelight {
         modBus.addListener(SDSkilletBlocks::onCommonSetup);
         modBus.addListener(SkilletCookingCap::onRegisterCaps);
         modBus.addListener(SDCookingPotCapabilities::onRegisterCaps);
+        modBus.addListener(SDCabinetBlockEntity::onRegisterCapabilities);
 
     }
 

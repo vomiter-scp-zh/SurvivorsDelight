@@ -4,7 +4,7 @@
   "group": "survivorsdelight:misc",
   "pattern": [
     "BiB",
-    "BCB"
+    "B B"
   ],
   "key": {
     "i": {
@@ -12,9 +12,6 @@
     },
     "B": {
       "item": "minecraft:bricks"
-    },
-    "C": {
-      "item": "minecraft:fire_charge"
     }
   },
   "result": {
