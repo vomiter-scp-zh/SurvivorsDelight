@@ -44,6 +44,9 @@ public class SDSkilletItems {
                 builder.put(Attributes.ATTACK_KNOCKBACK, new AttributeModifier(KNOCKBACK_UUID, "Tool modifier", m.attackKnockback, AttributeModifier.Operation.ADDITION));
             }
             Item.Properties properties = new Item.Properties();
+            if(m.metal != null){
+                properties.rarity(m.metal.getRarity());
+            }
             properties.durability(m.durability);
             if(m.equals(SkilletMaterial.RED_STEEL) || m.equals(SkilletMaterial.BLUE_STEEL)){
                 properties = properties.fireResistant();

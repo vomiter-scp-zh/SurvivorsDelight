@@ -21,8 +21,13 @@ public class SDSkilletPartItems {
     static {
         for (SkilletMaterial m : SkilletMaterial.values()) {
             if(Objects.equals(m.material, "copper_silver") || Objects.equals(m.material, "copper_tin")) continue;
-            RegistryObject<Item> roh = ITEMS.register(m.path_head(), () -> new Item(new Item.Properties()));
-            RegistryObject<Item> rouf = ITEMS.register(m.path_uf(), () -> new Item(new Item.Properties()));
+            Item.Properties properties = new Item.Properties();
+            if(m.metal != null){
+                properties.rarity(m.metal.getRarity());
+            }
+
+            RegistryObject<Item> roh = ITEMS.register(m.path_head(), () -> new Item(properties));
+            RegistryObject<Item> rouf = ITEMS.register(m.path_uf(), () -> new Item(properties));
             HEADS.put(m, roh);
             UNFINISHED.put(m, rouf);
         }

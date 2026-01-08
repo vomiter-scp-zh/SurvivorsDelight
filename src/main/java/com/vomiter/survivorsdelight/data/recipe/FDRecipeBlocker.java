@@ -22,8 +22,8 @@ import java.util.List;
 public final class FDRecipeBlocker {
 
     private static final List<ResourceLocation> RLS = List.of(
-            SDUtils.RLUtils.build("crafting/fd_straw2tfc_straw.json"),
-            SDUtils.RLUtils.build("crafting/tfc_straw2fd_straw.json")
+            SDUtils.RLUtils.build("crafting/fd_straw2tfc_straw"),
+            SDUtils.RLUtils.build("crafting/tfc_straw2fd_straw")
     );
 
     public static final String FD_NAMESPACE = FarmersDelight.MODID;

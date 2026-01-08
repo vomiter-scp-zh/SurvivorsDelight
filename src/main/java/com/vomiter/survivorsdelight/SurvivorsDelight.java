@@ -33,14 +33,7 @@ import org.slf4j.Logger;
 public class SurvivorsDelight {
     //TODO: add aquaculture support
     //TODO: add tfc cs compat
-
-    //TODO: add washable tag for fd foods
-    //TODO: add ham in book entry
-    //TODO: add item interaction for ceramic feast bowl
-    //TODO: the remainder of feast
-
-    //TODO: update description
-    //TODO: upload to modrinth
+    //TODO: add firmalife cellar compat for feast and pie
 
     //TODO: add familiarity config for ham looting
     //TODO: transfer manual recipes to datagen
