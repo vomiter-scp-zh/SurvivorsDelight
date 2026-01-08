@@ -265,7 +265,7 @@ public final class SDBookEN {
                 .appendWithSpace("Feasts need you to use a bowl to take a serving to eat while pies can be eaten directly or cut into slices with a knife.");
 
         var text8_2 = TextBuilder.of("These blocks decay as normal foods, and when they get rotten, they also turn greenish.")
-                .appendWithSpace("Tou could use special agents to make them food models, which never expire, although this also renders them inedible.");
+                .appendWithSpace("You could use special agents to make them food models, which never expire, although this also renders them inedible.");
 
         entries.entry(
                 EntryJson.builder("pie_and_feast")

@@ -3,26 +3,10 @@
   "category": "misc",
   "key": {
     "F": {
-      "type": "tfc:and",
-      "children": [
-        {
-          "item": "farmersdelight:cod_slice"
-        },
-        {
-          "type": "tfc:not_rotten"
-        }
-      ]
+      "item": "farmersdelight:cod_slice"
     },
     "R": {
-      "type": "tfc:and",
-      "children": [
-        {
-          "item": "tfc:food/cooked_rice"
-        },
-        {
-          "type": "tfc:not_rotten"
-        }
-      ]
+      "item": "tfc:food/cooked_rice"
     }
   },
   "pattern": [

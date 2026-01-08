@@ -4,7 +4,7 @@
     "item": "survivorsdelight:skillet_head/copper"
   },
   "result_fluid": {
-    "amount": 200,
+    "amount": 400,
     "id": "tfc:metal/copper"
   },
   "temperature": 1080.0

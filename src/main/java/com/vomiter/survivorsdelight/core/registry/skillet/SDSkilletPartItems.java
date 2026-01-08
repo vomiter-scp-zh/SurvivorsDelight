@@ -25,8 +25,8 @@ public class SDSkilletPartItems {
     static {
         for (SkilletMaterial m : SkilletMaterial.values()) {
             if(Objects.equals(m.material, "copper_silver") || Objects.equals(m.material, "copper_tin")) continue;
-            DeferredItem<Item> roh = ITEMS.register(m.path_head(), () -> new Item(new Item.Properties()));
-            DeferredItem<Item> rouf = ITEMS.register(m.path_uf(), () -> new Item(new Item.Properties()));
+            DeferredItem<Item> roh = ITEMS.register(m.path_head(), () -> new Item(new Item.Properties().rarity(m.getDefault().rarity())));
+            DeferredItem<Item> rouf = ITEMS.register(m.path_uf(), () -> new Item(new Item.Properties().rarity(m.getDefault().rarity())));
             HEADS.put(m, roh);
             UNFINISHED.put(m, rouf);
         }

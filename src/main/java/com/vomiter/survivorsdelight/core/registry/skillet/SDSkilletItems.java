@@ -38,7 +38,7 @@ public class SDSkilletItems {
         for (SkilletMaterial m : SkilletMaterial.values()) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
             Item.Properties properties = new Item.Properties();
-            properties.durability(m.durability).stacksTo(1);
+            properties.durability(m.durability).stacksTo(1).rarity(m.getDefault().rarity());
             if(m.equals(SkilletMaterial.RED_STEEL) || m.equals(SkilletMaterial.BLUE_STEEL)){
                 properties = properties.fireResistant();
             }
