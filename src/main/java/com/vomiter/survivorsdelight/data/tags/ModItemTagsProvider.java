@@ -208,6 +208,10 @@ public class ModItemTagsProvider extends ItemTagsProvider {
     }
 
     private void addSkilletTags(){
+        var farmers = SDSkilletItems.FARMER.get();
+        tag(TFCTags.Items.DEALS_CRUSHING_DAMAGE).add(farmers);
+        tag(SDTags.ItemTags.SKILLETS).add(farmers);
+
         for (SkilletMaterial m : SkilletMaterial.values()){
             var skillet = SDSkilletItems.getKey(m);
             var head = SDSkilletPartItems.HEADS.get(m);

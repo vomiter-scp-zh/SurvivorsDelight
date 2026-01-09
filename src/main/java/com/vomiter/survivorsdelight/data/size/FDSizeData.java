@@ -5,6 +5,7 @@ import com.vomiter.survivorsdelight.data.tags.SDTags;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.component.size.Size;
 import net.dries007.tfc.common.component.size.Weight;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import vectorwing.farmersdelight.common.registry.ModItems;
 import vectorwing.farmersdelight.common.tag.ModTags;
@@ -19,6 +20,7 @@ public class FDSizeData {
         cutFood();
         pie();
         drink();
+        skillet();
         provider.newEntry(SDUtils.RLUtils.build("food/standard"))
                 .ingredient(SDTags.ItemTags.FOODS_WITH_STANDARD_SIZE)
                 .size(Size.SMALL)
@@ -33,6 +35,24 @@ public class FDSizeData {
                 .ingredient(Ingredient.of(ModItems.DOG_FOOD.get(), ModItems.HORSE_FEED.get()))
                 .size(Size.SMALL)
                 .weight(Weight.LIGHT)
+                .save();
+    }
+
+    void skillet(){
+        provider.newEntry(SDUtils.RLUtils.build("skillets"))
+                .ingredient(SDTags.ItemTags.SKILLETS)
+                .size(Size.VERY_LARGE)
+                .weight(Weight.VERY_HEAVY)
+                .save();
+        provider.newEntry(SDUtils.RLUtils.build("skillet_heads"))
+                .ingredient(SDTags.ItemTags.SKILLET_HEADS)
+                .size(Size.LARGE)
+                .weight(Weight.HEAVY)
+                .save();
+        provider.newEntry(SDUtils.RLUtils.build("unfinished_skillets"))
+                .ingredient(SDTags.ItemTags.UNFINISHED_SKILLETS)
+                .size(Size.LARGE)
+                .weight(Weight.HEAVY)
                 .save();
     }
 
