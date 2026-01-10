@@ -11,7 +11,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public final class SDFoodTraits {
-    public static final String KEY_PREFIX = SurvivorsDelight.MODID + ".tooltip.foodtrait.";
+    public static final String KEY_PREFIX = "foodtrait." + SurvivorsDelight.MODID + ".";
     public static final ResourceKey<Registry<FoodTrait>> KEY =
             ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath("tfc", "food_trait"));
 

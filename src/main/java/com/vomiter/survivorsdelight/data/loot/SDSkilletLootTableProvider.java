@@ -28,7 +28,7 @@ public class SDSkilletLootTableProvider implements DataProvider {
     @Override
     public @NotNull CompletableFuture<?> run(@NotNull CachedOutput cache) {
         var pathProvider = this.output.createPathProvider(
-                PackOutput.Target.DATA_PACK, "loot_tables/blocks"
+                PackOutput.Target.DATA_PACK, "loot_table/blocks"
         );
 
         CompletableFuture<?>[] tasks = Arrays.stream(SkilletMaterial.values())

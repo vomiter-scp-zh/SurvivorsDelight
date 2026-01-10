@@ -88,10 +88,10 @@ public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEn
 
             //play sound
             final BlockPos pos = self.getBlockPos();
-            if (!ItemUtils.isInventoryEmpty(inventory) && wasEmpty) {
+            if (!ItemUtils.isInventoryEmpty(inventory) && wasEmpty && this.isHeated(lvl, pos)) {
                 lvl.playSound(null, pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F,
-                        vectorwing.farmersdelight.common.registry.ModSounds.BLOCK_SKILLET_ADD_FOOD.get(),
-                        net.minecraft.sounds.SoundSource.BLOCKS, 0.8F, 1.0F);
+                        ModSounds.BLOCK_SKILLET_ADD_FOOD.get(),
+                        SoundSource.BLOCKS, 0.8F, 1.0F);
             }
 
             cir.setReturnValue(remainder);

@@ -7,13 +7,16 @@ import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletBlocks;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import vectorwing.farmersdelight.common.registry.ModBlocks;
 import vectorwing.farmersdelight.common.tag.ModTags;
@@ -30,7 +33,11 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
-        SDBlocks.CABINETS.values().forEach(c -> tag(SDTags.BlockTags.CABINETS).add(c.get()));
+        SDBlocks.CABINETS.values().forEach(c -> {
+            tag(SDTags.BlockTags.CABINETS).add(c.get());
+            tag(TagKey.create(BuiltInRegistries.BLOCK.key(), ResourceLocation.fromNamespaceAndPath("minecraft", "mineable/axe")))
+                    .add(c.get());
+        });
         tag(SDTags.BlockTags.FEAST_BLOCKS).add(
                 ModBlocks.HONEY_GLAZED_HAM_BLOCK.get(),
                 ModBlocks.ROAST_CHICKEN_BLOCK.get(),

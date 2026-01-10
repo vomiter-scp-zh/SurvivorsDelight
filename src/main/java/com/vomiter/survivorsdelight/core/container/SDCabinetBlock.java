@@ -16,6 +16,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
@@ -135,14 +136,11 @@ public class SDCabinetBlock extends CabinetBlock {
         if (be instanceof SDCabinetBlockEntity cabinet && !drops.isEmpty()) {
             for (ItemStack drop : drops) {
                 if (drop.getItem() == this.asItem()) {
-                    // 1) 構好要帶到物品上的方塊實體資料
                     CompoundTag tag = new CompoundTag();
                     tag.putBoolean(SDCabinetBlockEntity.TAG_TREATED, cabinet.isTreated());
 
-                    // 2) 寫入 Data Component（等同於舊 BlockEntityTag）
-                    drop.set(DataComponents.BLOCK_ENTITY_DATA, CustomData.of(tag));
+                    BlockItem.setBlockEntityData(drop, cabinet.getType(), tag);
 
-                    // 3) 名稱也建議走 component（setHoverName 仍可用）
                     if (cabinet.hasCustomName()) {
                         drop.set(DataComponents.CUSTOM_NAME, cabinet.getCustomName());
                     }
