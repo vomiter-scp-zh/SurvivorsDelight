@@ -1,8 +1,10 @@
 package com.vomiter.survivorsdelight.mixin.food.block.common;
 
+import com.vomiter.survivorsdelight.compat.firmalife.FLCompatHelpers;
 import com.vomiter.survivorsdelight.core.food.block.SDDecayingBlockEntity;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.dries007.tfc.common.capabilities.food.FoodHandler;
+import net.dries007.tfc.common.capabilities.food.FoodTrait;
 import net.dries007.tfc.common.capabilities.food.IFood;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -13,6 +15,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.fml.ModList;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -30,12 +33,17 @@ public abstract class Block_DecayDropMixin{
             ItemStack srcStack = decay.getStack();
             IFood srcFood = FoodCapability.get(srcStack);
             if(srcFood == null) return drops;
-            drops.stream().forEach(drop -> {
+            drops.forEach(drop -> {
                 IFood dropFood = FoodCapability.get(drop);
                 if(dropFood == null) return;
                 if(dropFood instanceof FoodHandler.Dynamic dynamic && srcFood instanceof FoodHandler.Dynamic srcDynamic){
                     dynamic.setFood(srcFood.getData());
                     dynamic.setIngredients(srcDynamic.getIngredients());
+                }
+                if(ModList.get().isLoaded("firmalife")){
+                    for (FoodTrait trait : FLCompatHelpers.getPossibleShelvedFoodTraits()) {
+                        FoodCapability.removeTrait(srcFood, trait);
+                    }
                 }
                 dropFood.setCreationDate(srcFood.getCreationDate());
                 dropFood.getTraits().addAll(srcFood.getTraits());

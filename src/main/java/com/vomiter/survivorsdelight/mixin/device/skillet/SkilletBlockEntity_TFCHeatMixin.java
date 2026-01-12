@@ -62,6 +62,12 @@ public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEn
 
     @Shadow public abstract void setSkilletItem(ItemStack stack);
 
+    @Shadow
+    public abstract boolean hasStoredStack();
+
+    @Shadow
+    public abstract ItemStack getStoredStack();
+
     // tfc cached recipe
     @Unique private HeatingRecipe sdtfc$cachedHeatingRecipe = null;
 
@@ -73,7 +79,7 @@ public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEn
         survivorsDelight$LOG.info("entered addItemToCook inject");
         final BlockEntity self = (BlockEntity) (Object) this;
         final Level lvl = self.getLevel();
-        if (lvl == null || addedStack.isEmpty()) return;
+        if (lvl == null || addedStack.isEmpty() || hasStoredStack()) return;
 
         // check heating recipes
         HeatingRecipe heating = HeatingRecipe.getRecipe(new ItemStackInventory(addedStack));
@@ -124,8 +130,8 @@ public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEn
         final BlockEntity self = (BlockEntity) (Object) this;
         final BlockPos pos = self.getBlockPos();
 
-        if (level == null || cookingStack.isEmpty()) return;
-        if (sdtfc$hasCampfireRecipe(level, cookingStack)) return;
+        if (level == null || getStoredStack().isEmpty()) return;
+        if (sdtfc$hasCampfireRecipe(level, getStoredStack())) return;
         if(skilletStack.getItem() instanceof SDSkilletItem sdSkilletItem){
             if(!sdSkilletItem.canCook(skilletStack) && skilletStack.is(SDTags.ItemTags.RETURN_COPPER_SKILLET)){
                 CompoundTag tag = skilletStack.serializeNBT();
@@ -146,7 +152,7 @@ public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEn
 
         //check and modify current heat and temperature
         final float belowTemp = sdtfc$getBelowDeviceTemperatureSafe();
-        final IHeat heat = HeatCapability.get(cookingStack);
+        final IHeat heat = HeatCapability.get(getStoredStack());
         if (heat == null || belowTemp <= 0f) {
             ci.cancel();
             return;
@@ -155,7 +161,7 @@ public abstract class SkilletBlockEntity_TFCHeatMixin implements HeatableBlockEn
 
         //if the recipe temperature is reached (this part is modified from iron grill)
         if (sdtfc$cachedHeatingRecipe.isValidTemperature(heat.getTemperature())) {
-            final ItemStack result = sdtfc$cachedHeatingRecipe.assemble(new ItemStackInventory(cookingStack), level.registryAccess());
+            final ItemStack result = sdtfc$cachedHeatingRecipe.assemble(new ItemStackInventory(getStoredStack()), level.registryAccess());
 
             FoodCapability.applyTrait(result, SkilletUtil.skilletCooked);
             FoodCapability.updateFoodDecayOnCreate(result);

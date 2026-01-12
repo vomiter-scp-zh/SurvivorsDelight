@@ -7,6 +7,7 @@
   "mixins": [
     "BlockEntityTypeAccessor",
     "InventoryBlockEntityAccessor",
+    "compat.firmalife.ClimateStationBlockEntityMixin",
     "device.cooking_pot.CookingPotBlock_AddPlayerMixin",
     "device.cooking_pot.CookingPotBlockEntity_Accessor",
     "device.cooking_pot.CookingPotBlockEntity_FluidHandleMixin",
