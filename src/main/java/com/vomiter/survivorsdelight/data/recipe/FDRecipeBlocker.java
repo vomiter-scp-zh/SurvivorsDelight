@@ -2,20 +2,27 @@ package com.vomiter.survivorsdelight.data.recipe;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.core.component.DataComponents;
 import vectorwing.farmersdelight.FarmersDelight;
 import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;
 import vectorwing.farmersdelight.common.crafting.CuttingBoardRecipe;
 import vectorwing.farmersdelight.common.registry.ModItems;
 import vectorwing.farmersdelight.common.registry.ModRecipeTypes;
 
+import java.util.List;
+
 public final class FDRecipeBlocker {
+
+    private static final List<String> OTHER_BLOCKING_ID = List.of(
+            "canvas"
+    );
+
 
     public static final String FD_NAMESPACE = FarmersDelight.MODID;
 
@@ -51,6 +58,7 @@ public final class FDRecipeBlocker {
         ItemStack result = recipe.getResultItem(ra);
 
         if (isFood(result)) return true;
+        if(OTHER_BLOCKING_ID.contains( id.getPath())) return true;
         return OTHER_BLOCKING_TARGET.test(result);
     }
 
