@@ -2,34 +2,27 @@
   "parent": "farmersdelight:main/use_skillet",
   "criteria": {
     "skillet": {
+      "trigger": "minecraft:placed_block",
       "conditions": {
         "location": [
           {
-            "tag": "survivorsdelight:skillets",
-            "condition": "minecraft:block_state_property"
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "blocks": "#survivorsdelight:skillets"
+              }
+            }
           }
         ]
-      },
-      "trigger": "minecraft:placed_block"
+      }
     }
   },
   "display": {
     "announce_to_chat": false,
-    "description": {
-      "translate": "farmersdelight.advancement.place_skillet.desc"
-    },
-    "icon": {
-      "count": 1,
-      "id": "farmersdelight:skillet"
-    },
-    "title": {
-      "translate": "farmersdelight.advancement.place_skillet"
-    }
+    "description": { "translate": "farmersdelight.advancement.place_skillet.desc" },
+    "icon": { "count": 1, "id": "farmersdelight:skillet" },
+    "title": { "translate": "farmersdelight.advancement.place_skillet" }
   },
-  "requirements": [
-    [
-      "skillet"
-    ]
-  ],
+  "requirements": [[ "skillet" ]],
   "sends_telemetry_event": true
 }

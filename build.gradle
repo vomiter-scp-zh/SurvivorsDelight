@@ -29,12 +29,12 @@ repositories {
 
 dependencies {
 
-    implementation "curse.maven:terrafirmacraft-302973:7200482"
+    implementation "curse.maven:terrafirmacraft-302973:7328217"
     implementation "curse.maven:patchouli-306770:6842247"
     implementation "curse.maven:farmers-delight-398521:6917256"
     implementation "curse.maven:survivors-abilities-1354890:7218876"
 
-    //compileOnly "curse.maven:firmalife-453394:6817407"
+    implementation "curse.maven:firmalife-453394:7448866"
     compileOnly "curse.maven:jade-324717:6853386"
     runtimeOnly "curse.maven:jade-324717:6853386"
 

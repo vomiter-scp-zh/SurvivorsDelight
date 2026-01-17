@@ -53,6 +53,7 @@
     "heat.SyncedBlockEntity_GlobalHeatedMixin",
     "heat.source.AbstractFirePit_HSMixin",
     "heat.source.CharcoalForge_HSMixin",
+    "heat.source.compat.firmalife.Oven_HSMixin",
     "jei.CookingRecipeCategory_FluidSlotMixin",
     "loot.LivingEntity_HamConvertMixin",
     "recipe.AnvilBlockEntity_WeldingSkilletMixin",
