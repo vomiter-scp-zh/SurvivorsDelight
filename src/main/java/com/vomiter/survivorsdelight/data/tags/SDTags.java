@@ -9,6 +9,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 
@@ -28,6 +29,7 @@ public class SDTags {
         generator.addProvider(event.includeServer(), blockTags);
         generator.addProvider(event.includeServer(), itemTags);
         generator.addProvider(event.includeServer(), entityTags);
+        generator.addProvider(event.includeServer(), new ModFluidTagsProvider(output, lookupProvider, helper));
     }
 
     public static class BlockTags{
@@ -107,4 +109,21 @@ public class SDTags {
 
     }
 
+    public static class FluidTags {
+        public static TagKey<Fluid> create(String path){
+            return TagKey.create(
+                    Registries.FLUID,
+                    SDUtils.RLUtils.build(SurvivorsDelight.MODID, path)
+            );
+        }
+
+        public static TagKey<Fluid> create(String namespace, String path){
+            return TagKey.create(
+                    Registries.FLUID,
+                    SDUtils.RLUtils.build(namespace, path)
+            );
+        }
+
+        public static TagKey<Fluid> COOKING_OILS = create("cooking_oils");
+    }
 }

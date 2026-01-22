@@ -7,7 +7,9 @@
   "experience": 20.0,
   "fluid": {
     "amount": 100,
-    "ingredient": "tfc:olive_oil"
+    "ingredient": {
+      "tag": "survivorsdelight:cooking_oils"
+    }
   },
   "ingredients": [
     {
@@ -29,10 +31,10 @@
       "type": "tfc:not_rotten",
       "ingredient": [
         {
-          "tag": "survivorsdelight:fruit_for_cheesecake"
+          "tag": "tfc:foods/vegetables"
         },
         {
-          "tag": "tfc:foods/vegetables"
+          "tag": "survivorsdelight:fruit_for_cheesecake"
         }
       ]
     },

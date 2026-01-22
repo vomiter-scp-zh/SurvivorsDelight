@@ -8,9 +8,11 @@ repositories{
 
 dependencies {
     compileOnly fg.deobf("curse.maven:firmalife-453394:6817407")
-    //runtimeOnly fg.deobf("curse.maven:firmalife-453394:6817407")
+    runtimeOnly fg.deobf("curse.maven:firmalife-453394:6817407")
     compileOnly fg.deobf("curse.maven:jade-324717:6855440")
     compileOnly fg.deobf("curse.maven:tfc-tng-rosia-1327333:6890141")
+    //implementation fg.deobf("curse.maven:tfc-ambiental-second-edition-940350:7277343")
+    //implementation fg.deobf("curse.maven:curios-309927:6418456")
 
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
