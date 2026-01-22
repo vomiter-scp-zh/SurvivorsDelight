@@ -7,29 +7,23 @@ import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.dries007.tfc.common.items.Food;
 import net.dries007.tfc.common.items.TFCItems;
-import net.dries007.tfc.common.recipes.ingredients.NotRottenIngredient;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.registries.ForgeRegistries;
 import vectorwing.farmersdelight.common.registry.ModBlocks;
 import vectorwing.farmersdelight.common.registry.ModItems;
 
-import java.util.List;
-import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import static com.vomiter.survivorsdelight.SurvivorsDelight.MODID;
-import static com.vomiter.survivorsdelight.core.registry.SDBlocks.CABINETS;
+import static com.vomiter.survivorsdelight.registry.SDBlocks.CABINETS;
 
 public class SDCraftingRecipes {
     public void save(Consumer<FinishedRecipe> out){

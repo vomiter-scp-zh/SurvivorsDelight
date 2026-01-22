@@ -1,9 +1,9 @@
 package com.vomiter.survivorsdelight.data.tags;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
-import com.vomiter.survivorsdelight.core.registry.SDBlocks;
-import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletBlocks;
+import com.vomiter.survivorsdelight.content.device.skillet.SkilletMaterial;
+import com.vomiter.survivorsdelight.registry.SDBlocks;
+import com.vomiter.survivorsdelight.registry.skillet.SDSkilletBlocks;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.minecraft.core.HolderLookup;

@@ -1,9 +1,9 @@
 package com.vomiter.survivorsdelight.data.book.content;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
-import com.vomiter.survivorsdelight.core.registry.SDItems;
-import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletItems;
+import com.vomiter.survivorsdelight.content.device.skillet.SkilletMaterial;
+import com.vomiter.survivorsdelight.registry.SDItems;
+import com.vomiter.survivorsdelight.registry.skillet.SDSkilletItems;
 import com.vomiter.survivorsdelight.data.book.*;
 import com.vomiter.survivorsdelight.data.book.builder.CategoryJson;
 import com.vomiter.survivorsdelight.data.book.builder.EntryJson;

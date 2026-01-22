@@ -3,7 +3,7 @@ package com.vomiter.survivorsdelight.mixin.food.block;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.datafixers.util.Pair;
 import com.vomiter.survivorsdelight.compat.firmalife.FLCompatHelpers;
-import com.vomiter.survivorsdelight.core.food.block.DecayingPieBlockEntity;
+import com.vomiter.survivorsdelight.content.food.block.DecayingPieBlockEntity;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.dries007.tfc.common.capabilities.food.FoodHandler;
 import net.dries007.tfc.common.capabilities.food.FoodTrait;

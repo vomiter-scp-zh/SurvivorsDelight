@@ -2,7 +2,7 @@ package com.vomiter.survivorsdelight.mixin.recipe;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletPartItems;
+import com.vomiter.survivorsdelight.registry.skillet.SDSkilletPartItems;
 import net.dries007.tfc.common.blockentities.AnvilBlockEntity;
 import net.dries007.tfc.common.capabilities.forge.ForgingBonus;
 import net.minecraft.world.item.ItemStack;

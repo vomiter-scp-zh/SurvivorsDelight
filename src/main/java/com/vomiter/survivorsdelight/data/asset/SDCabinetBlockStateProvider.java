@@ -1,7 +1,7 @@
 package com.vomiter.survivorsdelight.data.asset;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.core.registry.SDBlocks;
+import com.vomiter.survivorsdelight.registry.SDBlocks;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.minecraft.core.Direction;

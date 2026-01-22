@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.mixin.jei;
 
-import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.IFluidRequiringRecipe;
+import com.vomiter.survivorsdelight.content.device.cooking_pot.fluid_handle.IFluidRequiringRecipe;
 import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.recipe.IFocusGroup;

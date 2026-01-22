@@ -3,9 +3,9 @@ package com.vomiter.survivorsdelight.client;
 import com.mojang.blaze3d.platform.Window;
 import com.vomiter.survivorsdelight.client.screen.SDCabinetScreen;
 import com.vomiter.survivorsdelight.compat.jei.JEIHelpers;
-import com.vomiter.survivorsdelight.core.container.SDCabinetBlockEntity;
-import com.vomiter.survivorsdelight.core.container.SDCabinetMenu;
-import com.vomiter.survivorsdelight.core.device.stove.IStoveBlockEntity;
+import com.vomiter.survivorsdelight.content.container.SDCabinetBlockEntity;
+import com.vomiter.survivorsdelight.content.container.SDCabinetMenu;
+import com.vomiter.survivorsdelight.content.device.stove.IStoveBlockEntity;
 import com.vomiter.survivorsdelight.data.food.SDFallbackFoodData;
 import net.dries007.tfc.client.ClientHelpers;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
@@ -17,22 +17,17 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
-import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
-
-import javax.annotation.Nullable;
 
 public class ClientForgeEventHandler {
 

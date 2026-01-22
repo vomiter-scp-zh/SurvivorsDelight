@@ -18,7 +18,7 @@
     "device.skillet.SkilletBlockEntity_TFCHeatMixin",
     "device.skillet.SkilletItem_TFCHeatMixin",
     "device.stove.StoveBlock_FuelAndHeat",
-    "device.stove.StoveBlock_PlacePot",
+    "compat.firmalife.StoveBlock_PlacePot",
     "device.stove.StoveBlockEntity_Accessor",
     "device.stove.StoveBlockEntity_FuelAndHeat",
     "farming.farmland.ClimateRangeInvoker",

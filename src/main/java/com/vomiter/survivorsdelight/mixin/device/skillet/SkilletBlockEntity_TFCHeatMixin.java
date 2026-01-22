@@ -1,10 +1,9 @@
 package com.vomiter.survivorsdelight.mixin.device.skillet;
 
-import com.vomiter.survivorsdelight.core.device.skillet.SDSkilletItem;
-import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
-import com.vomiter.survivorsdelight.core.device.skillet.SkilletUtil;
+import com.vomiter.survivorsdelight.content.device.skillet.SDSkilletItem;
+import com.vomiter.survivorsdelight.content.device.skillet.SkilletMaterial;
+import com.vomiter.survivorsdelight.content.device.skillet.SkilletUtil;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
-import com.vomiter.survivorsdelight.data.tags.SDTags.ItemTags;
 import com.vomiter.survivorsdelight.util.HeatHelper;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.dries007.tfc.common.capabilities.heat.HeatCapability;
