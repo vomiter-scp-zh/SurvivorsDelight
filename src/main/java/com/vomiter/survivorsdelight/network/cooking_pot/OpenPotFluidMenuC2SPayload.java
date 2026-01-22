@@ -1,7 +1,6 @@
 package com.vomiter.survivorsdelight.network.cooking_pot;
 
-import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.SDCookingPotFluidMenu;
+import com.vomiter.survivorsdelight.content.device.cooking_pot.fluid_handle.SDCookingPotFluidMenu;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -9,7 +8,6 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleMenuProvider;
 import net.neoforged.neoforge.network.handling.IPayloadContext;

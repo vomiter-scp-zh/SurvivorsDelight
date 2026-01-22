@@ -1,9 +1,9 @@
 package com.vomiter.survivorsdelight.mixin.device.skillet;
 
-import com.vomiter.survivorsdelight.core.device.skillet.SDSkilletItem;
-import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
-import com.vomiter.survivorsdelight.core.device.skillet.SkilletUtil;
-import com.vomiter.survivorsdelight.core.device.skillet.itemcooking.SkilletCookingCap;
+import com.vomiter.survivorsdelight.content.device.skillet.SDSkilletItem;
+import com.vomiter.survivorsdelight.content.device.skillet.SkilletMaterial;
+import com.vomiter.survivorsdelight.content.device.skillet.SkilletUtil;
+import com.vomiter.survivorsdelight.content.device.skillet.itemcooking.SkilletCookingCap;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
 import com.vomiter.survivorsdelight.util.HeatHelper;
 import com.vomiter.survivorsdelight.util.SDUtils;
@@ -11,7 +11,6 @@ import net.dries007.tfc.common.component.food.FoodCapability;
 import net.dries007.tfc.common.component.heat.HeatCapability;
 import net.dries007.tfc.common.component.heat.IHeat;
 import net.dries007.tfc.common.recipes.HeatingRecipe;
-import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;

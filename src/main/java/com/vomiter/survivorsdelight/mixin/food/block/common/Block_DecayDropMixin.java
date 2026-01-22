@@ -1,15 +1,19 @@
 package com.vomiter.survivorsdelight.mixin.food.block.common;
 
-import com.vomiter.survivorsdelight.core.food.block.SDDecayingBlockEntity;
+import com.vomiter.survivorsdelight.compat.firmalife.FLCompatHelpers;
+import com.vomiter.survivorsdelight.content.food.block.SDDecayingBlockEntity;
 import net.dries007.tfc.common.component.food.FoodCapability;
+import net.dries007.tfc.common.component.food.FoodTrait;
 import net.dries007.tfc.common.component.food.IFood;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.fml.ModList;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -31,6 +35,12 @@ public abstract class Block_DecayDropMixin{
                 if(dropFood == null) return;
                 FoodCapability.setCreationDate(drop, srcFood.getCreationDate());
                 dropFood.getTraits().addAll(srcFood.getTraits());
+                if(ModList.get().isLoaded("firmalife")){
+                    for (Holder<FoodTrait> possibleShelvedFoodTrait : FLCompatHelpers.getPossibleShelvedFoodTraits()) {
+                        FoodCapability.removeTrait(drop, possibleShelvedFoodTrait);
+                    }
+                }
+
             });
         }
         return drops;

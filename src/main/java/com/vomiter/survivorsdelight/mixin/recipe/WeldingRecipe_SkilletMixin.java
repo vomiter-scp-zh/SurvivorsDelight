@@ -1,7 +1,6 @@
 package com.vomiter.survivorsdelight.mixin.recipe;
 
-import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletPartItems;
-import com.vomiter.survivorsdelight.data.tags.SDTags;
+import com.vomiter.survivorsdelight.registry.skillet.SDSkilletPartItems;
 import net.dries007.tfc.common.component.TFCComponents;
 import net.dries007.tfc.common.component.forge.ForgingBonus;
 import net.dries007.tfc.common.component.forge.ForgingBonusComponent;

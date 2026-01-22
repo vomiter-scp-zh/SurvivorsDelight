@@ -1,19 +1,16 @@
 package com.vomiter.survivorsdelight.data.food;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.core.registry.SDRecipeSerializers;
-import com.vomiter.survivorsdelight.core.registry.recipe.NutrientShapedRecipe;
+import com.vomiter.survivorsdelight.registry.SDRecipeSerializers;
+import com.vomiter.survivorsdelight.registry.recipe.NutrientShapedRecipe;
 import com.vomiter.survivorsdelight.data.recipe.builder.SDCookingPotRecipeBuilder;
 import com.vomiter.survivorsdelight.util.SDUtils;
-import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.component.food.FoodData;
 import net.dries007.tfc.common.items.Food;
-import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;

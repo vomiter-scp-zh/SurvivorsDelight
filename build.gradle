@@ -29,7 +29,9 @@ repositories {
 
 dependencies {
 
-    implementation "curse.maven:terrafirmacraft-302973:7328217"
+    //implementation "curse.maven:terrafirmacraft-302973:7452541"//17 => BREAKING
+    implementation "curse.maven:terrafirmacraft-302973:7343990" //16
+    //implementation "curse.maven:terrafirmacraft-302973:7328217" //10
     implementation "curse.maven:patchouli-306770:6842247"
     implementation "curse.maven:farmers-delight-398521:6917256"
     implementation "curse.maven:survivors-abilities-1354890:7218876"

@@ -1,10 +1,10 @@
 package com.vomiter.survivorsdelight.data.tags;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
-import com.vomiter.survivorsdelight.core.registry.SDBlocks;
-import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletItems;
-import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletPartItems;
+import com.vomiter.survivorsdelight.content.device.skillet.SkilletMaterial;
+import com.vomiter.survivorsdelight.registry.SDBlocks;
+import com.vomiter.survivorsdelight.registry.skillet.SDSkilletItems;
+import com.vomiter.survivorsdelight.registry.skillet.SDSkilletPartItems;
 import com.vomiter.survivorsdelight.data.food.SDBasicFoodData;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.TFCTags;
@@ -21,7 +21,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
 import vectorwing.farmersdelight.common.registry.ModItems;

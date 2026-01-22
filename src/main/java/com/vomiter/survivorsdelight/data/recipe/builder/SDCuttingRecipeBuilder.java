@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.data.recipe.builder;
 
-import com.vomiter.survivorsdelight.core.registry.recipe.SDCuttingRecipe;
+import com.vomiter.survivorsdelight.registry.recipe.SDCuttingRecipe;
 import net.dries007.tfc.common.recipes.ingredients.AndIngredient;
 import net.dries007.tfc.common.recipes.ingredients.NotRottenIngredient;
 import net.dries007.tfc.common.recipes.outputs.ItemStackProvider;

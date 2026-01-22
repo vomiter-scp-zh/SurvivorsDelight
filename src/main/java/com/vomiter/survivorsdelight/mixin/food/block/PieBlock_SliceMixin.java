@@ -1,11 +1,14 @@
 package com.vomiter.survivorsdelight.mixin.food.block;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import com.vomiter.survivorsdelight.core.food.block.DecayingPieBlockEntity;
+import com.vomiter.survivorsdelight.compat.firmalife.FLCompatHelpers;
+import com.vomiter.survivorsdelight.content.food.block.DecayingPieBlockEntity;
 import net.dries007.tfc.common.component.food.FoodCapability;
+import net.dries007.tfc.common.component.food.FoodTrait;
 import net.dries007.tfc.common.component.food.IFood;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.ItemInteractionResult;
@@ -15,6 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.fml.ModList;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -53,11 +57,11 @@ public abstract class PieBlock_SliceMixin{
         return value;
     }
 
-    @ModifyVariable(method = "consumeBite", at = @At(value = "STORE"))
+    @ModifyVariable(method = "consumeBite", at = @At(value = "STORE"), name = "sliceFood")
     private FoodProperties sdtfc$modifyAddedEffects(
             FoodProperties value,
-            @Local(argsOnly = true) Level level,
-            @Local(argsOnly = true) BlockPos pos
+            @Local(argsOnly = true, name = "arg1") Level level,
+            @Local(argsOnly = true, name = "arg2") BlockPos pos
     ){
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if(blockEntity instanceof DecayingPieBlockEntity decay) {
@@ -82,5 +86,11 @@ public abstract class PieBlock_SliceMixin{
 
         FoodCapability.setCreationDate(slice, srcFood.getCreationDate());
         FoodCapability.updateFoodFromPrevious(src, slice);
+        if(ModList.get().isLoaded("firmalife")){
+            for (Holder<FoodTrait> possibleShelvedFoodTrait : FLCompatHelpers.getPossibleShelvedFoodTraits()) {
+                FoodCapability.removeTrait(slice, possibleShelvedFoodTrait);
+            }
+        }
+
     }
 }

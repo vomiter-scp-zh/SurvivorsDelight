@@ -1,9 +1,9 @@
 package com.vomiter.survivorsdelight.mixin.device.cooking_pot;
 
-import com.vomiter.survivorsdelight.core.device.cooking_pot.ICookingPotHasChanged;
-import com.vomiter.survivorsdelight.core.device.cooking_pot.bridge.ICookingPotRecipeBridge;
-import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.ICookingPotFluidAccess;
-import com.vomiter.survivorsdelight.core.registry.recipe.SDCookingPotRecipe;
+import com.vomiter.survivorsdelight.content.device.cooking_pot.ICookingPotHasChanged;
+import com.vomiter.survivorsdelight.content.device.cooking_pot.bridge.ICookingPotRecipeBridge;
+import com.vomiter.survivorsdelight.content.device.cooking_pot.fluid_handle.ICookingPotFluidAccess;
+import com.vomiter.survivorsdelight.registry.recipe.SDCookingPotRecipe;
 import com.vomiter.survivorsdelight.network.SDNetwork;
 import com.vomiter.survivorsdelight.network.cooking_pot.PotFluidSyncS2CPayload;
 import net.dries007.tfc.common.fluids.FluidHelpers;

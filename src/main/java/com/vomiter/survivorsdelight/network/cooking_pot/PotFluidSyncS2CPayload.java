@@ -1,7 +1,6 @@
 package com.vomiter.survivorsdelight.network.cooking_pot;
 
-import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.SDCookingPotFluidMenu;
-import com.vomiter.survivorsdelight.SurvivorsDelight;
+import com.vomiter.survivorsdelight.content.device.cooking_pot.fluid_handle.SDCookingPotFluidMenu;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;

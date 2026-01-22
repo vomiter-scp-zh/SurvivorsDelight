@@ -4,13 +4,13 @@ import com.mojang.logging.LogUtils;
 import com.vomiter.survivorsdelight.client.ClientForgeEventHandler;
 import com.vomiter.survivorsdelight.client.SaladPredicates;
 import com.vomiter.survivorsdelight.client.SandwichPredicates;
-import com.vomiter.survivorsdelight.core.ForgeEventHandler;
-import com.vomiter.survivorsdelight.core.container.SDCabinetBlockEntity;
-import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.SDCookingPotCapabilities;
-import com.vomiter.survivorsdelight.core.device.skillet.itemcooking.SkilletCookingCap;
-import com.vomiter.survivorsdelight.core.farming.RichSoilFarmlandBlockEntitySetup;
-import com.vomiter.survivorsdelight.core.registry.SDRegistries;
-import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletBlocks;
+import com.vomiter.survivorsdelight.content.ForgeEventHandler;
+import com.vomiter.survivorsdelight.content.container.SDCabinetBlockEntity;
+import com.vomiter.survivorsdelight.content.device.cooking_pot.fluid_handle.SDCookingPotCapabilities;
+import com.vomiter.survivorsdelight.content.device.skillet.itemcooking.SkilletCookingCap;
+import com.vomiter.survivorsdelight.content.farming.RichSoilFarmlandBlockEntitySetup;
+import com.vomiter.survivorsdelight.registry.SDRegistries;
+import com.vomiter.survivorsdelight.registry.skillet.SDSkilletBlocks;
 import com.vomiter.survivorsdelight.data.food.SDFoodAndRecipeGenerator;
 import com.vomiter.survivorsdelight.network.SDNetwork;
 import net.neoforged.api.distmarker.Dist;
@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 public class SurvivorsDelight {
     //TODO: add aquaculture support
     //TODO: add tfc cs compat
+    //TODO: FL oils as food cooking oil
 
     //TODO: test effect in actual instance
 

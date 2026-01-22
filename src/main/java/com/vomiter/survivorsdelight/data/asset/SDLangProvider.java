@@ -1,9 +1,9 @@
 package com.vomiter.survivorsdelight.data.asset;
 
-import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
-import com.vomiter.survivorsdelight.core.registry.SDBlocks;
-import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletBlocks;
-import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletPartItems;
+import com.vomiter.survivorsdelight.content.device.skillet.SkilletMaterial;
+import com.vomiter.survivorsdelight.registry.SDBlocks;
+import com.vomiter.survivorsdelight.registry.skillet.SDSkilletBlocks;
+import com.vomiter.survivorsdelight.registry.skillet.SDSkilletPartItems;
 import net.dries007.tfc.TerraFirmaCraft;
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.minecraft.Util;

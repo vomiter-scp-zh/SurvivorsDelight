@@ -1,9 +1,9 @@
 package com.vomiter.survivorsdelight.data.recipe;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
-import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletItems;
-import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletPartItems;
+import com.vomiter.survivorsdelight.content.device.skillet.SkilletMaterial;
+import com.vomiter.survivorsdelight.registry.skillet.SDSkilletItems;
+import com.vomiter.survivorsdelight.registry.skillet.SDSkilletPartItems;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.component.forge.ForgeRule;
 import net.dries007.tfc.common.items.TFCItems;

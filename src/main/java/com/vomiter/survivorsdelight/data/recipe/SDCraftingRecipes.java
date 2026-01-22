@@ -1,8 +1,8 @@
 package com.vomiter.survivorsdelight.data.recipe;
 
-import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
-import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletItems;
-import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletPartItems;
+import com.vomiter.survivorsdelight.content.device.skillet.SkilletMaterial;
+import com.vomiter.survivorsdelight.registry.skillet.SDSkilletItems;
+import com.vomiter.survivorsdelight.registry.skillet.SDSkilletPartItems;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.TFCTags;
@@ -13,7 +13,6 @@ import net.dries007.tfc.common.items.TFCItems;
 import net.dries007.tfc.util.DataGenerationHelpers;
 import net.dries007.tfc.util.Metal;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
@@ -28,7 +27,7 @@ import vectorwing.farmersdelight.common.registry.ModItems;
 import java.util.Arrays;
 
 import static com.vomiter.survivorsdelight.SurvivorsDelight.MODID;
-import static com.vomiter.survivorsdelight.core.registry.SDBlocks.CABINETS;
+import static com.vomiter.survivorsdelight.registry.SDBlocks.CABINETS;
 
 public class SDCraftingRecipes {
     public void save(RecipeOutput out){

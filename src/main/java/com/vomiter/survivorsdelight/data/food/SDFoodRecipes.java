@@ -30,6 +30,8 @@ import java.util.stream.Stream;
 
 public class SDFoodRecipes {
     TagKey<Fluid> milks = Tags.Fluids.MILK;
+    TagKey<Fluid> oils = SDTags.FluidTags.COOKING_OILS;
+    
     private SDFoodAndRecipeGenerator.CookingBuilder cook(String id, ItemLike outItem, int count, int time, int exp) {
         return SurvivorsDelight.foodAndCookingGenerator.cooking(id, outItem, count, time, exp, null);
     }
@@ -116,8 +118,6 @@ public class SDFoodRecipes {
 
     /* ---------------------- FEAST ---------------------- */
     public void feast(RecipeOutput out){
-        var oliveOil = TFCFluids.SIMPLE_FLUIDS.get(SimpleFluid.OLIVE_OIL).getSource();
-
         cook("feast/shepherds_pie", ModItems.SHEPHERDS_PIE_BLOCK.get(), 1, 1200, 20, Items.BOWL)
                 .food(SDTags.ItemTags.MEATS_FOR_SHEPHERDS_PIE)
                 .food(SDTags.ItemTags.MEATS_FOR_SHEPHERDS_PIE)
@@ -133,7 +133,7 @@ public class SDFoodRecipes {
                 .food(ModItems.SMOKED_HAM.get())
                 .food(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE)
                 .food(SDTags.ItemTags.TFC_DOUGHS)
-                .fluid(oliveOil, 100)
+                .fluid(oils, 100)
                 .build(out)
                 .saveFoodData();
 
@@ -143,7 +143,7 @@ public class SDFoodRecipes {
                 .food(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE)
                 .food(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE)
                 .food(SDTags.ItemTags.TFC_DOUGHS)
-                .fluid(oliveOil, 100)
+                .fluid(oils, 100)
                 .build(out);
 
         cook("feast/honey_glazed_ham3", ModItems.HONEY_GLAZED_HAM_BLOCK.get(), 1, 1200, 20, Items.BOWL)
@@ -152,7 +152,7 @@ public class SDFoodRecipes {
                 .food(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE)
                 .food(SDTags.ItemTags.TFC_VEGETABLES)
                 .food(SDTags.ItemTags.TFC_DOUGHS)
-                .fluid(oliveOil, 100)
+                .fluid(oils, 100)
                 .build(out);
 
 
@@ -162,7 +162,7 @@ public class SDFoodRecipes {
                 .food(SDTags.ItemTags.TFC_FRUITS)
                 .food(SDTags.ItemTags.TFC_VEGETABLES)
                 .food(Food.ONION)
-                .fluid(oliveOil, 100)
+                .fluid(oils, 100)
                 .build(out)
                 .saveFoodData();
 
@@ -171,7 +171,7 @@ public class SDFoodRecipes {
                 .food(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE)
                 .food(SDTags.ItemTags.TFC_VEGETABLES)
                 .food(SDTags.ItemTags.TFC_GRAINS)
-                .fluid(oliveOil, 100)
+                .fluid(oils, 100)
                 .build(out) 
                 .saveFoodData();
 
@@ -179,13 +179,13 @@ public class SDFoodRecipes {
 
     /* ---------------------- MEAL ---------------------- */
     public void meal(RecipeOutput out){
-        var oliveOil = TFCFluids.SIMPLE_FLUIDS.get(SimpleFluid.OLIVE_OIL).getSource();
+        var oils = TFCFluids.SIMPLE_FLUIDS.get(SimpleFluid.OLIVE_OIL).getSource();
 
         cook("meal/fried_rice", ModItems.FRIED_RICE.get(), 1, 600, 15, Items.BOWL)
                 .food(Food.COOKED_RICE)
                 .food(Food.COOKED_EGG)
                 .food(Food.ONION)
-                .fluid(oliveOil, 100)
+                .fluid(oils, 100)
                 .build(out) 
                 .saveFoodData();
 
@@ -194,7 +194,7 @@ public class SDFoodRecipes {
                 .food(Food.COOKED_EGG)
                 .food(ModItems.COOKED_BACON.get(), FoodData.EMPTY)
                 .food(ModItems.COOKED_BACON.get(), getTFCFoodData(Food.COOKED_PORK))
-                .fluid(oliveOil, 100)
+                .fluid(oils, 100)
                 .build(out) 
                 .saveFoodData();
 
@@ -203,7 +203,7 @@ public class SDFoodRecipes {
                 .food(ModItems.RAW_PASTA.get())
                 .food(ModItems.BEEF_PATTY.get())
                 .food(ModItems.BEEF_PATTY.get())
-                .fluid(oliveOil, 100)
+                .fluid(oils, 100)
                 .build(out) 
                 .saveFoodData();
 
@@ -211,7 +211,7 @@ public class SDFoodRecipes {
                 .food(ModItems.TOMATO_SAUCE.get())
                 .food(ModItems.RAW_PASTA.get())
                 .food(TFCItems.FOOD.get(Food.COOKED_MUTTON).get())
-                .fluid(oliveOil, 100)
+                .fluid(oils, 100)
                 .build(out) 
                 .saveFoodData();
 
@@ -219,7 +219,7 @@ public class SDFoodRecipes {
                 .food(Food.MUTTON)
                 .food(Food.TOMATO)
                 .food(SDTags.ItemTags.create("tfc", "foods/grains"), getTFCFoodData(Food.COOKED_RICE))
-                .fluid(oliveOil, 100)
+                .fluid(oils, 100)
                 .build(out) 
                 .saveFoodData();
 
@@ -228,7 +228,7 @@ public class SDFoodRecipes {
                 .food(SDTags.ItemTags.TFC_VEGETABLES)
                 .food(SDTags.ItemTags.TFC_VEGETABLES)
                 .food(SDTags.ItemTags.TFC_VEGETABLES)
-                .fluid(oliveOil, 100)
+                .fluid(oils, 100)
                 .build(out) 
                 .saveFoodData();
 
@@ -236,7 +236,7 @@ public class SDFoodRecipes {
                 .food(Food.COOKED_BEEF)
                 .food(Food.BAKED_POTATO)
                 .food(Food.ONION)
-                .fluid(oliveOil, 100)
+                .fluid(oils, 100)
                 .build(out) 
                 .saveFoodData();
 
@@ -246,7 +246,7 @@ public class SDFoodRecipes {
                 .food(SDTags.ItemTags.TFC_VEGETABLES)
                 .food(SDTags.ItemTags.TFC_VEGETABLES)
                 .food(SDTags.ItemTags.TFC_VEGETABLES)
-                .fluid(oliveOil, 100)
+                .fluid(oils, 100)
                 .build(out) 
                 .saveFoodData();
 
@@ -255,7 +255,7 @@ public class SDFoodRecipes {
                 .nonfood(Items.INK_SAC)
                 .food(Food.COOKED_CALAMARI)
                 .food(Food.GARLIC)
-                .fluid(oliveOil, 100)
+                .fluid(oils, 100)
                 .build(out) 
                 .saveFoodData();
 
@@ -263,7 +263,7 @@ public class SDFoodRecipes {
                 .food(Food.COOKED_SALMON)
                 .food(Food.ONION)
                 .food(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE)
-                .fluid(oliveOil, 100)
+                .fluid(oils, 100)
                 .build(out) 
                 .saveFoodData();
 

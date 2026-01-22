@@ -1,7 +1,7 @@
 package com.vomiter.survivorsdelight.mixin.device.cutting;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.core.registry.recipe.SDCuttingRecipe;
+import com.vomiter.survivorsdelight.registry.recipe.SDCuttingRecipe;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;

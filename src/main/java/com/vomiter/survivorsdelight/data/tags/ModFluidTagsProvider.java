@@ -1,5 +1,10 @@
 package com.vomiter.survivorsdelight.data.tags;
 
+import com.eerussianguy.firmalife.FirmaLife;
+import com.eerussianguy.firmalife.common.blocks.FLFluids;
+import com.eerussianguy.firmalife.common.util.ExtraFluid;
+import net.dries007.tfc.common.fluids.SimpleFluid;
+import net.dries007.tfc.common.fluids.TFCFluids;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.FluidTagsProvider;
@@ -16,6 +21,9 @@ public class ModFluidTagsProvider extends FluidTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
+        tag(SDTags.FluidTags.COOKING_OILS)
+                .add(TFCFluids.SIMPLE_FLUIDS.get(SimpleFluid.OLIVE_OIL).getSource())
+                .addOptional(FLFluids.EXTRA_FLUIDS.get(ExtraFluid.SOYBEAN_OIL).type().getId());
     }
 
 }

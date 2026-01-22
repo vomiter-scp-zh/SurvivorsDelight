@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vomiter.survivorsdelight.core.registry.recipe.SDCookingPotRecipe;
+import com.vomiter.survivorsdelight.registry.recipe.SDCookingPotRecipe;
 
 public class SDCookingPotRecipeBuilder {
     private String group = "";

@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.compat.jade;
 
-import com.vomiter.survivorsdelight.core.food.block.SDDecayingBlockEntity;
+import com.vomiter.survivorsdelight.content.food.block.SDDecayingBlockEntity;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.component.food.FoodCapability;
 import net.minecraft.network.chat.Component;

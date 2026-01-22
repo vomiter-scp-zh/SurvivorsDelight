@@ -1,9 +1,9 @@
 package com.vomiter.survivorsdelight.data.book.content;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
-import com.vomiter.survivorsdelight.core.registry.SDItems;
-import com.vomiter.survivorsdelight.core.registry.skillet.SDSkilletItems;
+import com.vomiter.survivorsdelight.content.device.skillet.SkilletMaterial;
+import com.vomiter.survivorsdelight.registry.SDItems;
+import com.vomiter.survivorsdelight.registry.skillet.SDSkilletItems;
 import com.vomiter.survivorsdelight.data.book.SDPatchouliCategoryProvider;
 import com.vomiter.survivorsdelight.data.book.SDPatchouliEntryProvider;
 import com.vomiter.survivorsdelight.data.book.TFCGuide;

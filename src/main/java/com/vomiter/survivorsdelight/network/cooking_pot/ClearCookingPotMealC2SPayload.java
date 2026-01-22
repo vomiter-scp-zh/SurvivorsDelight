@@ -1,7 +1,7 @@
 package com.vomiter.survivorsdelight.network.cooking_pot;
 
-import com.vomiter.survivorsdelight.core.device.cooking_pot.ICookingPotCommonMenu;
-import com.vomiter.survivorsdelight.core.device.cooking_pot.bridge.ICookingPotRecipeBridge;
+import com.vomiter.survivorsdelight.content.device.cooking_pot.ICookingPotCommonMenu;
+import com.vomiter.survivorsdelight.content.device.cooking_pot.bridge.ICookingPotRecipeBridge;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;

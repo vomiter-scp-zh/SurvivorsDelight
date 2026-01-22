@@ -7,7 +7,7 @@
   "cookingtime": 1200,
   "experience": 20.0,
   "fluid": {
-    "fluid": "tfc:olive_oil"
+    "tag": "survivorsdelight:cooking_oils"
   },
   "fluid_amount": 100,
   "ingredients": [

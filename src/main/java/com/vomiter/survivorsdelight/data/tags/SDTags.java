@@ -40,6 +40,7 @@ public class SDTags {
                     SDUtils.RLUtils.build(SurvivorsDelight.MODID, path)
             );
         }
+        public static TagKey<Fluid> COOKING_OILS = create("cooking_oils");
     }
 
     public static class BlockTags{

@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.client.tint;
 
-import com.vomiter.survivorsdelight.core.food.block.SDDecayingBlockEntity;
+import com.vomiter.survivorsdelight.content.food.block.SDDecayingBlockEntity;
 import net.dries007.tfc.config.TFCConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockAndTintGetter;

@@ -1,9 +1,8 @@
 package com.vomiter.survivorsdelight.mixin.food.remainder;
 
-import com.vomiter.survivorsdelight.core.food.IConsumableRemainder;
+import com.vomiter.survivorsdelight.content.food.IConsumableRemainder;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
-import vectorwing.farmersdelight.common.item.ConsumableItem;
 
 @Mixin(ItemStack.class)
 public abstract class ItemStack_RemainderMixin implements IConsumableRemainder {

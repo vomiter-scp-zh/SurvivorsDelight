@@ -2,8 +2,8 @@ package com.vomiter.survivorsdelight.mixin.food.remainder;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.vomiter.survivorsdelight.core.registry.SDDataComponents;
-import com.vomiter.survivorsdelight.core.registry.component.SDContainer;
+import com.vomiter.survivorsdelight.registry.SDDataComponents;
+import com.vomiter.survivorsdelight.registry.component.SDContainer;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.component.Bowl;

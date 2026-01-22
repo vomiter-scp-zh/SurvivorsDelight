@@ -7,6 +7,8 @@
   "mixins": [
     "BlockEntityTypeAccessor",
     "InventoryBlockEntityAccessor",
+    "compat.firmalife.ClimateStationBlockEntityMixin",
+    "compat.firmalife.StoveBlock_PlacePot",
     "debug.IdDispatchCodec_DebugMixin",
     "debug.RecipeHolder_StreamCodecDebugMixin",
     "device.cooking_pot.CookingPotBlock_AddPlayerMixin",
@@ -21,7 +23,6 @@
     "device.skillet.SkilletBlockEntity_TFCHeatMixin",
     "device.skillet.SkilletItem_TFCHeatMixin",
     "device.stove.StoveBlock_FuelAndHeat",
-    "device.stove.StoveBlock_PlacePot",
     "device.stove.StoveBlockEntity_Accessor",
     "device.stove.StoveBlockEntity_FuelAndHeat",
     "farming.farmland.Block_CropExtraSeedDropMixin",
