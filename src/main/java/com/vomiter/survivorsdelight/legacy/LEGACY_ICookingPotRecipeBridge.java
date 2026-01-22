@@ -1,8 +1,9 @@
-package com.vomiter.survivorsdelight.content.device.cooking_pot.bridge;
+package com.vomiter.survivorsdelight.legacy;
 
+import com.vomiter.survivorsdelight.content.device.cooking_pot.bridge.TFCPotRecipeBridgeFD;
 import net.minecraft.world.item.ItemStack;
 
-public interface ICookingPotRecipeBridge {
+public interface LEGACY_ICookingPotRecipeBridge {
     void sdtfc$setCachedBridge(TFCPotRecipeBridgeFD recipe);
     void sdtfc$setCachedDynamicFoodResult(ItemStack item);
     TFCPotRecipeBridgeFD sdtfc$getCachedBridge();

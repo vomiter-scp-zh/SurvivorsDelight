@@ -1,7 +1,7 @@
 package com.vomiter.survivorsdelight.network.cooking_pot;
 
 import com.vomiter.survivorsdelight.content.device.cooking_pot.ICookingPotCommonMenu;
-import com.vomiter.survivorsdelight.content.device.cooking_pot.bridge.ICookingPotRecipeBridge;
+import com.vomiter.survivorsdelight.legacy.LEGACY_ICookingPotRecipeBridge;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -56,8 +56,9 @@ public record ClearCookingPotMealC2SPayload(BlockPos pos) implements CustomPacke
             if (!isAndConsumeWaterBucket(carried)) return;
 
             meal.setCount(0);
-            ((ICookingPotRecipeBridge) pot).sdtfc$setCachedDynamicFoodResult(ItemStack.EMPTY);
-            ((ICookingPotRecipeBridge) pot).sdtfc$setCachedBridge(null);
+            //TODO: use other interface, this one is deprecated
+            ((LEGACY_ICookingPotRecipeBridge) pot).sdtfc$setCachedDynamicFoodResult(ItemStack.EMPTY);
+            ((LEGACY_ICookingPotRecipeBridge) pot).sdtfc$setCachedBridge(null);
             pot.setChanged();
             ((net.minecraft.world.inventory.AbstractContainerMenu) commonMenu).broadcastChanges();
         });

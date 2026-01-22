@@ -1,8 +1,8 @@
-package com.vomiter.survivorsdelight.mixin.device.cooking_pot;
+package com.vomiter.survivorsdelight.mixin.legacy.forge1201;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.vomiter.survivorsdelight.content.device.cooking_pot.bridge.ICookingPotRecipeBridge;
+import com.vomiter.survivorsdelight.legacy.LEGACY_ICookingPotRecipeBridge;
 import com.vomiter.survivorsdelight.content.device.cooking_pot.bridge.TFCPotRecipeBridgeFD;
 import com.vomiter.survivorsdelight.content.device.cooking_pot.fluid_handle.ICookingPotFluidAccess;
 import com.vomiter.survivorsdelight.content.device.cooking_pot.fluid_handle.IFluidRequiringRecipe;
@@ -45,7 +45,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 @Mixin(value = CookingPotBlockEntity.class, remap = false)
-public abstract class CookingPotBlockEntity_PotRecipeBridgeMixin extends SyncedBlockEntity implements ICookingPotRecipeBridge {
+public abstract class LEGACY_CookingPotBlockEntity_PotRecipeBridgeMixin extends SyncedBlockEntity implements LEGACY_ICookingPotRecipeBridge {
 
     @Shadow @Final private ItemStackHandler inventory;
     @Shadow private int cookTime;
@@ -80,7 +80,7 @@ public abstract class CookingPotBlockEntity_PotRecipeBridgeMixin extends SyncedB
             @Local Optional<CookingPotRecipe> recipe
     ){
 
-        if(!((ICookingPotRecipeBridge)cookingPot).sdtfc$getCachedDynamicFoodResult().isEmpty()) return;
+        if(!((LEGACY_ICookingPotRecipeBridge)cookingPot).sdtfc$getCachedDynamicFoodResult().isEmpty()) return;
         recipe.ifPresent(r -> {
             if(r instanceof TFCPotRecipeBridgeFD) return;
             var originalResult = r.getResultItem(level.registryAccess()).copy();
@@ -140,7 +140,7 @@ public abstract class CookingPotBlockEntity_PotRecipeBridgeMixin extends SyncedB
             FoodCapability.setFoodForDynamicItemOnCreate(
                     originalResult,
                     new FoodData(hunger, water, saturation, 0, nutrition, 4.5f));
-            ((ICookingPotRecipeBridge)cookingPot).sdtfc$setCachedDynamicFoodResult(originalResult);
+            ((LEGACY_ICookingPotRecipeBridge)cookingPot).sdtfc$setCachedDynamicFoodResult(originalResult);
 
 
         });
@@ -210,7 +210,7 @@ public abstract class CookingPotBlockEntity_PotRecipeBridgeMixin extends SyncedB
         }
     }
 
-    public CookingPotBlockEntity_PotRecipeBridgeMixin(BlockEntityType<?> tileEntityTypeIn, BlockPos pos, BlockState state) {
+    public LEGACY_CookingPotBlockEntity_PotRecipeBridgeMixin(BlockEntityType<?> tileEntityTypeIn, BlockPos pos, BlockState state) {
         super(tileEntityTypeIn, pos, state);
     }
 

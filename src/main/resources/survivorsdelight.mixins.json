@@ -15,6 +15,7 @@
     "device.cooking_pot.CookingPotBlockEntity_Accessor",
     "device.cooking_pot.CookingPotBlockEntity_FluidHandleMixin",
     "device.cooking_pot.CookingPotBlockEntity_FluidRequiringRecipesMixin",
+    "device.cooking_pot.CookingPotBlockEntity_InterfaceMixin",
     "device.cooking_pot.CookingPotBlockEntity_TFCPotBridgeMixin",
     "device.cooking_pot.CookingPotMenu_CommonMixin",
     "device.cooking_pot.SyncedBlockEntity_CookingPotMixin",
