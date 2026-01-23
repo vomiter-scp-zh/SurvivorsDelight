@@ -1,8 +1,8 @@
 package com.vomiter.survivorsdelight.mixin.food.block.basic;
 
-import com.vomiter.survivorsdelight.content.food.block.DecayingFeastBlockEntity;
-import com.vomiter.survivorsdelight.content.food.block.ISDDecayingBlock;
-import com.vomiter.survivorsdelight.content.food.trait.SDFoodTraits;
+import com.vomiter.survivorsdelight.core.food.block.DecayingFeastBlockEntity;
+import com.vomiter.survivorsdelight.core.food.block.ISDDecayingBlock;
+import com.vomiter.survivorsdelight.core.food.trait.SDFoodTraits;
 import com.vomiter.survivorsdelight.registry.SDBlockEntityTypes;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
 import net.dries007.tfc.common.component.food.FoodCapability;

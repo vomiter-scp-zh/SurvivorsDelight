@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.adapter.container;
 
-import com.vomiter.survivorsdelight.content.food.trait.SDFoodTraits;
+import com.vomiter.survivorsdelight.core.food.trait.SDFoodTraits;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
 import net.dries007.tfc.common.blockentities.TFCChestBlockEntity;
 import net.dries007.tfc.common.component.food.FoodCapability;

@@ -1,9 +1,9 @@
 package com.vomiter.survivorsdelight.mixin.device.skillet;
 
-import com.vomiter.survivorsdelight.content.device.skillet.SDSkilletItem;
-import com.vomiter.survivorsdelight.content.device.skillet.SkilletMaterial;
-import com.vomiter.survivorsdelight.content.device.skillet.SkilletUtil;
-import com.vomiter.survivorsdelight.content.device.skillet.itemcooking.SkilletCookingCap;
+import com.vomiter.survivorsdelight.core.device.skillet.SDSkilletItem;
+import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
+import com.vomiter.survivorsdelight.core.device.skillet.SkilletUtil;
+import com.vomiter.survivorsdelight.core.device.skillet.itemcooking.SkilletCookingCap;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
 import com.vomiter.survivorsdelight.util.HeatHelper;
 import com.vomiter.survivorsdelight.util.SDUtils;

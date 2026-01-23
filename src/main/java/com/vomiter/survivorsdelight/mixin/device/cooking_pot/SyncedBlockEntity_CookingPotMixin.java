@@ -1,7 +1,7 @@
 package com.vomiter.survivorsdelight.mixin.device.cooking_pot;
 
-import com.vomiter.survivorsdelight.content.device.cooking_pot.ICookingPotHasChanged;
-import com.vomiter.survivorsdelight.content.device.cooking_pot.bridge.ICookingPotTFCRecipeBridge;
+import com.vomiter.survivorsdelight.core.device.cooking_pot.ICookingPotHasChanged;
+import com.vomiter.survivorsdelight.core.device.cooking_pot.bridge.ICookingPotTFCRecipeBridge;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;

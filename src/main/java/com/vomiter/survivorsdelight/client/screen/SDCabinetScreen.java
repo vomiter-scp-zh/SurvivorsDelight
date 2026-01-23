@@ -2,7 +2,7 @@ package com.vomiter.survivorsdelight.client.screen;
 // SDCabinetScreen.java
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.vomiter.survivorsdelight.content.container.SDCabinetMenu;
+import com.vomiter.survivorsdelight.core.container.SDCabinetMenu;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;

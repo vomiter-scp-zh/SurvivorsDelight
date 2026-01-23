@@ -1,8 +1,8 @@
 package com.vomiter.survivorsdelight.mixin.device.cooking_pot;
 
-import com.vomiter.survivorsdelight.content.device.cooking_pot.bridge.ICookingPotTFCRecipeBridge;
-import com.vomiter.survivorsdelight.content.device.cooking_pot.bridge.TFCPotRecipeBridgeFD;
-import com.vomiter.survivorsdelight.content.device.cooking_pot.fluid_handle.ICookingPotFluidAccess;
+import com.vomiter.survivorsdelight.core.device.cooking_pot.bridge.ICookingPotTFCRecipeBridge;
+import com.vomiter.survivorsdelight.core.device.cooking_pot.bridge.TFCPotRecipeBridgeFD;
+import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.ICookingPotFluidAccess;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;

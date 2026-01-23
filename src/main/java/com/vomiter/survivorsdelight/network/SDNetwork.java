@@ -1,7 +1,7 @@
 package com.vomiter.survivorsdelight.network;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.content.device.skillet.SkilletDeflects;
+import com.vomiter.survivorsdelight.core.device.skillet.SkilletDeflects;
 import com.vomiter.survivorsdelight.network.cooking_pot.ClearCookingPotMealC2SPayload;
 import com.vomiter.survivorsdelight.network.cooking_pot.OpenBackToFDPotC2SPayload;
 import com.vomiter.survivorsdelight.network.cooking_pot.OpenPotFluidMenuC2SPayload;

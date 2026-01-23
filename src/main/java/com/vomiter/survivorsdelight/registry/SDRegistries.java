@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.registry;
 
-import com.vomiter.survivorsdelight.content.food.trait.SDFoodTraits;
+import com.vomiter.survivorsdelight.core.food.trait.SDFoodTraits;
 import com.vomiter.survivorsdelight.registry.skillet.SDSkilletBlocks;
 import com.vomiter.survivorsdelight.registry.skillet.SDSkilletItems;
 import com.vomiter.survivorsdelight.registry.skillet.SDSkilletPartItems;
