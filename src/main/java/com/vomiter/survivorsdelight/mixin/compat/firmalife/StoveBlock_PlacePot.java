@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.mixin.compat.firmalife;
 
-import com.vomiter.survivorsdelight.content.device.stove.StoveTopPotPlace;
+import com.vomiter.survivorsdelight.core.device.stove.StoveTopPotPlace;
 import net.dries007.tfc.common.items.TFCItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;

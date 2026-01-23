@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.vomiter.survivorsdelight.compat.firmalife.FLCompatHelpers;
-import com.vomiter.survivorsdelight.content.food.block.DecayingFeastBlockEntity;
+import com.vomiter.survivorsdelight.core.food.block.DecayingFeastBlockEntity;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.dries007.tfc.common.capabilities.food.FoodHandler;

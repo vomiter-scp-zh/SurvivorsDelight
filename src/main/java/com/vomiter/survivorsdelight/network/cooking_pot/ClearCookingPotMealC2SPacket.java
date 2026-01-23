@@ -1,8 +1,8 @@
 package com.vomiter.survivorsdelight.network.cooking_pot;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.content.device.cooking_pot.ICookingPotCommonMenu;
-import com.vomiter.survivorsdelight.content.device.cooking_pot.bridge.ICookingPotRecipeBridge;
+import com.vomiter.survivorsdelight.core.device.cooking_pot.ICookingPotCommonMenu;
+import com.vomiter.survivorsdelight.adapter.cooking_pot.bridge.ICookingPotRecipeBridge;
 import net.dries007.tfc.common.capabilities.Capabilities;
 import net.dries007.tfc.util.Helpers;
 import net.minecraft.core.BlockPos;

@@ -1,8 +1,8 @@
 
 package com.vomiter.survivorsdelight.mixin.recipe.cooking;
 
-import com.vomiter.survivorsdelight.content.device.cooking_pot.fluid_handle.IFluidRequiringRecipe;
-import com.vomiter.survivorsdelight.content.device.cooking_pot.wrap.IFluidAccess;
+import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.IFluidRequiringRecipe;
+import com.vomiter.survivorsdelight.core.device.cooking_pot.wrap.IFluidAccess;
 import net.dries007.tfc.common.recipes.ingredients.FluidStackIngredient;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.crafting.Ingredient;

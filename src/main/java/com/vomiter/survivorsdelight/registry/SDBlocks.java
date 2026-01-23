@@ -1,7 +1,7 @@
 package com.vomiter.survivorsdelight.registry;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.content.container.SDCabinetBlock;
+import com.vomiter.survivorsdelight.core.container.SDCabinetBlock;
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;

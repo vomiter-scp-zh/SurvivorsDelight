@@ -1,7 +1,7 @@
 package com.vomiter.survivorsdelight.mixin.food.block.basic;
 
-import com.vomiter.survivorsdelight.content.food.block.DecayingPieBlockEntity;
-import com.vomiter.survivorsdelight.content.food.block.ISDDecayingBlock;
+import com.vomiter.survivorsdelight.core.food.block.DecayingPieBlockEntity;
+import com.vomiter.survivorsdelight.core.food.block.ISDDecayingBlock;
 import com.vomiter.survivorsdelight.registry.SDBlockEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
