@@ -25,4 +25,5 @@ run-data
 lib
 
 repo
-src/generated/resources/.cache
+projects/survivors-delight/src/generated/resources/.cache
+/projects/survivors-richsoils-neo/
