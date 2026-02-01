@@ -51,6 +51,10 @@ public class SDTags {
             );
         }
 
+        public static final TagKey<Block> FARMERS_FARMLAND = create("farmers_farmland");
+        public static final TagKey<Block> FARMERS_SOIL = create("farmers_soil");
+
+
         public static final TagKey<Block> STATIC_HEAT_LOW = create("static_heat_low");
         public static final TagKey<Block> STATIC_HEAT_MODERATE = create("static_heat_moderate");
         public static final TagKey<Block> STATIC_HEAT_HIGH = create("static_heat_high");

@@ -14,10 +14,16 @@ plugins {
 rootProject.name = "SurvivorsMonorepo"
 
 // 例：你要把 SD Neo 放在 /survivorsdelight-neoforge
+include("dev")
+project(":dev").projectDir = file("dev")
+
+
 include("sd-neo")
 project(":sd-neo").projectDir = file("projects/survivors-delight-neo")
 include("srsoil-neo")
 project(":srsoil-neo").projectDir = file("projects/survivors-richsoils-neo")
+include("heart-neo")
+project(":heart-neo").projectDir = file("projects/tfc-heart-nourishment")
 
 
 // 之後你可以繼續 include 其他模組：

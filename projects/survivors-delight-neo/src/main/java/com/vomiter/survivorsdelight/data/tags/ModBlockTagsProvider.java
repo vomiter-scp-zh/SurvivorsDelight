@@ -32,6 +32,9 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
+        tag(SDTags.BlockTags.FARMERS_FARMLAND).add(ModBlocks.RICH_SOIL_FARMLAND.get());
+        tag(SDTags.BlockTags.FARMERS_SOIL).add(ModBlocks.RICH_SOIL.get());
+
         SDBlocks.CABINETS.values().forEach(c -> {
             tag(SDTags.BlockTags.CABINETS).add(c.get());
             tag(TagKey.create(BuiltInRegistries.BLOCK.key(), ResourceLocation.fromNamespaceAndPath("minecraft", "mineable/axe")))
@@ -76,7 +79,7 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
                 .add(TFCBlocks.CRUCIBLE.get());
 
         tag(TFCTags.Blocks.FARMLANDS)
-                .add(ModBlocks.RICH_SOIL_FARMLAND.get());
+                .addTag(SDTags.BlockTags.FARMERS_FARMLAND);
 
         tag(ModTags.TRAY_HEAT_SOURCES)
                 .add(TFCBlocks.FIREPIT.get())

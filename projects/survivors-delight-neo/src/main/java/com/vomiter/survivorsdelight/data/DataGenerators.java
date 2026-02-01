@@ -7,7 +7,6 @@ import com.vomiter.survivorsdelight.data.asset.SDSkilletBlockStateProvider;
 import com.vomiter.survivorsdelight.data.book.content.SDBookEN;
 import com.vomiter.survivorsdelight.data.loot.SDCabinetLootTableProvider;
 import com.vomiter.survivorsdelight.data.loot.SDSkilletLootTableProvider;
-import com.vomiter.survivorsdelight.data.recipe.SDHeatingRecipes;
 import com.vomiter.survivorsdelight.data.recipe.SDRecipeProvider;
 import com.vomiter.survivorsdelight.data.size.SDItemSizeProvider;
 import com.vomiter.survivorsdelight.data.tags.SDTags;

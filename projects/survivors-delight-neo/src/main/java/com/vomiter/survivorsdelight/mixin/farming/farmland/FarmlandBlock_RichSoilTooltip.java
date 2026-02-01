@@ -2,6 +2,7 @@ package com.vomiter.survivorsdelight.mixin.farming.farmland;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.vomiter.survivorsdelight.common.farming.ClimateRangeBuilder;
+import com.vomiter.survivorsdelight.data.tags.SDTags;
 import net.dries007.tfc.common.blocks.soil.FarmlandBlock;
 import net.dries007.tfc.util.climate.ClimateRange;
 import net.minecraft.core.BlockPos;
@@ -30,7 +31,7 @@ public class FarmlandBlock_RichSoilTooltip {
             @Local(argsOnly = true) Level level,
             @Local(argsOnly = true) BlockPos pos
     ) {
-        if (level.getBlockState(pos).is(ModBlocks.RICH_SOIL_FARMLAND.get())) {
+        if (level.getBlockState(pos).is(SDTags.BlockTags.FARMERS_FARMLAND)) {
             return ClimateRangeBuilder.deriveLoose(value);
         }
         return value;
@@ -55,7 +56,7 @@ public class FarmlandBlock_RichSoilTooltip {
             @Local(argsOnly = true) BlockPos pos
     ) {
         // 保留你原本的 below 判斷（不改）
-        if (level.getBlockState(pos.below()).is(ModBlocks.RICH_SOIL_FARMLAND.get())) {
+        if (level.getBlockState(pos.below()).is(SDTags.BlockTags.FARMERS_FARMLAND)) {
             return ClimateRangeBuilder.deriveLoose(value);
         }
         return value;

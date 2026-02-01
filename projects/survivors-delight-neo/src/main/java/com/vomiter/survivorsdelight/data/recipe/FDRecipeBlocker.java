@@ -15,16 +15,21 @@ import vectorwing.farmersdelight.common.crafting.CuttingBoardRecipe;
 import vectorwing.farmersdelight.common.registry.ModItems;
 import vectorwing.farmersdelight.common.registry.ModRecipeTypes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class FDRecipeBlocker {
 
-    private static final List<String> OTHER_BLOCKING_ID = List.of(
+    private static final List<String> OTHER_BLOCKING_ID = new ArrayList<>(List.of(
             "canvas"
-    );
+    ));
+
+    public static void addOtherBlockingId(String path){
+        OTHER_BLOCKING_ID.add(path);
+    }
 
 
-    public static final String FD_NAMESPACE = FarmersDelight.MODID;
+    private static final String FD_NAMESPACE = FarmersDelight.MODID;
 
     private static final Ingredient OTHER_BLOCKING_TARGET = Ingredient.of(
             ModItems.HORSE_FEED.get(),

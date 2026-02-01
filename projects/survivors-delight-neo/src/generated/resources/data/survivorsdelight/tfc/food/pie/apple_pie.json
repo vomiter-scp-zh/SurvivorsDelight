@@ -3,8 +3,8 @@
     "item": "farmersdelight:apple_pie"
   },
   "hunger": 4,
-  "saturation": 2.0,
+  "saturation": 0.8,
   "water": 0.0,
   "decay_modifier": 1.0,
-  "fruit": 3.4
+  "fruit": 3.1
 }
