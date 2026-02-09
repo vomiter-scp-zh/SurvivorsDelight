@@ -2,7 +2,6 @@ package com.vomiter.survivorsdelight.mixin.client;
 
 import com.vomiter.survivorsdelight.client.screen.SDPotFluidButton;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;

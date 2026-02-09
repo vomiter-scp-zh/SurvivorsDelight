@@ -2,7 +2,6 @@ package com.vomiter.survivorsdelight.mixin.food.pet_food;
 
 import com.vomiter.survivorsabilities.core.SAEffects;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

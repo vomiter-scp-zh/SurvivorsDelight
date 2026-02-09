@@ -1,10 +1,8 @@
 package com.vomiter.survivorsdelight.adapter.stack;
 
+import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
-
-// TFC
-import net.dries007.tfc.common.capabilities.food.FoodCapability;
 
 public final class FoodStackAdapters {
     private FoodStackAdapters() {}

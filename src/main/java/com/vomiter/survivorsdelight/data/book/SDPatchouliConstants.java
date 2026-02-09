@@ -1,6 +1,5 @@
 package com.vomiter.survivorsdelight.data.book;
 
-import com.vomiter.survivorsdelight.SurvivorsDelight;
 import net.dries007.tfc.TerraFirmaCraft;
 import net.minecraft.resources.ResourceLocation;
 

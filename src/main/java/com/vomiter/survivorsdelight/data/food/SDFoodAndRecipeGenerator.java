@@ -1,9 +1,9 @@
 package com.vomiter.survivorsdelight.data.food;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
+import com.vomiter.survivorsdelight.data.recipe.builder.SDFDCookingPotRecipeBuilder;
 import com.vomiter.survivorsdelight.registry.SDRecipeSerializers;
 import com.vomiter.survivorsdelight.registry.recipe.ShapedLikeFinished;
-import com.vomiter.survivorsdelight.data.recipe.builder.SDFDCookingPotRecipeBuilder;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.capabilities.food.FoodData;
 import net.dries007.tfc.common.items.Food;
