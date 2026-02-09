@@ -2,10 +2,10 @@ package com.vomiter.survivorsdelight.client;
 
 import com.mojang.blaze3d.platform.Window;
 import com.vomiter.survivorsdelight.client.screen.SDCabinetScreen;
+import com.vomiter.survivorsdelight.common.container.SDCabinetBlockEntity;
+import com.vomiter.survivorsdelight.common.container.SDCabinetMenu;
+import com.vomiter.survivorsdelight.common.device.stove.IStoveBlockEntity;
 import com.vomiter.survivorsdelight.compat.jei.JEIHelpers;
-import com.vomiter.survivorsdelight.core.container.SDCabinetBlockEntity;
-import com.vomiter.survivorsdelight.core.container.SDCabinetMenu;
-import com.vomiter.survivorsdelight.core.device.stove.IStoveBlockEntity;
 import com.vomiter.survivorsdelight.data.food.SDFallbackFoodData;
 import net.dries007.tfc.client.ClientHelpers;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;

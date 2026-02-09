@@ -1,9 +1,9 @@
 package com.vomiter.survivorsdelight.registry;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.core.container.SDCabinetBlockEntity;
-import com.vomiter.survivorsdelight.core.food.block.DecayingFeastBlockEntity;
-import com.vomiter.survivorsdelight.core.food.block.DecayingPieBlockEntity;
+import com.vomiter.survivorsdelight.common.container.SDCabinetBlockEntity;
+import com.vomiter.survivorsdelight.common.food.block.DecayingFeastBlockEntity;
+import com.vomiter.survivorsdelight.common.food.block.DecayingPieBlockEntity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;

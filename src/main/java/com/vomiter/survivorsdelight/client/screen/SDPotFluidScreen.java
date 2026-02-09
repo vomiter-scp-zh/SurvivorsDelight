@@ -2,7 +2,7 @@ package com.vomiter.survivorsdelight.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.SDCookingPotFluidMenu;
+import com.vomiter.survivorsdelight.common.device.cooking_pot.fluid_handle.SDCookingPotFluidMenu;
 import com.vomiter.survivorsdelight.network.SDNetwork;
 import com.vomiter.survivorsdelight.network.cooking_pot.ClearCookingPotMealC2SPacket;
 import com.vomiter.survivorsdelight.util.SDUtils;

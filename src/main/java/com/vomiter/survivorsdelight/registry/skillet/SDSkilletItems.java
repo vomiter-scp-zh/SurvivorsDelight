@@ -2,8 +2,8 @@ package com.vomiter.survivorsdelight.registry.skillet;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.core.device.skillet.SDSkilletItem;
-import com.vomiter.survivorsdelight.core.device.skillet.SkilletMaterial;
+import com.vomiter.survivorsdelight.common.device.skillet.SDSkilletItem;
+import com.vomiter.survivorsdelight.common.device.skillet.SkilletMaterial;
 import com.vomiter.survivorsdelight.util.ItemUUIDs;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.ai.attributes.Attribute;

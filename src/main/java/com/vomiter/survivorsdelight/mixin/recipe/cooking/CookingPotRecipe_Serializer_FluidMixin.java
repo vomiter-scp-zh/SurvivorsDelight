@@ -1,7 +1,7 @@
 package com.vomiter.survivorsdelight.mixin.recipe.cooking;
 
 import com.google.gson.JsonObject;
-import com.vomiter.survivorsdelight.core.device.cooking_pot.fluid_handle.IFluidRequiringRecipe;
+import com.vomiter.survivorsdelight.common.device.cooking_pot.fluid_handle.IFluidRequiringRecipe;
 import net.dries007.tfc.common.recipes.ingredients.FluidStackIngredient;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;

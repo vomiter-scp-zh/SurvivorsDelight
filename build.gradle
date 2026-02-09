@@ -43,6 +43,7 @@ repositories {
 }
 apply from: 'gradle/optional-dep.gradle'
 
+
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     annotationProcessor("org.spongepowered:mixin:${mixin_version}:processor")
@@ -56,7 +57,11 @@ dependencies {
     implementation fg.deobf("curse.maven:patchouli-306770:4636277")
     implementation fg.deobf("curse.maven:farmers-delight-398521:6597298")
     implementation fg.deobf("curse.maven:survivors-abilities-1354890:7281675")
+    implementation fg.deobf("curse.maven:beneath-1113980:7400831")
+    implementation fg.deobf("curse.maven:my-nethers-delight-1003673:6529919")
 }
+
+
 
 
 def modProps = [
@@ -105,5 +110,29 @@ reobf {
     create("jarJar")
 }
 tasks.named('jarJar').configure { finalizedBy 'reobfJarJar' }
+
+tasks.register('devJar', Jar) {
+    group = 'build'
+    archiveClassifier = 'dev'
+
+    from sourceSets.main.output
+
+    // 讓 mixin config 在 jar manifest 內可被偵測
+    manifest {
+        attributes([
+                'Specification-Title'    : modProps.mod_id,
+                'Implementation-Title'   : project.name,
+                'Implementation-Version' : project.jar.archiveVersion,
+                'Implementation-Vendor'  : modProps.mod_authors,
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                'MixinConfigs'           : "${modProps.mod_id}.mixins.json"
+        ])
+    }
+}
+
+// 確保 devJar 會先編譯與處理資源
+tasks.named('devJar').configure {
+    dependsOn 'classes'
+}
 
 

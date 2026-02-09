@@ -2,12 +2,8 @@ package com.vomiter.survivorsdelight.mixin.food.block;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.datafixers.util.Pair;
-import com.vomiter.survivorsdelight.compat.firmalife.FLCompatHelpers;
-import com.vomiter.survivorsdelight.core.food.block.DecayingPieBlockEntity;
-import net.dries007.tfc.common.capabilities.food.FoodCapability;
-import net.dries007.tfc.common.capabilities.food.FoodHandler;
-import net.dries007.tfc.common.capabilities.food.FoodTrait;
-import net.dries007.tfc.common.capabilities.food.IFood;
+import com.vomiter.survivorsdelight.common.food.block.DecayFoodTransfer;
+import com.vomiter.survivorsdelight.common.food.block.DecayingPieBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -20,7 +16,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.fml.ModList;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -81,22 +76,6 @@ public abstract class PieBlock_SliceMixin{
 
     @Unique
     private static ItemStack sdtfc$applyFoodFromDecay(DecayingPieBlockEntity decay, ItemStack slice) {
-        ItemStack src    = decay.getStack();
-        IFood srcFood    = FoodCapability.get(src);
-        IFood sliceFood  = FoodCapability.get(slice);
-        if (srcFood == null || sliceFood == null) return slice;
-
-        sliceFood.setCreationDate(srcFood.getCreationDate());
-        sliceFood.getTraits().clear();
-        sliceFood.getTraits().addAll(srcFood.getTraits());
-        if(ModList.get().isLoaded("firmalife")){
-            for (FoodTrait possibleShelvedFoodTrait : FLCompatHelpers.getPossibleShelvedFoodTraits()) {
-                FoodCapability.removeTrait(sliceFood, possibleShelvedFoodTrait);
-            }
-        }
-        if(sliceFood instanceof FoodHandler.Dynamic dynamic){
-            dynamic.setFood(srcFood.getData());
-        }
-        return slice;
+        return DecayFoodTransfer.copyFoodState(decay.getStack(), slice, true);
     }
 }

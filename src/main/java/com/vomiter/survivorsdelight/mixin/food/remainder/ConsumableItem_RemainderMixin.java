@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.mixin.food.remainder;
 
-import com.vomiter.survivorsdelight.core.food.IConsumableRemainder;
+import com.vomiter.survivorsdelight.common.food.IConsumableRemainder;
 import org.spongepowered.asm.mixin.Mixin;
 import vectorwing.farmersdelight.common.item.ConsumableItem;
 

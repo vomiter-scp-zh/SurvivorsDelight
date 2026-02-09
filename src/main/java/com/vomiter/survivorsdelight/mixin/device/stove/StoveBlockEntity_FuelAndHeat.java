@@ -1,8 +1,8 @@
 package com.vomiter.survivorsdelight.mixin.device.stove;
 
 import com.vomiter.survivorsdelight.HeatSourceBlockEntity;
-import com.vomiter.survivorsdelight.core.device.stove.IStoveBlockEntity;
-import com.vomiter.survivorsdelight.core.device.stove.StoveOvenCompat;
+import com.vomiter.survivorsdelight.common.device.stove.IStoveBlockEntity;
+import com.vomiter.survivorsdelight.common.device.stove.StoveOvenCompat;
 import net.dries007.tfc.common.recipes.HeatingRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -20,7 +20,7 @@ import vectorwing.farmersdelight.common.block.StoveBlock;
 import vectorwing.farmersdelight.common.block.entity.StoveBlockEntity;
 
 @Mixin(value = StoveBlockEntity.class, remap = false)
-public class StoveBlockEntity_FuelAndHeat implements HeatSourceBlockEntity, IStoveBlockEntity {
+public abstract class StoveBlockEntity_FuelAndHeat implements HeatSourceBlockEntity, IStoveBlockEntity {
     @Unique private static final String SD_LEFT_BURN_TICK = "SDLeftBurnTick";
     @Unique private int leftBurnTick = 0;
     @Unique private final HeatingRecipe[] cachedHeatingRecipes = new HeatingRecipe[6];
@@ -31,7 +31,7 @@ public class StoveBlockEntity_FuelAndHeat implements HeatSourceBlockEntity, ISto
         if(self == null) return;
         if(state.getValue(StoveBlock.LIT) && self.sdtfc$getLeftBurnTick() > 0){
             if(level.getGameTime() % 20 == 0) self.sdtfc$reduceLeftBurnTick(1);
-            if(ModList.get().isLoaded("firmalife")) StoveOvenCompat.ovenHeating(level, pos, state, stove);
+            if(ModList.get().isLoaded("firmalife")) StoveOvenCompat.ovenHeating(level, pos, state, self);
             if(level.getGameTime() % 100 == 0){
                 level.sendBlockUpdated(pos, state, state, 3);
             }
@@ -48,7 +48,7 @@ public class StoveBlockEntity_FuelAndHeat implements HeatSourceBlockEntity, ISto
         if(stove.getLevel() == null) return;
         int slots = stove.getInventory().getSlots();
         for(int i = 0; i < slots; i++){
-            iStove.sdtfc$cookTFCFoodInSlot(stove, i);
+            iStove.sdtfc$cookTFCFoodInSlot(iStove, i);
         }
     }
 

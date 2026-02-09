@@ -7,7 +7,6 @@ import net.dries007.tfc.common.entities.livestock.TFCAnimalProperties;
 import net.dries007.tfc.common.items.Food;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
@@ -19,13 +18,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import vectorwing.farmersdelight.common.registry.ModItems;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,13 +32,6 @@ public abstract class LivingEntity_HamConvertMixin extends Entity {
     public LivingEntity_HamConvertMixin(EntityType<?> p_19870_, Level p_19871_) {
         super(p_19870_, p_19871_);
     }
-
-    @Shadow public abstract long getLootTableSeed();
-
-    @Shadow @Nullable protected Player lastHurtByPlayer;
-
-    @Shadow public abstract RandomSource getRandom();
-
     @Inject(
             method = "dropFromLootTable(Lnet/minecraft/world/damagesource/DamageSource;Z)V",
             at = @At(
@@ -59,12 +49,14 @@ public abstract class LivingEntity_HamConvertMixin extends Entity {
     )
     {
         final List<ItemStack> drops = new ArrayList<>();
-        var seed = getLootTableSeed();
+        if(!((Object)this instanceof LivingEntity livingEntity)) return;
+        var seed = ((LivingEntity)(Object)this).getLootTableSeed();
         table.getRandomItems(params, seed, drops::add);
         boolean hasHam = drops.stream()
                 .anyMatch(stack -> stack.is(ModItems.HAM.get())||stack.is(ModItems.SMOKED_HAM.get()));
         if(hasHam) return;
-        if(lastHurtByPlayer == null) return;
+
+        if(!(livingEntity.getLastAttacker() instanceof Player)) return;
 
         TagKey<DamageType> isPiercing = TagKey.create(Registries.DAMAGE_TYPE, SDUtils.RLUtils.build("tfc", "is_piercing"));
         boolean killedWithMeleePiercing = (damageSource.getDirectEntity() instanceof Player killer) && killer.getMainHandItem().is(TFCTags.Items.DEALS_PIERCING_DAMAGE);
@@ -83,7 +75,7 @@ public abstract class LivingEntity_HamConvertMixin extends Entity {
 
             int trials = stack.getCount() / 2;
             for (int i = 0; i < trials; i++) {
-                if (getRandom().nextFloat() < basicChance) {
+                if (((LivingEntity)(Object)this).getRandom().nextFloat() < basicChance) {
                     stack.shrink(2);
                     hamToAdd += 1;
                     if (stack.getCount() < 2) break;

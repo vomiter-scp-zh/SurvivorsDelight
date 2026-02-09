@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.mixin.device.stove;
 
-import com.vomiter.survivorsdelight.core.device.stove.IStoveBlockEntity;
+import com.vomiter.survivorsdelight.common.device.stove.IStoveBlockEntity;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.util.Fuel;
 import net.minecraft.core.BlockPos;
@@ -45,6 +45,6 @@ public class StoveBlock_FuelAndHeat{
         StoveBlockEntity stove = (StoveBlockEntity) level.getBlockEntity(pos);
         IStoveBlockEntity iStove = (IStoveBlockEntity)stove;
         assert iStove != null;
-        if(iStove.sdtfc$addItem(heldItem, stove.getNextEmptySlot(), stove, player)) cir.setReturnValue(InteractionResult.sidedSuccess(level.isClientSide));
+        if(iStove.sdtfc$addItem(heldItem, stove.getNextEmptySlot(), iStove, player)) cir.setReturnValue(InteractionResult.sidedSuccess(level.isClientSide));
     }
 }
