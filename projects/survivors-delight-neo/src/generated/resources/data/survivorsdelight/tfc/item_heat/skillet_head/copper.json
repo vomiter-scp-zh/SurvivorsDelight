@@ -1,0 +1,8 @@
+{
+  "forging_temperature": 648.0,
+  "heat_capacity": 5.714,
+  "ingredient": {
+    "item": "survivorsdelight:skillet_head/copper"
+  },
+  "welding_temperature": 864.0
+}

@@ -1,0 +1,8 @@
+{
+  "forging_temperature": 648.0,
+  "heat_capacity": 7.143,
+  "ingredient": {
+    "item": "survivorsdelight:skillet/copper_silver"
+  },
+  "welding_temperature": 864.0
+}

@@ -1,0 +1,8 @@
+{
+  "forging_temperature": 138.0,
+  "heat_capacity": 7.143,
+  "ingredient": {
+    "item": "survivorsdelight:skillet_lining/tin"
+  },
+  "welding_temperature": 184.0
+}

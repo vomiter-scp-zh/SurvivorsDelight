@@ -11,7 +11,7 @@ plugins {
     id 'org.gradle.toolchains.foojay-resolver-convention' version '0.9.0'
 }
 
-rootProject.name = "SurvivorsMonorepo"
+rootProject.name = "SurvivorsMonorepo1211"
 
 // 例：你要把 SD Neo 放在 /survivorsdelight-neoforge
 include("dev")

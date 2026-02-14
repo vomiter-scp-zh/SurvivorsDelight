@@ -28,7 +28,7 @@ import java.util.function.Consumer;
  * 輸出：data/<modid>/tfc/item_sizes/<namespace>/<path>.json
  */
 public class SDItemSizeProvider implements DataProvider {
-    private static final String FOLDER = "tfc/item_sizes";
+    private static final String FOLDER = "tfc/item_size";
 
     private final PackOutput output;
     private final String modid;
