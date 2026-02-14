@@ -3,6 +3,7 @@ package com.vomiter.survivorsdelight.mixin.farming.farmland;
 import net.dries007.tfc.common.blockentities.CropBlockEntity;
 import net.dries007.tfc.common.blockentities.FarmlandBlockEntity;
 import net.dries007.tfc.common.blockentities.TFCBlockEntities;
+import net.dries007.tfc.common.blockentities.TickCounterBlockEntity;
 import net.dries007.tfc.common.blocks.soil.HoeOverlayBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -40,9 +41,9 @@ public class RichSoilFarmland_AddBlockEntityMixin extends FarmBlock implements E
             cancellable = true
     )
     private void avoidCropBoneMealing(BlockState state, ServerLevel level, BlockPos pos, RandomSource random, CallbackInfo ci){
-        if(level.getBlockEntity(pos.above()) instanceof CropBlockEntity){
-            ci.cancel();
-        }
+        var aboveBlockEntity = level.getBlockEntity(pos.above());
+        if(aboveBlockEntity instanceof CropBlockEntity)ci.cancel();
+        else if(aboveBlockEntity instanceof TickCounterBlockEntity) ci.cancel();
     }
 
 
