@@ -182,9 +182,9 @@ public class SDFDCookingPotRecipeBuilder {
     }
 
     /* ===== build ===== */
-    public void build(Consumer<FinishedRecipe> out) { delegate.build(wrap(out)); }
-    public void build(Consumer<FinishedRecipe> out, String save) { delegate.build(wrap(out), save); }
-    public void build(Consumer<FinishedRecipe> out, ResourceLocation id) { delegate.build(wrap(out), id); }
+    public void build(Consumer<FinishedRecipe> out) { delegate.save(wrap(out)); }
+    public void build(Consumer<FinishedRecipe> out, String save) { delegate.save(wrap(out), save); }
+    public void build(Consumer<FinishedRecipe> out, ResourceLocation id) { delegate.save(wrap(out), id); }
 
     private Consumer<FinishedRecipe> wrap(Consumer<FinishedRecipe> out) {
         return base -> out.accept(new FinishedRecipe() {

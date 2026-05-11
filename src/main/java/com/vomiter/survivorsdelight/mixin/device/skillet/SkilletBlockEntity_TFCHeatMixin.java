@@ -87,7 +87,7 @@ public abstract class SkilletBlockEntity_TFCHeatMixin extends BlockEntity implem
 
             //play sound
             final BlockPos pos = self.getBlockPos();
-            if (!ItemUtils.isInventoryEmpty(inventory) && wasEmpty) {
+            if (ItemUtils.doesInventoryHaveItems(inventory) && wasEmpty) {
                 lvl.playSound(null, pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F,
                         ModSounds.BLOCK_SKILLET_ADD_FOOD.get(),
                         SoundSource.BLOCKS, 0.8F, 1.0F);

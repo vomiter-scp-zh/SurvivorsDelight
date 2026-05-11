@@ -104,7 +104,7 @@ public abstract class CookingPotBlockEntity_PotRecipeBridgeMixin extends SyncedB
         CookingPotCookingHandler.handleDynamicCookingPotRecipe(level, pos, state, cookingPot, ci, recipe);
     }
 
-    @ModifyExpressionValue(method = "processCooking", at = @At(value = "INVOKE", target = "Lvectorwing/farmersdelight/common/crafting/CookingPotRecipe;getResultItem(Lnet/minecraft/core/RegistryAccess;)Lnet/minecraft/world/item/ItemStack;", remap = true))
+    @ModifyExpressionValue(method = "processCooking", at = @At(value = "INVOKE", target = "Lvectorwing/farmersdelight/common/crafting/CookingPotRecipe;assemble(Lnet/minecraftforge/items/wrapper/RecipeWrapper;Lnet/minecraft/core/RegistryAccess;)Lnet/minecraft/world/item/ItemStack;", remap = true))
     private ItemStack applyDynamicResult(ItemStack original){
         if(sdtfc$cachedDynamicFoodResult.isEmpty()) return original;
         return sdtfc$cachedDynamicFoodResult;
@@ -131,10 +131,11 @@ public abstract class CookingPotBlockEntity_PotRecipeBridgeMixin extends SyncedB
 
 
     //====== Prevent soup with 4 fruits cooking when there's soup with 5 fruits stored in the pot
+
     @Redirect(method = "canCook(Lvectorwing/farmersdelight/common/crafting/CookingPotRecipe;)Z",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/world/item/ItemStack;isSameItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z"
+                    target = "Lnet/minecraft/world/item/ItemStack;isSameItemSameTags(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z"
             ),
             remap = true
     )
@@ -143,6 +144,8 @@ public abstract class CookingPotBlockEntity_PotRecipeBridgeMixin extends SyncedB
         if(!sdtfc$cachedDynamicFoodResult.isEmpty()) return FoodCapability.areStacksStackableExceptCreationDate(a, sdtfc$cachedDynamicFoodResult);
         return FoodCapability.areStacksStackableExceptCreationDate(a, b);
     }
+
+
 
     @Redirect(
             method = "processCooking",

@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import vectorwing.farmersdelight.common.Configuration;
 import vectorwing.farmersdelight.common.block.RichSoilBlock;
 import vectorwing.farmersdelight.common.utility.MathUtils;
@@ -21,16 +22,16 @@ import vectorwing.farmersdelight.common.utility.MathUtils;
 @Mixin(value = RichSoilBlock.class)
 public class RichSoil_RandomTickMixin {
     @Inject(
-            method = "randomTick",
+            method = "boostPlant",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/BonemealableBlock;performBonemeal(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/util/RandomSource;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;)V"),
             cancellable = true
     )
-    private void tfc_tree_growth_boost(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand, CallbackInfo ci){
-        if(level.getBlockEntity(pos.above()) instanceof TickCounterBlockEntity tickCounter){
+    private static void tfc_tree_growth_boost(BlockState plantState, BlockPos pos, ServerLevel level, CallbackInfoReturnable<Boolean> cir){
+        if(level.getBlockEntity(pos) instanceof TickCounterBlockEntity tickCounter){
             tickCounter.reduceCounter(-1L * SDConfig.RICH_SOIL_GROWTH_BOOST_TICK);
-            level.levelEvent(2005, pos.above(), 0);
-            level.sendBlockUpdated(pos.above(), level.getBlockState(pos.above()), level.getBlockState(pos.above()), 3);
-            ci.cancel();
+            level.levelEvent(2005, pos, 0);
+            level.sendBlockUpdated(pos, level.getBlockState(pos), level.getBlockState(pos), 3);
+            cir.setReturnValue(true);
         }
     }
 

@@ -4,6 +4,8 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.vomiter.survivorsdelight.adapter.skillet.SkilletMaterial;
 import com.vomiter.survivorsdelight.registry.skillet.SDSkilletItems;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -22,12 +24,18 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import org.jetbrains.annotations.NotNull;
+import vectorwing.farmersdelight.client.ClientSetup;
+import vectorwing.farmersdelight.client.renderer.SkilletItemRenderer;
 import vectorwing.farmersdelight.common.item.SkilletItem;
 import vectorwing.farmersdelight.common.registry.ModSounds;
 
 import java.util.UUID;
+import java.util.function.Consumer;
 
 public class SDSkilletItem extends SkilletItem {
     private final Multimap<Attribute, AttributeModifier> toolAttributes;
@@ -103,4 +111,21 @@ public class SDSkilletItem extends SkilletItem {
         }
     }
 
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+        consumer.accept(new IClientItemExtensions() {
+            private static BlockEntityWithoutLevelRenderer renderer = new SkilletItemRenderer();
+
+            @Override
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                return renderer;
+            }
+
+            @Override
+            public HumanoidModel.@org.jetbrains.annotations.Nullable ArmPose getArmPose(LivingEntity living, InteractionHand hand, ItemStack stack) {
+                return stack.getOrCreateTag().contains("FlipTimeStamp") ? ClientSetup.SKILLET_FLIP : null;
+            }
+        });
+    }
 }

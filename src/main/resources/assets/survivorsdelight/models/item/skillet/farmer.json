@@ -1,3 +1,11 @@
 {
-  "parent": "farmersdelight:item/skillet"
+  "parent": "farmersdelight:item/skillet",
+  "overrides": [
+    {
+      "predicate": {
+        "cooking": 1
+      },
+      "model": "farmersdelight:item/skillet_cooking"
+    }
+  ]
 }

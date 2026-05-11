@@ -102,7 +102,7 @@ public class SDFoodRecipes {
 
         cook("food/cabbage_rolls", ModItems.CABBAGE_ROLLS.get(), 1, 200, 1)
                 .food(Food.CABBAGE)
-                .food(ModTags.CABBAGE_ROLL_INGREDIENTS)
+                .food(SDTags.ItemTags.CUT_FOOD)
                 .build(out)
                 .saveFoodData();
 

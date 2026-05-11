@@ -14,10 +14,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import vectorwing.farmersdelight.common.block.AbstractStoveBlock;
 import vectorwing.farmersdelight.common.block.StoveBlock;
 import vectorwing.farmersdelight.common.block.entity.StoveBlockEntity;
 
-@Mixin(value = StoveBlock.class, remap = false)
+@Mixin(value = AbstractStoveBlock.class, remap = false)
 public class StoveBlock_FuelAndHeat{
     @Inject(method = "use", at = @At("HEAD"), cancellable = true, remap = true)
     private void addFuel(
@@ -33,7 +34,7 @@ public class StoveBlock_FuelAndHeat{
         if(success) cir.setReturnValue(InteractionResult.sidedSuccess(level.isClientSide));
     }
 
-    @Inject(method = "use", at = @At(value = "INVOKE", target = "Ljava/util/Optional;isPresent()Z"), cancellable = true, remap = true)
+    @Inject(method = "tryToPlaceFoodItem", at = @At("HEAD"), remap = false, cancellable = true)
     private void addFood(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit, CallbackInfoReturnable<InteractionResult> cir){
         ItemStack heldItem = player.getItemInHand(hand);
         StoveBlockEntity stove = (StoveBlockEntity) level.getBlockEntity(pos);

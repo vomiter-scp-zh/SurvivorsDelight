@@ -48,7 +48,7 @@ public class HeatHelper {
         BlockPos below = pos.below();
         float heatBelow = HeatHelper.getTemperature(below, level, getterType);
         if(heatBelow > 0) return heatBelow;
-        if(!requiresDirectHeat && level.getBlockState(below).is(ModTags.HEAT_CONDUCTORS)){
+        if(!requiresDirectHeat && level.getBlockState(below).is(ModTags.Blocks.HEAT_CONDUCTORS)){
             return HeatHelper.getTemperature(below.below(), level, getterType);
         }
         return 0;

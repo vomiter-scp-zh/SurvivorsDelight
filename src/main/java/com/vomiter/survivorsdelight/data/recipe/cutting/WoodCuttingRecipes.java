@@ -51,7 +51,7 @@ public class WoodCuttingRecipes{
                 )
                 .addResult(bark, 1)
                 .addSound("minecraft:item.axe.strip")
-                .build(out, logRecipeId);
+                .save(out, logRecipeId);
 
         CuttingBoardRecipeBuilder
                 .cuttingRecipe(
@@ -62,7 +62,7 @@ public class WoodCuttingRecipes{
                 .addResult(bark, 1)
                 .addResultWithChance(bark, 0.5f, 1)
                 .addSound("minecraft:item.axe.strip")
-                .build(out, woodRecipeId);
+                .save(out, woodRecipeId);
 
     }
 
@@ -73,7 +73,7 @@ public class WoodCuttingRecipes{
                 Ingredient.of(new TagKey<>(ResourceKey.createRegistryKey(SDUtils.RLUtils.build("minecraft", "item")), SDUtils.RLUtils.build(TerraFirmaCraft.MOD_ID, "saws"))),
                 lumber,
                 count
-        ).build(
+        ).save(
                 out,
                 SDUtils.RLUtils.build(SurvivorsDelight.MODID, "cutting/tfc/salvage/wood_furniture/" + wood.getSerializedName() + "_" + type.name().toLowerCase(Locale.ROOT))
         );
@@ -89,7 +89,7 @@ public class WoodCuttingRecipes{
                 2
                 )
                 .addResultWithChance(chain, 0.5f, 1)
-                .build(out,
+                .save(out,
                 SDUtils.RLUtils.build(SurvivorsDelight.MODID, "cutting/tfc/salvage/hanging_sign/" + wood.getSerializedName() + "_" + metal.getSerializedName())
         );
 

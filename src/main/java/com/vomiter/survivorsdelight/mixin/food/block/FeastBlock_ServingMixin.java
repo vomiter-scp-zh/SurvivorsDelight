@@ -14,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -58,7 +59,7 @@ public abstract class FeastBlock_ServingMixin extends Block {
             name = "serving")
     private ItemStack patchServingAfterBuilt(
             ItemStack serving,
-            @Local(argsOnly = true, name = "arg1") LevelAccessor level,
+            @Local(argsOnly = true, name = "arg1") Level level,
             @Local(argsOnly = true, name = "arg2") BlockPos pos,
             @Local(argsOnly = true, name = "arg3") BlockState state,
             @Local(argsOnly = true, name = "arg4") Player player,

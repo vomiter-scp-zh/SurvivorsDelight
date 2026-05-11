@@ -2,14 +2,11 @@ package com.vomiter.survivorsdelight;
 
 import com.mojang.logging.LogUtils;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.CookingPotExtraNutrientRules;
-import com.vomiter.survivorsdelight.client.ClientForgeEventHandler;
-import com.vomiter.survivorsdelight.client.SaladPredicates;
-import com.vomiter.survivorsdelight.client.SandwichPredicates;
+import com.vomiter.survivorsdelight.client.*;
 import com.vomiter.survivorsdelight.client.screen.SDCabinetScreen;
 import com.vomiter.survivorsdelight.client.screen.SDPotFluidScreen;
 import com.vomiter.survivorsdelight.common.ForgeEventHandler;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid.SDCookingPotFluidMenu;
-import com.vomiter.survivorsdelight.client.SkilletModels;
 import com.vomiter.survivorsdelight.adapter.skillet.skillet_item.ISkilletItemCookingData;
 import com.vomiter.survivorsdelight.adapter.farming.RichSoilFarmlandBlockEntitySetup;
 import com.vomiter.survivorsdelight.common.food.FoodContainerExpansion;
@@ -89,6 +86,7 @@ public class SurvivorsDelight {
             MenuScreens.register(SDCookingPotFluidMenu.TYPE, SDPotFluidScreen::new);
             SandwichPredicates.addPredicate();
             SaladPredicates.addPredicate();
+            SkilletPredicates.addPredicate();
         });
     }
 

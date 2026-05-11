@@ -55,11 +55,14 @@ dependencies {
 
     implementation fg.deobf("curse.maven:terrafirmacraft-302973:6835820")
     implementation fg.deobf("curse.maven:patchouli-306770:4636277")
+
     //implementation fg.deobf("curse.maven:farmers-delight-398521:6597298")
-    implementation fg.deobf("curse.maven:farmers-delight-398521:7801523")
+    //implementation fg.deobf("curse.maven:farmers-delight-398521:7801523")
+    implementation fg.deobf("curse.maven:farmers-delight-398521:8007609")
+
     implementation fg.deobf("curse.maven:survivors-abilities-1354890:7281675")
     implementation fg.deobf("curse.maven:beneath-1113980:7400831")
-    implementation fg.deobf("curse.maven:my-nethers-delight-1003673:6529919")
+    //implementation fg.deobf("curse.maven:my-nethers-delight-1003673:6529919")
 
     compileOnly fg.deobf("curse.maven:almost-unified-633823:5517426")
     compileOnly fg.deobf("curse.maven:tfc-ie-crossover-830886:7400855")

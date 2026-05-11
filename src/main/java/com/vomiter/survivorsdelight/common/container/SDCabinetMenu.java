@@ -124,6 +124,10 @@ public class SDCabinetMenu extends AbstractContainerMenu {
         }
 
         @Override public void set(@NotNull ItemStack stack) {
+            var oldStack = this.getItem();
+            if(!oldStack.isEmpty()){
+                cabinet.removeStored(oldStack);
+            }
             super.set(stack);
             if (!stack.isEmpty()) cabinet.setStored(stack);
         }

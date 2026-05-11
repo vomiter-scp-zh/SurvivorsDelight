@@ -7,7 +7,6 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.ModelEvent;
-import vectorwing.farmersdelight.client.model.SkilletModel;
 
 import java.util.Map;
 
@@ -25,7 +24,7 @@ public class SkilletModels {
         BakedModel skilletModel = modelRegistry.get(skilletLocation);
         ModelResourceLocation skilletCookingLocation = new ModelResourceLocation(SDUtils.RLUtils.build(SurvivorsDelight.MODID, "skillet/" + name +"_cooking"), "inventory");
         BakedModel skilletCookingModel = modelRegistry.get(skilletCookingLocation);
-        modelRegistry.put(skilletLocation, new SkilletModel(event.getModelBakery(), skilletModel, skilletCookingModel));
+        //modelRegistry.put(skilletLocation, new SkilletModel(event.getModelBakery(), skilletModel, skilletCookingModel));
     }
 
     public static void onModelBake(ModelEvent.ModifyBakingResult event) {

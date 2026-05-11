@@ -17,17 +17,18 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import vectorwing.farmersdelight.common.block.StoveBlock;
+import vectorwing.farmersdelight.common.block.entity.AbstractStoveBlockEntity;
 import vectorwing.farmersdelight.common.block.entity.StoveBlockEntity;
 
-@Mixin(value = StoveBlockEntity.class, remap = false)
+@Mixin(value = AbstractStoveBlockEntity.class, remap = false)
 public abstract class StoveBlockEntity_FuelAndHeat implements HeatSourceBlockEntity, IStoveBlockEntity {
     @Unique private static final String SD_LEFT_BURN_TICK = "SDLeftBurnTick";
     @Unique private int leftBurnTick = 0;
     @Unique private final HeatingRecipe[] cachedHeatingRecipes = new HeatingRecipe[6];
 
-    @Inject(method = "cookingTick", at = @At("HEAD"))
-    private static void injectedCookingTick(Level level, BlockPos pos, BlockState state, StoveBlockEntity stove, CallbackInfo ci){
-        var self = (IStoveBlockEntity)stove;
+    @Inject(method = "serverTick", at = @At("HEAD"))
+    private static void injectedCookingTick(Level level, BlockPos pos, BlockState state, AbstractStoveBlockEntity stoveEntity, CallbackInfo ci){
+        var self = (IStoveBlockEntity)stoveEntity;
         if(self == null) return;
         if(state.getValue(StoveBlock.LIT) && self.sdtfc$getLeftBurnTick() > 0){
             if(level.getGameTime() % 20 == 0) self.sdtfc$reduceLeftBurnTick(1);
@@ -37,7 +38,7 @@ public abstract class StoveBlockEntity_FuelAndHeat implements HeatSourceBlockEnt
             }
         }
         else if(state.getValue(StoveBlock.LIT) && state.getBlock() instanceof StoveBlock stoveBlock){
-            stoveBlock.extinguish(state, level, pos);
+            stoveBlock.extinguish(null, level, pos, state);
         }
     }
 
@@ -46,7 +47,7 @@ public abstract class StoveBlockEntity_FuelAndHeat implements HeatSourceBlockEnt
         StoveBlockEntity stove = (StoveBlockEntity) (Object) this;
         IStoveBlockEntity iStove = (IStoveBlockEntity) stove;
         if(stove.getLevel() == null) return;
-        int slots = stove.getInventory().getSlots();
+        int slots = stove.getItems().getSlots();
         for(int i = 0; i < slots; i++){
             iStove.sdtfc$cookTFCFoodInSlot(iStove, i);
         }
@@ -80,12 +81,14 @@ public abstract class StoveBlockEntity_FuelAndHeat implements HeatSourceBlockEnt
         }
     }
 
-    @Inject(method = "writeItems", at = @At("TAIL"))
-    private void sd$writeLeftBurnTick(CompoundTag tag, CallbackInfoReturnable<CompoundTag> cir) {
+    @Inject(method = "getUpdateTag", at = @At("RETURN"), remap = false)
+    private void sdtfc$writeLeftBurnTickToUpdateTag(CallbackInfoReturnable<CompoundTag> cir) {
+        CompoundTag tag = cir.getReturnValue();
         tag.putInt(SD_LEFT_BURN_TICK, this.leftBurnTick);
     }
 
-
-
-
+    @Inject(method = "saveAdditional", at = @At("TAIL"))
+    private void sd$writeLeftBurnTick(CompoundTag tag, CallbackInfo ci) {
+        tag.putInt(SD_LEFT_BURN_TICK, this.leftBurnTick);
+    }
 }

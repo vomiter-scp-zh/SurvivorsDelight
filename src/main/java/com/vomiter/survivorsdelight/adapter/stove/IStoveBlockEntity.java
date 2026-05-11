@@ -9,19 +9,17 @@ import net.dries007.tfc.common.capabilities.heat.IHeat;
 import net.dries007.tfc.common.recipes.HeatingRecipe;
 import net.dries007.tfc.common.recipes.inventory.ItemStackInventory;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.items.ItemStackHandler;
-import vectorwing.farmersdelight.common.block.entity.SyncedBlockEntity;
+import vectorwing.farmersdelight.common.block.entity.AbstractStoveBlockEntity;
 import vectorwing.farmersdelight.common.utility.ItemUtils;
 
 public interface IStoveBlockEntity {
     int[] sdtfc$getCookingTimes();
     int[] sdtfc$getCookingTimesTotal();
-    ResourceLocation[] sdtfc$getLastRecipeIDs();
-    SyncedBlockEntity sdtfc$getBlockEntity();
+    AbstractStoveBlockEntity sdtfc$getBlockEntity();
     ItemStackHandler sdtfc$getInventory();
 
 
@@ -58,7 +56,6 @@ public interface IStoveBlockEntity {
                                 new ItemStack(itemStackIn.getItem()) :
                                 itemStackIn.split(1)
                 );
-                sdtfc$getLastRecipeIDs()[slot] = recipe.getId();
                 stove.sdtfc$getBlockEntity().setChanged();
                 Level level = stove.sdtfc$getBlockEntity().getLevel();
                 if(level != null){
@@ -101,7 +98,7 @@ public interface IStoveBlockEntity {
                 cachedRecipes[slot] = recipe;
             }
             if(cachedRecipes[slot] == null){
-                int cookingTotalTime = ((StoveBlockEntity_Accessor)stove).getCookingTimesTotal()[slot];
+                int cookingTotalTime = ((StoveBlockEntity_Accessor)stove).getCookingTime()[slot];
                 if(cookingTotalTime == 0){
                     sdtfc$ejectItem(stove, inventory.extractItem(slot, 1, false));
                     stove.sdtfc$getBlockEntity().setChanged();

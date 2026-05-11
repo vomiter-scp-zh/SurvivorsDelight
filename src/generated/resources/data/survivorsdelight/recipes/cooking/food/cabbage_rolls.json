@@ -12,7 +12,7 @@
     {
       "type": "tfc:not_rotten",
       "ingredient": {
-        "tag": "farmersdelight:cabbage_roll_ingredients"
+        "tag": "survivorsdelight:cut_food"
       }
     }
   ],

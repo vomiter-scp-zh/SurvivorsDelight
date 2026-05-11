@@ -60,7 +60,7 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 .addTag(SDTags.ItemTags.SOUPS)
                 .addTag(SDTags.ItemTags.BOWL_MEALS)
                 .addTag(SDTags.ItemTags.FEAST_SERVINGS)
-                .addOptionalTag(ModTags.DRINKS);
+                .addOptionalTag(ModTags.Items.DRINKS);
 
         tag(TFCTags.Items.DOG_FOOD).add(ModItems.DOG_FOOD.get());
         tag(TFCTags.Items.HORSE_FOOD).add(ModItems.HORSE_FEED.get());
@@ -74,9 +74,9 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 .addTag(SDTags.ItemTags.SLICES_AND_SERVINGS)
                 .addTag(SDTags.ItemTags.SOUPS)
                 .addTag(SDTags.ItemTags.BOWL_MEALS)
-                .addOptionalTag(ModTags.DRINKS);
+                .addOptionalTag(ModTags.Items.DRINKS);
 
-        tag(ModTags.SERVING_CONTAINERS)
+        tag(ModTags.Items.SERVING_CONTAINERS)
                 .add(TFCBlocks.CERAMIC_BOWL.get().asItem())
                 .addOptionalTag(SDTags.ItemTags.TFC_GLASS_BOTTLES);
     }

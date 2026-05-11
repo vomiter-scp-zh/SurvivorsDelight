@@ -88,11 +88,16 @@ public class SDSkilletBlockStateProvider extends BlockStateProvider {
         ItemModelBuilder skillet = itemModels()
                 .withExistingParent("item/skillet/" + name, modLoc("item/skillet/skillet"));
         applyTextures(skillet, textures);
-
         // item/skillet/<name>_cooking
         ItemModelBuilder cooking = itemModels()
                 .withExistingParent("item/skillet/" + name + "_cooking", modLoc("item/skillet/cooking"));
         applyTextures(cooking, textures);
+
+        skillet.override()
+                .predicate(new ResourceLocation("cooking"), 1.0F)
+                .model(cooking)
+                .end();
+
 
         // item/skillet_head/<name>
         ItemModelBuilder head = itemModels()

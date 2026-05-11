@@ -73,17 +73,18 @@ public abstract class SkilletItem_TFCHeatMixin {
         }
         HeatingRecipe recipe = HeatingRecipe.getRecipe(new ItemStackInventory(heatingStack));
         if (recipe == null) return;
+        ItemStack unit = heatingStack.split(1);
+        if (unit.isEmpty()) return;
+        CompoundTag tag = skilletStack.getOrCreateTag();
+        tag.put(KEY_COOKING, unit.serializeNBT());
+        IHeat heat = HeatCapability.get(unit);
+        if (heat == null) {
+            heatingStack.grow(1);
+            return;
+        }
+
         if (!level.isClientSide) {
-            ItemStack unit = heatingStack.split(1);
-            if (unit.isEmpty()) return;
-            IHeat heat = HeatCapability.get(unit);
-            if (heat == null) {
-                heatingStack.grow(1);
-                return;
-            }
             HeatCapability.addTemp(heat, temperatureNearby);
-            CompoundTag tag = skilletStack.getOrCreateTag();
-            tag.put(KEY_COOKING, unit.serializeNBT());
             var data = SkilletCookingCap.get(player);
             data.setCooking(unit);
             data.setTargetTemperature(recipe.getTemperature());

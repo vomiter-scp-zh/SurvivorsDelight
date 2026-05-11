@@ -30,7 +30,7 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
-        tag(ModTags.TRAY_HEAT_SOURCES).add(TFCBlocks.FIREPIT.get());
+        tag(ModTags.Blocks.TRAY_HEAT_SOURCES).add(TFCBlocks.FIREPIT.get());
 
         SDBlocks.CABINETS.values().forEach(c -> tag(SDTags.BlockTags.CABINETS).add(c.get()));
         tag(SDTags.BlockTags.FEAST_BLOCKS).add(
@@ -72,7 +72,7 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
                 .addTag(SDTags.BlockTags.SKILLETS);
 
         assert TFCBlocks.CRUCIBLE.getKey() != null;
-        tag(ModTags.HEAT_CONDUCTORS)
+        tag(ModTags.Blocks.HEAT_CONDUCTORS)
                 .add(TFCBlocks.CRUCIBLE.getKey());
 
         tag(TFCTags.Blocks.FARMLAND)
