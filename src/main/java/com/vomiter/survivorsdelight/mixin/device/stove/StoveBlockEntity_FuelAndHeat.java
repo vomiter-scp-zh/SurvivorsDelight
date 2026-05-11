@@ -1,9 +1,8 @@
 package com.vomiter.survivorsdelight.mixin.device.stove;
 
 import com.vomiter.survivorsdelight.HeatSourceBlockEntity;
-import com.vomiter.survivorsdelight.compat.firmalife.StoveOvenCompat;
 import com.vomiter.survivorsdelight.adapter.stove.IStoveBlockEntity;
-//import com.vomiter.survivorsdelight.content.device.stove.StoveOvenCompat;
+import com.vomiter.survivorsdelight.compat.firmalife.StoveOvenCompat;
 import net.dries007.tfc.common.recipes.HeatingRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -19,16 +18,17 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import vectorwing.farmersdelight.common.block.StoveBlock;
+import vectorwing.farmersdelight.common.block.entity.AbstractStoveBlockEntity;
 import vectorwing.farmersdelight.common.block.entity.StoveBlockEntity;
 
-@Mixin(value = StoveBlockEntity.class, remap = false)
+@Mixin(value = AbstractStoveBlockEntity.class, remap = false)
 public class StoveBlockEntity_FuelAndHeat implements HeatSourceBlockEntity, IStoveBlockEntity {
     @Unique private static final String SD_LEFT_BURN_TICK = "SDLeftBurnTick";
     @Unique private int leftBurnTick = 0;
     @Unique private final HeatingRecipe[] cachedHeatingRecipes = new HeatingRecipe[6];
 
-    @Inject(method = "cookingTick", at = @At("HEAD"))
-    private static void injectedCookingTick(Level level, BlockPos pos, BlockState state, StoveBlockEntity stove, CallbackInfo ci){
+    @Inject(method = "serverTick", at = @At("HEAD"))
+    private static void injectedCookingTick(Level level, BlockPos pos, BlockState state, AbstractStoveBlockEntity stove, CallbackInfo ci){
         var self = (IStoveBlockEntity)stove;
         if(self == null) return;
         if(state.getValue(StoveBlock.LIT) && self.sdtfc$getLeftBurnTick() > 0){
@@ -39,7 +39,7 @@ public class StoveBlockEntity_FuelAndHeat implements HeatSourceBlockEntity, ISto
             }
         }
         else if(state.getValue(StoveBlock.LIT) && state.getBlock() instanceof StoveBlock stoveBlock){
-            stoveBlock.extinguish(state, level, pos);
+            stoveBlock.extinguish(null, level, pos, state);
         }
     }
 
@@ -48,7 +48,7 @@ public class StoveBlockEntity_FuelAndHeat implements HeatSourceBlockEntity, ISto
         StoveBlockEntity stove = (StoveBlockEntity) (Object) this;
         IStoveBlockEntity iStove = (IStoveBlockEntity) stove;
         if(stove.getLevel() == null) return;
-        int slots = stove.getInventory().getSlots();
+        int slots = stove.getItems().getSlots();
         for(int i = 0; i < slots; i++){
             iStove.sdtfc$cookTFCFoodInSlot(stove, i);
         }
@@ -82,10 +82,17 @@ public class StoveBlockEntity_FuelAndHeat implements HeatSourceBlockEntity, ISto
         }
     }
 
-    @Inject(method = "writeItems", at = @At("TAIL"))
-    private void sd$writeLeftBurnTick(CompoundTag tag, HolderLookup.Provider registries, CallbackInfoReturnable<CompoundTag> cir) {
+    @Inject(method = "saveAdditional", at = @At("TAIL"))
+    private void sdtfc$writeLeftBurnTick(CompoundTag tag, HolderLookup.Provider registries, CallbackInfo ci) {
         tag.putInt(SD_LEFT_BURN_TICK, this.leftBurnTick);
     }
+
+    @Inject(method = "getUpdateTag", at = @At("RETURN"), remap = false)
+    private void sdtfc$writeLeftBurnTickToUpdateTag(CallbackInfoReturnable<CompoundTag> cir) {
+        CompoundTag tag = cir.getReturnValue();
+        tag.putInt(SD_LEFT_BURN_TICK, this.leftBurnTick);
+    }
+
 
 
 

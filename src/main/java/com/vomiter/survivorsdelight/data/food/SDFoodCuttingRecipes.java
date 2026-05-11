@@ -26,7 +26,7 @@ public class SDFoodCuttingRecipes {
     public static final Map<Food, List<Food>> FISH_TO_CUT = Map.of(Food.SALMON, SALMON_LIKE, Food.COD, COD_LIKE);
 
     public void cut2(RecipeOutput out) {
-        final Ingredient knife = Ingredient.of(CommonTags.TOOLS_KNIFE);
+        final Ingredient knife = Ingredient.of(CommonTags.Items.TOOLS_KNIFE);
 
         SDBasicFoodData.cutSpecs.forEach(cutSpec -> {
             final Food fromFood = cutSpec.from();

@@ -16,10 +16,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import vectorwing.farmersdelight.common.block.StoveBlock;
+import vectorwing.farmersdelight.common.block.AbstractStoveBlock;
 import vectorwing.farmersdelight.common.block.entity.StoveBlockEntity;
 
-@Mixin(value = StoveBlock.class, remap = false)
+@Mixin(value = AbstractStoveBlock.class, remap = false)
 public class StoveBlock_FuelAndHeat{
     @Inject(method = "useItemOn", at = @At("HEAD"), cancellable = true, remap = true)
     private void addFuel(ItemStack heldItem, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit, CallbackInfoReturnable<ItemInteractionResult> cir
@@ -38,7 +38,7 @@ public class StoveBlock_FuelAndHeat{
         }
     }
 
-    @Inject(method = "useItemOn", at = @At(value = "INVOKE", target = "Ljava/util/Optional;isPresent()Z"), cancellable = true, remap = true)
+    @Inject(method = "tryToPlaceFoodItem", at = @At("HEAD"), cancellable = true, remap = true)
     private void addFood(ItemStack heldItem, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit, CallbackInfoReturnable<ItemInteractionResult> cir){
         StoveBlockEntity stove = (StoveBlockEntity) level.getBlockEntity(pos);
         IStoveBlockEntity iStove = (IStoveBlockEntity)stove;

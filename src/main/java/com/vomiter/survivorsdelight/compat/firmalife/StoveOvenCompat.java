@@ -9,13 +9,14 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import vectorwing.farmersdelight.common.block.entity.AbstractStoveBlockEntity;
 import vectorwing.farmersdelight.common.block.entity.StoveBlockEntity;
 
 public final class StoveOvenCompat {
     private StoveOvenCompat() {
     }
 
-    public static void ovenHeating(Level level, BlockPos pos, BlockState state, StoveBlockEntity stove) {
+    public static void ovenHeating(Level level, BlockPos pos, BlockState state, AbstractStoveBlockEntity stove) {
         if (!(stove instanceof IStoveBlockEntity) || !(stove instanceof HeatSourceBlockEntity heatSource)) {
             return;
         }

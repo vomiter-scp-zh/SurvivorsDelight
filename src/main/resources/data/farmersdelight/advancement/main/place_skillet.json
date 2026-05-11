@@ -19,9 +19,9 @@
   },
   "display": {
     "announce_to_chat": false,
-    "description": { "translate": "farmersdelight.advancement.place_skillet.desc" },
+    "description": { "translate": "advancements.farmersdelight.place_skillet.description" },
     "icon": { "count": 1, "id": "farmersdelight:skillet" },
-    "title": { "translate": "farmersdelight.advancement.place_skillet" }
+    "title": { "translate": "advancements.farmersdelight.place_skillet.title" }
   },
   "requirements": [[ "skillet" ]],
   "sends_telemetry_event": true

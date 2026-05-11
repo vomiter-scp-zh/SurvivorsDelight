@@ -82,7 +82,7 @@ public class ModItemTagsProvider extends ItemTagsProvider {
     }
 
     private void addFoodTags(){
-        tag(ModTags.CABBAGE_ROLL_INGREDIENTS)
+        tag(SDTags.ItemTags.CUT_FOOD)
                 .addOptionalTag(SDTags.ItemTags.TFC_RAW_MEATS)
                 .addOptionalTag(SDTags.ItemTags.TFC_GRAINS);
 

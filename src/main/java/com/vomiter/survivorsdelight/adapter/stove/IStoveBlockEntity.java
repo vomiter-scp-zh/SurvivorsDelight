@@ -32,7 +32,7 @@ public interface IStoveBlockEntity {
     static int sdtfc$getMaxDuration(){ return 7 * 20 * 60 * 20;}
 
     default boolean sdtfc$addItem(ItemStack itemStackIn, int slot, StoveBlockEntity stove, Player player) {
-        var inventory = stove.getInventory();
+        var inventory = stove.getItems();
         if (0 <= slot && slot < inventory.getSlots()) {
             ItemStack slotStack = inventory.getStackInSlot(slot);
             if (slotStack.isEmpty()) {
@@ -76,7 +76,7 @@ public interface IStoveBlockEntity {
     }
 
     default void sdtfc$cookTFCFoodInSlot(StoveBlockEntity stove, int slot){
-        var inventory = stove.getInventory();
+        var inventory = stove.getItems();
         Level level = stove.getLevel();
         BlockPos pos = stove.getBlockPos();
         if(level == null) return;

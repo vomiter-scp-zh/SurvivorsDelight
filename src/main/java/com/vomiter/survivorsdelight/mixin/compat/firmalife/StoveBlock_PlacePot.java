@@ -15,9 +15,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import vectorwing.farmersdelight.common.block.StoveBlock;
+import vectorwing.farmersdelight.common.block.AbstractStoveBlock;
 
-@Mixin(value = StoveBlock.class)
+@Mixin(value = AbstractStoveBlock.class)
 public class StoveBlock_PlacePot {
     @Inject(method = "useItemOn", at = @At("HEAD"), cancellable = true, remap = true)
     private void place_pot(
