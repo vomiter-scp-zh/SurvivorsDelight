@@ -4,55 +4,89 @@ import com.vomiter.survivorsdelight.compat.firmalife.FLCompatHelpers;
 import net.dries007.tfc.common.component.food.FoodCapability;
 import net.dries007.tfc.common.component.food.FoodData;
 import net.dries007.tfc.common.component.food.FoodTrait;
+import net.dries007.tfc.common.component.food.FoodTraits;
 import net.dries007.tfc.common.component.food.IFood;
 import net.minecraft.core.Holder;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class DecayFoodTransfer {
     private DecayFoodTransfer() {}
 
     /**
      * Copy TFC food state from src to dst.
-     * - creation date
-     * - traits (replace)
-     * - dynamic food data (replace)
+     * - dynamic food data, optionally nutrient-scaled
+     * - traits, replaced
      * - optional Firmalife trait stripping
+     * - creation date, copied last
+     *
      * Returns dst for chaining.
      */
     public static ItemStack copyFoodState(ItemStack src, ItemStack dst, boolean stripFirmalifeShelvedTraits, float factor) {
         IFood srcFood = FoodCapability.get(src);
         IFood dstFood = FoodCapability.get(dst);
-        if (srcFood == null || dstFood == null) return dst;
+        if (srcFood == null || dstFood == null) {
+            return dst;
+        }
 
-        // creation date
-        FoodCapability.setCreationDate(dst, srcFood.getCreationDate());
+        /*
+         * IMPORTANT:
+         * setFoodForDynamicItemOnCreate() resets creation date to now,
+         * so it must run before we copy src creation date.
+         */
+        FoodCapability.setFoodForDynamicItemOnCreate(dst, scaleNutrients(srcFood.getData(), factor));
 
-        // traits: replace (avoid duplication)
-        dstFood.getTraits().clear();
-        dstFood.getTraits().addAll(srcFood.getTraits());
+        /*
+         * IFood#getTraits() returns a non-mutable view / immutable component list in TFC 1.21.1.
+         * Never call clear(), add(), or addAll() on it.
+         *
+         * Snapshot both sides first, because apply/remove creates replacement food components.
+         */
+        List<FoodTrait> dstTraits = new ArrayList<>(dstFood.getTraits());
+        List<FoodTrait> srcTraits = new ArrayList<>(srcFood.getTraits());
 
-        // remove Firmalife-specific traits if requested
+        // Replace traits: remove current dst traits first.
+        for (FoodTrait trait : dstTraits) {
+            FoodCapability.removeTrait(dst, holderOf(trait));
+        }
+
+        // Then copy src traits.
+        for (FoodTrait trait : srcTraits) {
+            FoodCapability.applyTrait(dst, holderOf(trait));
+        }
+
+        // Remove Firmalife-specific traits if requested.
         if (stripFirmalifeShelvedTraits && ModList.get().isLoaded("firmalife")) {
-            for (Holder<FoodTrait> t : FLCompatHelpers.getPossibleShelvedFoodTraits()) {
-                FoodCapability.removeTrait(dst, t);
+            for (Holder<FoodTrait> trait : FLCompatHelpers.getPossibleShelvedFoodTraits()) {
+                FoodCapability.removeTrait(dst, trait);
             }
         }
 
-        // dynamic food data: replace
-        FoodCapability.setFoodForDynamicItemOnCreate(dst, scaleNutrients(srcFood.getData(), factor));
+        /*
+         * Must be last.
+         * applyTrait/removeTrait both adjust creation date to preserve decay proportion.
+         * Here we want to copy the source state exactly.
+         */
+        FoodCapability.setCreationDate(dst, srcFood.getCreationDate());
+
         return dst;
     }
 
     public static ItemStack copyFoodState(ItemStack src, ItemStack dst, boolean stripFirmalifeShelvedTraits) {
-        return copyFoodState(src, dst, stripFirmalifeShelvedTraits, 1);
+        return copyFoodState(src, dst, stripFirmalifeShelvedTraits, 1.0f);
     }
 
+    private static Holder<FoodTrait> holderOf(FoodTrait trait) {
+        return FoodTraits.REGISTRY.wrapAsHolder(trait);
+    }
 
     private static FoodData scaleNutrients(FoodData src, float factor) {
         factor = Math.max(0.0f, factor);
 
-        float[] nutrients = src.nutrients(); // 這裡會 clone，一般是安全的
+        float[] nutrients = src.nutrients();
         for (int i = 0; i < nutrients.length; i++) {
             nutrients[i] *= factor;
         }
