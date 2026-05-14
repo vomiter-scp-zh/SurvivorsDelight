@@ -82,12 +82,12 @@ public class StoveBlockEntity_FuelAndHeat implements HeatSourceBlockEntity, ISto
         }
     }
 
-    @Inject(method = "saveAdditional", at = @At("TAIL"))
+    @Inject(method = "saveAdditional", at = @At("TAIL"), remap = true)
     private void sdtfc$writeLeftBurnTick(CompoundTag tag, HolderLookup.Provider registries, CallbackInfo ci) {
         tag.putInt(SD_LEFT_BURN_TICK, this.leftBurnTick);
     }
 
-    @Inject(method = "getUpdateTag", at = @At("RETURN"), remap = false)
+    @Inject(method = "getUpdateTag", at = @At("RETURN"), remap = true)
     private void sdtfc$writeLeftBurnTickToUpdateTag(CallbackInfoReturnable<CompoundTag> cir) {
         CompoundTag tag = cir.getReturnValue();
         tag.putInt(SD_LEFT_BURN_TICK, this.leftBurnTick);
