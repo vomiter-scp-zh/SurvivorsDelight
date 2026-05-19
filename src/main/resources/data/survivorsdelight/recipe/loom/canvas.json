@@ -2,7 +2,7 @@
   "type": "tfc:loom",
   "ingredient": {
     "count": 4,
-    "item": "farmersdelght:straw"
+    "item": "farmersdelight:straw"
   },
   "result": {
     "count": 1,

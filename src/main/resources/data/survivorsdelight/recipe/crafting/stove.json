@@ -14,7 +14,7 @@
     "B B"
   ],
   "result": {
-    "item": "farmersdelight:stove"
+    "id": "farmersdelight:stove"
   },
   "show_notification": true
 }
