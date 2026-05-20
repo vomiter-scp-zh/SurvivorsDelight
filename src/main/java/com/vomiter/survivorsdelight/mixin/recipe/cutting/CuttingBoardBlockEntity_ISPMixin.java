@@ -3,6 +3,7 @@ package com.vomiter.survivorsdelight.mixin.recipe.cutting;
 import com.vomiter.survivorsdelight.data.recipe.SDCuttingRecipe;
 import net.dries007.tfc.common.recipes.outputs.ItemStackProvider;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
@@ -22,7 +23,9 @@ import vectorwing.farmersdelight.common.block.CuttingBoardBlock;
 import vectorwing.farmersdelight.common.block.entity.CuttingBoardBlockEntity;
 import vectorwing.farmersdelight.common.crafting.CuttingBoardRecipe;
 import vectorwing.farmersdelight.common.crafting.ingredient.ChanceResult;
+import vectorwing.farmersdelight.common.registry.ModAdvancements;
 import vectorwing.farmersdelight.common.utility.ItemUtils;
+import vectorwing.farmersdelight.common.utility.TextUtils;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -81,11 +84,15 @@ public abstract class CuttingBoardBlockEntity_ISPMixin {
         }
 
         this.playProcessingSound(recipe.getSoundEventID(), toolStack, this.getStoredItem());
-        this.removeItem();
+        inventory.extractItem(0, 1, false);
         if (player instanceof ServerPlayer sp) {
-            vectorwing.farmersdelight.common.registry.ModAdvancements.CUTTING_BOARD.trigger(sp);
+            ModAdvancements.CUTTING_BOARD.trigger(sp);
+            if (!this.getStoredItem().isEmpty()) {
+                player.displayClientMessage(TextUtils.block("cutting_board.remaining_items", new Object[]{this.getStoredItem().getCount()}), true);
+            } else {
+                player.displayClientMessage(Component.empty(), true);
+            }
         }
-
         cir.setReturnValue(true);
 
 

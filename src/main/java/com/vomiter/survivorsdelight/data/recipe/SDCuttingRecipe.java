@@ -43,9 +43,8 @@ public class SDCuttingRecipe extends CuttingBoardRecipe {
     public @NotNull ItemStack getResultItem(@NotNull RegistryAccess registryAccess) {
         NonNullList<ChanceResult> rolls = super.getRollableResults();
         if (rolls.isEmpty()) {
-            return ItemStack.EMPTY; // 關鍵：避免 FD 內部對 index 0 的假設
+            return ItemStack.EMPTY;
         }
-        // FD 原邏輯等同於拿第一個結果；你也可以依需求改成合併或隨機
         return rolls.get(0).getStack();
     }
 

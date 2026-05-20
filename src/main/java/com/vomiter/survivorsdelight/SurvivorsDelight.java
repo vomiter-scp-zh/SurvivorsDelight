@@ -102,8 +102,6 @@ public class SurvivorsDelight {
         if (FMLEnvironment.dist == Dist.CLIENT){
             ClientForgeEventHandler.init();
             modBus.addListener(this::onClientSetup);
-            modBus.addListener(SkilletModels::onModelRegister);
-            modBus.addListener(SkilletModels::onModelBake);
         }
     }
 }

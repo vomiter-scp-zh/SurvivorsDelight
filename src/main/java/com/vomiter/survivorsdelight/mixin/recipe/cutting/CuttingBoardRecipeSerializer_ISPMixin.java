@@ -3,6 +3,7 @@ package com.vomiter.survivorsdelight.mixin.recipe.cutting;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.vomiter.survivorsdelight.adapter.isp.ISPConverter;
 import com.vomiter.survivorsdelight.data.recipe.SDCuttingRecipe;
 import net.dries007.tfc.common.recipes.outputs.ItemStackProvider;
 import net.minecraft.core.NonNullList;
@@ -11,7 +12,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -38,7 +38,7 @@ public abstract class CuttingBoardRecipeSerializer_ISPMixin {
             Ingredient ing = Ingredient.fromJson(e);
             if (!ing.isEmpty()) inputs.add(ing);
         }
-        if (inputs.size() != 1) return;
+        if (inputs.size() != 1) return; //理論上砧板只會有一格輸入
 
         final Ingredient tool = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "tool"));
         if (tool.isEmpty()) return;
@@ -55,7 +55,7 @@ public abstract class CuttingBoardRecipeSerializer_ISPMixin {
             JsonObject obj = el.getAsJsonObject();
             if (obj.has("modifiers")) {
                 hasProvider = true;
-                providers.add(sdtfc$providerFromLooseJson(obj)); // ★ 轉成 ISP 期望格式
+                providers.add(ISPConverter.providerFromLooseJson(obj)); // 轉成 ISP 期望格式
             } else if (obj.has("stack")) {
                 hasProvider = true;
                 providers.add(ItemStackProvider.fromJson(obj));
@@ -81,12 +81,12 @@ public abstract class CuttingBoardRecipeSerializer_ISPMixin {
             method = "fromNetwork(Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/network/FriendlyByteBuf;)Lvectorwing/farmersdelight/common/crafting/CuttingBoardRecipe;",
             at = @At("HEAD"), cancellable = true
     )
-    private void getFromNetwork(ResourceLocation id, FriendlyByteBuf buf, CallbackInfoReturnable<CuttingBoardRecipe> cir) {
+    private void sdtfc$getFromNetwork(ResourceLocation id, FriendlyByteBuf buf, CallbackInfoReturnable<CuttingBoardRecipe> cir) {
         final String group = buf.readUtf(32767);
         final Ingredient input = Ingredient.fromNetwork(buf);
         final Ingredient tool = Ingredient.fromNetwork(buf);
 
-        final boolean hasProvider = buf.readBoolean(); // ← 我們插入的旗標（關鍵）
+        final boolean hasProvider = buf.readBoolean(); // ← 我們插入的旗標
 
         final int vanillaCount = buf.readVarInt();
         final NonNullList<ChanceResult> vanilla = NonNullList.withSize(vanillaCount, ChanceResult.EMPTY);
@@ -101,7 +101,7 @@ public abstract class CuttingBoardRecipeSerializer_ISPMixin {
         final String sound = buf.readUtf(); // 注意：FD 原本把 sound 放最後；我們保持一致
 
         if (hasProvider) {
-            cir.setReturnValue(new com.vomiter.survivorsdelight.data.recipe.SDCuttingRecipe(
+            cir.setReturnValue(new SDCuttingRecipe(
                     id, group, input, tool, vanilla, providers, sound
             ));
         } else {
@@ -113,12 +113,12 @@ public abstract class CuttingBoardRecipeSerializer_ISPMixin {
             method = "toNetwork(Lnet/minecraft/network/FriendlyByteBuf;Lvectorwing/farmersdelight/common/crafting/CuttingBoardRecipe;)V",
             at = @At("HEAD"), cancellable = true
     )
-    private void sd$toNetwork(FriendlyByteBuf buf, CuttingBoardRecipe recipe, CallbackInfo ci) {
+    private void sdtfc$toNetwork(FriendlyByteBuf buf, CuttingBoardRecipe recipe, CallbackInfo ci) {
         buf.writeUtf(recipe.getGroup());
         recipe.getIngredients().get(0).toNetwork(buf); // 只有單一 input
         recipe.getTool().toNetwork(buf);
 
-        if (recipe instanceof com.vomiter.survivorsdelight.data.recipe.SDCuttingRecipe ext) {
+        if (recipe instanceof SDCuttingRecipe ext) {
             buf.writeBoolean(true); // hasProvider
             // 先寫 FD 的 results
             final NonNullList<ChanceResult> vanilla = recipe.getRollableResults();
@@ -141,30 +141,5 @@ public abstract class CuttingBoardRecipeSerializer_ISPMixin {
         for (ChanceResult r : vanilla) r.write(buf);
         buf.writeUtf(recipe.getSoundEventID());
         ci.cancel();
-    }
-
-    /**
-     * { item, count?, nbt?, modifiers }  ->  { stack:{item,count?,nbt?}, modifiers:[...] }
-     */
-    @Unique
-    private static ItemStackProvider sdtfc$providerFromLooseJson(JsonObject obj) {
-        JsonObject wrapper = new JsonObject();
-
-        // modifiers（必須）
-        wrapper.add("modifiers", obj.getAsJsonArray("modifiers"));
-
-        // stack（由 item/count/nbt 組出）
-        if (obj.has("stack") && obj.get("stack").isJsonObject()) {
-            // 已經是 ISP 標準結構
-            wrapper.add("stack", obj.getAsJsonObject("stack"));
-        } else {
-            JsonObject stack = new JsonObject();
-            if (obj.has("item")) stack.add("item", obj.get("item"));
-            if (obj.has("count")) stack.add("count", obj.get("count"));
-            if (obj.has("nbt")) stack.add("nbt", obj.get("nbt")); // 如需 NBT
-            wrapper.add("stack", stack);
-        }
-
-        return ItemStackProvider.fromJson(wrapper);
     }
 }

@@ -12,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import vectorwing.farmersdelight.common.registry.ModItems;
+import vectorwing.farmersdelight.common.tag.CommonTags;
 import vectorwing.farmersdelight.common.tag.ForgeTags;
 
 public class SandwichPredicates {
@@ -38,7 +39,7 @@ public class SandwichPredicates {
                     int tomatoCount = 0;
 
                     for (ItemStack ingredient : dynamic.getIngredients()) {
-                        if(ingredient.is(ForgeTags.EGGS)) eggCount++;
+                        if(ingredient.is(CommonTags.Items.EGGS)) eggCount++;
                         if(ingredient.is(TFCItems.FOOD.get(Food.COOKED_CHICKEN).get())
                                 || ingredient.is(ModItems.COOKED_CHICKEN_CUTS.get())
                         ) chickenCount++;

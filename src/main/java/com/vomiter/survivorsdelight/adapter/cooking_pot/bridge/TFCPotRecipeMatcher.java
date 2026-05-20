@@ -33,11 +33,11 @@ public final class TFCPotRecipeMatcher {
             IFluidHandler fluids,
             int[] ingredientSlots
     ) {
-        // 1) 蒐集候選配方
+        // 蒐集候選配方
         final var recipes = level.getRecipeManager().getAllRecipesFor(TFCRecipeTypes.POT.get());
         if (recipes.isEmpty()) return Optional.empty();
 
-        // 2) 讀容器內容
+        // 讀容器內容
         final FluidStack fluidInTank0 = fluids.getTanks() > 0 ? fluids.getFluidInTank(0) : FluidStack.EMPTY;
         final List<ItemStack> stacks = new ArrayList<>();
         for (int slot : ingredientSlots) {
@@ -45,13 +45,13 @@ public final class TFCPotRecipeMatcher {
             if (!s.isEmpty()) stacks.add(s);
         }
 
-        // 3) 逐一比對：fluid・items
+        // 逐一比對：fluid・items
         for (PotRecipe r : recipes) {
-            // 3a) 先比對流體
+            // 先比對流體
             final FluidStackIngredient needed = r.getFluidIngredient();
             if (!needed.test(fluidInTank0)) continue;
 
-            // 3b) 再比對原料（完全配對）
+            // 再比對原料（完全配對）
             if (!matchesItemsExactly(stacks, r.getItemIngredients())) continue;
 
             return Optional.of(r);

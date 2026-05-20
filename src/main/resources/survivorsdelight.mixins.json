@@ -16,7 +16,6 @@
     "device.cooking_pot.CookingPotBlockEntity_FluidHandleMixin",
     "device.cooking_pot.CookingPotBlockEntity_PotRecipeBridgeMixin",
     "device.cooking_pot.CookingPotMenu_CommonMixin",
-    "device.cutting.CuttingBoardBlockEntityMixin",
     "device.skillet.SkilletBlockEntity_SlotLimitMixin",
     "device.skillet.SkilletBlockEntity_TFCHeatMixin",
     "device.skillet.SkilletItem_TFCHeatMixin",
