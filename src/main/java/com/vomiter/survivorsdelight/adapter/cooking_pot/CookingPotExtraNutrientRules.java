@@ -82,7 +82,7 @@ public final class CookingPotExtraNutrientRules {
 
         register(
                 SDUtils.RLUtils.build("survivorsdelight", "tfc_grain_tag_bonus"),
-                900,
+                1000,
                 new SimpleRule(
                         (level, stack, nutrient, data) ->
                                 nutrient == Nutrient.GRAIN && stack.is(SDTags.ItemTags.create("tfc", "foods/grains")),
@@ -92,7 +92,7 @@ public final class CookingPotExtraNutrientRules {
 
         register(
                 SDUtils.RLUtils.build("survivorsdelight", "firmalife_extra_dough_bonus"),
-                800,
+                1000,
                 new SimpleRule(
                         (level, stack, nutrient, data) ->
                                 nutrient == Nutrient.GRAIN && stack.is(SDTags.ItemTags.create("firmalife", "foods/extra_dough")),
@@ -102,7 +102,7 @@ public final class CookingPotExtraNutrientRules {
 
         register(
                 SDUtils.RLUtils.build("survivorsdelight", "tfc_dough_cooked_bonus"),
-                700,
+                1000,
                 new SimpleRule(
                         (level, stack, nutrient, data) ->
                                 nutrient == Nutrient.GRAIN && stack.is(SDTags.ItemTags.TFC_DOUGHS),
@@ -114,7 +114,7 @@ public final class CookingPotExtraNutrientRules {
 
         register(
                 SDUtils.RLUtils.build("survivorsdelight", "tfc_raw_meat_cooked_bonus"),
-                600,
+                1000,
                 new SimpleRule(
                         (level, stack, nutrient, data) ->
                                 nutrient == Nutrient.PROTEIN && stack.is(SDTags.ItemTags.TFC_RAW_MEATS),
@@ -123,6 +123,7 @@ public final class CookingPotExtraNutrientRules {
                                         + data.nutrient(nutrient) * 0.2f
                 )
         );
+
     }
 
     private static void ensureBootstrapped() {
