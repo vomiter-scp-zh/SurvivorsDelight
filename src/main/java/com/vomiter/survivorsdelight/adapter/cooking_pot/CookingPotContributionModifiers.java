@@ -3,11 +3,16 @@ package com.vomiter.survivorsdelight.adapter.cooking_pot;
 import com.vomiter.survivorsdelight.SDConfig;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
 import com.vomiter.survivorsdelight.util.SDUtils;
+import net.dries007.tfc.common.component.food.FoodCapability;
 import net.dries007.tfc.common.component.food.FoodData;
 import net.dries007.tfc.common.component.food.Nutrient;
+import net.dries007.tfc.common.items.Food;
 import net.dries007.tfc.common.items.Powder;
 import net.dries007.tfc.common.items.TFCItems;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
@@ -16,9 +21,14 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * This one is for "Bonus" for the pot.
+ */
 public final class CookingPotContributionModifiers {
     private static final List<Entry> RULES = new ArrayList<>();
     private static boolean bootstrapped = false;
+    private static FoodData eggData;
+    private static TagKey<Item> EGGS = TagKey.create(BuiltInRegistries.ITEM.key(), ResourceLocation.fromNamespaceAndPath("c", "eggs"));
 
     private CookingPotContributionModifiers() {
     }
@@ -137,6 +147,26 @@ public final class CookingPotContributionModifiers {
                 )
         );
 
+        register(
+                id("egg_bonus"),
+                800,
+                new SimpleModifier(
+                        (level, stack, nutrient, data, context)
+                            -> stack.is(EGGS) && !context.outputPreview().is(TFCItems.FOOD.get(Food.BOILED_EGG).get()),
+                        (level, stack, nutrient, data, current, context)
+                            -> {
+                            if(eggData == null){
+                                var eggFood = FoodCapability.get(new ItemStack(TFCItems.FOOD.get(
+                                        Food.COOKED_EGG
+                                ).get()));
+                                if (eggFood == null) return current;
+                                eggData = eggFood.getData();
+                            }
+
+                            return current + applyRetainLogic(eggData.nutrient(nutrient), context);
+                        })
+        );
+
 
         /*
         register(
@@ -162,6 +192,10 @@ public final class CookingPotContributionModifiers {
 
     private static ResourceLocation id(String path) {
         return SDUtils.RLUtils.build("survivorsdelight", path);
+    }
+
+    private static float applyRetainLogic(float f, CookingPotNutritionContext context){
+         return f * (1f - 0.04f * context.foodIngredientCount());
     }
 
     private static final Comparator<Entry> ENTRY_COMPARATOR =
