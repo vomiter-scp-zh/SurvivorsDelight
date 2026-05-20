@@ -35,7 +35,7 @@ public abstract class CuttingBoardBlockEntity_ISPMixin {
             return;
         }
 
-        // ★ client 端不跑 ISP，交給原版 + server 同步
+        // client 端不跑 ISP，交給原版 + server 同步
         if (level.isClientSide()) {
             return;
         }

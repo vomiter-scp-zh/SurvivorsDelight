@@ -4,6 +4,7 @@ import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.registry.recipe.SDCuttingRecipe;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -11,10 +12,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import vectorwing.farmersdelight.common.Configuration;
+import vectorwing.farmersdelight.common.advancement.CuttingBoardTrigger;
 import vectorwing.farmersdelight.common.block.CuttingBoardBlock;
 import vectorwing.farmersdelight.common.block.entity.CuttingBoardBlockEntity;
 import vectorwing.farmersdelight.common.registry.ModAdvancements;
 import vectorwing.farmersdelight.common.utility.ItemUtils;
+import vectorwing.farmersdelight.common.utility.TextUtils;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -34,7 +37,7 @@ public class CuttingBoardBlockEntityAdapter {
 
         for (SDCuttingRecipe.Output r : recipe.getOutputs()) {
             // 1) 先用 ISP 算出實際要掉的東西（套好 modifier）
-            ItemStack stack = r.getISPResult(level).getStack(cuttingBoard.getStoredItem());
+            ItemStack stack = r.getISPResult(level).getStack(cuttingBoard.getStoredItem().copyWithCount(1));
             if (stack.isEmpty()) {
                 continue;
             }
@@ -64,8 +67,7 @@ public class CuttingBoardBlockEntityAdapter {
             out.add(stack);
         }
 
-        // 這個 log 可以暫時留著看看
-        SurvivorsDelight.LOGGER.info("[Cutting ISP] side=server, pos={}, outputs(before filter)={}, kept={}",
+        SurvivorsDelight.LOGGER.debug("[Cutting ISP] side=server, pos={}, outputs(before filter)={}, kept={}",
                 cuttingBoard.getBlockPos(), recipe.getOutputs().size(), out.size());
 
         Direction dir = cuttingBoard.getBlockState().getValue(CuttingBoardBlock.FACING).getCounterClockWise();
@@ -83,7 +85,14 @@ public class CuttingBoardBlockEntityAdapter {
         toolStack.hurtAndBreak(1, (ServerLevel) level, player, (item) -> {});
 
         cuttingBoard.playProcessingSound(recipe.getSoundEvent().orElse(null), toolStack, cuttingBoard.getStoredItem());
-        cuttingBoard.removeItem();
+        cuttingBoard.getInventory().extractItem(0, 1, false);
+        ModAdvancements.USE_CUTTING_BOARD.get().trigger((ServerPlayer)player);
+        if (!cuttingBoard.getStoredItem().isEmpty()) {
+            player.displayClientMessage(TextUtils.block("cutting_board.remaining_items", cuttingBoard.getStoredItem().getCount()), true);
+        } else {
+            player.displayClientMessage(Component.empty(), true);
+        }
+
 
         if (player instanceof ServerPlayer sp) {
             ModAdvancements.USE_CUTTING_BOARD.get().trigger(sp);

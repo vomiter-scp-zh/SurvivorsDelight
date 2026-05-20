@@ -235,41 +235,5 @@ public class SDCuttingRecipe extends CuttingBoardRecipe {
         public @NotNull StreamCodec<RegistryFriendlyByteBuf, SDCuttingRecipe> streamCodec() {
             return STREAM_CODEC;
         }
-
-
-        private static SDCuttingRecipe fromNetwork(RegistryFriendlyByteBuf buf) {
-            String group = buf.readUtf();
-
-            // 食材與工具：用 Ingredient 的 STREAM_CODEC
-            Ingredient ingredient = Ingredient.CONTENTS_STREAM_CODEC.decode(buf);
-            Ingredient tool = Ingredient.CONTENTS_STREAM_CODEC.decode(buf);
-
-            // Output：用我們剛剛在 Output 介面裡定義的 STREAM_CODEC
-            int count = buf.readVarInt();
-            List<Output> outputs = new ArrayList<>(count);
-            for (int i = 0; i < count; i++) {
-                outputs.add(Output.STREAM_CODEC.decode(buf));
-            }
-
-            Optional<SoundEvent> sound;
-            sound = Optional.empty();
-            return new SDCuttingRecipe(group, ingredient, tool, outputs, sound);
-        }
-
-        private static void toNetwork(RegistryFriendlyByteBuf buf, SDCuttingRecipe recipe) {
-            buf.writeUtf(recipe.getGroup());
-
-            Ingredient ingredient = recipe.getIngredients().getFirst();
-            Ingredient.CONTENTS_STREAM_CODEC.encode(buf, ingredient);
-
-            Ingredient tool = recipe.getTool();
-            Ingredient.CONTENTS_STREAM_CODEC.encode(buf, tool);
-
-            List<Output> outputs = recipe.getOutputs();
-            buf.writeVarInt(outputs.size());
-            for (Output o : outputs) {
-                Output.STREAM_CODEC.encode(buf, o);
-            }
-        }
     }
 }
