@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedHashMap;
@@ -29,7 +30,7 @@ public record ShapedLikeFinished(
 ) implements FinishedRecipe {
 
     @Override
-    public void serializeRecipeData(JsonObject json) {
+    public void serializeRecipeData(@NotNull JsonObject json) {
         if (group != null && !group.isEmpty()) json.addProperty("group", group);
 
         // key
@@ -55,8 +56,8 @@ public record ShapedLikeFinished(
         if(presetDecay != 4.5f) json.addProperty("decay", presetDecay);
     }
 
-    @Override public RecipeSerializer<?> getType() { return serializer.get(); }
-    @Override public ResourceLocation getId() { return id; }
+    @Override public @NotNull RecipeSerializer<?> getType() { return serializer.get(); }
+    @Override public @NotNull ResourceLocation getId() { return id; }
     @Override public @Nullable JsonObject serializeAdvancement() { return null; }
     @Override public @Nullable ResourceLocation getAdvancementId() { return null; }
 
