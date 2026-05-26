@@ -13,6 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -26,7 +27,7 @@ public abstract class NutrientCraftingRecipe implements CraftingRecipe {
     final int presetHunger;
     final boolean damageTool;
 
-    public NutrientCraftingRecipe(CraftingRecipe vanilla, float balanceFactor, int presetHunger, float presetDecay, boolean damageTool) {
+    public NutrientCraftingRecipe(@Nullable CraftingRecipe vanilla, float balanceFactor, int presetHunger, float presetDecay, boolean damageTool) {
         this.vanilla = vanilla;
         this.balanceFactor = balanceFactor;
         this.presetHunger = presetHunger;
