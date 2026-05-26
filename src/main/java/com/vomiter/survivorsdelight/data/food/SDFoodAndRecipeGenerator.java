@@ -3,21 +3,23 @@ package com.vomiter.survivorsdelight.data.food;
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.data.recipe.builder.SDFDCookingPotRecipeBuilder;
 import com.vomiter.survivorsdelight.registry.SDRecipeSerializers;
-import com.vomiter.survivorsdelight.registry.recipe.ShapedLikeFinished;
+import com.vomiter.survivorsdelight.registry.recipe.NutrientShapedFinished;
+import com.vomiter.survivorsdelight.registry.recipe.NutrientShapedRecipe;
+import com.vomiter.survivorsdelight.registry.recipe.NutrientShapelessFinished;
+import com.vomiter.survivorsdelight.registry.recipe.NutrientShapelessRecipe;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.capabilities.food.FoodData;
 import net.dries007.tfc.common.items.Food;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.crafting.ConditionalRecipe;
@@ -41,7 +43,7 @@ public class SDFoodAndRecipeGenerator {
     public SDFoodAndRecipeGenerator(String modId, SDFoodDataProvider readyProvider) {
         this.modId = Objects.requireNonNull(modId);
         Objects.requireNonNull(readyProvider);
-        this.providerFactory = () -> readyProvider; // 不用延遲，直接回傳
+        this.providerFactory = () -> readyProvider;
         this.providerCache.set(readyProvider);
     }
 
@@ -228,21 +230,7 @@ public class SDFoodAndRecipeGenerator {
                     .newBuilder(path)
                     .item(result.asItem());
 
-            if (!foodDataIsStatic) {
-                foodDataBuilder.type("dynamic");
-                return this;
-            }
-
-            final long foodCount = entries.stream().filter(e -> e.kind == Kind.FOOD).count();
-            float factor = 1f - (balanceFactor * (int) foodCount);
-            if (factor < 0f) factor = 0f;
-
-            for (IngredientEntry e : entries) {
-                if (e.kind == Kind.FOOD) {
-                    if (e.proxyData() == null) continue;
-                    foodDataBuilder.addNutrientsAndSetMaxHunger(e.proxyData(), factor);
-                }
-            }
+            foodDataBuilder.type("dynamic");
             return this;
         }
 
@@ -255,36 +243,111 @@ public class SDFoodAndRecipeGenerator {
         }
     }
 
-    public final class ShapedCraftingBuilder{
-        private final String path;
-        private final ItemLike result;
-        private final int resultCount;
+    public abstract class CraftingBuilder{
+        final String path;
+        final ItemLike result;
+        final int resultCount;
+        String whenModLoaded;
+        private SDFoodDataProvider.Builder foodDataBuilder;
+        float balanceFactor = 0.04f;
+        int presetHunger = -1;
+        float presetDecay = 4.5f;
+        boolean damageTool = true;
+
+        Supplier<? extends RecipeSerializer<?>> getCustomSerializer() {return null;}
+
+        private CraftingBuilder(String path, ItemLike result, int resultCount) {
+            this.path = path;
+            this.result = result;
+            this.resultCount = resultCount;
+        }
+
+        public abstract CraftingBuilder group(String g);
+        public CraftingBuilder factorPerIngredient(float f){ this.balanceFactor = f; return this; }
+        public CraftingBuilder hunger(int i){
+            this.presetHunger = i;
+            return this;
+        }
+
+        public CraftingBuilder decay(float f){
+            this.presetDecay = f;
+            return this;
+        }
+
+        public CraftingBuilder damageTool(boolean b){
+            this.damageTool = b;
+            return this;
+        }
+
+        public CraftingBuilder whenModLoaded(String modid) { this.whenModLoaded = modid; return this; }
+
+        abstract void unlockedBy(String s, InventoryChangeTrigger.TriggerInstance trigger);
+        abstract void save(Consumer<FinishedRecipe> consumer, ResourceLocation resourceLocation);
+        abstract FinishedRecipe customRecipeBuild(ResourceLocation id, Consumer<FinishedRecipe> consumer);
+
+        public CraftingBuilder build(Consumer<FinishedRecipe> out){
+            final ResourceLocation id = SDUtils.RLUtils.build(modId, "crafting/" + path);
+
+            unlockedBy(
+                    "has_result",
+                    InventoryChangeTrigger.TriggerInstance.hasItems(result)
+            );
+
+            if (getCustomSerializer() == null) {
+                SurvivorsDelight.LOGGER.info("[Survivor's Delight] Vanilla Crafting Recipe Generation");
+
+                if (whenModLoaded != null && !whenModLoaded.isBlank()) {
+                    ConditionalRecipe.builder()
+                            .addCondition(new ModLoadedCondition(whenModLoaded))
+                            .addRecipe(r -> save(r, id))
+                            .build(out, id);
+                } else {
+                    save(out, id);
+                }
+            } else {
+
+                FinishedRecipe fr = customRecipeBuild(id, out);
+
+                if (whenModLoaded != null && !whenModLoaded.isBlank()) {
+                    ConditionalRecipe.builder()
+                            .addCondition(new ModLoadedCondition(whenModLoaded))
+                            .addRecipe(r -> r.accept(fr))
+                            .build(out, id);
+                } else {
+                    out.accept(fr);
+                }
+            }
+
+
+            foodDataBuilder = provider()
+                    .newBuilder(path)
+                    .item(result.asItem());
+
+            foodDataBuilder.type("dynamic");
+            return this;
+        }
+
+        public SDFoodDataProvider.Builder getFoodData() { return foodDataBuilder; }
+        public void saveFoodData() { if (foodDataBuilder != null) foodDataBuilder.save(); }
+    }
+
+    public final class ShapedCraftingBuilder extends CraftingBuilder{
         private final ShapedRecipeBuilder innerBuilder;
         private final List<String> patterns = new ArrayList<>();
         private final List<IngredientEntry> entries = new ArrayList<>();
         private final Map<Character, IngredientEntry> keyMap = new LinkedHashMap<>();
         private String group;
-        private String whenModLoaded;
         private SDFoodDataProvider.Builder foodDataBuilder;
-        private float balanceFactor = 0.04f;
-        private int presetHunger = -1;
-        private float presetDecay = 4.5f;
+        Supplier<? extends RecipeSerializer<?>> getCustomSerializer() {return SDRecipeSerializers.NUTRITION_CRAFTING;}
+
 
         public List<IngredientEntry> getEntries(){return entries;}
-
-        private Supplier<? extends RecipeSerializer<?>> customSerializer = null;
-
         private ShapedCraftingBuilder(String path, ItemLike result, int resultCount) {
-            this.path = path;
-            this.result = result;
-            this.resultCount = resultCount;
+            super(path, result, resultCount);
             innerBuilder = ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, result, resultCount);
         }
 
         public ShapedCraftingBuilder group(String g){ this.group = g; innerBuilder.group(g); return this; }
-        public ShapedCraftingBuilder factorPerIngredient(float f){ this.balanceFactor = f; return this; }
-        public ShapedCraftingBuilder serializer(Supplier<? extends RecipeSerializer<?>> s){ this.customSerializer = s; return this; }
-
         /** row/shape */
         public ShapedCraftingBuilder row(String p){
             innerBuilder.pattern(p);
@@ -293,16 +356,6 @@ public class SDFoodAndRecipeGenerator {
         }
         public ShapedCraftingBuilder shape(String... rows){
             for(String r : rows) row(r);
-            return this;
-        }
-
-        public ShapedCraftingBuilder hunger(int i){
-            this.presetHunger = i;
-            return this;
-        }
-
-        public ShapedCraftingBuilder decay(float f){
-            this.presetDecay = f;
             return this;
         }
 
@@ -326,77 +379,102 @@ public class SDFoodAndRecipeGenerator {
 
         public ShapedCraftingBuilder whenModLoaded(String modid) { this.whenModLoaded = modid; return this; }
 
-        public ShapedCraftingBuilder build(Consumer<FinishedRecipe> out){
-            final ResourceLocation id = SDUtils.RLUtils.build(modId, "crafting/" + path);
+        @Override
+        void unlockedBy(String s, InventoryChangeTrigger.TriggerInstance trigger) {
+            innerBuilder.unlockedBy(s, trigger);
+        }
 
-            innerBuilder.unlockedBy(
-                    "has_result",
-                    InventoryChangeTrigger.TriggerInstance.hasItems(result)
-            );
+        @Override
+        void save(Consumer<FinishedRecipe> consumer, ResourceLocation resourceLocation) {
+            innerBuilder.save(consumer, resourceLocation);
+        }
 
-            final boolean foodDataIsStatic = isFoodDataStatic(entries);
-            if(!foodDataIsStatic && customSerializer == null) serializer(SDRecipeSerializers.NUTRITION_CRAFTING);
+        @Override
+        FinishedRecipe customRecipeBuild(ResourceLocation id, Consumer<FinishedRecipe> out) {
+            SurvivorsDelight.LOGGER.info("[Survivor's Delight] Custom Crafting Recipe Generation");
+            NutrientShapedFinished.Builder b = NutrientShapedFinished
+                    .builder(id, new ItemStack(result.asItem(), resultCount), getCustomSerializer())
+                    .recipe(new NutrientShapedRecipe(null, balanceFactor, presetHunger, presetDecay, damageTool));
 
-            if (customSerializer == null) {
-                if (whenModLoaded != null && !whenModLoaded.isBlank()) {
-                    ConditionalRecipe.builder()
-                            .addCondition(new ModLoadedCondition(whenModLoaded))
-                            .addRecipe(r -> innerBuilder.save(r, id))
-                            .build(out, id);
-                } else {
-                    innerBuilder.save(out, id);
-                }
-            } else {
-                ShapedLikeFinished.Builder b = ShapedLikeFinished
-                        .builder(id, new ItemStack(result.asItem(), resultCount), customSerializer)
-                        .balance(this.balanceFactor)
-                        .presetDecay(presetDecay)
-                        .presetHunger(presetHunger);
-
-                if (group != null) b.group(group);
-                for (String p : patterns) b.row(p);
-                for (Map.Entry<Character, IngredientEntry> e : keyMap.entrySet()) {
-                    b.key(e.getKey(), e.getValue().ingredient());
-                }
-
-                FinishedRecipe fr = b.build();
-
-                if (whenModLoaded != null && !whenModLoaded.isBlank()) {
-                    ConditionalRecipe.builder()
-                            .addCondition(new ModLoadedCondition(whenModLoaded))
-                            .addRecipe(r -> r.accept(fr))
-                            .build(out, id);
-                } else {
-                    out.accept(fr);
-                }
+            for (String p : patterns) b.row(p);
+            for (Map.Entry<Character, IngredientEntry> e : keyMap.entrySet()) {
+                b.key(e.getKey(), e.getValue().ingredient());
             }
 
+            FinishedRecipe fr = b.build();
+            return fr;
+        }
+    }
 
-            foodDataBuilder = provider()
-                    .newBuilder(path)
-                    .item(result.asItem());
+    public final class ShapelessCraftingBuilder extends CraftingBuilder{
+        private final ShapelessRecipeBuilder innerBuilder;
+        private final List<String> patterns = new ArrayList<>();
+        private final List<IngredientEntry> entries = new ArrayList<>();
+        private final Map<Character, IngredientEntry> keyMap = new LinkedHashMap<>();
+        private String group;
+        private SDFoodDataProvider.Builder foodDataBuilder;
+        Supplier<? extends RecipeSerializer<?>> getCustomSerializer() {return SDRecipeSerializers.NUTRITION_CRAFTING;}
 
-            if (!foodDataIsStatic) {
-                foodDataBuilder.type("dynamic");
-                return this;
+
+        public List<IngredientEntry> getEntries(){return entries;}
+        private ShapelessCraftingBuilder(String path, ItemLike result, int resultCount) {
+            super(path, result, resultCount);
+            innerBuilder = ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, result, resultCount);
+        }
+
+        public ShapelessCraftingBuilder group(String g){ this.group = g; innerBuilder.group(g); return this; }
+
+        public ShapelessCraftingBuilder requires(TagKey<Item> p_206420_) {
+            return this.requires(Ingredient.of(p_206420_));
+        }
+
+        public ShapelessCraftingBuilder requires(ItemLike p_126210_) {
+            return this.requires(p_126210_, 1);
+        }
+
+        public ShapelessCraftingBuilder requires(ItemLike p_126212_, int p_126213_) {
+            for(int i = 0; i < p_126213_; ++i) {
+                this.requires(Ingredient.of(p_126212_));
             }
 
-            final long foodCount = entries.stream().filter(e -> e.kind() == Kind.FOOD).count();
-            float factor = 1f - (balanceFactor * (int) foodCount);
-            if (factor < 0f) factor = 0f;
-
-            for (IngredientEntry e : entries) {
-                if (e.kind() == Kind.FOOD && e.proxyData() != null) {
-                    foodDataBuilder.addNutrientsAndSetMaxHunger(e.proxyData(), factor);
-                }
-            }
             return this;
         }
 
-        public SDFoodDataProvider.Builder getFoodData() { return foodDataBuilder; }
-        public void saveFoodData() { if (foodDataBuilder != null) foodDataBuilder.save(); }
-    }
+        public ShapelessCraftingBuilder requires(Ingredient p_126185_) {
+            return this.requires(p_126185_, 1);
+        }
 
+        public ShapelessCraftingBuilder requires(Ingredient p_126187_, int p_126188_) {
+            for(int i = 0; i < p_126188_; ++i) {
+                this.innerBuilder.requires(p_126187_);
+            }
+
+            return this;
+        }
+
+
+        public ShapelessCraftingBuilder whenModLoaded(String modid) { this.whenModLoaded = modid; return this; }
+
+        @Override
+        void unlockedBy(String s, InventoryChangeTrigger.TriggerInstance trigger) {
+            innerBuilder.unlockedBy(s, trigger);
+        }
+
+        @Override
+        void save(Consumer<FinishedRecipe> consumer, ResourceLocation resourceLocation) {
+            innerBuilder.save(consumer, resourceLocation);
+        }
+
+        @Override
+        FinishedRecipe customRecipeBuild(ResourceLocation id, Consumer<FinishedRecipe> out) {
+            NutrientShapelessFinished.Builder b = NutrientShapelessFinished
+                    .builder(id, new ItemStack(result.asItem(), resultCount), getCustomSerializer())
+                    .recipe(new NutrientShapelessRecipe(null, balanceFactor, presetHunger, presetDecay, damageTool));
+
+            FinishedRecipe fr = b.build();
+            return fr;
+        }
+    }
 
 
 }

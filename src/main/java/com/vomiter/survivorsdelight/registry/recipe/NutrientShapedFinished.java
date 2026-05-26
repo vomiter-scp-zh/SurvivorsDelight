@@ -17,22 +17,16 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public record ShapedLikeFinished(
+public record NutrientShapedFinished(
         ResourceLocation id,
         Map<Character, Ingredient> key,   // 建議用 LinkedHashMap 保存順序
         List<String> pattern,
         ItemStack result,
-        @Nullable String group,
-        float balanceFactor,
-        int presetHunger,
-        float presetDecay,
-        Supplier<? extends RecipeSerializer<?>> serializer
+        NutrientShapedRecipe recipe
 ) implements FinishedRecipe {
 
     @Override
     public void serializeRecipeData(@NotNull JsonObject json) {
-        if (group != null && !group.isEmpty()) json.addProperty("group", group);
-
         // key
         JsonObject keyObj = new JsonObject();
         for (Map.Entry<Character, Ingredient> e : key.entrySet()) {
@@ -51,12 +45,12 @@ public record ShapedLikeFinished(
         if (result.getCount() > 1) res.addProperty("count", result.getCount());
         json.add("result", res);
 
-        if(balanceFactor != 0.04f) json.addProperty("balance_factor", balanceFactor);
-        if(presetHunger != -1) json.addProperty("hunger", presetHunger);
-        if(presetDecay != 4.5f) json.addProperty("decay", presetDecay);
+        if(recipe.balanceFactor != 0.04f) json.addProperty("balance_factor", recipe.balanceFactor);
+        if(recipe.presetHunger != -1) json.addProperty("hunger", recipe.presetHunger);
+        if(recipe.presetDecay != 4.5f) json.addProperty("decay", recipe.presetDecay);
     }
 
-    @Override public @NotNull RecipeSerializer<?> getType() { return serializer.get(); }
+    @Override public @NotNull RecipeSerializer<?> getType() { return recipe.getSerializer(); }
     @Override public @NotNull ResourceLocation getId() { return id; }
     @Override public @Nullable JsonObject serializeAdvancement() { return null; }
     @Override public @Nullable ResourceLocation getAdvancementId() { return null; }
@@ -65,32 +59,25 @@ public record ShapedLikeFinished(
         return new Builder(id, result, serializer);
     }
 
-    // 小幫手：方便在 builder 端逐步填
     public static final class Builder {
         private final ResourceLocation id;
         private final ItemStack result;
         private final Supplier<? extends RecipeSerializer<?>> serializer;
         private final Map<Character, Ingredient> key = new LinkedHashMap<>();
         private final java.util.List<String> pattern = new java.util.ArrayList<>();
-        private String group = null;
-        private float balanceFactor = 0.04f;
-        private int presetHunger = -1;
-        private float presetDecay = 4.5f;
+        private NutrientShapedRecipe recipe;
 
         private Builder(ResourceLocation id, ItemStack result, Supplier<? extends RecipeSerializer<?>> serializer) {
             this.id = id;
             this.result = result;
             this.serializer = serializer;
         }
-        public Builder group(String g){ this.group = g; return this; }
-        public Builder balance(float f){ this.balanceFactor = f; return this; }
         public Builder key(char c, Ingredient ing){ this.key.put(c, ing); return this; }
         public Builder row(String r){ this.pattern.add(r); return this; }
-        public Builder presetHunger(int i){ this.presetHunger = i; return this; }
-        public Builder presetDecay(float f){ this.presetDecay = f; return this; }
+        public Builder recipe(NutrientShapedRecipe recipe) { this.recipe = recipe; return this;}
 
-        public ShapedLikeFinished build() {
-            return new ShapedLikeFinished(id, key, pattern, result, group, balanceFactor, presetHunger, presetDecay, serializer);
+        public NutrientShapedFinished build() {
+            return new NutrientShapedFinished(id, key, pattern, result, recipe);
         }
     }
 }

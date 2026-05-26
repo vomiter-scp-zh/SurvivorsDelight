@@ -1,6 +1,5 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
+  "type": "survivorsdelight:nutrition_crafting",
   "key": {
     "C": {
       "tag": "survivorsdelight:cheese_for_cheesecake"
@@ -22,6 +21,5 @@
   ],
   "result": {
     "item": "farmersdelight:chocolate_pie"
-  },
-  "show_notification": true
+  }
 }

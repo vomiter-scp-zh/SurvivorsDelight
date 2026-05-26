@@ -1,6 +1,6 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
+  "type": "survivorsdelight:nutrition_crafting",
+  "balance_factor": 0.0,
   "key": {
     "F": {
       "item": "farmersdelight:salmon_slice"
@@ -15,6 +15,5 @@
   ],
   "result": {
     "item": "farmersdelight:salmon_roll"
-  },
-  "show_notification": true
+  }
 }

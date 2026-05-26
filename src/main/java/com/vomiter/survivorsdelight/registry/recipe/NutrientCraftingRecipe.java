@@ -1,5 +1,6 @@
 package com.vomiter.survivorsdelight.registry.recipe;
 
+import com.google.gson.JsonObject;
 import net.dries007.tfc.common.capabilities.food.*;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
@@ -10,6 +11,7 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -23,12 +25,25 @@ public abstract class NutrientCraftingRecipe implements CraftingRecipe {
     final int presetHunger;
     final boolean damageTool;
 
-    public NutrientCraftingRecipe(CraftingRecipe vanilla, float balanceFactor, int presetHunger, float presetDecay, boolean damageTool) {
+    public NutrientCraftingRecipe(@Nullable CraftingRecipe vanilla, float balanceFactor, int presetHunger, float presetDecay, boolean damageTool) {
         this.vanilla = vanilla;
         this.balanceFactor = balanceFactor;
         this.presetHunger = presetHunger;
         this.presetDecay = presetDecay;
         this.damageTool = damageTool;
+    }
+
+    public void commonSerialization(JsonObject object, ItemStack result){
+        JsonObject res = new JsonObject();
+        res.addProperty("item", Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(result.getItem())).toString());
+        if (result.getCount() > 1) res.addProperty("count", result.getCount());
+        object.add("result", res);
+
+        if(balanceFactor != 0.04f) object.addProperty("balance_factor", balanceFactor);
+        if(presetHunger != -1) object.addProperty("hunger", presetHunger);
+        if(presetDecay != 4.5f) object.addProperty("decay", presetDecay);
+        if(!damageTool) object.addProperty("damage_tool", false);
+
     }
 
     @Override public boolean matches(@NotNull CraftingContainer inv, @NotNull Level level) {

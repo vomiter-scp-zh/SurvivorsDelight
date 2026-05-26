@@ -15,7 +15,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.registries.ForgeRegistries;
 import vectorwing.farmersdelight.common.registry.ModItems;
-import vectorwing.farmersdelight.common.tag.ForgeTags;
+import vectorwing.farmersdelight.common.tag.CommonTags;
 
 import java.util.List;
 import java.util.Map;
@@ -27,7 +27,7 @@ public class SDFoodCuttingRecipes {
     public static Map<Food, List<Food>> FISH_TO_CUT = Map.of(Food.SALMON, SALMON_LIKE, Food.COD, COD_LIKE);
 
     public void cut2(Consumer<FinishedRecipe> out){
-        var knife = Ingredient.of(ForgeTags.TOOLS_KNIVES);
+        var knife = Ingredient.of(CommonTags.Items.TOOLS_KNIVES);
         SDBasicFoodData.cutSpecs.forEach(cutSpec -> {
             Ingredient ingredient = Ingredient.of(TFCItems.FOOD.get(cutSpec.from()).get());
             var fishType = FISH_TO_CUT.get(cutSpec.from());
