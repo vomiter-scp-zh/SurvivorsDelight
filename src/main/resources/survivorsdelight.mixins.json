@@ -65,6 +65,7 @@
     "recipe.WeldingRecipe_SkilletMixin",
     "recipe.cooking.CookingPotRecipe_FluidDuckMixin",
     "recipe.cooking.CookingPotRecipe_Serializer_FluidMixin",
+    "recipe.cooking.CookingPotRecipe_BalanceFactorDuckMixin",
     "recipe.cutting.CuttingBoardBlockEntity_ISPMixin",
     "recipe.cutting.CuttingBoardRecipeSerializer_ISPMixin"
   ],

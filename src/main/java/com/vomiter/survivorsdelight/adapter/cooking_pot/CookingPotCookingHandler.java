@@ -1,13 +1,11 @@
 package com.vomiter.survivorsdelight.adapter.cooking_pot;
 
+import com.vomiter.survivorsdelight.adapter.cooking_pot.balance_factor.ICookingPotRecipeBalanceFactor;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.bridge.ICookingPotRecipeBridge;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.bridge.TFCPotRecipeBridgeFD;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid.ICookingPotFluidAccess;
-import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.capabilities.food.*;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -135,7 +133,7 @@ public final class CookingPotCookingHandler {
             ingredients.add(stack.getItem().getDefaultInstance());
 
             for (Nutrient nutrient : Nutrient.VALUES) {
-                float retained = data.nutrient(nutrient) * (1f - 0.04f * context.foodIngredientCount());
+                float retained = data.nutrient(nutrient) * (1f - ((ICookingPotRecipeBalanceFactor)recipe).sdtfc$getBalanceFactor() * context.foodIngredientCount());
                 float extra = CookingPotExtraNutrientRules.getExtraNutrient(level, stack, nutrient, data);
                 float contribution = retained + extra;
 
