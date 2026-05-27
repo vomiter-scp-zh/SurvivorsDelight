@@ -253,6 +253,7 @@ public class SDFoodAndRecipeGenerator {
         int presetHunger = -1;
         float presetDecay = 4.5f;
         boolean damageTool = true;
+        Item container;
 
         Supplier<? extends RecipeSerializer<?>> getCustomSerializer() {return null;}
 
@@ -276,6 +277,11 @@ public class SDFoodAndRecipeGenerator {
 
         public CraftingBuilder damageTool(boolean b){
             this.damageTool = b;
+            return this;
+        }
+
+        public CraftingBuilder container(Item container){
+            this.container = container;
             return this;
         }
 
@@ -394,7 +400,7 @@ public class SDFoodAndRecipeGenerator {
             SurvivorsDelight.LOGGER.info("[Survivor's Delight] Custom Crafting Recipe Generation");
             NutrientShapedFinished.Builder b = NutrientShapedFinished
                     .builder(id, new ItemStack(result.asItem(), resultCount), getCustomSerializer())
-                    .recipe(new NutrientShapedRecipe(null, balanceFactor, presetHunger, presetDecay, damageTool));
+                    .recipe(new NutrientShapedRecipe(null, balanceFactor, presetHunger, presetDecay, damageTool, container));
 
             for (String p : patterns) b.row(p);
             for (Map.Entry<Character, IngredientEntry> e : keyMap.entrySet()) {
@@ -469,7 +475,7 @@ public class SDFoodAndRecipeGenerator {
         FinishedRecipe customRecipeBuild(ResourceLocation id, Consumer<FinishedRecipe> out) {
             NutrientShapelessFinished.Builder b = NutrientShapelessFinished
                     .builder(id, new ItemStack(result.asItem(), resultCount), getCustomSerializer())
-                    .recipe(new NutrientShapelessRecipe(null, balanceFactor, presetHunger, presetDecay, damageTool));
+                    .recipe(new NutrientShapelessRecipe(null, balanceFactor, presetHunger, presetDecay, damageTool, container));
 
             FinishedRecipe fr = b.build();
             return fr;

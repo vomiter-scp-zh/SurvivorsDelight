@@ -3,6 +3,7 @@ package com.vomiter.survivorsdelight.common;
 import com.vomiter.survivorsdelight.SDConfig;
 import com.vomiter.survivorsdelight.common.device.skillet.SDSkilletItem;
 import com.vomiter.survivorsdelight.adapter.skillet.skillet_item.SkilletCookingCap;
+import com.vomiter.survivorsdelight.common.food.FoodUseFinishEvent;
 import net.dries007.tfc.common.blockentities.CropBlockEntity;
 import net.dries007.tfc.util.events.StartFireEvent;
 import net.minecraft.core.BlockPos;
@@ -34,6 +35,8 @@ public class ForgeEventHandler {
 
         bus.addListener(RichSoilDelayedCheck::onPlayerRightClick_RichSoilFarmGating);
         bus.addListener(RichSoilDelayedCheck::onServerTick);
+
+        bus.addListener(FoodUseFinishEvent::onFoodUseFinish);
 
     }
 

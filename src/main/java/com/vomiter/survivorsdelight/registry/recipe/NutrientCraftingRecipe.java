@@ -1,17 +1,27 @@
 package com.vomiter.survivorsdelight.registry.recipe;
 
 import com.google.gson.JsonObject;
+import com.vomiter.survivorsdelight.SurvivorsDelight;
+import com.vomiter.survivorsdelight.common.food.FoodContainerExpansion;
+import com.vomiter.survivorsdelight.util.FoodItemContainerApply;
+import com.vomiter.survivorsdelight.util.SimpleCraftingContainer;
 import net.dries007.tfc.common.capabilities.food.*;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import vectorwing.farmersdelight.common.registry.ModItems;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -24,13 +34,17 @@ public abstract class NutrientCraftingRecipe implements CraftingRecipe {
     final float presetDecay;
     final int presetHunger;
     final boolean damageTool;
+    final Item container;
 
-    public NutrientCraftingRecipe(@Nullable CraftingRecipe vanilla, float balanceFactor, int presetHunger, float presetDecay, boolean damageTool) {
+    public NutrientCraftingRecipe(@Nullable CraftingRecipe vanilla, float balanceFactor, int presetHunger, float presetDecay, boolean damageTool, @Nullable Item container) {
         this.vanilla = vanilla;
         this.balanceFactor = balanceFactor;
         this.presetHunger = presetHunger;
         this.presetDecay = presetDecay;
         this.damageTool = damageTool;
+        if(container == null){
+            this.container = Items.AIR;
+        } else this.container = container;
     }
 
     public void commonSerialization(JsonObject object, ItemStack result){
@@ -43,7 +57,9 @@ public abstract class NutrientCraftingRecipe implements CraftingRecipe {
         if(presetHunger != -1) object.addProperty("hunger", presetHunger);
         if(presetDecay != 4.5f) object.addProperty("decay", presetDecay);
         if(!damageTool) object.addProperty("damage_tool", false);
-
+        if(container != null && container != Items.AIR){
+            object.addProperty("container", Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(container)).toString());
+        }
     }
 
     @Override public boolean matches(@NotNull CraftingContainer inv, @NotNull Level level) {
@@ -53,13 +69,16 @@ public abstract class NutrientCraftingRecipe implements CraftingRecipe {
             return food.isRotten();
         });
         if(anyRot) return false;
-        return vanilla.matches(inv, level);
+        boolean primaryMatch = vanilla.matches(inv, level);
+        if(primaryMatch) return true;
+        SimpleCraftingContainer invTemp = new SimpleCraftingContainer(inv);
+        invTemp.replaceContainers(container); // <- causing crafting grid unsync and emptied unexpectedly
+        return vanilla.matches(invTemp, level);
     }
 
     @Override
     public @NotNull NonNullList<ItemStack> getRemainingItems(@NotNull CraftingContainer inv) {
-        // 先保留 vanilla shaped recipe 原本的 remaining item 行為
-        // 例如 bucket、bowl、container item 等
+        // 保留 vanilla shaped recipe 原本的 remaining item 行為
         NonNullList<ItemStack> remaining = vanilla.getRemainingItems(inv);
 
         if (!damageTool) {
@@ -100,11 +119,16 @@ public abstract class NutrientCraftingRecipe implements CraftingRecipe {
 
         List<FoodData> data = new ArrayList<>();
         List<ItemStack> ingredients = new ArrayList<>();
+        ItemStack resultContainer = ItemStack.EMPTY;
 
         final int slots = inv.getContainerSize();
         for (int i = 0; i < slots; i++) {
             ItemStack s = inv.getItem(i);
             if (s.isEmpty()) continue;
+            if(resultContainer.isEmpty() && FoodContainerExpansion.isExtraValid(container, s)){
+                resultContainer = s.copyWithCount(1);
+            }
+
 
             var fh = FoodCapability.get(s);
             if (fh == null) continue;
@@ -164,7 +188,16 @@ public abstract class NutrientCraftingRecipe implements CraftingRecipe {
             outDynamic.setIngredients(ingredients);
             outDynamic.setFood(merged);
         }
-
+        if(!resultContainer.isEmpty()){
+            FoodItemContainerApply.applyGeneral(out, resultContainer);
+        }
+        SurvivorsDelight.LOGGER.info(
+                "[Survivor's Delight] Assembly of Nutrient Crafting. Result = {}, Result Container = {}, Recipe Container = {}, Result NBT = {}",
+                out,
+                resultContainer,
+                container,
+                out.getTag()
+        );
         return out;
     }
 

@@ -31,19 +31,7 @@ public record NutrientShapelessFinished(
         }
         json.add("ingredients", ingredientsArray);
 
-        JsonObject res = new JsonObject();
-        res.addProperty(
-                "item",
-                Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(result.getItem())).toString()
-        );
-        if (result.getCount() > 1) {
-            res.addProperty("count", result.getCount());
-        }
-        json.add("result", res);
-
-        if(recipe.balanceFactor != 0.04f) json.addProperty("balance_factor", recipe.balanceFactor);
-        if(recipe.presetHunger != -1) json.addProperty("hunger", recipe.presetHunger);
-        if(recipe.presetDecay != 4.5f) json.addProperty("decay", recipe.presetDecay);
+        recipe.commonSerialization(json, result);
     }
 
     @Override

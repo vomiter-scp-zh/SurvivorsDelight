@@ -30,4 +30,20 @@ public final class FoodContainerExpansion {
         }
         return false;
     }
+
+    public static ItemStack replaceStack(Item originalContainer, ItemStack containerStack){
+        if(isExtraValid(originalContainer, containerStack)){
+            return originalContainer.getDefaultInstance();
+        }
+        return containerStack;
+    }
+
+
+    public static ItemStack replaceStack(ItemStack containerStack){
+        for (Item item : EXTRA_VALID_CONTAINERS.keySet()) {
+            boolean match = isExtraValid(item, containerStack);
+            if(match) return new ItemStack(item, containerStack.getCount());
+        }
+        return containerStack;
+    }
 }
