@@ -1,5 +1,6 @@
 package com.vomiter.survivorsdelight.registry.recipe;
 
+import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -67,7 +68,7 @@ public record NutrientShapelessFinished(
         private final ItemStack result;
         private final Supplier<? extends RecipeSerializer<?>> serializer;
 
-        private final List<Ingredient> ingredients = new ArrayList<>();
+        private List<Ingredient> ingredients = new ArrayList<>();
         private NutrientShapelessRecipe recipe;
 
         private Builder(
@@ -87,6 +88,11 @@ public record NutrientShapelessFinished(
 
         public Builder ingredient(Ingredient ingredient) {
             return requires(ingredient);
+        }
+
+        public Builder ingredients(List<Ingredient> ingredients){
+            this.ingredients = ingredients;
+            return this;
         }
 
         public Builder recipe(NutrientShapelessRecipe recipe) {

@@ -103,6 +103,10 @@ public class SDFoodAndRecipeGenerator {
         return new ShapedCraftingBuilder(path, result, resultCount);
     }
 
+    public ShapelessCraftingBuilder craftingShapeless(String path, ItemLike result, int resultCount) {
+        return new ShapelessCraftingBuilder(path, result, resultCount);
+    }
+
 
     private ResourceLocation recipeId(String path) {
         return SDUtils.RLUtils.build(modId, "cooking/" + path);
@@ -414,15 +418,11 @@ public class SDFoodAndRecipeGenerator {
 
     public final class ShapelessCraftingBuilder extends CraftingBuilder{
         private final ShapelessRecipeBuilder innerBuilder;
-        private final List<String> patterns = new ArrayList<>();
-        private final List<IngredientEntry> entries = new ArrayList<>();
-        private final Map<Character, IngredientEntry> keyMap = new LinkedHashMap<>();
+        private final List<Ingredient> ingredients = new ArrayList<>();
         private String group;
         private SDFoodDataProvider.Builder foodDataBuilder;
         Supplier<? extends RecipeSerializer<?>> getCustomSerializer() {return SDRecipeSerializers.NUTRITION_CRAFTING;}
 
-
-        public List<IngredientEntry> getEntries(){return entries;}
         private ShapelessCraftingBuilder(String path, ItemLike result, int resultCount) {
             super(path, result, resultCount);
             innerBuilder = ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, result, resultCount);
@@ -452,7 +452,7 @@ public class SDFoodAndRecipeGenerator {
 
         public ShapelessCraftingBuilder requires(Ingredient p_126187_, int p_126188_) {
             for(int i = 0; i < p_126188_; ++i) {
-                this.innerBuilder.requires(p_126187_);
+                ingredients.add(p_126187_);
             }
 
             return this;
@@ -475,6 +475,7 @@ public class SDFoodAndRecipeGenerator {
         FinishedRecipe customRecipeBuild(ResourceLocation id, Consumer<FinishedRecipe> out) {
             NutrientShapelessFinished.Builder b = NutrientShapelessFinished
                     .builder(id, new ItemStack(result.asItem(), resultCount), getCustomSerializer())
+                    .ingredients(ingredients)
                     .recipe(new NutrientShapelessRecipe(null, balanceFactor, presetHunger, presetDecay, damageTool, container));
 
             FinishedRecipe fr = b.build();
