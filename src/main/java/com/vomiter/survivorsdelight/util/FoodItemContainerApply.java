@@ -1,5 +1,6 @@
 package com.vomiter.survivorsdelight.util;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 
 public class FoodItemContainerApply {
@@ -17,4 +18,11 @@ public class FoodItemContainerApply {
         return mealStack;
     }
 
+    public static ItemStack getContainer(ItemStack stack){
+        var tag = stack.getTag();
+        if(tag == null) return ItemStack.EMPTY;
+        if(tag.get(NBT_SOUP_BOWL) instanceof CompoundTag ct) return ItemStack.of(ct);
+        if(tag.get(NBT_CONTAINER) instanceof CompoundTag ct) return ItemStack.of(ct);
+        return ItemStack.EMPTY;
+    }
 }

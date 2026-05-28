@@ -1,7 +1,6 @@
 package com.vomiter.survivorsdelight.registry.recipe;
 
 import com.google.gson.JsonObject;
-import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.common.food.FoodContainerExpansion;
 import com.vomiter.survivorsdelight.util.FoodItemContainerApply;
 import com.vomiter.survivorsdelight.util.SimpleCraftingContainer;
@@ -21,7 +20,6 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import vectorwing.farmersdelight.common.registry.ModItems;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -125,10 +123,17 @@ public abstract class NutrientCraftingRecipe implements CraftingRecipe {
         for (int i = 0; i < slots; i++) {
             ItemStack s = inv.getItem(i);
             if (s.isEmpty()) continue;
-            if(resultContainer.isEmpty() && FoodContainerExpansion.isExtraValid(container, s)){
-                resultContainer = s.copyWithCount(1);
+            if(container != null && resultContainer.isEmpty()){
+                //only process when there's no defined container.
+                if(s.is(container)){
+                    resultContainer = FoodItemContainerApply.getContainer(s);
+                    //let's say I put a salad or a soup as "container";
+                    // this makes the recipe recognize it and apply the correct container.
+                    if(resultContainer.isEmpty()) resultContainer = s.copyWithCount(1);
+                } else if(FoodContainerExpansion.isExtraValid(container, s)){
+                    resultContainer = s.copyWithCount(1);
+                }
             }
-
 
             var fh = FoodCapability.get(s);
             if (fh == null) continue;
@@ -191,13 +196,6 @@ public abstract class NutrientCraftingRecipe implements CraftingRecipe {
         if(!resultContainer.isEmpty()){
             FoodItemContainerApply.applyGeneral(out, resultContainer);
         }
-        SurvivorsDelight.LOGGER.info(
-                "[Survivor's Delight] Assembly of Nutrient Crafting. Result = {}, Result Container = {}, Recipe Container = {}, Result NBT = {}",
-                out,
-                resultContainer,
-                container,
-                out.getTag()
-        );
         return out;
     }
 
