@@ -1,6 +1,7 @@
 package com.vomiter.survivorsdelight.common.food;
 
 import com.vomiter.survivorsdelight.data.tags.SDTags;
+import net.dries007.tfc.common.recipes.AdvancedShapelessRecipe;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -10,7 +11,6 @@ import vectorwing.farmersdelight.common.item.ConsumableItem;
 public class FoodUseFinishEvent {
     public static void onFoodUseFinish(LivingEntityUseItemEvent.Finish event){
         ItemStack stack = event.getItem();
-        if(!stack.is(SDTags.ItemTags.CONTAINER_FOOD)) return;
         if(stack.getItem() instanceof ConsumableItem) return;
         CompoundTag tag = stack.getTag();
         if(tag != null){
