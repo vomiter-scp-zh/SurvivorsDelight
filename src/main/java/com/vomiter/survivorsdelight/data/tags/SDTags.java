@@ -67,7 +67,7 @@ public class SDTags {
             );
         }
 
-        public static final TagKey<Item> CONTAINER_FOOD = create("container_food");
+        public static final TagKey<Item> CONTAINER_NO_REMAINDER = create("container_no_remainder");
 
         public static final TagKey<Item> CABINETS = create("cabinets");
 

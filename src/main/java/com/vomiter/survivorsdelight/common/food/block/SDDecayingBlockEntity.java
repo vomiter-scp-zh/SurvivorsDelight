@@ -3,6 +3,7 @@ package com.vomiter.survivorsdelight.common.food.block;
 import com.vomiter.survivorsdelight.compat.firmalife.FLCompatHelpers;
 import com.vomiter.survivorsdelight.compat.firmalife.SDClimateReceiver;
 import com.vomiter.survivorsdelight.compat.firmalife.SDClimateType;
+import com.vomiter.survivorsdelight.util.FoodItemContainerApply;
 import net.dries007.tfc.common.blockentities.DecayingBlockEntity;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.dries007.tfc.common.capabilities.food.FoodHandler;
@@ -85,11 +86,11 @@ public abstract class SDDecayingBlockEntity extends DecayingBlockEntity implemen
                 dropFood.setCreationDate(srcFood.getCreationDate());
                 dropFood.getTraits().addAll(srcFood.getTraits());
             });
-            if(drops.get(0).is(Items.BOWL)){
+            if(!drops.isEmpty() && drops.get(0).is(Items.BOWL)){
                 CompoundTag tag = srcStack.getTag();
-                if(tag != null && tag.get("Container") instanceof CompoundTag container){
+                if(tag != null && tag.get("Container") instanceof CompoundTag){
                     drops.remove(0);
-                    drops.add(ItemStack.of(container));
+                    drops.add(FoodItemContainerApply.getContainer(srcStack));
                 }
             }
         }
