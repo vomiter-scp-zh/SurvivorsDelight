@@ -66,7 +66,7 @@ public class CuttingBoardBlockEntityAdapter {
             out.add(stack);
         }
 
-        
+
         SurvivorsDelight.LOGGER.debug("[Cutting ISP] side=server, pos={}, outputs(before filter)={}, kept={}",
                 cuttingBoard.getBlockPos(), recipe.getOutputs().size(), out.size());
 
