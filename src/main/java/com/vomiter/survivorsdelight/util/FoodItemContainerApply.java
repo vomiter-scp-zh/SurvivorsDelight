@@ -40,6 +40,7 @@ public class FoodItemContainerApply {
 
         dynamicFood.setIngredients(ingredientList);
         dynamicFood.setFood(combined);
+        FoodCapability.updateFoodDecayOnCreate(stack);
     }
 
     public static ItemStack applySoup(ItemStack mealStack, ItemStack containerStack){

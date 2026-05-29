@@ -80,7 +80,7 @@ public abstract class CookingPotBlockEntity_ContainerMixin {
         int smallerStackCount = Math.min(mealStack.getCount(), containerInputStack.getCount());
         int mealCount = Math.min(smallerStackCount, mealStack.getMaxStackSize() - outputStack.getCount());
 
-        var container = containerInputStack.getItem().getDefaultInstance();
+        var container = containerInputStack.copyWithCount(1);
         if (outputStack.isEmpty()) {
             ItemStack mealToPut = mealStack.split(mealCount);
             if(mealStack.is(TAG_TFC_SOUPS)) {
