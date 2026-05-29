@@ -1,6 +1,5 @@
 package com.vomiter.survivorsdelight.util;
 
-import com.vomiter.survivorsdelight.data.tags.SDTags;
 import net.dries007.tfc.common.capabilities.food.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
@@ -65,6 +64,7 @@ public class FoodItemContainerApply {
 
     public static ItemStack getRemainder(ItemStack stack){
         var container = getContainer(stack);
-        return container.is(SDTags.ItemTags.CONTAINER_NO_REMAINDER)? ItemStack.EMPTY: container;
+        var foodProperty = container.getFoodProperties(null);
+        return foodProperty != null? ItemStack.EMPTY: container;
     }
 }
