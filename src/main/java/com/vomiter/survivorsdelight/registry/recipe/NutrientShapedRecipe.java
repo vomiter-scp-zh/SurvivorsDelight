@@ -1,23 +1,24 @@
 package com.vomiter.survivorsdelight.registry.recipe;
 
-import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.vomiter.survivorsdelight.registry.SDRecipeSerializers;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import org.jetbrains.annotations.NotNull;
 
 public class NutrientShapedRecipe extends NutrientCraftingRecipe implements CraftingRecipe {
-    public NutrientShapedRecipe(ShapedRecipe vanilla, float balanceFactor, int presetHunger, float presetDecay, boolean damageTool) {
-        super(vanilla, balanceFactor, presetHunger, presetDecay, damageTool);
+    public NutrientShapedRecipe(ShapedRecipe vanilla, float balanceFactor, int presetHunger, float presetDecay, boolean damageTool, Item container) {
+        super(vanilla, balanceFactor, presetHunger, presetDecay, damageTool, container);
     }
 
     @Override public @NotNull RecipeSerializer<?> getSerializer() { return SDRecipeSerializers.NUTRITION_CRAFTING.get(); }
@@ -29,8 +30,15 @@ public class NutrientShapedRecipe extends NutrientCraftingRecipe implements Craf
                 Codec.FLOAT.fieldOf("balance_factor").orElse(0.04f).forGetter(r -> r.balanceFactor),
                 Codec.INT.fieldOf("hunger").orElse(-1).forGetter(r -> r.presetHunger),
                 Codec.FLOAT.fieldOf("decay").orElse(4.5f).forGetter(r -> r.presetDecay),
-                Codec.BOOL.fieldOf("damage_tool").orElse(true).forGetter(r -> r.damageTool)
-        ).apply(instance, (vanilla, bf, hunger, decay, damageTool) -> new NutrientShapedRecipe((ShapedRecipe) vanilla, bf, hunger, decay, damageTool)));
+                Codec.BOOL.fieldOf("damage_tool").orElse(true).forGetter(r -> r.damageTool),
+                BuiltInRegistries.ITEM.byNameCodec()
+                        .fieldOf("container")
+                        .orElse(Items.AIR)
+                        .forGetter(r -> r.container)
+        ).apply(instance, (vanilla, bf, hunger, decay, damageTool, container) -> new NutrientShapedRecipe((ShapedRecipe) vanilla, bf, hunger, decay, damageTool, container)));
+
+        private static final StreamCodec<RegistryFriendlyByteBuf, Item> ITEM_STREAM_CODEC =
+                ByteBufCodecs.registry(Registries.ITEM);
 
         @Override
         public @NotNull MapCodec<NutrientShapedRecipe> codec() {
@@ -48,7 +56,8 @@ public class NutrientShapedRecipe extends NutrientCraftingRecipe implements Craf
             int presetHunger = buf.readInt();
             float presetDecay = buf.readFloat();
             boolean damageTool = buf.readBoolean();
-            return new NutrientShapedRecipe(vanilla, bf, presetHunger, presetDecay, damageTool);
+            Item container = ITEM_STREAM_CODEC.decode(buf);
+            return new NutrientShapedRecipe(vanilla, bf, presetHunger, presetDecay, damageTool, container);
         }
 
         private static void toNetwork(@NotNull RegistryFriendlyByteBuf buf, @NotNull NutrientShapedRecipe recipe) {

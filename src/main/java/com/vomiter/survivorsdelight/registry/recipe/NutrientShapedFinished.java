@@ -42,15 +42,7 @@ public record NutrientShapedFinished(
     public static final class Builder {
         private final ResourceLocation id;
         private final ItemStack result;
-
-        /*
-         * 先保留這個欄位，避免外部 builder(...) 呼叫點需要大改。
-         * 目前這個 class 不直接使用 serializer；
-         * 真的序列化會走 NutrientShapedRecipe#getSerializer()。
-         */
-        @SuppressWarnings("unused")
         private final Supplier<? extends RecipeSerializer<?>> serializer;
-
         private final Map<Character, Ingredient> key = new LinkedHashMap<>();
         private final List<String> pattern = new ArrayList<>();
         private NutrientShapedRecipe recipe;

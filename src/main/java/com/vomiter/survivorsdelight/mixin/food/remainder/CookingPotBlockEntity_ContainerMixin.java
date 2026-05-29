@@ -2,16 +2,13 @@ package com.vomiter.survivorsdelight.mixin.food.remainder;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.vomiter.survivorsdelight.registry.SDDataComponents;
-import com.vomiter.survivorsdelight.registry.component.SDContainer;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
+import com.vomiter.survivorsdelight.util.FoodItemContainerApply;
 import net.dries007.tfc.common.blocks.TFCBlocks;
-import net.dries007.tfc.common.component.Bowl;
 import net.dries007.tfc.common.component.TFCComponents;
 import net.dries007.tfc.common.component.food.FoodCapability;
 import net.dries007.tfc.common.component.food.IFood;
 import net.dries007.tfc.common.items.TFCItems;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -46,11 +43,11 @@ public abstract class CookingPotBlockEntity_ContainerMixin {
         ItemStack mealStack = getMeal();
         if(mealStack.is(SDTags.ItemTags.create("tfc", "soups"))) {
             var mealToGive = mealStack.split(1);
-            mealToGive.set(TFCComponents.BOWL, Bowl.of(container));
+            FoodItemContainerApply.applySoup(mealToGive, container);
             cir.setReturnValue(mealToGive);
         } else {
             var mealToGive = mealStack.split(1);
-            mealToGive.set(SDDataComponents.FOOD_CONTAINER, new SDContainer(BuiltInRegistries.ITEM.getKey(container.getItem())));
+            FoodItemContainerApply.applyGeneral(mealToGive, container);
             cir.setReturnValue(mealToGive);
         }
     }
@@ -81,18 +78,18 @@ public abstract class CookingPotBlockEntity_ContainerMixin {
         if (outputStack.isEmpty()) {
             ItemStack mealToPut = mealStack.split(mealCount);
             if(mealStack.is(SDTags.ItemTags.create("tfc", "soups"))) {
-                mealToPut.set(TFCComponents.BOWL, Bowl.of(containerInputStack));
+                FoodItemContainerApply.applySoup(mealToPut, containerInputStack);
             } else{
-                mealToPut.set(SDDataComponents.FOOD_CONTAINER, new SDContainer(BuiltInRegistries.ITEM.getKey(containerInputStack.getItem())));
+                FoodItemContainerApply.applyGeneral(mealToPut, containerInputStack);
             }
             containerInputStack.shrink(mealCount);
             inventory.setStackInSlot(8, mealToPut);
         } else if (outputStack.getItem() == mealStack.getItem()) {
             ItemStack simMeal = mealStack.copy();
             if(mealStack.is(SDTags.ItemTags.create("tfc", "soups"))) {
-                simMeal.set(TFCComponents.BOWL, Bowl.of(containerInputStack));
+                FoodItemContainerApply.applySoup(simMeal, containerInputStack);
             } else{
-                simMeal.set(SDDataComponents.FOOD_CONTAINER, new SDContainer(BuiltInRegistries.ITEM.getKey(containerInputStack.getItem())));
+                FoodItemContainerApply.applyGeneral(simMeal, containerInputStack);
             }
             if(FoodCapability.areStacksStackableExceptCreationDate(simMeal, outputStack)){
                 mealStack.shrink(mealCount);

@@ -21,10 +21,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
@@ -473,7 +471,7 @@ public class SDFoodAndRecipeGenerator {
 
             NutrientShapedFinished.Builder b = NutrientShapedFinished
                     .builder(id, new ItemStack(result.asItem(), resultCount), getCustomSerializer())
-                    .recipe(new NutrientShapedRecipe(null, balanceFactor, presetHunger, presetDecay, damageTool));
+                    .recipe(new NutrientShapedRecipe(null, balanceFactor, presetHunger, presetDecay, damageTool, container));
 
             for (String p : patterns) {
                 b.row(p);
@@ -482,11 +480,6 @@ public class SDFoodAndRecipeGenerator {
             for (Map.Entry<Character, IngredientEntry> e : keyMap.entrySet()) {
                 b.key(e.getKey(), e.getValue().ingredient());
             }
-
-            /*
-             * 這裡假設你會把 NutrientShapedFinished.Builder 改成支援 save(RecipeOutput)。
-             * 如果它現在只有 build() 回傳 FinishedRecipe，這個 class 會過不了。
-             */
             b.save(output);
         }
     }
@@ -557,11 +550,8 @@ public class SDFoodAndRecipeGenerator {
             NutrientShapelessFinished.Builder b = NutrientShapelessFinished
                     .builder(id, new ItemStack(result.asItem(), resultCount), getCustomSerializer())
                     .ingredients(ingredients)
-                    .recipe(new NutrientShapelessRecipe(null, balanceFactor, presetHunger, presetDecay, damageTool));
+                    .recipe(new NutrientShapelessRecipe(null, balanceFactor, presetHunger, presetDecay, damageTool, container));
 
-            /*
-             * 同 shaped，一樣假設 NutrientShapelessFinished.Builder 會補 save(RecipeOutput)。
-             */
             b.save(output);
         }
     }

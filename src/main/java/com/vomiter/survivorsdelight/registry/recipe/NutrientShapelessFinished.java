@@ -39,13 +39,6 @@ public record NutrientShapelessFinished(
     public static final class Builder {
         private final ResourceLocation id;
         private final ItemStack result;
-
-        /*
-         * 先保留這個欄位，避免外部 builder(...) 呼叫點需要大改。
-         * 目前這個 class 不直接使用 serializer；
-         * 真的序列化會走 NutrientShapelessRecipe#getSerializer()。
-         */
-        @SuppressWarnings("unused")
         private final Supplier<? extends RecipeSerializer<?>> serializer;
 
         private final List<Ingredient> ingredients = new ArrayList<>();

@@ -1,5 +1,6 @@
 package com.vomiter.survivorsdelight.registry.recipe;
 
+import com.vomiter.survivorsdelight.util.SimpleCraftingContainer;
 import net.dries007.tfc.common.component.TFCComponents;
 import net.dries007.tfc.common.component.food.FoodCapability;
 import net.dries007.tfc.common.component.food.FoodData;
@@ -9,7 +10,9 @@ import net.dries007.tfc.common.component.item.ItemListComponent;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
@@ -26,23 +29,29 @@ public abstract class NutrientCraftingRecipe implements CraftingRecipe {
     final float presetDecay;
     final int presetHunger;
     final boolean damageTool;
+    final Item container;
 
-    public NutrientCraftingRecipe(@Nullable CraftingRecipe vanilla, float balanceFactor, int presetHunger, float presetDecay, boolean damageTool) {
+    public NutrientCraftingRecipe(@Nullable CraftingRecipe vanilla, float balanceFactor, int presetHunger, float presetDecay, boolean damageTool, @Nullable Item container) {
         this.vanilla = vanilla;
         this.balanceFactor = balanceFactor;
         this.presetHunger = presetHunger;
         this.presetDecay = presetDecay;
         this.damageTool = damageTool;
+        this.container = Objects.requireNonNullElse(container, Items.AIR);
     }
 
-    @Override public boolean matches(@NotNull CraftingInput inv, @NotNull Level provider) {
+    @Override public boolean matches(@NotNull CraftingInput inv, @NotNull Level level) {
         boolean anyRot = inv.items().stream().anyMatch(item -> {
             IFood food = FoodCapability.get(item);
             if(food == null) return false;
             return food.isRotten();
         });
         if(anyRot) return false;
-        return vanilla.matches(inv, provider);
+        boolean primaryMatch = vanilla.matches(inv, level);
+        if(primaryMatch) return true;
+        SimpleCraftingContainer invTemp = new SimpleCraftingContainer(inv);
+        invTemp.replaceContainers(container); // <- causing crafting grid unsync and emptied unexpectedly
+        return vanilla.matches(invTemp.asCraftInput(), level);
     }
 
     @Override
