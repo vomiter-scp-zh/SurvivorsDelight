@@ -1,12 +1,12 @@
 package com.vomiter.survivorsdelight.client;
 
-import com.vomiter.survivorsdelight.client.screen.SDCabinetScreen;
-import com.vomiter.survivorsdelight.client.screen.SDPotFluidScreen;
-import com.vomiter.survivorsdelight.compat.jei.JEIIntegration;
-import com.vomiter.survivorsdelight.common.container.SDCabinetBlockEntity;
-import com.vomiter.survivorsdelight.common.container.SDCabinetMenu;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid_handle.SDCookingPotFluidMenu;
 import com.vomiter.survivorsdelight.adapter.stove.IStoveBlockEntity;
+import com.vomiter.survivorsdelight.client.screen.SDCabinetScreen;
+import com.vomiter.survivorsdelight.client.screen.SDPotFluidScreen;
+import com.vomiter.survivorsdelight.common.container.SDCabinetBlockEntity;
+import com.vomiter.survivorsdelight.common.container.SDCabinetMenu;
+import com.vomiter.survivorsdelight.compat.jei.JEIIntegration;
 import com.vomiter.survivorsdelight.registry.SDContainerTypes;
 import com.vomiter.survivorsdelight.registry.skillet.SDSkilletItems;
 import net.dries007.tfc.client.ClientHelpers;

@@ -1,6 +1,5 @@
 package com.vomiter.survivorsdelight.adapter.cooking_pot;
 
-import com.vomiter.survivorsdelight.adapter.cooking_pot.CookingPotExtraNutrientRules;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid_handle.ICookingPotFluidAccess;
 import com.vomiter.survivorsdelight.registry.recipe.SDCookingPotRecipe;
 import net.dries007.tfc.common.component.TFCComponents;
@@ -119,9 +118,11 @@ public interface ICookingPotCalcDynamic {
 
             final FoodData data = cap.getData();
             foodIngredients.add(stack.copyWithCount(1));
+            float balanceFactor = 0.04f;
+            if(ctx.recipe() instanceof SDCookingPotRecipe sdCookingPotRecipe) balanceFactor = sdCookingPotRecipe.getBalanceFactor();
 
             for (Nutrient nutrient : Nutrient.VALUES) {
-                float value = data.nutrient(nutrient);
+                float value = data.nutrient(nutrient) * (1 - balanceFactor * ctx.foodIngredientCount());
                 value += CookingPotExtraNutrientRules.getExtraNutrient(level, stack, nutrient, data);
                 value = CookingPotContributionModifiers.apply(
                         level,

@@ -9,7 +9,6 @@ import net.dries007.tfc.common.blocks.wood.Wood;
 import net.minecraft.Util;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
-// Forge → NeoForge
 import net.neoforged.neoforge.common.data.LanguageProvider;
 
 import java.util.Objects;

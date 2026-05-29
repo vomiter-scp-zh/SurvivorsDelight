@@ -4,11 +4,13 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.vomiter.survivorsdelight.SDConfig;
+import com.vomiter.survivorsdelight.common.food.FoodContainerExpansion;
 import com.vomiter.survivorsdelight.common.food.block.DecayFoodTransfer;
-import com.vomiter.survivorsdelight.compat.firmalife.FLCompatHelpers;
 import com.vomiter.survivorsdelight.common.food.block.DecayingFeastBlockEntity;
+import com.vomiter.survivorsdelight.compat.firmalife.FLCompatHelpers;
 import com.vomiter.survivorsdelight.registry.SDDataComponents;
 import com.vomiter.survivorsdelight.registry.component.SDContainer;
+import com.vomiter.survivorsdelight.util.FoodItemContainerApply;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.component.food.FoodCapability;
 import net.dries007.tfc.common.component.food.FoodTrait;
@@ -50,7 +52,7 @@ public abstract class FeastBlock_ServingMixin extends Block {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;isSameItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z", remap = true)
     )
     private boolean acceptCeramicBowl(ItemStack held, ItemStack compared, Operation<Boolean> original){
-        if(compared.is(Items.BOWL) && held.is(TFCBlocks.CERAMIC_BOWL.get().asItem())){
+        if(FoodContainerExpansion.isExtraValid(compared.getItem(), held)){
             return true;
         }
         return original.call(held, compared);
@@ -96,7 +98,7 @@ public abstract class FeastBlock_ServingMixin extends Block {
         }
 
         if (player.getItemInHand(hand).is(TFCBlocks.CERAMIC_BOWL.get().asItem())) {
-            serving.set(SDDataComponents.FOOD_CONTAINER, new SDContainer(TFCBlocks.CERAMIC_BOWL.getId()));
+            FoodItemContainerApply.applyGeneral(serving, player.getItemInHand(hand).copy());
         }
         return serving;
     }}

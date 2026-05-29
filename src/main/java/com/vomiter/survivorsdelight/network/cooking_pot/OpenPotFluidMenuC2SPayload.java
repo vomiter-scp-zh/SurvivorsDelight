@@ -4,9 +4,9 @@ import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid_handle.SDCookingPo
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleMenuProvider;

@@ -2,8 +2,6 @@ package com.vomiter.survivorsdelight.data.book.content;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.common.device.skillet.SkilletMaterial;
-import com.vomiter.survivorsdelight.registry.SDItems;
-import com.vomiter.survivorsdelight.registry.skillet.SDSkilletItems;
 import com.vomiter.survivorsdelight.data.book.SDPatchouliCategoryProvider;
 import com.vomiter.survivorsdelight.data.book.SDPatchouliEntryProvider;
 import com.vomiter.survivorsdelight.data.book.TFCGuide;
@@ -11,6 +9,8 @@ import com.vomiter.survivorsdelight.data.book.builder.CategoryJson;
 import com.vomiter.survivorsdelight.data.book.builder.EntryJson;
 import com.vomiter.survivorsdelight.data.book.builder.TextBuilder;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
+import com.vomiter.survivorsdelight.registry.SDItems;
+import com.vomiter.survivorsdelight.registry.skillet.SDSkilletItems;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.DataGenerator;

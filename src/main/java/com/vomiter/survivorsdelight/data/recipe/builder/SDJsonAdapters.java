@@ -1,14 +1,5 @@
 package com.vomiter.survivorsdelight.data.recipe.builder;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import net.dries007.tfc.common.recipes.outputs.CopyFoodModifier;
-import net.dries007.tfc.common.recipes.outputs.ItemStackModifier;
-import net.dries007.tfc.common.recipes.outputs.ItemStackProvider;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.item.ItemStack;
-
 /** 小型轉寫器：把 ISP 與其 modifiers 轉成與 TFC fromJson 相容的 JSON */
 public final class SDJsonAdapters {
     private SDJsonAdapters() {}

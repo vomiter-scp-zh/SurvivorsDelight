@@ -1,10 +1,10 @@
 package com.vomiter.survivorsdelight.data.food;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
+import com.vomiter.survivorsdelight.data.recipe.builder.SDCookingPotRecipeBuilder;
 import com.vomiter.survivorsdelight.registry.SDRecipeSerializers;
 import com.vomiter.survivorsdelight.registry.recipe.NutrientShapedFinished;
 import com.vomiter.survivorsdelight.registry.recipe.NutrientShapedRecipe;
-import com.vomiter.survivorsdelight.data.recipe.builder.SDCookingPotRecipeBuilder;
 import com.vomiter.survivorsdelight.registry.recipe.NutrientShapelessFinished;
 import com.vomiter.survivorsdelight.registry.recipe.NutrientShapelessRecipe;
 import com.vomiter.survivorsdelight.util.SDUtils;

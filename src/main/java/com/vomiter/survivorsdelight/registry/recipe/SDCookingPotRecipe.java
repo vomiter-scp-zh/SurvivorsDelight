@@ -19,13 +19,11 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
+import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;
 import vectorwing.farmersdelight.common.registry.ModRecipeTypes;
-
-// 若你有自訂的 wrapper（例如可讀取鍋內流體的 wrapper），請替換這個 import
-import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 
 import java.util.Optional;
 
@@ -38,6 +36,7 @@ public class SDCookingPotRecipe extends CookingPotRecipe {
     private final float experience;
     @Nullable private final FluidIngredient fluid;
     private final int fluidAmountMb;
+    private final float balanceFactor;
 
     public SDCookingPotRecipe(
             String group,
@@ -47,7 +46,8 @@ public class SDCookingPotRecipe extends CookingPotRecipe {
             int cookingTime,
             float experience,
             @Nullable FluidIngredient fluid,
-            int fluidAmountMb
+            int fluidAmountMb,
+            float balanceFactor
     ) {
         // 注意參數順序：... , container, experience, cookTime
         super(group, /*tab*/ null, ingredients,
@@ -64,6 +64,7 @@ public class SDCookingPotRecipe extends CookingPotRecipe {
         this.experience = experience;
         this.fluid = fluid;
         this.fluidAmountMb = fluidAmountMb;
+        this.balanceFactor = balanceFactor;
     }
 
     // ---- 需要流體時在這裡加判斷 ----
@@ -129,13 +130,14 @@ public class SDCookingPotRecipe extends CookingPotRecipe {
                         Codec.INT.optionalFieldOf("cookingtime", 200).forGetter(SDCookingPotRecipe::getCookingTime),
                         Codec.FLOAT.optionalFieldOf("experience", 0.0F).forGetter(SDCookingPotRecipe::getExperience),
                         FluidIngredient.CODEC.optionalFieldOf("fluid").forGetter(r -> Optional.ofNullable(r.getFluid())),
-                        Codec.INT.optionalFieldOf("fluid_amount", 0).forGetter(SDCookingPotRecipe::getFluidAmountMb)
-                ).apply(inst, (group, ings, res, containerItem, time, exp, optFluid, amt) ->
+                        Codec.INT.optionalFieldOf("fluid_amount", 0).forGetter(SDCookingPotRecipe::getFluidAmountMb),
+                        Codec.FLOAT.optionalFieldOf("balance_factor", 0.04f).forGetter(SDCookingPotRecipe::getBalanceFactor)
+                ).apply(inst, (group, ings, res, containerItem, time, exp, optFluid, amt, b) ->
                         new SDCookingPotRecipe(
                                 group, ings, res,
                                 containerItem.isEmpty() ? null : containerItem,
                                 time, exp,
-                                optFluid.orElse(null), amt
+                                optFluid.orElse(null), amt, b
                         )
                 ));
 
@@ -166,6 +168,7 @@ public class SDCookingPotRecipe extends CookingPotRecipe {
                 FluidIngredient.STREAM_CODEC.encode(buf, r.getFluid());
             }
             buf.writeVarInt(r.getFluidAmountMb());
+            buf.writeFloat(r.getBalanceFactor());
         }
 
         private static SDCookingPotRecipe fromNetwork0(RegistryFriendlyByteBuf buf) {
@@ -188,13 +191,18 @@ public class SDCookingPotRecipe extends CookingPotRecipe {
                 fluid = FluidIngredient.STREAM_CODEC.decode(buf);
             }
             int amt = buf.readVarInt();
+            float balanceFactor = buf.readFloat();
 
             return new SDCookingPotRecipe(
                     group, ings, result,
                     container.isEmpty() ? null : container,
                     time, exp,
-                    fluid, amt
+                    fluid, amt, balanceFactor
             );
         }
+    }
+
+    public Float getBalanceFactor() {
+        return balanceFactor;
     }
 }

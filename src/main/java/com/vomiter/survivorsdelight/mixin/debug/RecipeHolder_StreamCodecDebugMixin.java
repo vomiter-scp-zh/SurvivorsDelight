@@ -20,8 +20,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(RecipeHolder.class)
 public abstract class RecipeHolder_StreamCodecDebugMixin {
 
-    /*
-    @Shadow @Final @Mutable
+
+    @Shadow
+    @Final
+    @Mutable
     public static StreamCodec<RegistryFriendlyByteBuf, RecipeHolder<?>> STREAM_CODEC;
 
     @Inject(method = "<clinit>", at = @At("TAIL"))

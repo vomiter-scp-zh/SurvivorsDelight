@@ -1,8 +1,8 @@
 package com.vomiter.survivorsdelight.data.recipe;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.data.food.SDFoodRecipes;
 import com.vomiter.survivorsdelight.data.food.SDFoodCuttingRecipes;
+import com.vomiter.survivorsdelight.data.food.SDFoodRecipes;
 import com.vomiter.survivorsdelight.data.recipe.cutting.WoodCuttingRecipes;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.util.Metal;

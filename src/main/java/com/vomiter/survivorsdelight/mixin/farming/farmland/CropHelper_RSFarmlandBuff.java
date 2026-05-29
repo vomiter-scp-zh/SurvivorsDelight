@@ -10,7 +10,6 @@ import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import vectorwing.farmersdelight.common.registry.ModBlocks;
 
 @Mixin(value = CropHelpers.class, remap = false)
 public class CropHelper_RSFarmlandBuff {

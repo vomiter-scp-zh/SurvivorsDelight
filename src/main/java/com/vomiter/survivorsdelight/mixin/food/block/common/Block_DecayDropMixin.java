@@ -1,7 +1,7 @@
 package com.vomiter.survivorsdelight.mixin.food.block.common;
 
-import com.vomiter.survivorsdelight.compat.firmalife.FLCompatHelpers;
 import com.vomiter.survivorsdelight.common.food.block.SDDecayingBlockEntity;
+import com.vomiter.survivorsdelight.compat.firmalife.FLCompatHelpers;
 import net.dries007.tfc.common.component.food.FoodCapability;
 import net.dries007.tfc.common.component.food.FoodTrait;
 import net.dries007.tfc.common.component.food.IFood;

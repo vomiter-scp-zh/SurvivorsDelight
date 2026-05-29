@@ -1,11 +1,7 @@
 package com.vomiter.survivorsdelight.common.food.block;
 
 import com.vomiter.survivorsdelight.compat.firmalife.FLCompatHelpers;
-import net.dries007.tfc.common.component.food.FoodCapability;
-import net.dries007.tfc.common.component.food.FoodData;
-import net.dries007.tfc.common.component.food.FoodTrait;
-import net.dries007.tfc.common.component.food.FoodTraits;
-import net.dries007.tfc.common.component.food.IFood;
+import net.dries007.tfc.common.component.food.*;
 import net.minecraft.core.Holder;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;

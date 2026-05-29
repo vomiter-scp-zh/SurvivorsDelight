@@ -12,7 +12,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import vectorwing.farmersdelight.common.Configuration;
-import vectorwing.farmersdelight.common.advancement.CuttingBoardTrigger;
 import vectorwing.farmersdelight.common.block.CuttingBoardBlock;
 import vectorwing.farmersdelight.common.block.entity.CuttingBoardBlockEntity;
 import vectorwing.farmersdelight.common.registry.ModAdvancements;
@@ -67,8 +66,11 @@ public class CuttingBoardBlockEntityAdapter {
             out.add(stack);
         }
 
+        /*
         SurvivorsDelight.LOGGER.debug("[Cutting ISP] side=server, pos={}, outputs(before filter)={}, kept={}",
                 cuttingBoard.getBlockPos(), recipe.getOutputs().size(), out.size());
+
+         */
 
         Direction dir = cuttingBoard.getBlockState().getValue(CuttingBoardBlock.FACING).getCounterClockWise();
         for (ItemStack resultStack : out) {

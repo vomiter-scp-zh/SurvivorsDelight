@@ -1,17 +1,12 @@
 package com.vomiter.survivorsdelight.data.heat;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.common.device.skillet.SDSkilletItem;
 import com.vomiter.survivorsdelight.common.device.skillet.SkilletMaterial;
-import com.vomiter.survivorsdelight.registry.SDItems;
 import com.vomiter.survivorsdelight.registry.skillet.SDSkilletItems;
 import com.vomiter.survivorsdelight.registry.skillet.SDSkilletPartItems;
 import net.dries007.tfc.util.Metal;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-
-import java.util.function.Supplier;
 
 public class SDHeatData {
     final SDItemHeatProvider provider;

@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(IdDispatchCodec.class)
 public abstract class IdDispatchCodec_DebugMixin<B extends ByteBuf, V> {
-    /*
+
 
     @Inject(method = "decode", at = @At(
             value = "INVOKE",

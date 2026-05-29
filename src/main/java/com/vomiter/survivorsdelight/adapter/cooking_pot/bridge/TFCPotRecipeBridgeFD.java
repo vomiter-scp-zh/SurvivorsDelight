@@ -23,7 +23,7 @@ public class TFCPotRecipeBridgeFD extends SDCookingPotRecipe {
                                 FluidIngredient fluidIngredient,
                                 int fluidAmount
     ) {
-        super("", inputItems, output, container, cookTime, 0, fluidIngredient, fluidAmount);
+        super("", inputItems, output, container, cookTime, 0, fluidIngredient, fluidAmount, 0.04f);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.vomiter.survivorsdelight.data.recipe.builder;
 
+import com.vomiter.survivorsdelight.registry.recipe.SDCookingPotRecipe;
 import net.dries007.tfc.common.recipes.ingredients.AndIngredient;
 import net.dries007.tfc.common.recipes.ingredients.NotRottenIngredient;
 import net.minecraft.advancements.AdvancementHolder;
@@ -16,8 +17,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vomiter.survivorsdelight.registry.recipe.SDCookingPotRecipe;
-
 public class SDCookingPotRecipeBuilder {
     private String group = "";
     private final List<Ingredient> ingredients = new ArrayList<>();
@@ -27,6 +26,7 @@ public class SDCookingPotRecipeBuilder {
     private float experience = 0f;
     @Nullable private FluidIngredient fluid = null;
     private int fluidAmountMb = 0;
+    private float balanceFactor = 0.04f;
 
     public static SDCookingPotRecipeBuilder cooking(ItemStack result, int time, float exp) {
         final SDCookingPotRecipeBuilder b = new SDCookingPotRecipeBuilder();
@@ -47,6 +47,7 @@ public class SDCookingPotRecipeBuilder {
     public SDCookingPotRecipeBuilder fluid(FluidIngredient f, int amountMb) { this.fluid = f; this.fluidAmountMb = amountMb; return this; }
     public SDCookingPotRecipeBuilder time(int t) { this.cookingTime = t; return this; }
     public SDCookingPotRecipeBuilder xp(float x) { this.experience = x; return this; }
+    public SDCookingPotRecipeBuilder balanceFactor(float bf) {this.balanceFactor = bf; return this;}
 
     /** 最常用：不帶 advancement、不帶條件 */
     public void save(RecipeOutput out, ResourceLocation id) {
@@ -74,7 +75,8 @@ public class SDCookingPotRecipeBuilder {
                 cookingTime,
                 experience,
                 fluid,
-                fluidAmountMb
+                fluidAmountMb,
+                balanceFactor
         );
 
         // 交給 RecipeOutput；它會用 Serializer 的 MapCodec 自己轉 JSON

@@ -1,6 +1,5 @@
 package com.vomiter.survivorsdelight.data.tags;
 
-import com.eerussianguy.firmalife.FirmaLife;
 import com.eerussianguy.firmalife.common.blocks.FLFluids;
 import com.eerussianguy.firmalife.common.util.ExtraFluid;
 import net.dries007.tfc.common.fluids.SimpleFluid;
