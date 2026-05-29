@@ -66,6 +66,7 @@ public class NutrientShapedRecipe extends NutrientCraftingRecipe implements Craf
             buf.writeInt(recipe.presetHunger);
             buf.writeFloat(recipe.presetDecay);
             buf.writeBoolean(recipe.damageTool);
+            ITEM_STREAM_CODEC.encode(buf, recipe.container);
         }
 
     }
