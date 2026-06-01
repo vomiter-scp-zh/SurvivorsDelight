@@ -33,4 +33,8 @@ public class SDItems {
                     return SAEffects.WORKHORSE.get().getDescriptionId();
                 }
             });
+
+    public static final RegistryObject<Item> GOLD_FLAKE =
+            ITEMS.register("gold_flake", () -> new Item(new Item.Properties()));
+
 }

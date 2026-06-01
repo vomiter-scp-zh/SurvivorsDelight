@@ -41,6 +41,7 @@ public class SDCreativeTab {
                         SDBlocks.CABINETS.forEach((wood, ro) -> {
                             output.accept(ro.get().asItem());
                         });
+                        output.accept(SDItems.GOLD_FLAKE.get());
                     })
                     .withTabsBefore(ModCreativeTabs.TAB_FARMERS_DELIGHT.getKey())
                     .build()

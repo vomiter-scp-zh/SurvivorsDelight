@@ -33,10 +33,6 @@ import org.slf4j.Logger;
 
 @Mod(SurvivorsDelight.MODID)
 public class SurvivorsDelight {
-    //TODO: add aquaculture support
-    //TODO: add tfc cs compat
-    //TODO: add firmalife cellar compat for feast and pie
-
     //TODO: add familiarity config for ham looting
     //TODO: transfer manual recipes to datagen
 
