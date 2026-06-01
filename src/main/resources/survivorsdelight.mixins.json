@@ -11,8 +11,6 @@
     "ItemPropertiesMixin",
     "compat.firmalife.ClimateStationBlockEntityMixin",
     "compat.firmalife.StoveBlock_PlacePot",
-    "debug.IdDispatchCodec_DebugMixin",
-    "debug.RecipeHolder_StreamCodecDebugMixin",
     "device.cooking_pot.CookingPotBlock_AddPlayerMixin",
     "device.cooking_pot.CookingPotBlockEntity_Accessor",
     "device.cooking_pot.CookingPotBlockEntity_FluidHandleMixin",
