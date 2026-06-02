@@ -2,6 +2,7 @@ package com.vomiter.survivorsdelight.data.food;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
+import com.vomiter.survivorsdelight.registry.SDItems;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.capabilities.food.FoodData;
@@ -117,6 +118,22 @@ public class SDFoodRecipes {
 
     /* ---------------------- FEAST ---------------------- */
     public void feast(Consumer<FinishedRecipe> out){
+
+        craft("feast/gleaming_salad", ModItems.GLEAMING_SALAD_BLOCK.get(), 1)
+                .row("BGY")
+                .row("TCR")
+                .row("cbc")
+                .defineFood('B', SDTags.ItemTags.FRUIT_FOR_CHEESECAKE)
+                .defineNonFood('G', SDItems.GOLD_FLAKE.get())
+                .defineFood('Y', TFCItems.FOOD.get(Food.YELLOW_BELL_PEPPER).get())
+                .defineFood('T', TFCItems.FOOD.get(Food.TOMATO).get())
+                .defineFood('C', TFCItems.FOOD.get(Food.CARROT).get())
+                .defineFood('R', TFCItems.FOOD.get(Food.BEET).get())
+                .defineFood('c', TFCItems.FOOD.get(Food.CABBAGE).get())
+                .defineFood('b', Items.BOWL)
+                .container(Items.BOWL)
+                .build(out)
+                .saveFoodData();
 
         cook("feast/shepherds_pie", ModItems.SHEPHERDS_PIE_BLOCK.get(), 1, 1200, 5, Items.BOWL)
                 .food(SDTags.ItemTags.MEATS_FOR_SHEPHERDS_PIE)

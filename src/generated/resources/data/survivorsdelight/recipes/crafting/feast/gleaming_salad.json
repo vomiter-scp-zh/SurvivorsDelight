@@ -1,0 +1,38 @@
+{
+  "type": "survivorsdelight:nutrition_crafting",
+  "container": "minecraft:bowl",
+  "key": {
+    "B": {
+      "tag": "survivorsdelight:fruit_for_cheesecake"
+    },
+    "C": {
+      "item": "tfc:food/carrot"
+    },
+    "G": {
+      "item": "survivorsdelight:gold_flake"
+    },
+    "R": {
+      "item": "tfc:food/beet"
+    },
+    "T": {
+      "item": "tfc:food/tomato"
+    },
+    "Y": {
+      "item": "tfc:food/yellow_bell_pepper"
+    },
+    "b": {
+      "item": "minecraft:bowl"
+    },
+    "c": {
+      "item": "tfc:food/cabbage"
+    }
+  },
+  "pattern": [
+    "BGY",
+    "TCR",
+    "cbc"
+  ],
+  "result": {
+    "item": "farmersdelight:gleaming_salad_block"
+  }
+}
