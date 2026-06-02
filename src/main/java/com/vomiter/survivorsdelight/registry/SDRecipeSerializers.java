@@ -1,6 +1,7 @@
 package com.vomiter.survivorsdelight.registry;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
+import com.vomiter.survivorsdelight.registry.recipe.MedleyCraftingRecipe;
 import com.vomiter.survivorsdelight.registry.recipe.NutrientShapedRecipe;
 import com.vomiter.survivorsdelight.registry.recipe.NutrientShapelessRecipe;
 import net.minecraft.core.registries.Registries;
@@ -17,6 +18,9 @@ public final class SDRecipeSerializers {
 
     public static final RegistryObject<RecipeSerializer<NutrientShapelessRecipe>> NUTRITION_CRAFTING_SHAPELESS =
             SERIALIZERS.register("nutrition_crafting_shapeless", NutrientShapelessRecipe.Serializer::new);
+
+    public static final RegistryObject<RecipeSerializer<MedleyCraftingRecipe>> MEDLEY_CRAFTING =
+            SERIALIZERS.register("medley_crafting", MedleyCraftingRecipe.Serializer::new);
 
 
     private SDRecipeSerializers() {}

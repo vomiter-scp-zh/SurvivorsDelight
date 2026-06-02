@@ -34,7 +34,13 @@ public abstract class NutrientCraftingRecipe implements CraftingRecipe {
     final boolean damageTool;
     final Item container;
 
-    public NutrientCraftingRecipe(@Nullable CraftingRecipe vanilla, float balanceFactor, int presetHunger, float presetDecay, boolean damageTool, @Nullable Item container) {
+    public NutrientCraftingRecipe(
+            @Nullable CraftingRecipe vanilla,
+            float balanceFactor,
+            int presetHunger,
+            float presetDecay,
+            boolean damageTool,
+            @Nullable Item container) {
         this.vanilla = vanilla;
         this.balanceFactor = balanceFactor;
         this.presetHunger = presetHunger;
@@ -124,7 +130,7 @@ public abstract class NutrientCraftingRecipe implements CraftingRecipe {
             ItemStack s = inv.getItem(i);
             if (s.isEmpty()) continue;
             if(container != null && resultContainer.isEmpty()){
-                //only process when there's no defined container.
+                //only process when there's no defined container yet.
                 if(s.is(container)){
                     resultContainer = FoodItemContainerApply.getContainer(s);
                     //let's say I put a salad or a soup as "container";
