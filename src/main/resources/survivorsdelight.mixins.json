@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_17",
   "plugin": "com.vomiter.survivorsdelight.mixin.MixinGate",
   "mixins": [
+    "ShapedRecipeAccessor",
     "BlockEntityTypeAccessor",
     "InventoryBlockEntityAccessor",
     "compat.almostunified.AlmostUnifiedRuntimeImpl_SDRecipeFilterMixin",

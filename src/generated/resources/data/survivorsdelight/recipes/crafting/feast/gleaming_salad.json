@@ -6,10 +6,10 @@
       "tag": "survivorsdelight:fruit_for_cheesecake"
     },
     "C": {
-      "item": "tfc:food/carrot"
+      "item": "survivorsdelight:golden_carrot"
     },
     "G": {
-      "item": "survivorsdelight:gold_flake"
+      "item": "survivorsdelight:salad_dressing"
     },
     "R": {
       "item": "tfc:food/beet"

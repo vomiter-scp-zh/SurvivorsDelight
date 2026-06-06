@@ -42,6 +42,8 @@ public class SDCreativeTab {
                             output.accept(ro.get().asItem());
                         });
                         output.accept(SDItems.GOLD_FLAKE.get());
+                        output.accept(SDItems.GOLDEN_CARROT.get());
+                        output.accept(SDItems.SALAD_SAUCE.get());
                     })
                     .withTabsBefore(ModCreativeTabs.TAB_FARMERS_DELIGHT.getKey())
                     .build()
