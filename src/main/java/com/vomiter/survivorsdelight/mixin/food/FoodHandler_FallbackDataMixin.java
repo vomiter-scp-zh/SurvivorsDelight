@@ -1,6 +1,7 @@
 package com.vomiter.survivorsdelight.mixin.food;
 
 import com.vomiter.survivorsdelight.data.food.SDFallbackFoodData;
+import com.vomiter.survivorsdelight.data.food.SDFoodFallBackManager;
 import net.dries007.tfc.common.capabilities.food.*;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,7 +21,7 @@ public class FoodHandler_FallbackDataMixin {
         final FoodData cur = dyn.getData();
         if (!sdtfc$isEmptyData(cur)) return;
 
-        final FoodData fb = SDFallbackFoodData.get(stack.getItem());
+        final FoodData fb = SDFoodFallBackManager.getFood(stack.getItem());
         if (fb == null) return;
         dyn.setFood(fb);
     }

@@ -9,7 +9,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.event.AddReloadListenerEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -18,7 +20,7 @@ import java.util.Map;
 public class SDFoodFallBackManager extends SimpleJsonResourceReloadListener {
     private static final Gson GSON = new GsonBuilder().setLenient().create();
     private static final String DIRECTORY = "survivorsdelight/food_fallback";
-    private final Map<ResourceLocation, FoodData> foodDataMap = new HashMap<>();
+    private static final Map<ResourceLocation, FoodData> foodDataMap = new HashMap<>();
     public SDFoodFallBackManager() {
         super(GSON, DIRECTORY);
     }
@@ -40,7 +42,13 @@ public class SDFoodFallBackManager extends SimpleJsonResourceReloadListener {
         });
     }
 
-    public FoodData getFood(ResourceLocation rl) {
+    public static FoodData getFood(ResourceLocation rl) {
         return foodDataMap.get(rl);
     }
+
+    public static FoodData getFood(Item item) {
+        var rl = ForgeRegistries.ITEMS.getKey(item);
+        return foodDataMap.get(rl);
+    }
+
 }
