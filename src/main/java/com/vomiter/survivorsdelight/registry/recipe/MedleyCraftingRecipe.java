@@ -50,12 +50,16 @@ public class MedleyCraftingRecipe extends ShapedRecipe {
         this.container = container;
     }
 
+    public Item getContainer(){
+        return container;
+    }
+
     static String MEDLEY_CONTENT_TAG = "medley_content";
     public static void applyFoodStackForMedley(ItemStack medley, List<ItemStack> foodStacks){
         var tag = medley.getOrCreateTag();
         var contentListTag = new ListTag();
         for (ItemStack foodStack : foodStacks) {
-            contentListTag.add(foodStack.save(new CompoundTag()));
+            contentListTag.add(foodStack.copyWithCount(1).save(new CompoundTag()));
         }
         tag.put(MEDLEY_CONTENT_TAG, contentListTag);
     }

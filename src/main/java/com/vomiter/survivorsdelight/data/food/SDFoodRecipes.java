@@ -3,6 +3,7 @@ package com.vomiter.survivorsdelight.data.food;
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
 import com.vomiter.survivorsdelight.registry.SDItems;
+import com.vomiter.survivorsdelight.registry.recipe.MedleyCraftingFinished;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.capabilities.food.FoodData;
@@ -15,6 +16,7 @@ import net.dries007.tfc.common.items.Powder;
 import net.dries007.tfc.common.items.TFCItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -44,6 +46,10 @@ public class SDFoodRecipes {
         return SurvivorsDelight.foodAndCookingGenerator.crafting(id, outItem, count);
     }
 
+    private SDFoodAndRecipeGenerator.ShapelessCraftingBuilder craftShapeless(String id, ItemLike outItem, int count){
+        return SurvivorsDelight.foodAndCookingGenerator.craftingShapeless(id, outItem, count);
+    }
+
     private SDFoodDataProvider.Builder buildFood(String id){
         return SurvivorsDelight.foodAndCookingGenerator.provider().newBuilder(id);
     }
@@ -69,6 +75,12 @@ public class SDFoodRecipes {
     }
 
     public void smallFood(Consumer<FinishedRecipe> out){
+        craftShapeless("food/golden_carrot", SDItems.GOLDEN_CARROT.get(), 1)
+                .requires(TFCItems.FOOD.get(Food.CARROT).get())
+                        .requires(SDItems.GOLD_FLAKE.get())
+                                .build(out)
+                                        .saveFoodData();
+
         craft("food/barbecue_stick", ModItems.BARBECUE_STICK.get(), 1)
                 .shape("MV", "VS")
                 .defineFood('M', SDTags.ItemTags.TFC_COOKED_MEATS)
@@ -114,20 +126,41 @@ public class SDFoodRecipes {
                 .build(out)
                 .saveFoodData();
 
+        cook("food/salad_dressing", SDItems.SALAD_SAUCE.get(), 1, 200, 1, Items.GLASS_BOTTLE)
+                .food(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE)
+                .nonfood(SDTags.ItemTags.TFC_SWEETENER)
+                .fluid(TFCFluids.SIMPLE_FLUIDS.get(SimpleFluid.VINEGAR).getSource(), 100)
+                .build(out)
+                .saveFoodData();
+
     }
 
     /* ---------------------- FEAST ---------------------- */
     public void feast(Consumer<FinishedRecipe> out){
+
+        var medley = MedleyCraftingFinished.builder(
+                SDUtils.RLUtils.build("medley/rice_roll_medley"),
+                ModItems.RICE_ROLL_MEDLEY_BLOCK.get().getDefaultInstance())
+                .row("kkk")
+                .row("sss")
+                .row("cbc")
+                .key('k',Ingredient.of(ModItems.KELP_ROLL_SLICE.get()))
+                .key('s',Ingredient.of(ModItems.SALMON_ROLL.get()))
+                .key('c',Ingredient.of(ModItems.COD_ROLL.get()))
+                .key('b',Ingredient.of(Items.BOWL))
+                .container(Items.BOWL)
+                .build();
+        out.accept(medley);
 
         craft("feast/gleaming_salad", ModItems.GLEAMING_SALAD_BLOCK.get(), 1)
                 .row("BGY")
                 .row("TCR")
                 .row("cbc")
                 .defineFood('B', SDTags.ItemTags.FRUIT_FOR_CHEESECAKE)
-                .defineNonFood('G', SDItems.GOLD_FLAKE.get())
+                .defineNonFood('G', SDItems.SALAD_SAUCE.get())
                 .defineFood('Y', TFCItems.FOOD.get(Food.YELLOW_BELL_PEPPER).get())
                 .defineFood('T', TFCItems.FOOD.get(Food.TOMATO).get())
-                .defineFood('C', TFCItems.FOOD.get(Food.CARROT).get())
+                .defineFood('C', SDItems.GOLDEN_CARROT.get())
                 .defineFood('R', TFCItems.FOOD.get(Food.BEET).get())
                 .defineFood('c', TFCItems.FOOD.get(Food.CABBAGE).get())
                 .defineFood('b', Items.BOWL)

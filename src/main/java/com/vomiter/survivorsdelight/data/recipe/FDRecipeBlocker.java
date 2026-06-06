@@ -30,7 +30,8 @@ public final class FDRecipeBlocker {
 
     private static final List<String> OTHER_BLOCKING_ID = List.of(
             "canvas",
-            "melon_juice"
+            "melon_juice",
+            "rice_roll_medley_block"
     );
 
     private static final Ingredient OTHER_BLOCKING_TARGET = Ingredient.of(
