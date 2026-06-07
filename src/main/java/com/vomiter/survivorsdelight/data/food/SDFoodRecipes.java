@@ -75,6 +75,13 @@ public class SDFoodRecipes {
     }
 
     public void smallFood(Consumer<FinishedRecipe> out){
+        craftShapeless("food/kelp_roll", ModItems.KELP_ROLL.get(), 1)
+                .requires(TFCItems.FOOD.get(Food.DRIED_KELP).get())
+                .requires(TFCItems.FOOD.get(Food.CARROT).get())
+                .requires(TFCItems.FOOD.get(Food.COOKED_RICE).get())
+                .build(out)
+                .saveFoodData();
+
         craftShapeless("food/golden_carrot", SDItems.GOLDEN_CARROT.get(), 1)
                 .requires(TFCItems.FOOD.get(Food.CARROT).get())
                         .requires(SDItems.GOLD_FLAKE.get())

@@ -56,7 +56,13 @@ public class SDFoodCuttingRecipes {
         ItemStackProvider porkISP = ItemStackProvider.of(new ItemStack(SDUtils.getTFCFoodItem(Food.PORK), 2), CopyFoodModifier.INSTANCE);
         ItemStackProvider cookedPorkISP = ItemStackProvider.of(new ItemStack(SDUtils.getTFCFoodItem(Food.COOKED_PORK), 2), CopyFoodModifier.INSTANCE);
         ItemStackProvider rawPastaISP = ItemStackProvider.of(new ItemStack(ModItems.RAW_PASTA.get(), 2), CopyFoodModifier.INSTANCE);
+        ItemStackProvider kelpRollISP = ItemStackProvider.of(new ItemStack(ModItems.KELP_ROLL_SLICE.get(), 3), CopyFoodModifier.INSTANCE);
 
+        SDCuttingRecipeBuilder.cutting()
+                .notRotten(Ingredient.of(ModItems.KELP_ROLL.get()))
+                .tool(knife)
+                .result(SDJsonAdapters.writeISP(kelpRollISP))
+                .build(out, SDUtils.RLUtils.build(SurvivorsDelight.MODID, "cutting/food/kelp_roll"));
         SDCuttingRecipeBuilder.cutting()
                     .notRotten(Ingredient.of(ModItems.HAM.get()))
                     .tool(knife)

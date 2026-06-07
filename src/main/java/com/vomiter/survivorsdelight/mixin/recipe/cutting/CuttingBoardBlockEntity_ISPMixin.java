@@ -1,6 +1,7 @@
 package com.vomiter.survivorsdelight.mixin.recipe.cutting;
 
 import com.vomiter.survivorsdelight.data.recipe.SDCuttingRecipe;
+import net.dries007.tfc.common.capabilities.food.*;
 import net.dries007.tfc.common.recipes.outputs.ItemStackProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -11,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 import org.spongepowered.asm.mixin.Final;
@@ -64,6 +66,49 @@ public abstract class CuttingBoardBlockEntity_ISPMixin {
             ItemStack s = isp.getStack(getStoredItem());
             if (!s.isEmpty()) out.add(s);
         }
+
+        IFood storedFood = FoodCapability.get(getStoredItem());
+        if(storedFood != null){
+            List<ItemStack> foodResults = new ArrayList<>();
+            float[] nutrients = storedFood.getData().nutrients();
+            Float saturation = storedFood.getData().saturation();
+            Float water = storedFood.getData().water();
+            Integer hunger = storedFood.getData().hunger();
+            int numberOfFood = 0;
+            for (ItemStack itemStack : out) {
+                IFood food = FoodCapability.get(itemStack);
+                if(food == null) continue;
+                if(food instanceof FoodHandler.Dynamic){
+                    foodResults.add(itemStack);
+                    numberOfFood += itemStack.getCount();
+                }
+                for (int i = 0; i < nutrients.length; i++) {
+                    nutrients[i] -= food.getData().nutrients()[i];
+                }
+                saturation -= food.getData().saturation();
+                hunger -= food.getData().hunger();
+                water -= food.getData().water();
+            }
+            FoodData resultFoodData = new FoodData(
+                    Math.round((float)hunger / numberOfFood),
+                    water / numberOfFood,
+                    saturation / numberOfFood,
+                    nutrients[Nutrient.GRAIN.ordinal()] / numberOfFood,
+                    nutrients[Nutrient.FRUIT.ordinal()] / numberOfFood,
+                    nutrients[Nutrient.VEGETABLES.ordinal()] / numberOfFood,
+                    nutrients[Nutrient.PROTEIN.ordinal()] / numberOfFood,
+                    nutrients[Nutrient.DAIRY.ordinal()] / numberOfFood,
+                    storedFood.getDecayDateModifier()
+            );
+            foodResults.forEach(item -> {
+                if(FoodCapability.get(item) instanceof FoodHandler.Dynamic dynamic){
+                    dynamic.setFood(resultFoodData);
+                    dynamic.setCreationDate(((BlockEntity)(Object)this).getLevel().getDayTime());
+                }
+            });
+        }
+
+
 
         Direction dir = self.getBlockState().getValue(CuttingBoardBlock.FACING).getCounterClockWise();
         for (ItemStack resultStack : out) {

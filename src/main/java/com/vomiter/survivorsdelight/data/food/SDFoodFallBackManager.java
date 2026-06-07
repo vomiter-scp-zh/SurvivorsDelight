@@ -37,7 +37,7 @@ public class SDFoodFallBackManager extends SimpleJsonResourceReloadListener {
             @NotNull ProfilerFiller filler) {
         map.forEach((id, json) -> {
             var food = FoodData.read(json.getAsJsonObject());
-            SurvivorsDelight.LOGGER.info("[SD Fallback] id = {}, food = {}", id, food);
+            SurvivorsDelight.LOGGER.debug("[SD Fallback] id = {}, food = {}", id, food);
             foodDataMap.put(id, food);
         });
     }
