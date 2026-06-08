@@ -5,12 +5,12 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.mojang.brigadier.CommandDispatcher;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
+import net.dries007.tfc.common.capabilities.food.FoodData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.SharedConstants;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -48,19 +48,19 @@ public final class SDFoodFallbackCommand {
         );
     }
 
-    private static JsonObject foodDataNbtToJson(CompoundTag nbt) {
+    private static JsonObject foodDataToJson(FoodData data) {
         JsonObject json = new JsonObject();
 
-        json.addProperty("food", nbt.getInt("food"));
-        json.addProperty("sat", nbt.getFloat("sat"));
-        json.addProperty("water", nbt.getFloat("water"));
-        json.addProperty("decay", nbt.getFloat("decay"));
+        json.addProperty("hunger", data.hunger());
+        json.addProperty("saturation", data.saturation());
+        json.addProperty("water", data.water());
+        json.addProperty("decay_modifier", data.decayModifier());
 
-        json.addProperty("grain", nbt.getFloat("grain"));
-        json.addProperty("veg", nbt.getFloat("veg"));
-        json.addProperty("fruit", nbt.getFloat("fruit"));
-        json.addProperty("meat", nbt.getFloat("meat"));
-        json.addProperty("dairy", nbt.getFloat("dairy"));
+        json.addProperty("grain", data.grain());
+        json.addProperty("fruit", data.fruit());
+        json.addProperty("vegetables", data.vegetables());
+        json.addProperty("protein", data.protein());
+        json.addProperty("dairy", data.dairy());
 
         return json;
     }
@@ -108,8 +108,7 @@ public final class SDFoodFallbackCommand {
             ensurePack(packDir);
             Files.createDirectories(outputFile.getParent());
 
-            CompoundTag nbt = food.getData().write();
-            JsonObject json = foodDataNbtToJson(nbt);
+            JsonObject json = foodDataToJson(food.getData());
 
             Files.writeString(
                     outputFile,
