@@ -3,8 +3,14 @@ package com.vomiter.survivorsdelight.common.device.skillet;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.vomiter.survivorsdelight.adapter.skillet.SkilletMaterial;
+import com.vomiter.survivorsdelight.adapter.skillet.skillet_item.SkilletCookingCap;
+import com.vomiter.survivorsdelight.adapter.skillet.skillet_item.SkilletItemCookingData;
 import com.vomiter.survivorsdelight.registry.skillet.SDSkilletItems;
+import net.dries007.tfc.common.capabilities.heat.HeatCapability;
+import net.dries007.tfc.common.capabilities.heat.IHeat;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundSource;
@@ -33,6 +39,7 @@ import vectorwing.farmersdelight.client.ClientSetup;
 import vectorwing.farmersdelight.client.renderer.SkilletItemRenderer;
 import vectorwing.farmersdelight.common.item.SkilletItem;
 import vectorwing.farmersdelight.common.registry.ModSounds;
+import vectorwing.farmersdelight.common.utility.ClientRenderUtils;
 
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -128,4 +135,32 @@ public class SDSkilletItem extends SkilletItem {
             }
         });
     }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public int getBarWidth(ItemStack stack) {
+        if(stack.getTagElement("Cooking") != null){
+            LocalPlayer player = Minecraft.getInstance().player;
+            if(player != null) {
+                var data = SkilletCookingCap.get(player);
+                ItemStack cooking = data.getCooking();
+                if(cooking != null && !cooking.isEmpty()){
+                    IHeat heat = HeatCapability.get(cooking);
+                    if(heat != null){
+                        return Math.round(heat.getTemperature() / data.getTargetTemperature() * 13);
+                    }
+                }
+            }
+        }
+        return super.getBarWidth(stack);
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public int getBarColor(ItemStack stack) {
+        if(stack.getTagElement("Cooking") == null) return super.getBarColor(stack);
+
+        return stack.getTagElement("Cooking") != null ? 16747343 : super.getBarColor(stack);
+    }
+
 }

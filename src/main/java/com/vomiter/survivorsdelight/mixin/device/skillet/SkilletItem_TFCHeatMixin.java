@@ -83,13 +83,11 @@ public abstract class SkilletItem_TFCHeatMixin {
             return;
         }
 
-        if (!level.isClientSide) {
-            HeatCapability.addTemp(heat, temperatureNearby);
-            var data = SkilletCookingCap.get(player);
-            data.setCooking(unit);
-            data.setTargetTemperature(recipe.getTemperature());
-            data.setHand(hand);
-        }
+        HeatCapability.addTemp(heat, temperatureNearby);
+        var data = SkilletCookingCap.get(player);
+        data.setCooking(unit);
+        data.setTargetTemperature(recipe.getTemperature());
+        data.setHand(hand);
         player.startUsingItem(hand);
         cir.setReturnValue(InteractionResultHolder.pass(skilletStack));
     }
@@ -110,6 +108,7 @@ public abstract class SkilletItem_TFCHeatMixin {
             }
         }
         IHeat heat = HeatCapability.get(cooking);
+        if (heat != null) HeatCapability.addTemp(heat, temperatureNearby);
         if (!level.isClientSide) {
             if (heat == null) {
                 if (!player.addItem(cooking)) player.drop(cooking, false);
@@ -118,7 +117,6 @@ public abstract class SkilletItem_TFCHeatMixin {
                 return;
             }
 
-            HeatCapability.addTemp(heat, temperatureNearby);
             if(heat.getTemperature() < data.getTargetTemperature()) return;
 
             HeatingRecipe recipe = HeatingRecipe.getRecipe(new ItemStackInventory(cooking));
