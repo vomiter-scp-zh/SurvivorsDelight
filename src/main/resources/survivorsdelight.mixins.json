@@ -5,9 +5,9 @@
   "compatibilityLevel": "JAVA_17",
   "plugin": "com.vomiter.survivorsdelight.mixin.MixinGate",
   "mixins": [
-    "ShapedRecipeAccessor",
     "BlockEntityTypeAccessor",
     "InventoryBlockEntityAccessor",
+    "ShapedRecipeAccessor",
     "compat.almostunified.AlmostUnifiedRuntimeImpl_SDRecipeFilterMixin",
     "compat.firmalife.ClimateStationBlockEntityMixin",
     "compat.firmalife.FLJEIPluginMixin",
@@ -64,9 +64,9 @@
     "recipe.AnvilBlockEntity_WeldingSkilletMixin",
     "recipe.RecipeManager_FDFilterMixin",
     "recipe.WeldingRecipe_SkilletMixin",
+    "recipe.cooking.CookingPotRecipe_BalanceFactorDuckMixin",
     "recipe.cooking.CookingPotRecipe_FluidDuckMixin",
     "recipe.cooking.CookingPotRecipe_Serializer_FluidMixin",
-    "recipe.cooking.CookingPotRecipe_BalanceFactorDuckMixin",
     "recipe.cutting.CuttingBoardBlockEntity_ISPMixin",
     "recipe.cutting.CuttingBoardRecipeSerializer_ISPMixin"
   ],
