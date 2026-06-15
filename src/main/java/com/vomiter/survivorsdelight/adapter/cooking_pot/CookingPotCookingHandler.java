@@ -4,7 +4,10 @@ import com.vomiter.survivorsdelight.adapter.cooking_pot.balance_factor.ICookingP
 import com.vomiter.survivorsdelight.adapter.cooking_pot.bridge.ICookingPotRecipeBridge;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.bridge.TFCPotRecipeBridgeFD;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid.ICookingPotFluidAccess;
+import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid.IFluidRequiringRecipe;
 import net.dries007.tfc.common.capabilities.food.*;
+import net.dries007.tfc.common.recipes.ingredients.FluidStackIngredient;
+import net.dries007.tfc.util.Drinkable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -59,13 +62,26 @@ public final class CookingPotCookingHandler {
         int resultCount = Math.max(1, originalResult.getCount());
 
         Fluid fluid = cookingPot instanceof ICookingPotFluidAccess fluidAccess? Objects.requireNonNull(fluidAccess.sd$getFluidHandler()).getFluidInTank(0).getFluid(): null;
+        int fluidAmount = 0;
+        if(fluid != null){
+            FluidStackIngredient fluidStackIngredient = recipe instanceof IFluidRequiringRecipe fluidRequiringRecipe? fluidRequiringRecipe.sdtfc$getFluidIngredient(): null;
+            if (fluidStackIngredient == null) fluid = null;
+            else if(fluidStackIngredient.ingredient().test(fluid)) {
+                //pass
+                fluidAmount = fluidStackIngredient.amount();
+            }
+            else fluid = null;
+        }
+
+
         CookingPotNutritionContext context = CookingPotNutritionContext.of(
                 inputStacks,
                 foodIngredientCount,
                 originalResult,
                 recipe,
                 recipe.getId(),
-                fluid
+                fluid,
+                fluidAmount
         );
 
         DynamicFoodComputation computation =
@@ -84,6 +100,7 @@ public final class CookingPotCookingHandler {
                 computation.nutrition(),
                 DEFAULT_DECAY
         ));
+        dynamicFood.setCreationDate(level.getDayTime());
 
         bridge.sdtfc$setCachedDynamicFoodResult(originalResult);
     }
@@ -122,18 +139,25 @@ public final class CookingPotCookingHandler {
         float water = baseFood.water();
         int hunger = 0;
         List<ItemStack> ingredients = new ArrayList<>();
+        if(context.hasFluid()){
+            assert context.fluid() != null;
+            var fluidAmount = context.getFluidAmount();
+            float multiplier = (float)fluidAmount / 25.0F;
+            var waterAdd = Optional.ofNullable(Drinkable.get(context.fluid())).map(drinkable -> drinkable.getThirst()*multiplier/resultCount).orElse(0f);
+            water += waterAdd;
+        }
 
         for (ItemStack stack : inputStacks) {
             IFood handler = FoodCapability.get(stack);
-            if (handler == null) {
-                continue;
-            }
+            FoodData data;
+            if (handler != null) {
+                data = handler.getData();
+                ingredients.add(stack.getItem().getDefaultInstance());
+            } else data = null;
 
-            FoodData data = handler.getData();
-            ingredients.add(stack.getItem().getDefaultInstance());
 
             for (Nutrient nutrient : Nutrient.VALUES) {
-                float retained = data.nutrient(nutrient) * (1f - ((ICookingPotRecipeBalanceFactor)recipe).sdtfc$getBalanceFactor() * context.foodIngredientCount());
+                float retained = data != null ? data.nutrient(nutrient) * (1f - ((ICookingPotRecipeBalanceFactor)recipe).sdtfc$getBalanceFactor() * context.foodIngredientCount()): 0;
                 float extra = CookingPotExtraNutrientRules.getExtraNutrient(level, stack, nutrient, data);
                 float contribution = retained + extra;
 
@@ -149,9 +173,11 @@ public final class CookingPotCookingHandler {
                 nutrition[nutrient.ordinal()] += contribution / resultCount;
             }
 
-            water += data.water() / resultCount;
-            saturation += data.saturation() / resultCount;
-            hunger = Math.max(hunger, data.hunger());
+            if(data != null){
+                water += data.water() / resultCount;
+                saturation += data.saturation() / resultCount;
+                hunger = Math.max(hunger, data.hunger());
+            }
         }
 
         return new DynamicFoodComputation(ingredients, nutrition, saturation, water, hunger);

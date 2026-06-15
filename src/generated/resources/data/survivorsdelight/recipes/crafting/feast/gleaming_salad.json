@@ -1,6 +1,6 @@
 {
   "type": "survivorsdelight:nutrition_crafting",
-  "container": "minecraft:bowl",
+  "container": "tfc:food/vegetables_salad",
   "key": {
     "B": {
       "tag": "survivorsdelight:fruit_for_cheesecake"

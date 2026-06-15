@@ -90,7 +90,7 @@ public abstract class SDDecayingBlockEntity extends DecayingBlockEntity implemen
                 CompoundTag tag = srcStack.getTag();
                 if(tag != null && tag.get("Container") instanceof CompoundTag){
                     drops.remove(0);
-                    drops.add(FoodItemContainerApply.getContainer(srcStack));
+                    drops.add(FoodItemContainerApply.getRemainder(srcStack));
                 }
             }
         }

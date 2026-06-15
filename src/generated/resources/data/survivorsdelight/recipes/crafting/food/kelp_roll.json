@@ -1,0 +1,17 @@
+{
+  "type": "survivorsdelight:nutrition_crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "tfc:food/dried_kelp"
+    },
+    {
+      "item": "tfc:food/carrot"
+    },
+    {
+      "item": "tfc:food/cooked_rice"
+    }
+  ],
+  "result": {
+    "item": "farmersdelight:kelp_roll"
+  }
+}

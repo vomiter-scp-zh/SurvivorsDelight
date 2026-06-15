@@ -65,6 +65,6 @@ public class FoodItemContainerApply {
     public static ItemStack getRemainder(ItemStack stack){
         var container = getContainer(stack);
         var foodProperty = container.getFoodProperties(null);
-        return foodProperty != null? ItemStack.EMPTY: container;
+        return foodProperty != null? getRemainder(container): container;
     }
 }

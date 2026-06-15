@@ -17,9 +17,12 @@ import com.vomiter.survivorsdelight.registry.SDContainerTypes;
 import com.vomiter.survivorsdelight.registry.SDItemStackModifiers;
 import com.vomiter.survivorsdelight.registry.SDRegistries;
 import com.vomiter.survivorsdelight.registry.skillet.SDSkilletBlocks;
+import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.items.TFCItems;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
@@ -62,7 +65,7 @@ public class SurvivorsDelight {
             );
             FoodContainerExpansion.register(
                     Items.GLASS_BOTTLE,
-                    (stack -> stack.is(TFCItems.SILICA_GLASS_BOTTLE.get()))
+                    (stack -> stack.is(ItemTags.create(ResourceLocation.fromNamespaceAndPath("tfc", "glass_bottles"))))
             );
             CookingPotExtraNutrientRules.bootstrap();
         });

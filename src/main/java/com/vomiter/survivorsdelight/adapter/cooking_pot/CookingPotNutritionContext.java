@@ -17,7 +17,6 @@ public final class CookingPotNutritionContext {
     private final List<ItemStack> inputStacks;
     private final int foodIngredientCount;
     private final Map<Item, Integer> itemCounts;
-
     private final ItemStack outputPreview;
 
     @Nullable
@@ -29,13 +28,15 @@ public final class CookingPotNutritionContext {
     @Nullable
     private final Fluid fluid;
 
+    private final int fluidAmount;
+
     private CookingPotNutritionContext(
             List<ItemStack> inputStacks,
             int foodIngredientCount,
             ItemStack outputPreview,
             @Nullable CookingPotRecipe recipe,
             @Nullable ResourceLocation recipeKey,
-            @Nullable Fluid fluid
+            @Nullable Fluid fluid, int fluidAmount
     ) {
         this.inputStacks = List.copyOf(inputStacks);
         this.foodIngredientCount = foodIngredientCount;
@@ -45,6 +46,7 @@ public final class CookingPotNutritionContext {
         this.recipe = recipe;
         this.recipeKey = recipeKey;
         this.fluid = fluid;
+        this.fluidAmount = fluidAmount;
     }
 
     public static CookingPotNutritionContext of(
@@ -53,7 +55,8 @@ public final class CookingPotNutritionContext {
             ItemStack outputPreview,
             @Nullable CookingPotRecipe recipe,
             @Nullable ResourceLocation recipeKey,
-            @Nullable Fluid fluid
+            @Nullable Fluid fluid,
+            int fluidAmount
     ) {
         return new CookingPotNutritionContext(
                 inputStacks,
@@ -61,7 +64,8 @@ public final class CookingPotNutritionContext {
                 outputPreview,
                 recipe,
                 recipeKey,
-                fluid
+                fluid,
+                fluidAmount
         );
     }
 
@@ -157,5 +161,9 @@ public final class CookingPotNutritionContext {
                 ", recipeKey=" + recipeKey +
                 ", fluid=" + (fluid == null ? "null" : Objects.toString(fluid)) +
                 '}';
+    }
+
+    public int getFluidAmount() {
+        return fluidAmount;
     }
 }
