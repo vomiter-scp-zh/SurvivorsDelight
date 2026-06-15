@@ -2,13 +2,16 @@ package com.vomiter.survivorsdelight;
 
 import com.mojang.logging.LogUtils;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.CookingPotExtraNutrientRules;
-import com.vomiter.survivorsdelight.client.*;
+import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid.SDCookingPotFluidMenu;
+import com.vomiter.survivorsdelight.adapter.farming.RichSoilFarmlandBlockEntitySetup;
+import com.vomiter.survivorsdelight.adapter.skillet.skillet_item.ISkilletItemCookingData;
+import com.vomiter.survivorsdelight.client.ClientForgeEventHandler;
+import com.vomiter.survivorsdelight.client.SaladPredicates;
+import com.vomiter.survivorsdelight.client.SandwichPredicates;
+import com.vomiter.survivorsdelight.client.SkilletPredicates;
 import com.vomiter.survivorsdelight.client.screen.SDCabinetScreen;
 import com.vomiter.survivorsdelight.client.screen.SDPotFluidScreen;
 import com.vomiter.survivorsdelight.common.ForgeEventHandler;
-import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid.SDCookingPotFluidMenu;
-import com.vomiter.survivorsdelight.adapter.skillet.skillet_item.ISkilletItemCookingData;
-import com.vomiter.survivorsdelight.adapter.farming.RichSoilFarmlandBlockEntitySetup;
 import com.vomiter.survivorsdelight.common.food.FoodContainerExpansion;
 import com.vomiter.survivorsdelight.common.food.trait.SDFoodTraits;
 import com.vomiter.survivorsdelight.data.food.SDFoodAndRecipeGenerator;
@@ -17,9 +20,7 @@ import com.vomiter.survivorsdelight.registry.SDContainerTypes;
 import com.vomiter.survivorsdelight.registry.SDItemStackModifiers;
 import com.vomiter.survivorsdelight.registry.SDRegistries;
 import com.vomiter.survivorsdelight.registry.skillet.SDSkilletBlocks;
-import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.TFCBlocks;
-import net.dries007.tfc.common.items.TFCItems;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
@@ -36,13 +37,6 @@ import org.slf4j.Logger;
 
 @Mod(SurvivorsDelight.MODID)
 public class SurvivorsDelight {
-    //TODO: add familiarity config for ham looting
-    //TODO: transfer manual recipes to datagen
-
-    //TODO: another mod - Basket and storage blocks
-    //TODO: another mod - Unroasted block and buildable feast
-    //TODO: another mod - Beneath edition
-
     public static final String MODID = "survivorsdelight";
     public static final Logger LOGGER = LogUtils.getLogger();
     public static final SDFoodAndRecipeGenerator foodAndCookingGenerator = new SDFoodAndRecipeGenerator(MODID);
