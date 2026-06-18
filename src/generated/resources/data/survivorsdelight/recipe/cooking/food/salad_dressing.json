@@ -1,8 +1,12 @@
 {
   "type": "survivorsdelight:sd_cooking_pot",
+  "container": {
+    "count": 1,
+    "id": "minecraft:glass_bottle"
+  },
   "experience": 1.0,
   "fluid": {
-    "tag": "c:milk"
+    "fluid": "tfc:vinegar"
   },
   "fluid_amount": 100,
   "ingredients": [
@@ -10,7 +14,7 @@
       "type": "tfc:and",
       "children": [
         {
-          "item": "tfc:food/baked_potato"
+          "tag": "survivorsdelight:fruit_for_cheesecake"
         },
         {
           "type": "tfc:not_rotten"
@@ -18,19 +22,11 @@
       ]
     },
     {
-      "type": "tfc:and",
-      "children": [
-        {
-          "tag": "c:foods/raw_meats"
-        },
-        {
-          "type": "tfc:not_rotten"
-        }
-      ]
+      "tag": "tfc:foods/sweeteners"
     }
   ],
   "result": {
     "count": 1,
-    "id": "farmersdelight:stuffed_potato"
+    "id": "survivorsdelight:salad_dressing"
   }
 }

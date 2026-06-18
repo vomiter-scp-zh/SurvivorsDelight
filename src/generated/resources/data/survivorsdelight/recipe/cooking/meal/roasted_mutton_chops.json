@@ -5,7 +5,7 @@
     "id": "minecraft:bowl"
   },
   "cookingtime": 1200,
-  "experience": 15.0,
+  "experience": 3.0,
   "fluid": {
     "fluid": "tfc:olive_oil"
   },

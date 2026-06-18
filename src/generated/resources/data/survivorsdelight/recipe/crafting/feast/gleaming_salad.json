@@ -1,0 +1,47 @@
+{
+  "type": "survivorsdelight:nutrition_crafting",
+  "balance_factor": 0.04,
+  "container": "minecraft:bowl",
+  "damage_tool": true,
+  "decay": 4.5,
+  "hunger": -1,
+  "vanilla": {
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "key": {
+      "B": {
+        "tag": "survivorsdelight:fruit_for_cheesecake"
+      },
+      "C": {
+        "item": "survivorsdelight:golden_carrot"
+      },
+      "G": {
+        "item": "survivorsdelight:salad_dressing"
+      },
+      "R": {
+        "item": "tfc:food/beet"
+      },
+      "T": {
+        "item": "tfc:food/tomato"
+      },
+      "Y": {
+        "item": "tfc:food/yellow_bell_pepper"
+      },
+      "b": {
+        "item": "minecraft:bowl"
+      },
+      "c": {
+        "item": "tfc:food/cabbage"
+      }
+    },
+    "pattern": [
+      "BGY",
+      "TCR",
+      "cbc"
+    ],
+    "result": {
+      "count": 1,
+      "id": "farmersdelight:gleaming_salad_block"
+    }
+  }
+}

@@ -13,7 +13,7 @@
         "tag": "c:foods/cooked_meats"
       },
       "S": {
-        "tag": "forge:rods/wooden"
+        "tag": "c:rods/wooden"
       },
       "V": {
         "tag": "c:foods/vegetable"

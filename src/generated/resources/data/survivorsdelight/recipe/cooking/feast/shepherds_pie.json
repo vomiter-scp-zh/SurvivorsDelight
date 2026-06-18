@@ -5,7 +5,7 @@
     "id": "minecraft:bowl"
   },
   "cookingtime": 1200,
-  "experience": 20.0,
+  "experience": 5.0,
   "fluid": {
     "tag": "c:milk"
   },

@@ -5,7 +5,7 @@
     "id": "minecraft:glass_bottle"
   },
   "cookingtime": 1200,
-  "experience": 10.0,
+  "experience": 2.0,
   "fluid": {
     "fluid": "tfc:cider"
   },

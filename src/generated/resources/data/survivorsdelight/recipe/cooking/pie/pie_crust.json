@@ -1,7 +1,7 @@
 {
   "type": "survivorsdelight:sd_cooking_pot",
   "cookingtime": 1200,
-  "experience": 10.0,
+  "experience": 2.0,
   "fluid": {
     "fluid": "tfc:olive_oil"
   },

@@ -5,7 +5,7 @@
     "id": "minecraft:bowl"
   },
   "cookingtime": 600,
-  "experience": 10.0,
+  "experience": 2.0,
   "ingredients": [
     {
       "type": "tfc:and",

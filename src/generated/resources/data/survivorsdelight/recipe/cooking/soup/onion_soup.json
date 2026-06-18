@@ -4,21 +4,18 @@
     "count": 1,
     "id": "minecraft:bowl"
   },
-  "cookingtime": 1200,
-  "experience": 20.0,
+  "cookingtime": 600,
+  "experience": 1.0,
   "fluid": {
-    "tag": "survivorsdelight:cooking_oils"
+    "tag": "c:milk"
   },
   "fluid_amount": 100,
   "ingredients": [
     {
-      "tag": "tfc:foods/sweeteners"
-    },
-    {
       "type": "tfc:and",
       "children": [
         {
-          "item": "farmersdelight:smoked_ham"
+          "item": "tfc:food/onion"
         },
         {
           "type": "tfc:not_rotten"
@@ -29,7 +26,7 @@
       "type": "tfc:and",
       "children": [
         {
-          "tag": "survivorsdelight:fruit_for_cheesecake"
+          "item": "tfc:food/onion"
         },
         {
           "type": "tfc:not_rotten"
@@ -40,18 +37,7 @@
       "type": "tfc:and",
       "children": [
         {
-          "tag": "c:foods/vegetable"
-        },
-        {
-          "type": "tfc:not_rotten"
-        }
-      ]
-    },
-    {
-      "type": "tfc:and",
-      "children": [
-        {
-          "tag": "c:foods/dough"
+          "tag": "tfc:sandwich_bread"
         },
         {
           "type": "tfc:not_rotten"
@@ -61,6 +47,6 @@
   ],
   "result": {
     "count": 1,
-    "id": "farmersdelight:honey_glazed_ham_block"
+    "id": "farmersdelight:onion_soup"
   }
 }

@@ -4,8 +4,8 @@
     "count": 1,
     "id": "minecraft:bowl"
   },
-  "cookingtime": 3600,
-  "experience": 15.0,
+  "cookingtime": 1800,
+  "experience": 3.0,
   "fluid": {
     "tag": "tfc:any_fresh_water"
   },

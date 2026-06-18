@@ -208,16 +208,6 @@ public class SDFoodRecipes {
                 .build(out)
                 .saveFoodData();
 
-        cook("feast/stuffed_pumpkin", ModItems.STUFFED_PUMPKIN_BLOCK.get(), 1, 1200, 20, Items.CARVED_PUMPKIN)
-                .food(Items.BROWN_MUSHROOM)
-                .food(SDTags.ItemTags.TFC_GRAINS)
-                .food(SDTags.ItemTags.TFC_FRUITS)
-                .food(SDTags.ItemTags.TFC_VEGETABLES)
-                .food(Food.ONION)
-                .fluid(oils, 100)
-                .build(out)
-                .saveFoodData();
-
         cook("feast/roasted_chicken", ModItems.ROAST_CHICKEN_BLOCK.get(), 1, 1200, 5, TFCItems.SALADS.get(Nutrient.VEGETABLES).get())
                 .food(SDTags.ItemTags.RAW_POULTRY)
                 .food(SDTags.ItemTags.RAW_POULTRY)

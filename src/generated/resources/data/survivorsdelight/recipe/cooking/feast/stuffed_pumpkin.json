@@ -5,7 +5,7 @@
     "id": "minecraft:carved_pumpkin"
   },
   "cookingtime": 1200,
-  "experience": 20.0,
+  "experience": 5.0,
   "fluid": {
     "tag": "survivorsdelight:cooking_oils"
   },
@@ -37,7 +37,7 @@
       "type": "tfc:and",
       "children": [
         {
-          "tag": "c:foods/fruit"
+          "item": "tfc:food/fruit_salad"
         },
         {
           "type": "tfc:not_rotten"
@@ -48,7 +48,7 @@
       "type": "tfc:and",
       "children": [
         {
-          "tag": "c:foods/vegetable"
+          "item": "tfc:food/vegetables_salad"
         },
         {
           "type": "tfc:not_rotten"

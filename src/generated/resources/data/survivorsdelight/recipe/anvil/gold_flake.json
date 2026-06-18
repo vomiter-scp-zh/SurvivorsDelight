@@ -1,0 +1,15 @@
+{
+  "type": "tfc:anvil",
+  "ingredient": {
+    "item": "tfc:metal/ingot/gold"
+  },
+  "result": {
+    "count": 4,
+    "id": "survivorsdelight:gold_flake"
+  },
+  "rules": [
+    "bend_any",
+    "bend_any",
+    "bend_any"
+  ]
+}

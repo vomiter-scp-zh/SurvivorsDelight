@@ -1,6 +1,6 @@
 {
   "type": "survivorsdelight:sd_cooking_pot",
-  "experience": 5.0,
+  "experience": 1.0,
   "ingredients": [
     {
       "type": "tfc:and",

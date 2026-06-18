@@ -2,10 +2,10 @@
   "type": "survivorsdelight:sd_cooking_pot",
   "container": {
     "count": 1,
-    "id": "minecraft:bowl"
+    "id": "tfc:food/vegetables_salad"
   },
   "cookingtime": 1200,
-  "experience": 20.0,
+  "experience": 5.0,
   "fluid": {
     "tag": "survivorsdelight:cooking_oils"
   },
@@ -18,7 +18,18 @@
       "type": "tfc:and",
       "children": [
         {
-          "item": "farmersdelight:smoked_ham"
+          "item": "farmersdelight:ham"
+        },
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    },
+    {
+      "type": "tfc:and",
+      "children": [
+        {
+          "tag": "survivorsdelight:fruit_for_cheesecake"
         },
         {
           "type": "tfc:not_rotten"
