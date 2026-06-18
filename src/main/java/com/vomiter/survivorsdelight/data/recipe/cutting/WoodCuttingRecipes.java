@@ -11,6 +11,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -24,6 +25,8 @@ import vectorwing.farmersdelight.data.builder.CuttingBoardRecipeBuilder;
 import java.util.Locale;
 
 public class WoodCuttingRecipes{
+    TagKey<Item> sawsTag = ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", "tools/saw"));
+
 
     public void stripForBark(Wood wood, RecipeOutput out){
         Block log = wood.getBlock(Wood.BlockType.LOG).get();
@@ -69,7 +72,6 @@ public class WoodCuttingRecipes{
 
     public void salvageWoodFurnitureType(Wood wood, Wood.BlockType type, int count, RecipeOutput out){
         Item lumber = TFCItems.LUMBER.get(wood).get();
-        TagKey<Item> sawsTag = TagKey.create(Registries.ITEM, SDUtils.RLUtils.build(TerraFirmaCraft.MOD_ID, "tools/saw"));
 
         CuttingBoardRecipeBuilder.cuttingRecipe(
                 Ingredient.of(wood.getBlock(type).get()),
@@ -85,7 +87,6 @@ public class WoodCuttingRecipes{
     public void salvageHangingSign(Wood wood, Metal metal, RecipeOutput out){
         Item lumber = TFCItems.LUMBER.get(wood).get();
         Block chain = TFCBlocks.METALS.get(metal).get(Metal.BlockType.CHAIN).get();
-        TagKey<Item> sawsTag = TagKey.create(Registries.ITEM, SDUtils.RLUtils.build(TerraFirmaCraft.MOD_ID, "saws"));
 
         CuttingBoardRecipeBuilder.cuttingRecipe(
                 Ingredient.of(TFCItems.HANGING_SIGNS.get(wood).get(metal).get()),

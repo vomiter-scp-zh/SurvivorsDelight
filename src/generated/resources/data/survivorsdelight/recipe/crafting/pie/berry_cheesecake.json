@@ -1,6 +1,8 @@
 {
   "type": "survivorsdelight:nutrition_crafting",
   "balance_factor": 0.04,
+  "container": "minecraft:air",
+  "damage_tool": true,
   "decay": 4.5,
   "hunger": -1,
   "vanilla": {

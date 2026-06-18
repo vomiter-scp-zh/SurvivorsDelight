@@ -75,13 +75,13 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
                 .add(ModBlocks.COOKING_POT.get())
                 .addTag(SDTags.BlockTags.SKILLETS);
 
-        tag(ModTags.HEAT_CONDUCTORS)
+        tag(ModTags.Blocks.HEAT_CONDUCTORS)
                 .add(TFCBlocks.CRUCIBLE.get());
 
         tag(TFCTags.Blocks.FARMLANDS)
                 .addTag(SDTags.BlockTags.FARMERS_FARMLAND);
 
-        tag(ModTags.TRAY_HEAT_SOURCES)
+        tag(ModTags.Blocks.TRAY_HEAT_SOURCES)
                 .add(TFCBlocks.FIREPIT.get())
                 .add(TFCBlocks.GRILL.get())
                 .add(TFCBlocks.STOVE.get());

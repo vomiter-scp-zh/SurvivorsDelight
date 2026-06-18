@@ -21,7 +21,9 @@ import java.util.List;
 public final class FDRecipeBlocker {
 
     private static final List<String> OTHER_BLOCKING_ID = new ArrayList<>(List.of(
-            "canvas"
+            "canvas",
+            "melon_juice",
+            "rice_roll_medley_block"
     ));
 
     public static void addOtherBlockingId(String path){

@@ -1,28 +1,43 @@
 package com.vomiter.survivorsdelight.adapter.cutting_board;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
+import com.vomiter.survivorsdelight.data.tags.SDTags;
 import com.vomiter.survivorsdelight.registry.recipe.SDCuttingRecipe;
 import com.vomiter.survivorsdelight.util.SDUtils;
+import net.dries007.tfc.common.component.food.FoodCapability;
+import net.dries007.tfc.common.component.food.FoodData;
+import net.dries007.tfc.common.component.food.IFood;
+import net.dries007.tfc.common.component.food.Nutrient;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import vectorwing.farmersdelight.common.Configuration;
 import vectorwing.farmersdelight.common.block.CuttingBoardBlock;
 import vectorwing.farmersdelight.common.block.entity.CuttingBoardBlockEntity;
 import vectorwing.farmersdelight.common.registry.ModAdvancements;
+import vectorwing.farmersdelight.common.tag.CommonTags;
 import vectorwing.farmersdelight.common.utility.ItemUtils;
 import vectorwing.farmersdelight.common.utility.TextUtils;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CuttingBoardBlockEntityAdapter {
+    private static final TagKey<Item> COMMON_FOODS =
+            ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", "foods"));
+
     public static void cuttingBoardISP(ItemStack toolStack, @Nullable Player player, CuttingBoardBlockEntity cuttingBoard, SDCuttingRecipe recipe){
         var level = cuttingBoard.getLevel();
         assert level != null;
@@ -66,11 +81,69 @@ public class CuttingBoardBlockEntityAdapter {
             out.add(stack);
         }
 
+        // TARGET
+        var storedStack = cuttingBoard.getStoredItem();
+        var storedFood = FoodCapability.get(storedStack);
+        if (storedFood != null) {
+            List<ItemStack> foodResults = new ArrayList<>();
 
-        SurvivorsDelight.LOGGER.debug("[Cutting ISP] side=server, pos={}, outputs(before filter)={}, kept={}",
-                cuttingBoard.getBlockPos(), recipe.getOutputs().size(), out.size());
+            var storedData = storedFood.getData();
 
+            float[] nutrients = Arrays.copyOf(storedData.nutrients(), storedData.nutrients().length);
+            float saturation = storedData.saturation();
+            float water = storedData.water();
+            int hunger = storedData.hunger();
 
+            int numberOfFood = 0;
+            for (ItemStack itemStack : out) {
+                IFood food = FoodCapability.get(itemStack);
+                boolean isCommonFood = itemStack.is(COMMON_FOODS);
+                if (itemStack.is(SDTags.ItemTags.DYNAMIC_CUTTING_FOOD)) {
+                    foodResults.add(itemStack);
+                    numberOfFood += itemStack.getCount();
+                } else if (food != null) {
+                    var data = food.getData();
+                    int count = itemStack.getCount();
+                    for (int i = 0; i < nutrients.length; i++) {
+                        nutrients[i] -= data.nutrients()[i] * count;
+                    }
+
+                    saturation -= data.saturation() * count;
+                    hunger -= data.hunger() * count;
+                    water -= data.water() * count;
+                } else {
+                }
+            }
+
+            if (numberOfFood <= 0) {
+                SurvivorsDelight.LOGGER.warn(
+                        "[SD CuttingBoardFood] abort applying result food data: numberOfFood={}, foodResults={}, outputs={}",
+                        numberOfFood,
+                        foodResults,
+                        out
+                );
+            } else {
+                FoodData resultFoodData = new FoodData(
+                        Math.round((float) hunger / numberOfFood),
+                        water / numberOfFood,
+                        saturation / numberOfFood,
+                        storedData.intoxication(),
+                        new float[]{
+                                nutrients[Nutrient.GRAIN.ordinal()] / numberOfFood,
+                                nutrients[Nutrient.FRUIT.ordinal()] / numberOfFood,
+                                nutrients[Nutrient.VEGETABLES.ordinal()] / numberOfFood,
+                                nutrients[Nutrient.PROTEIN.ordinal()] / numberOfFood,
+                                nutrients[Nutrient.DAIRY.ordinal()] / numberOfFood
+                        },
+                        storedData.decayModifier()
+                );
+
+                foodResults.forEach(item -> {
+                    FoodCapability.setFoodForDynamicItemOnCreate(item, resultFoodData);
+                    FoodCapability.setCreationDate(item, FoodCapability.getRoundedCreationDate());
+                });
+            }
+        }
 
         Direction dir = cuttingBoard.getBlockState().getValue(CuttingBoardBlock.FACING).getCounterClockWise();
         for (ItemStack resultStack : out) {
@@ -88,7 +161,6 @@ public class CuttingBoardBlockEntityAdapter {
 
         cuttingBoard.playProcessingSound(recipe.getSoundEvent().orElse(null), toolStack, cuttingBoard.getStoredItem());
         cuttingBoard.getInventory().extractItem(0, 1, false);
-        ModAdvancements.USE_CUTTING_BOARD.get().trigger((ServerPlayer)player);
         if (!cuttingBoard.getStoredItem().isEmpty()) {
             player.displayClientMessage(TextUtils.block("cutting_board.remaining_items", cuttingBoard.getStoredItem().getCount()), true);
         } else {

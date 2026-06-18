@@ -17,5 +17,4 @@ public abstract class MelonJuiceItemMixin extends DrinkableItem {
     private float adjustHeal(float original){
         return 4.0f;
     }
-
 }

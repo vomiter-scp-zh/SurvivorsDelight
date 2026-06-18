@@ -2,6 +2,7 @@ package com.vomiter.survivorsdelight.util;
 
 import com.vomiter.survivorsdelight.registry.SDDataComponents;
 import com.vomiter.survivorsdelight.registry.component.SDContainer;
+import com.vomiter.survivorsdelight.registry.component.SDContainerStack;
 import net.dries007.tfc.common.component.Bowl;
 import net.dries007.tfc.common.component.TFCComponents;
 import net.dries007.tfc.common.component.food.FoodCapability;
@@ -60,22 +61,20 @@ public class FoodItemContainerApply {
 
     public static ItemStack applyGeneral(ItemStack mealStack, ItemStack containerStack){
         applyContainerNutrient(mealStack, containerStack);
-        mealStack.set(SDDataComponents.FOOD_CONTAINER, new SDContainer(BuiltInRegistries.ITEM.getKey(containerStack.getItem())));
+        mealStack.set(SDDataComponents.FOOD_CONTAINER_STACK.get(), new SDContainerStack(containerStack));
         return mealStack;
     }
 
     public static ItemStack getContainer(ItemStack stack){
         var bowl = Optional.ofNullable(stack.get(TFCComponents.BOWL)).map(ItemComponent::stack);
         if(bowl.isPresent()) return bowl.get();
-        var container = Optional.ofNullable(stack.get(SDDataComponents.FOOD_CONTAINER)).map(
-                sdContainer -> BuiltInRegistries.ITEM.get(sdContainer.itemId()).getDefaultInstance()
-        );
+        var container = Optional.ofNullable(stack.get(SDDataComponents.FOOD_CONTAINER_STACK)).map(SDContainerStack::stack);
         return container.orElse(ItemStack.EMPTY);
     }
 
     public static ItemStack getRemainder(ItemStack stack){
         var container = getContainer(stack);
         var foodProperty = container.getFoodProperties(null);
-        return foodProperty != null? ItemStack.EMPTY: container;
+        return foodProperty != null? getRemainder(container): container;
     }
 }

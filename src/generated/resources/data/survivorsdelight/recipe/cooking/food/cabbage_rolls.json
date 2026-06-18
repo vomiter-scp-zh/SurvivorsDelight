@@ -17,7 +17,7 @@
       "type": "tfc:and",
       "children": [
         {
-          "tag": "farmersdelight:cabbage_roll_ingredients"
+          "tag": "survivorsdelight:cut_food"
         },
         {
           "type": "tfc:not_rotten"

@@ -1,10 +1,7 @@
 package com.vomiter.survivorsdelight.registry;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.registry.recipe.NutrientShapedRecipe;
-import com.vomiter.survivorsdelight.registry.recipe.NutrientShapelessRecipe;
-import com.vomiter.survivorsdelight.registry.recipe.SDCookingPotRecipe;
-import com.vomiter.survivorsdelight.registry.recipe.SDCuttingRecipe;
+import com.vomiter.survivorsdelight.registry.recipe.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -21,9 +18,12 @@ public final class SDRecipeSerializers {
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<NutrientShapelessRecipe>> NUTRITION_CRAFTING_SHAPELESS =
             SERIALIZERS.register("nutrition_crafting_shapeless", NutrientShapelessRecipe.Serializer::new);
 
-
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<SDCuttingRecipe>> SD_CUTTING =
             SERIALIZERS.register("sd_cutting", SDCuttingRecipe.Serializer::new);
+
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<MedleyCraftingRecipe>> MEDLEY_CRAFTING =
+            SERIALIZERS.register("medley_crafting", MedleyCraftingRecipe.Serializer::new);
+
 
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<SDCookingPotRecipe>>
             SD_COOKING_POT = SERIALIZERS.register(

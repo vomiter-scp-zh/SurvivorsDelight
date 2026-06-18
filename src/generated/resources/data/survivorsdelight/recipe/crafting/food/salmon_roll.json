@@ -1,20 +1,28 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "key": {
-    "F": {
-      "item": "farmersdelight:salmon_slice"
+  "type": "survivorsdelight:nutrition_crafting",
+  "balance_factor": 0.0,
+  "container": "minecraft:air",
+  "damage_tool": true,
+  "decay": 4.5,
+  "hunger": -1,
+  "vanilla": {
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "key": {
+      "F": {
+        "item": "farmersdelight:salmon_slice"
+      },
+      "R": {
+        "item": "tfc:food/cooked_rice"
+      }
     },
-    "R": {
-      "item": "tfc:food/cooked_rice"
+    "pattern": [
+      "F",
+      "R"
+    ],
+    "result": {
+      "count": 1,
+      "id": "farmersdelight:salmon_roll"
     }
-  },
-  "pattern": [
-    "F",
-    "R"
-  ],
-  "result": {
-    "count": 1,
-    "id": "farmersdelight:salmon_roll"
   }
 }

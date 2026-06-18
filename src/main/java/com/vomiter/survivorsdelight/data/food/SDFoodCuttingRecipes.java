@@ -2,6 +2,7 @@ package com.vomiter.survivorsdelight.data.food;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.data.recipe.builder.SDCuttingRecipeBuilder;
+import com.vomiter.survivorsdelight.data.recipe.builder.SDJsonAdapters;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.items.Food;
@@ -52,6 +53,12 @@ public class SDFoodCuttingRecipes {
                 ))
                 .save(out, SDUtils.RLUtils.build(SurvivorsDelight.MODID, "cutting/food/" + BuiltInRegistries.ITEM.getKey(cutSpec.item().get()).getPath()));
         });
+
+        ItemStackProvider kelpRollISP = ItemStackProvider.of(new ItemStack(ModItems.KELP_ROLL_SLICE.get(), 3), CopyFoodModifier.INSTANCE);
+        SDCuttingRecipeBuilder.cuttingNotRotten(Ingredient.of(ModItems.KELP_ROLL.get()))
+                .tool(knife)
+                .addResult(kelpRollISP)
+                .save(out, SDUtils.RLUtils.build(SurvivorsDelight.MODID, "cutting/food/kelp_roll"));
 
         SDCuttingRecipeBuilder.cuttingNotRotten(Ingredient.of(ModItems.HAM.get()))
             .tool(knife)

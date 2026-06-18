@@ -18,10 +18,10 @@ public class ModEntityTypeTagsProvider extends EntityTypeTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
-        tag(ModTags.DOG_FOOD_USERS).add(TFCEntities.DOG.get());
-        tag(ModTags.HORSE_FEED_USERS).add(TFCEntities.HORSE.get());
-        tag(ModTags.HORSE_FEED_USERS).add(TFCEntities.MULE.get());
-        tag(ModTags.HORSE_FEED_USERS).add(TFCEntities.DONKEY.get());
+        tag(ModTags.EntityTypes.DOG_FOOD_USERS).add(TFCEntities.DOG.get());
+        tag(ModTags.EntityTypes.HORSE_FEED_USERS).add(TFCEntities.HORSE.get());
+        tag(ModTags.EntityTypes.HORSE_FEED_USERS).add(TFCEntities.MULE.get());
+        tag(ModTags.EntityTypes.HORSE_FEED_USERS).add(TFCEntities.DONKEY.get());
     }
 
 }

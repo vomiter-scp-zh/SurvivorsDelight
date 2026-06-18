@@ -1,0 +1,27 @@
+{
+  "type": "survivorsdelight:nutrition_crafting_shapeless",
+  "balance_factor": 0.04,
+  "container": "minecraft:air",
+  "damage_tool": true,
+  "decay": 4.5,
+  "hunger": -1,
+  "vanilla": {
+    "type": "minecraft:crafting_shapeless",
+    "category": "misc",
+    "ingredients": [
+      {
+        "item": "tfc:food/dried_kelp"
+      },
+      {
+        "item": "tfc:food/carrot"
+      },
+      {
+        "item": "tfc:food/cooked_rice"
+      }
+    ],
+    "result": {
+      "count": 1,
+      "id": "farmersdelight:kelp_roll"
+    }
+  }
+}

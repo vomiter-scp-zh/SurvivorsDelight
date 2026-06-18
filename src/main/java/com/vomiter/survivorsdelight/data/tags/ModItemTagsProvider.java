@@ -41,6 +41,7 @@ public class ModItemTagsProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
+        tag(SDTags.ItemTags.DYNAMIC_CUTTING_FOOD).add(ModItems.KELP_ROLL_SLICE.get());
         tag(TFCTags.Items.COMPOST_BROWNS_HIGH).add(Items.BROWN_MUSHROOM);
         tag(TFCTags.Items.COMPOST_BROWNS_MEDIUM).add(ModItems.STRAW.get(), ModItems.TREE_BARK.get());
         SDBlocks.CABINETS.values().forEach(c -> tag(SDTags.ItemTags.CABINETS).add(c.get().asItem()));
@@ -60,7 +61,7 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 .addTag(SDTags.ItemTags.SOUPS)
                 .addTag(SDTags.ItemTags.BOWL_MEALS)
                 .addTag(SDTags.ItemTags.FEAST_SERVINGS)
-                .addOptionalTag(ModTags.DRINKS);
+                .addOptionalTag(ModTags.Items.DRINKS);
 
         tag(TFCTags.Items.DOG_FOOD).add(ModItems.DOG_FOOD.get());
         tag(TFCTags.Items.HORSE_FOOD).add(ModItems.HORSE_FEED.get());
@@ -74,9 +75,9 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 .addTag(SDTags.ItemTags.SLICES_AND_SERVINGS)
                 .addTag(SDTags.ItemTags.SOUPS)
                 .addTag(SDTags.ItemTags.BOWL_MEALS)
-                .addOptionalTag(ModTags.DRINKS);
+                .addOptionalTag(ModTags.Items.DRINKS);
 
-        tag(ModTags.SERVING_CONTAINERS)
+        tag(ModTags.Items.SERVING_CONTAINERS)
                 .add(TFCBlocks.CERAMIC_BOWL.get().asItem())
                 .addOptionalTag(SDTags.ItemTags.TFC_GLASS_BOTTLES);
     }

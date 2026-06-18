@@ -3,7 +3,6 @@ package com.vomiter.survivorsdelight.data.food;
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.data.recipe.builder.SDCookingPotRecipeBuilder;
 import com.vomiter.survivorsdelight.registry.SDRecipeSerializers;
-import com.vomiter.survivorsdelight.registry.recipe.NutrientShapedFinished;
 import com.vomiter.survivorsdelight.registry.recipe.NutrientShapedRecipe;
 import com.vomiter.survivorsdelight.registry.recipe.NutrientShapelessFinished;
 import com.vomiter.survivorsdelight.registry.recipe.NutrientShapelessRecipe;
@@ -12,6 +11,7 @@ import net.dries007.tfc.common.component.food.FoodData;
 import net.dries007.tfc.common.items.Food;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.core.NonNullList;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -21,8 +21,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
@@ -104,6 +103,11 @@ public class SDFoodAndRecipeGenerator {
     public ShapedCraftingBuilder crafting(String path, ItemLike result, int resultCount) {
         return new ShapedCraftingBuilder(path, result, resultCount);
     }
+
+    public ShapelessCraftingBuilder craftingShapeless(String path, ItemLike result, int resultCount) {
+        return new ShapelessCraftingBuilder(path, result, resultCount);
+    }
+
 
     private static RecipeOutput withModCondition(RecipeOutput output, String modid) {
         if (modid == null || modid.isBlank()) {
@@ -469,18 +473,31 @@ public class SDFoodAndRecipeGenerator {
         void customRecipeBuild(ResourceLocation id, RecipeOutput output) {
             SurvivorsDelight.LOGGER.info("[Survivor's Delight] Custom Crafting Recipe Generation");
 
-            NutrientShapedFinished.Builder b = NutrientShapedFinished
-                    .builder(id, new ItemStack(result.asItem(), resultCount), getCustomSerializer())
-                    .recipe(new NutrientShapedRecipe(null, balanceFactor, presetHunger, presetDecay, damageTool, container));
-
-            for (String p : patterns) {
-                b.row(p);
-            }
-
+            Map<Character, Ingredient> key = new LinkedHashMap<>();
             for (Map.Entry<Character, IngredientEntry> e : keyMap.entrySet()) {
-                b.key(e.getKey(), e.getValue().ingredient());
+                key.put(e.getKey(), e.getValue().ingredient());
             }
-            b.save(output);
+
+            ShapedRecipePattern shapedPattern = ShapedRecipePattern.of(key, patterns);
+
+            ShapedRecipe vanilla = new ShapedRecipe(
+                    group == null ? "" : group,
+                    CraftingBookCategory.MISC,
+                    shapedPattern,
+                    new ItemStack(result.asItem(), resultCount)
+            );
+
+            NutrientShapedRecipe recipe = new NutrientShapedRecipe(
+                    vanilla,
+                    balanceFactor,
+                    presetHunger,
+                    presetDecay,
+                    damageTool,
+                    container
+            );
+
+            output.accept(id, recipe, null);
+            SurvivorsDelight.LOGGER.info("4");
         }
     }
 
@@ -547,12 +564,22 @@ public class SDFoodAndRecipeGenerator {
 
         @Override
         void customRecipeBuild(ResourceLocation id, RecipeOutput output) {
-            NutrientShapelessFinished.Builder b = NutrientShapelessFinished
-                    .builder(id, new ItemStack(result.asItem(), resultCount), getCustomSerializer())
-                    .ingredients(ingredients)
-                    .recipe(new NutrientShapelessRecipe(null, balanceFactor, presetHunger, presetDecay, damageTool, container));
+            ShapelessRecipe vanilla = new ShapelessRecipe(
+                    group == null ? "" : group,
+                    CraftingBookCategory.MISC,
+                    new ItemStack(result.asItem(), resultCount),
+                    NonNullList.of(Ingredient.EMPTY, ingredients.toArray(Ingredient[]::new))
+            );
 
-            b.save(output);
-        }
+            NutrientShapelessRecipe recipe = new NutrientShapelessRecipe(
+                    vanilla,
+                    balanceFactor,
+                    presetHunger,
+                    presetDecay,
+                    damageTool,
+                    container
+            );
+
+            output.accept(id, recipe, null);        }
     }
 }

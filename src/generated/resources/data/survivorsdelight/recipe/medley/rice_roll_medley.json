@@ -1,0 +1,29 @@
+{
+  "type": "survivorsdelight:medley_crafting",
+  "category": "misc",
+  "container": "minecraft:bowl",
+  "key": {
+    "b": {
+      "item": "minecraft:bowl"
+    },
+    "c": {
+      "item": "farmersdelight:cod_roll"
+    },
+    "k": {
+      "item": "farmersdelight:kelp_roll_slice"
+    },
+    "s": {
+      "item": "farmersdelight:salmon_roll"
+    }
+  },
+  "pattern": [
+    "kkk",
+    "sss",
+    "cbc"
+  ],
+  "result": {
+    "count": 1,
+    "id": "farmersdelight:rice_roll_medley_block"
+  },
+  "show_notification": false
+}

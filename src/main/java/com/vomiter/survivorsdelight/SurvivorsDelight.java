@@ -9,12 +9,16 @@ import com.vomiter.survivorsdelight.common.ForgeEventHandler;
 import com.vomiter.survivorsdelight.common.container.SDCabinetBlockEntity;
 import com.vomiter.survivorsdelight.common.device.skillet.itemcooking.SkilletCookingCap;
 import com.vomiter.survivorsdelight.common.farming.RichSoilFarmlandBlockEntitySetup;
+import com.vomiter.survivorsdelight.common.food.FoodContainerExpansion;
 import com.vomiter.survivorsdelight.data.food.SDFoodAndRecipeGenerator;
 import com.vomiter.survivorsdelight.network.SDNetwork;
 import com.vomiter.survivorsdelight.registry.SDRegistries;
 import com.vomiter.survivorsdelight.registry.skillet.SDSkilletBlocks;
 import com.vomiter.survivorsdelight.registry.skillet.SDSkilletItems;
+import net.dries007.tfc.common.TFCTags;
+import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -51,11 +55,8 @@ public class SurvivorsDelight {
 
     private void onCommonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
-            //debug
-            SDSkilletItems.SKILLETS.values().forEach(ro -> {
-                LOGGER.info("{} max damage = {}",ro.get().getDescriptionId(), ro.get().getMaxDamage(new ItemStack(ro.get())));
-            });
-
+            FoodContainerExpansion.register(Items.BOWL, stack -> stack.is(TFCBlocks.CERAMIC_BOWL.asItem()));
+            FoodContainerExpansion.register(Items.GLASS_BOTTLE, stack -> stack.is(TFCTags.Items.GLASS_BOTTLES));
         });
     }
 

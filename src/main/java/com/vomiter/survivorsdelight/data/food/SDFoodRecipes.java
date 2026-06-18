@@ -2,6 +2,8 @@ package com.vomiter.survivorsdelight.data.food;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
+import com.vomiter.survivorsdelight.registry.SDItems;
+import com.vomiter.survivorsdelight.registry.recipe.MedleyCraftingFinished;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.TFCBlocks;
@@ -43,6 +45,12 @@ public class SDFoodRecipes {
         return SurvivorsDelight.foodAndCookingGenerator.crafting(id, outItem, count);
     }
 
+    private SDFoodAndRecipeGenerator.ShapelessCraftingBuilder craftShapeless(String id, ItemLike outItem, int count){
+        return SurvivorsDelight.foodAndCookingGenerator.craftingShapeless(id, outItem, count);
+    }
+
+
+
     private SDFoodDataProvider.Builder buildFood(String id){
         return SurvivorsDelight.foodAndCookingGenerator.provider().newBuilder(id);
     }
@@ -65,9 +73,23 @@ public class SDFoodRecipes {
         smallFood(out);
         buildFood("pet_food/horse_feed").item(ModItems.HORSE_FEED.get()).setDecay(1).save();
         buildFood("pet_food/dog_food").item(ModItems.DOG_FOOD.get()).setDecay(3).save();
+        buildFood("cut/kelp_roll").item(ModItems.KELP_ROLL_SLICE.get()).save();
     }
 
     public void smallFood(RecipeOutput out){
+        craftShapeless("food/kelp_roll", ModItems.KELP_ROLL.get(), 1)
+                .requires(TFCItems.FOOD.get(Food.DRIED_KELP).get())
+                .requires(TFCItems.FOOD.get(Food.CARROT).get())
+                .requires(TFCItems.FOOD.get(Food.COOKED_RICE).get())
+                .build(out)
+                .saveFoodData();
+
+        craftShapeless("food/golden_carrot", SDItems.GOLDEN_CARROT.get(), 1)
+                .requires(TFCItems.FOOD.get(Food.CARROT).get())
+                .requires(SDItems.GOLD_FLAKE.get())
+                .build(out)
+                .saveFoodData();
+
         craft("food/barbecue_stick", ModItems.BARBECUE_STICK.get(), 1)
                 .shape("MV", "VS")
                 .defineFood('M', SDTags.ItemTags.TFC_COOKED_MEATS)
@@ -117,6 +139,20 @@ public class SDFoodRecipes {
 
     /* ---------------------- FEAST ---------------------- */
     public void feast(RecipeOutput out){
+        MedleyCraftingFinished.builder(
+                        SDUtils.RLUtils.build("medley/rice_roll_medley"),
+                        ModItems.RICE_ROLL_MEDLEY_BLOCK.get().getDefaultInstance())
+                .row("kkk")
+                .row("sss")
+                .row("cbc")
+                .key('k',Ingredient.of(ModItems.KELP_ROLL_SLICE.get()))
+                .key('s',Ingredient.of(ModItems.SALMON_ROLL.get()))
+                .key('c',Ingredient.of(ModItems.COD_ROLL.get()))
+                .key('b',Ingredient.of(Items.BOWL))
+                .container(Items.BOWL)
+                .build()
+                .save(out);
+
         cook("feast/shepherds_pie", ModItems.SHEPHERDS_PIE_BLOCK.get(), 1, 1200, 20, Items.BOWL)
                 .food(SDTags.ItemTags.MEATS_FOR_SHEPHERDS_PIE)
                 .food(SDTags.ItemTags.MEATS_FOR_SHEPHERDS_PIE)

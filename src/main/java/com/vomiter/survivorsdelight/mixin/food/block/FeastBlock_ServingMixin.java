@@ -10,6 +10,7 @@ import com.vomiter.survivorsdelight.common.food.block.DecayingFeastBlockEntity;
 import com.vomiter.survivorsdelight.compat.firmalife.FLCompatHelpers;
 import com.vomiter.survivorsdelight.registry.SDDataComponents;
 import com.vomiter.survivorsdelight.registry.component.SDContainer;
+import com.vomiter.survivorsdelight.registry.recipe.MedleyCraftingRecipe;
 import com.vomiter.survivorsdelight.util.FoodItemContainerApply;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.component.food.FoodCapability;
@@ -22,6 +23,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -33,6 +35,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import vectorwing.farmersdelight.common.block.FeastBlock;
+import vectorwing.farmersdelight.common.block.RiceRollMedleyBlock;
 
 import java.util.function.Supplier;
 
@@ -74,7 +77,8 @@ public abstract class FeastBlock_ServingMixin extends Block {
             @Local(argsOnly = true, name = "arg4") Player player,
             @Local(argsOnly = true, name = "arg5") InteractionHand hand
     ) {
-        if (serving.isEmpty() || serving.getItem() != servingItem.get()) return serving;
+        if (serving.isEmpty() || serving.getItem() != servingItem.get() || (Object) this instanceof RiceRollMedleyBlock)
+            return serving;
 
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (!(blockEntity instanceof DecayingFeastBlockEntity decayingFeastBlockEntity)) return serving;
@@ -101,4 +105,36 @@ public abstract class FeastBlock_ServingMixin extends Block {
             FoodItemContainerApply.applyGeneral(serving, player.getItemInHand(hand).copy());
         }
         return serving;
-    }}
+    }
+
+    @Shadow
+    public abstract ItemStack getServingItem(BlockState state);
+
+    @ModifyVariable(
+            method = "takeServing",
+            at = @At(
+                    value = "INVOKE_ASSIGN",
+                    target = "Lvectorwing/farmersdelight/common/block/FeastBlock;getServingItem(Lnet/minecraft/world/level/block/state/BlockState;)Lnet/minecraft/world/item/ItemStack;"
+            ),
+            name = "serving")
+    private ItemStack patchMedleyServingAfterBuilt(
+            ItemStack serving,
+            @Local(argsOnly = true, name = "arg1") LevelAccessor level,
+            @Local(argsOnly = true, name = "arg2") BlockPos pos,
+            @Local(argsOnly = true, name = "arg3") BlockState state,
+            @Local(argsOnly = true, name = "arg4") Player player,
+            @Local(argsOnly = true, name = "arg5") InteractionHand hand
+    ) {
+        if(!((Object) this instanceof RiceRollMedleyBlock)) return serving;
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (!(blockEntity instanceof DecayingFeastBlockEntity decayingFeastBlockEntity)) return serving;
+        ItemStack src = decayingFeastBlockEntity.getStack();
+        var list = MedleyCraftingRecipe.getFoodStackFromMedley(src);
+        var result = list.stream().filter(stack -> ItemStack.isSameItem(stack, getServingItem(state))).findFirst().orElse(ItemStack.EMPTY);
+        if(result.isEmpty()) return serving;
+        list.remove(result);
+        MedleyCraftingRecipe.applyFoodStackForMedley(src, list);
+        return result.copyWithCount(1);
+    }
+
+}

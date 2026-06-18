@@ -1,5 +1,13 @@
 {
   "values": [
+    {
+      "id": "#c:foods/raw_meats",
+      "required": false
+    },
+    {
+      "id": "#c:foods/grain",
+      "required": false
+    },
     "farmersdelight:cabbage_leaf",
     "farmersdelight:minced_beef",
     "farmersdelight:beef_patty",
