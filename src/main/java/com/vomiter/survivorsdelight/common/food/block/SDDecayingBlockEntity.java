@@ -64,11 +64,19 @@ public abstract class SDDecayingBlockEntity extends DecayingBlockEntity implemen
     @Override public void setValid(Level level, BlockPos pos, boolean valid, int tier, SDClimateType climate){
         boolean climateValid = climate.equals(SDClimateType.CELLAR) && valid;
         updatePreservation(climateValid);
-    };
+    }
 
     public static List<ItemStack> modifyDecayDrop(@Nullable BlockEntity blockEntity, List<ItemStack> drops){
         if(blockEntity instanceof SDDecayingBlockEntity decay){
             ItemStack srcStack = decay.getStack();
+            if(!drops.isEmpty() && drops.get(0).is(Items.BOWL)){
+                CompoundTag tag = srcStack.getTag();
+                if(tag != null && tag.get("Container") instanceof CompoundTag){
+                    drops.remove(0);
+                    drops.add(FoodItemContainerApply.getRemainder(srcStack));
+                }
+            }
+
             IFood srcFood = FoodCapability.get(srcStack);
             if(srcFood == null) return drops;
             drops.forEach(drop -> {
@@ -86,13 +94,6 @@ public abstract class SDDecayingBlockEntity extends DecayingBlockEntity implemen
                 dropFood.setCreationDate(srcFood.getCreationDate());
                 dropFood.getTraits().addAll(srcFood.getTraits());
             });
-            if(!drops.isEmpty() && drops.get(0).is(Items.BOWL)){
-                CompoundTag tag = srcStack.getTag();
-                if(tag != null && tag.get("Container") instanceof CompoundTag){
-                    drops.remove(0);
-                    drops.add(FoodItemContainerApply.getRemainder(srcStack));
-                }
-            }
         }
 
         return drops;
