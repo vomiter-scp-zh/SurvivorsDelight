@@ -45,6 +45,12 @@ public class SDCreativeTab {
                         output.accept(SDSkilletPartItems.LINING_SILVER.get());
                         output.accept(SDSkilletPartItems.LINING_TIN.get());
                         SDBlocks.CABINETS.forEach((wood, holder) -> output.accept(holder.get().asItem()));
+                        SDBlocks.CABINETS.forEach((wood, ro) -> {
+                            output.accept(ro.get().asItem());
+                        });
+                        output.accept(SDItems.GOLD_FLAKE.get());
+                        output.accept(SDItems.GOLDEN_CARROT.get());
+                        output.accept(SDItems.SALAD_SAUCE.get());
                     })
                     .withTabsBefore(BuiltInRegistries.CREATIVE_MODE_TAB.getKey(ModCreativeTabs.TAB_FARMERS_DELIGHT.get()))
                     .build()

@@ -5,6 +5,10 @@
   "block.survivorsdelight.skillet.copper_silver": "Silver-lined Copper Skillet",
 
   "block.survivorsdelight.skillet.farmer": "Farmer's Skillet",
+  "item.survivorsdelight.gold_flake": "Gold Flake",
+  "item.survivorsdelight.golden_carrot": "Golden Carrot",
+  "item.survivorsdelight.salad_dressing": "Salad Dressing",
+
 
   "item.survivorsdelight.skillet_lining.silver": "Silver Skillet Lining",
   "item.survivorsdelight.skillet_lining.tin": "Tin Skillet Lining",
@@ -25,5 +29,5 @@
   "tooltip.survivorsdelight.foodfallback": "The food data shown here is the fallback value of a dynamic food. It can be different when you actually cook/craft it.",
   "tooltip.survivorsdelight.cabinet_not_treated": "The cabinet is not treated yet. Food stored here decays as usual.",
 
-  "config.jade.plugin_survivorsdelight.feast_decay": "Feast decay"
+  "config.jade.plugin_survivorsdelight.feast_decay": "Feast Decay"
 }

@@ -2,6 +2,7 @@ package com.vomiter.survivorsdelight.data.recipe;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.common.device.skillet.SkilletMaterial;
+import com.vomiter.survivorsdelight.registry.SDItems;
 import com.vomiter.survivorsdelight.registry.skillet.SDSkilletItems;
 import com.vomiter.survivorsdelight.registry.skillet.SDSkilletPartItems;
 import com.vomiter.survivorsdelight.util.SDUtils;
@@ -33,6 +34,23 @@ public class SDAnvilAndWeldingRecipes {
     public void save(RecipeOutput out) {
         skilletRecipes(out);
         liningRecipes(out);
+        goldFlakeRecipe(out);
+    }
+
+    private void goldFlakeRecipe(RecipeOutput out){
+        AnvilRecipe anvilRecipe = new AnvilRecipe(
+                Ingredient.of(TFCItems.METAL_ITEMS.get(Metal.GOLD).get(Metal.ItemType.INGOT).get()),
+                0,
+                List.of(ForgeRule.BEND_ANY, ForgeRule.BEND_ANY, ForgeRule.BEND_ANY),
+                false,
+                ItemStackProvider.of(new ItemStack(SDItems.GOLD_FLAKE, 4))
+        );
+        out.accept(
+                SDUtils.RLUtils.build("anvil/gold_flake"),
+                anvilRecipe,
+                null
+        );
+
     }
 
     private void liningRecipes(RecipeOutput out){
