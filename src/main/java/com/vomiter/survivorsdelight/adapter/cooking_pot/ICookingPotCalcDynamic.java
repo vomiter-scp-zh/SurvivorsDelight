@@ -7,6 +7,7 @@ import net.dries007.tfc.common.component.food.FoodCapability;
 import net.dries007.tfc.common.component.food.FoodData;
 import net.dries007.tfc.common.component.food.Nutrient;
 import net.dries007.tfc.common.component.item.ItemListComponent;
+import net.dries007.tfc.util.data.Drinkable;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -14,10 +15,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public interface ICookingPotCalcDynamic {
     ItemStack sdtfc$getCachedDynamic();
@@ -38,19 +36,23 @@ public interface ICookingPotCalcDynamic {
 
         final List<ItemStack> inputStacks = collectInputStacks(wrapper);
         final int foodIngredientCount = countFoodIngredients(inputStacks);
-        @Nullable Fluid fluid;
-        if(this instanceof ICookingPotFluidAccess fluidAccess){
-            fluid = Objects.requireNonNull(fluidAccess.sd$getFluidHandler()).getFluidInTank(0).getFluid();
+        @Nullable Fluid fluid = null;
+        int fluidAmount = 0;
+        if(this instanceof ICookingPotFluidAccess fluidAccess && recipe.getFluid() != null){
+            var fluidStack = Objects.requireNonNull(fluidAccess.sd$getFluidHandler()).getFluidInTank(0);
+            if(recipe.getFluid().test(fluidStack)){
+                fluid = fluidStack.getFluid();
+                fluidAmount = recipe.getFluidAmountMb();
+            }
         }
-        else fluid = null;
-
         final CookingPotNutritionContext ctx = CookingPotNutritionContext.of(
                 inputStacks,
                 foodIngredientCount,
                 result.copy(),
                 recipe,
                 recipeId,
-                fluid
+                fluid,
+                fluidAmount
         );
 
         final DynamicPotFoodAccumulator acc = accumulate(ctx, level, resultCount);
@@ -106,6 +108,14 @@ public interface ICookingPotCalcDynamic {
         final float[] nutrition = baseFood.nutrients().clone();
         float saturation = baseFood.saturation();
         float water = baseFood.water();
+        if(ctx.hasFluid()){
+            assert ctx.fluid() != null;
+            var fluidAmount = ctx.getFluidAmount();
+            float multiplier = (float)fluidAmount / 25.0F;
+            var waterAdd = Optional.ofNullable(Drinkable.get(ctx.fluid())).map(drinkable -> drinkable.food().water() * multiplier / resultCount).orElse(0f);
+            water += waterAdd;
+        }
+
         int hunger = 0;
 
         final List<ItemStack> foodIngredients = new ArrayList<>();

@@ -14,6 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
@@ -109,9 +110,9 @@ public final class CookingPotContributionModifiers {
                             (level, stack, nutrient, data, current, context) -> {
                                 if(context.outputPreview().is(SDTags.ItemTags.FEAST_BLOCKS)){
                                     if(nutrient == Nutrient.PROTEIN) return current * 1.5f;
-                                    if(nutrient == Nutrient.VEGETABLES) return current * 2;
-                                    if(nutrient == Nutrient.FRUIT) return current * 2;
-                                    if(nutrient == Nutrient.GRAIN) return current * 2;
+                                    if(nutrient == Nutrient.VEGETABLES) return current * 3;
+                                    if(nutrient == Nutrient.FRUIT) return current * 3;
+                                    if(nutrient == Nutrient.GRAIN) return current * 3;
                                 }
                                 else {
                                     if(nutrient == Nutrient.PROTEIN) return current * 1.1f;
@@ -120,17 +121,6 @@ public final class CookingPotContributionModifiers {
                                     if(nutrient == Nutrient.GRAIN) return current * 1.3f;
                                 }
                                 return current;
-                            }
-                    )
-            );
-            register(
-                    id("feast_bonus"),
-                    0,
-                    new SimpleModifier(
-                            (level, stack, nutrient, data, context) -> context.outputPreview().is(SDTags.ItemTags.FEAST_BLOCKS),
-                            (level, stack, nutrient, data, current, context) ->{
-                                if(current == 0) return 0;
-                                return (float) Math.max(current, 1.6);
                             }
                     )
             );
@@ -164,6 +154,18 @@ public final class CookingPotContributionModifiers {
                             }
 
                             return current + applyRetainLogic(eggData.nutrient(nutrient), context);
+                        })
+        );
+
+        register(
+                id("bone_bonus"),
+                800,
+                new SimpleModifier(
+                        (level, stack, nutrient, data, context)
+                                -> stack.is(Items.BONE) && nutrient.equals(Nutrient.DAIRY),
+                        (level, stack, nutrient, data, current, context)
+                                -> {
+                            return current + 0.25f;
                         })
         );
 
