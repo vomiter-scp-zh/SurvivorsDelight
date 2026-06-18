@@ -111,7 +111,7 @@ public class SDTags {
         public static final TagKey<Item> PIE_BLOCKS = create("pie_blocks");
         public static final TagKey<Item> COOKED_POULTRY = create("cooked_poultry");
         public static final TagKey<Item> DYNAMIC_CUTTING_FOOD = create("dynamic_cutting_food");
-
+        public static final TagKey<Item> RAW_POULTRY = create("raw_poultry");
 
         public static final TagKey<Item> TFC_DOUGHS = create("c", "foods/dough");
         public static final TagKey<Item> TFC_GLASS_BOTTLES = create("tfc", "glass_bottles");

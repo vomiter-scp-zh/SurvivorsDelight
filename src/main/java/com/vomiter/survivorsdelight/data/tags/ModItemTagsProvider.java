@@ -41,7 +41,6 @@ public class ModItemTagsProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
-        tag(SDTags.ItemTags.DYNAMIC_CUTTING_FOOD).add(ModItems.KELP_ROLL_SLICE.get());
         tag(TFCTags.Items.COMPOST_BROWNS_HIGH).add(Items.BROWN_MUSHROOM);
         tag(TFCTags.Items.COMPOST_BROWNS_MEDIUM).add(ModItems.STRAW.get(), ModItems.TREE_BARK.get());
         SDBlocks.CABINETS.values().forEach(c -> tag(SDTags.ItemTags.CABINETS).add(c.get().asItem()));
@@ -83,6 +82,13 @@ public class ModItemTagsProvider extends ItemTagsProvider {
     }
 
     private void addFoodTags(){
+        tag(SDTags.ItemTags.RAW_POULTRY)
+                .add(SDUtils.getTFCFoodItem(Food.CHICKEN))
+                .add(SDUtils.getTFCFoodItem(Food.DUCK))
+                .add(SDUtils.getTFCFoodItem(Food.QUAIL));
+
+        tag(SDTags.ItemTags.DYNAMIC_CUTTING_FOOD).add(ModItems.KELP_ROLL_SLICE.get());
+
         tag(SDTags.ItemTags.CUT_FOOD)
                 .addOptionalTag(SDTags.ItemTags.TFC_RAW_MEATS)
                 .addOptionalTag(SDTags.ItemTags.TFC_GRAINS);

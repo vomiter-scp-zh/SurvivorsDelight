@@ -14,6 +14,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import org.jetbrains.annotations.Nullable;
+import vectorwing.farmersdelight.common.registry.ModItems;
 
 import java.util.*;
 
@@ -149,6 +150,10 @@ public interface ICookingPotCalcDynamic {
             water += data.water() / resultCount;
             saturation += data.saturation() / resultCount;
             hunger = Math.max(hunger, data.hunger());
+        }
+        if(ctx.outputPreview().is(ModItems.MELON_JUICE.get())){
+            hunger = 1;
+            saturation = 0;
         }
 
         return new DynamicPotFoodAccumulator(

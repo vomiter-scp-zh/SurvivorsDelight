@@ -17,7 +17,9 @@ import net.dries007.tfc.common.items.Powder;
 import net.dries007.tfc.common.items.TFCItems;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -94,7 +96,7 @@ public class SDFoodRecipes {
                 .shape("MV", "VS")
                 .defineFood('M', SDTags.ItemTags.TFC_COOKED_MEATS)
                 .defineFood('V', SDTags.ItemTags.TFC_VEGETABLES)
-                .defineNonFood('S', SDTags.ItemTags.create("forge", "rods/wooden"))
+                .defineNonFood('S', SDTags.ItemTags.create("c", "rods/wooden"))
                 .build(out)
                 .saveFoodData();
 
@@ -114,7 +116,7 @@ public class SDFoodRecipes {
                 .build(out)
                 .saveFoodData();
 
-        cook("food/dumplings", ModItems.DUMPLINGS.get(), 2, 200, 5)
+        cook("food/dumplings", ModItems.DUMPLINGS.get(), 2, 200, 1)
                 .food(SDTags.ItemTags.TFC_DOUGHS, getTFCFoodData(Food.BARLEY_BREAD))
                 .food(SDTags.ItemTags.TFC_RAW_MEATS)
                 .food(Food.ONION)
@@ -122,13 +124,13 @@ public class SDFoodRecipes {
                 .build(out)
                 .saveFoodData();
 
-        cook("food/cabbage_rolls", ModItems.CABBAGE_ROLLS.get(), 1, 200, 5)
+        cook("food/cabbage_rolls", ModItems.CABBAGE_ROLLS.get(), 1, 200, 1)
                 .food(Food.CABBAGE)
                 .food(SDTags.ItemTags.CUT_FOOD)
                 .build(out)
                 .saveFoodData();
 
-        cook("food/stuffed_potato", ModItems.STUFFED_POTATO.get(), 1, 200, 5)
+        cook("food/stuffed_potato", ModItems.STUFFED_POTATO.get(), 1, 200, 1)
                 .food(Food.BAKED_POTATO)
                 .food(SDTags.ItemTags.TFC_RAW_MEATS)
                 .fluid(milks, 100)
@@ -180,39 +182,31 @@ public class SDFoodRecipes {
                 .food(SDTags.ItemTags.MEATS_FOR_SHEPHERDS_PIE)
                 .food(SDTags.ItemTags.MEATS_FOR_SHEPHERDS_PIE)
                 .food(SDTags.ItemTags.MEATS_FOR_SHEPHERDS_PIE)
-                .food(SDTags.ItemTags.TFC_DOUGHS, getTFCFoodData(Food.BARLEY_DOUGH))
+                .food(SDTags.ItemTags.TFC_DOUGHS)
                 .food(TFCItems.SALADS.get(Nutrient.VEGETABLES).get())
                 .fluid(milks, 100)
                 .build(out)
                 .saveFoodData();
 
-        cook("feast/honey_glazed_ham", ModItems.HONEY_GLAZED_HAM_BLOCK.get(), 1, 1200, 20, Items.BOWL)
+        cook("feast/honey_glazed_ham", ModItems.HONEY_GLAZED_HAM_BLOCK.get(), 1, 1200, 5, TFCItems.SALADS.get(Nutrient.VEGETABLES).get())
                 .nonfood(SDTags.ItemTags.TFC_SWEETENER)
-                .food(ModItems.SMOKED_HAM.get())
+                .food(ModItems.HAM.get())
+                .food(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE)
                 .food(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE)
                 .food(SDTags.ItemTags.TFC_DOUGHS)
                 .fluid(oils, 100)
                 .build(out)
                 .saveFoodData();
 
-        cook("feast/honey_glazed_ham2", ModItems.HONEY_GLAZED_HAM_BLOCK.get(), 1, 1200, 20, Items.BOWL)
-                .nonfood(SDTags.ItemTags.TFC_SWEETENER)
-                .food(ModItems.SMOKED_HAM.get())
-                .food(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE)
-                .food(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE)
-                .food(SDTags.ItemTags.TFC_DOUGHS)
+        cook("feast/stuffed_pumpkin", ModItems.STUFFED_PUMPKIN_BLOCK.get(), 1, 1200, 5, Items.CARVED_PUMPKIN)
+                .food(Items.BROWN_MUSHROOM)
+                .food(SDTags.ItemTags.TFC_GRAINS)
+                .food(TFCItems.SALADS.get(Nutrient.FRUIT).get())
+                .food(TFCItems.SALADS.get(Nutrient.VEGETABLES).get())
+                .food(Food.ONION)
                 .fluid(oils, 100)
-                .build(out);
-
-        cook("feast/honey_glazed_ham3", ModItems.HONEY_GLAZED_HAM_BLOCK.get(), 1, 1200, 20, Items.BOWL)
-                .nonfood(SDTags.ItemTags.TFC_SWEETENER)
-                .food(ModItems.SMOKED_HAM.get())
-                .food(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE)
-                .food(SDTags.ItemTags.TFC_VEGETABLES)
-                .food(SDTags.ItemTags.TFC_DOUGHS)
-                .fluid(oils, 100)
-                .build(out);
-
+                .build(out)
+                .saveFoodData();
 
         cook("feast/stuffed_pumpkin", ModItems.STUFFED_PUMPKIN_BLOCK.get(), 1, 1200, 20, Items.CARVED_PUMPKIN)
                 .food(Items.BROWN_MUSHROOM)
@@ -224,8 +218,10 @@ public class SDFoodRecipes {
                 .build(out)
                 .saveFoodData();
 
-        cook("feast/roasted_chicken", ModItems.ROAST_CHICKEN_BLOCK.get(), 1, 1200, 20, Items.BOWL)
-                .food(SDUtils.getTFCFoodItem(Food.CHICKEN))
+        cook("feast/roasted_chicken", ModItems.ROAST_CHICKEN_BLOCK.get(), 1, 1200, 5, TFCItems.SALADS.get(Nutrient.VEGETABLES).get())
+                .food(SDTags.ItemTags.RAW_POULTRY)
+                .food(SDTags.ItemTags.RAW_POULTRY)
+                .food(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE)
                 .food(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE)
                 .food(SDTags.ItemTags.TFC_VEGETABLES)
                 .food(SDTags.ItemTags.TFC_GRAINS)
@@ -239,7 +235,7 @@ public class SDFoodRecipes {
     public void meal(RecipeOutput out){
         var oils = TFCFluids.SIMPLE_FLUIDS.get(SimpleFluid.OLIVE_OIL).getSource();
 
-        cook("meal/fried_rice", ModItems.FRIED_RICE.get(), 1, 600, 15, Items.BOWL)
+        cook("meal/fried_rice", ModItems.FRIED_RICE.get(), 1, 600, 3, Items.BOWL)
                 .food(Food.COOKED_RICE)
                 .food(Food.COOKED_EGG)
                 .food(Food.ONION)
@@ -247,7 +243,7 @@ public class SDFoodRecipes {
                 .build(out)
                 .saveFoodData();
 
-        cook("meal/bacon_and_eggs", ModItems.BACON_AND_EGGS.get(), 1, 300, 15, Items.BOWL)
+        cook("meal/bacon_and_eggs", ModItems.BACON_AND_EGGS.get(), 1, 300, 3, Items.BOWL)
                 .food(Food.COOKED_EGG)
                 .food(Food.COOKED_EGG)
                 .food(ModItems.COOKED_BACON.get(), FoodData.EMPTY)
@@ -256,7 +252,7 @@ public class SDFoodRecipes {
                 .build(out)
                 .saveFoodData();
 
-        cook("meal/pasta_with_meatballs", ModItems.PASTA_WITH_MEATBALLS.get(), 1, 600, 15, Items.BOWL)
+        cook("meal/pasta_with_meatballs", ModItems.PASTA_WITH_MEATBALLS.get(), 1, 600, 3, Items.BOWL)
                 .food(ModItems.TOMATO_SAUCE.get())
                 .food(ModItems.RAW_PASTA.get())
                 .food(ModItems.BEEF_PATTY.get())
@@ -265,7 +261,7 @@ public class SDFoodRecipes {
                 .build(out)
                 .saveFoodData();
 
-        cook("meal/pasta_with_mutton_chop", ModItems.PASTA_WITH_MUTTON_CHOP.get(), 1, 600, 15, Items.BOWL)
+        cook("meal/pasta_with_mutton_chop", ModItems.PASTA_WITH_MUTTON_CHOP.get(), 1, 600, 3, Items.BOWL)
                 .food(ModItems.TOMATO_SAUCE.get())
                 .food(ModItems.RAW_PASTA.get())
                 .food(TFCItems.FOOD.get(Food.COOKED_MUTTON).get())
@@ -273,7 +269,7 @@ public class SDFoodRecipes {
                 .build(out)
                 .saveFoodData();
 
-        cook("meal/roasted_mutton_chops", ModItems.ROASTED_MUTTON_CHOPS.get(), 1, 1200, 15, Items.BOWL)
+        cook("meal/roasted_mutton_chops", ModItems.ROASTED_MUTTON_CHOPS.get(), 1, 1200, 3, Items.BOWL)
                 .food(Food.MUTTON)
                 .food(Food.TOMATO)
                 .food(SDTags.ItemTags.create("tfc", "foods/grains"), getTFCFoodData(Food.COOKED_RICE))
@@ -281,7 +277,7 @@ public class SDFoodRecipes {
                 .build(out)
                 .saveFoodData();
 
-        cook("meal/vegetable_noodles", ModItems.VEGETABLE_NOODLES.get(), 1, 1200, 15, Items.BOWL)
+        cook("meal/vegetable_noodles", ModItems.VEGETABLE_NOODLES.get(), 1, 1200, 3, Items.BOWL)
                 .food(ModItems.RAW_PASTA.get())
                 .food(SDTags.ItemTags.TFC_VEGETABLES)
                 .food(SDTags.ItemTags.TFC_VEGETABLES)
@@ -290,7 +286,7 @@ public class SDFoodRecipes {
                 .build(out)
                 .saveFoodData();
 
-        cook("meal/steak_and_potatoes", ModItems.STEAK_AND_POTATOES.get(), 1, 600, 15, Items.BOWL)
+        cook("meal/steak_and_potatoes", ModItems.STEAK_AND_POTATOES.get(), 1, 600, 3, Items.BOWL)
                 .food(Food.COOKED_BEEF)
                 .food(Food.BAKED_POTATO)
                 .food(Food.ONION)
@@ -298,7 +294,7 @@ public class SDFoodRecipes {
                 .build(out)
                 .saveFoodData();
 
-        cook("meal/ratatouille", ModItems.RATATOUILLE.get(), 1, 1200, 15, Items.BOWL)
+        cook("meal/ratatouille", ModItems.RATATOUILLE.get(), 1, 1200, 3, Items.BOWL)
                 .food(ModItems.TOMATO_SAUCE.get())
                 .food(Food.ONION)
                 .food(SDTags.ItemTags.TFC_VEGETABLES)
@@ -308,7 +304,7 @@ public class SDFoodRecipes {
                 .build(out)
                 .saveFoodData();
 
-        cook("meal/squid_ink_pasta", ModItems.SQUID_INK_PASTA.get(), 1, 1200, 15, Items.BOWL)
+        cook("meal/squid_ink_pasta", ModItems.SQUID_INK_PASTA.get(), 1, 1200, 3, Items.BOWL)
                 .food(ModItems.RAW_PASTA.get(), getTFCFoodData(Food.COOKED_RICE))
                 .nonfood(Items.INK_SAC)
                 .food(Food.COOKED_CALAMARI)
@@ -317,7 +313,7 @@ public class SDFoodRecipes {
                 .build(out)
                 .saveFoodData();
 
-        cook("meal/grilled_salmon", ModItems.GRILLED_SALMON.get(), 1, 600, 15, Items.BOWL)
+        cook("meal/grilled_salmon", ModItems.GRILLED_SALMON.get(), 1, 600, 3, Items.BOWL)
                 .food(Food.COOKED_SALMON)
                 .food(Food.ONION)
                 .food(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE)
@@ -325,7 +321,7 @@ public class SDFoodRecipes {
                 .build(out)
                 .saveFoodData();
 
-        cook("meal/mushroom_rice", ModItems.MUSHROOM_RICE.get(), 1, 1200, 15, Items.BOWL)
+        cook("meal/mushroom_rice", ModItems.MUSHROOM_RICE.get(), 1, 1200, 3, Items.BOWL)
                 .food(Food.RICE_GRAIN)
                 .food(Items.RED_MUSHROOM)
                 .food(Items.BROWN_MUSHROOM)
@@ -343,7 +339,15 @@ public class SDFoodRecipes {
                         Ingredient.of(TFCItems.SOUPS.get(Nutrient.FRUIT).get()).getItems()
                 ).flatMap(Arrays::stream)
         );
-        cook("soup/bone_broth", ModItems.BONE_BROTH.get(), 4, 3600, 15, Items.BOWL)
+        cook("soup/onion_soup", ModItems.ONION_SOUP.get(), 1, 600, 1, Items.BOWL)
+                .food(Food.ONION)
+                .food(Food.ONION)
+                .food(ItemTags.create(ResourceLocation.fromNamespaceAndPath("tfc", "sandwich_bread")))
+                .fluid(milks, 100)
+                .build(out)
+                .saveFoodData();
+
+        cook("soup/bone_broth", ModItems.BONE_BROTH.get(), 4, 1800, 3, Items.BOWL)
                 .nonfood(Items.BONE.asItem())
                 .nonfood(Items.BONE.asItem())
                 .nonfood(TFCItems.POWDERS.get(Powder.SALT).get())
@@ -352,26 +356,22 @@ public class SDFoodRecipes {
                 .food(TFCItems.FOOD.get(Food.ONION).get(), FoodData.EMPTY)
                 .fluid(TFCTags.Fluids.ANY_FRESH_WATER, 400)
                 .build(out)
-                .getFoodData()
-                .setDairy(1)
-                .setDecay(0.5)
-                .setWater(5)
-                .save();
+                .saveFoodData();
 
-        cook("soup/tomato_sauce", ModItems.TOMATO_SAUCE.get(), 1, 600, 10, Items.BOWL)
+        cook("soup/tomato_sauce", ModItems.TOMATO_SAUCE.get(), 1, 600, 2, Items.BOWL)
                 .food(Food.TOMATO)
                 .food(Food.TOMATO)
                 .build(out)
                 .saveFoodData();
 
-        cook("soup/pumpkin_soup", ModItems.PUMPKIN_SOUP.get(), 1, 600, 15, Items.BOWL)
+        cook("soup/pumpkin_soup", ModItems.PUMPKIN_SOUP.get(), 1, 600, 3, Items.BOWL)
                 .food(TFCItems.SOUPS.get(Nutrient.PROTEIN).get())
                 .food(TFCItems.FOOD.get(Food.PUMPKIN_CHUNKS).get())
                 .fluid(milks, 100)
                 .build(out)
                 .saveFoodData();
 
-        cook("soup/baked_cod_stew", ModItems.BAKED_COD_STEW.get(), 1, 600, 15, Items.BOWL)
+        cook("soup/baked_cod_stew", ModItems.BAKED_COD_STEW.get(), 1, 600, 3, Items.BOWL)
                 .food(SDTags.ItemTags.create("forge", "cooked_fishes/cod"))
                 .food(TFCSoups)
                 .food(ModItems.BONE_BROTH.get())
@@ -385,19 +385,19 @@ public class SDFoodRecipes {
                 .build(out)
                 .saveFoodData();
 
-        cook("soup/fish_stew", ModItems.FISH_STEW.get(), 1, 900, 15, Items.BOWL)
+        cook("soup/fish_stew", ModItems.FISH_STEW.get(), 1, 900, 3, Items.BOWL)
                 .food(SDTags.ItemTags.FISHES_USABLE_IN_STEW)
                 .food(vegetableAndFruitSoup)
                 .build(out)
                 .saveFoodData();
 
-        cook("soup/vegetable_soup", ModItems.VEGETABLE_SOUP.get(), 1, 900, 15, Items.BOWL)
+        cook("soup/vegetable_soup", ModItems.VEGETABLE_SOUP.get(), 1, 900, 3, Items.BOWL)
                 .food(ModItems.BONE_BROTH.get())
                 .food(TFCItems.SOUPS.get(Nutrient.VEGETABLES).get())
                 .build(out)
                 .saveFoodData();
 
-        cook("soup/beef_stew", ModItems.BEEF_STEW.get(), 1, 900, 15, Items.BOWL)
+        cook("soup/beef_stew", ModItems.BEEF_STEW.get(), 1, 900, 3, Items.BOWL)
                 .food(vegetableAndFruitSoup)
                 .food(TFCItems.FOOD.get(Food.COOKED_BEEF).get())
                 .nonfood(TFCItems.POWDERS.get(Powder.SALT).get())
@@ -405,14 +405,14 @@ public class SDFoodRecipes {
                 .build(out)
                 .saveFoodData();
 
-        cook("soup/noodle_soup", ModItems.NOODLE_SOUP.get(), 1, 600, 15, Items.BOWL)
+        cook("soup/noodle_soup", ModItems.NOODLE_SOUP.get(), 1, 600, 3, Items.BOWL)
                 .food(TFCSoups)
                 .food(ModItems.RAW_PASTA.get(), getTFCFoodData(Food.COOKED_RICE))
                 .food(ModItems.BONE_BROTH.get())
                 .build(out)
                 .saveFoodData();
 
-        cook("soup/mushroom_stew", Items.MUSHROOM_STEW, 1, 1200, 15, Items.BOWL)
+        cook("soup/mushroom_stew", Items.MUSHROOM_STEW, 1, 1200, 3, Items.BOWL)
                 .food(Items.BROWN_MUSHROOM)
                 .food(Items.RED_MUSHROOM)
                 .nonfood(TFCItems.POWDERS.get(Powder.SALT).get())
@@ -423,20 +423,16 @@ public class SDFoodRecipes {
 
     /* ---------------------- PIE ---------------------- */
     public void pie(RecipeOutput out){
-        cook("pie/pie_crust", ModItems.PIE_CRUST.get(), 1, 1200, 10)
+        cook("pie/pie_crust", ModItems.PIE_CRUST.get(), 1, 1200, 2)
                 .food(SDTags.ItemTags.TFC_DOUGHS, getTFCFoodData(Food.BARLEY_BREAD))
                 .food(SDTags.ItemTags.TFC_DOUGHS, getTFCFoodData(Food.BARLEY_BREAD))
                 .food(SDTags.ItemTags.PIE_CRUST_DAIRY, getTFCFoodData(Food.CHEESE))
                 .fluid(TFCFluids.SIMPLE_FLUIDS.get(SimpleFluid.OLIVE_OIL).getSource(), 200)
                 .build(out)
-                .getFoodData()
-                .setDairy(1)
-                .setDecay(0.5)
-                .setWater(5)
-                .save();
+                .saveFoodData();
 
         var redDyePlants = List.of(Plant.GUZMANIA, Plant.POPPY, Plant.ROSE, Plant.SNAPDRAGON_RED, Plant.TROPICAL_MILKWEED, Plant.TULIP_RED, Plant.VRIESEA, Plant.ANTHURIUM, Plant.BLOOD_LILY, Plant.HELICONIA, Plant.KANGAROO_PAW, Plant.TANK_BROMELIAD, Plant.KINNIKINNICK);
-        cook("pie/apple_pie", ModItems.APPLE_PIE.get(), 1, 1200, 10, ModItems.PIE_CRUST.get())
+        cook("pie/apple_pie", ModItems.APPLE_PIE.get(), 1, 1200, 2, ModItems.PIE_CRUST.get())
                 .food(SDTags.ItemTags.APPLE_FOR_CIDER, getTFCFoodData(Food.RED_APPLE))
                 .food(SDTags.ItemTags.APPLE_FOR_CIDER, getTFCFoodData(Food.RED_APPLE))
                 .food(SDTags.ItemTags.APPLE_FOR_CIDER, getTFCFoodData(Food.RED_APPLE))
@@ -444,9 +440,7 @@ public class SDFoodRecipes {
                 .nonfood(SDTags.ItemTags.TFC_SWEETENER)
                 .nonfood(Ingredient.of(redDyePlants.stream().map(TFCBlocks.PLANTS::get).toArray(ItemLike[]::new)))
                 .build(out)
-                .getFoodData()
-                .addNutrientsAndSetMaxHunger(Food.RED_APPLE, 0.8f)
-                .save();
+                .saveFoodData();
 
         craft("pie/berry_cheesecake", ModItems.SWEET_BERRY_CHEESECAKE.get(), 1)
                 .shape("FFF", "SCS", "SPS")
@@ -476,24 +470,18 @@ public class SDFoodRecipes {
     }
 
     public void hotCocoa(RecipeOutput out){
-        cook("drink/hot_cocoa", ModItems.HOT_COCOA.get(), 1, 1200, 10, Items.GLASS_BOTTLE)
+        cook("drink/hot_cocoa", ModItems.HOT_COCOA.get(), 1, 1200, 2, Items.GLASS_BOTTLE)
                 .food(SDTags.ItemTags.COCOA_POWDER)
                 .food(SDTags.ItemTags.COCOA_POWDER)
                 .nonfood(net.minecraft.world.item.crafting.Ingredient.of(SDTags.ItemTags.TFC_SWEETENER))
                 .fluid(milks, 200)
                 .whenModLoaded("firmalife")
                 .build(out)
-                .getFoodData()
-                .setDairy(1)
-                .setDecay(0.5)
-                .setHunger(0)
-                .setSaturation(0)
-                .setWater(10)
-                .save();
+                .saveFoodData();
     }
 
     public void appleCider(RecipeOutput out) {
-        cook("drink/apple_cider", ModItems.APPLE_CIDER.get(), 1, 1200, 10, Items.GLASS_BOTTLE)
+        cook("drink/apple_cider", ModItems.APPLE_CIDER.get(), 1, 1200, 2, Items.GLASS_BOTTLE)
                 .food(SDTags.ItemTags.APPLE_FOR_CIDER, getTFCFoodData(Food.RED_APPLE))
                 .food(SDTags.ItemTags.APPLE_FOR_CIDER, getTFCFoodData(Food.RED_APPLE))
                 .food(SDTags.ItemTags.APPLE_FOR_CIDER, getTFCFoodData(Food.RED_APPLE))
@@ -501,13 +489,7 @@ public class SDFoodRecipes {
                 .nonfood(SDTags.ItemTags.TFC_SWEETENER)
                 .fluid(TFCFluids.SIMPLE_FLUIDS.get(SimpleFluid.CIDER).getSource(), 400)
                 .build(out)
-                .getFoodData()
-                .addNutrientsAndSetMaxHunger(Food.RED_APPLE, 0.8f)
-                .setWater(5)
-                .setHunger(1)
-                .setSaturation(0)
-                .setDecay(1.7)
-                .save();
+                .saveFoodData();
     }
 
     public void melonJuice(RecipeOutput out){
@@ -519,10 +501,6 @@ public class SDFoodRecipes {
                 .food(Food.MELON_SLICE)
                 .nonfood(TFCItems.POWDERS.get(Powder.SALT).get())
                 .build(out)
-                .getFoodData()
-                .setSaturation(0)
-                .setHunger(1)
-                .setDecay(2)
-                .save();
+                .saveFoodData();
     }
 }

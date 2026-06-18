@@ -256,8 +256,6 @@ public class SDFoodAndRecipeGenerator {
                 pot.save(out, id); // 最簡版本
             }
 
-            // ====== 以下維持：自動產生 FoodData（靜態／動態）======
-            final boolean foodDataIsStatic = isFoodDataStatic(entries);
             foodDataBuilder = provider()
                     .newBuilder(path)
                     .item(result.asItem());
