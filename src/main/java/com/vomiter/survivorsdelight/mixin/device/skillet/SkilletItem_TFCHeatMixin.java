@@ -130,7 +130,7 @@ public abstract class SkilletItem_TFCHeatMixin {
         if (unit.isEmpty()) return;
 
 
-        if (!level.isClientSide) {
+        if (!level.isClientSide || true) {
             // 先扣 1 顆
 
             // 確認可加熱
@@ -144,16 +144,12 @@ public abstract class SkilletItem_TFCHeatMixin {
             HeatCapability.addTemp(heat, temperatureNearby);
 
             var data = SkilletCookingCap.get(player);
-            data.setCooking(unit.copy()); // 你說 unit/copy 已驗證 OK，保留原寫法
+            data.setCooking(unit.copy());
             data.setTargetTemperature(recipe.getTemperature());
             data.setHand(hand);
-
-            // display 只放 1 顆，讓 FD UI/邏輯正常（不會隨 tick 改變）
         }
         skilletStack.set(ModDataComponents.SKILLET_INGREDIENT, new ItemStackWrapper(unit.copy()));
 
-
-        // 用原版流程維持使用中動畫/節奏
         player.startUsingItem(hand);
         cir.setReturnValue(InteractionResultHolder.consume(skilletStack));
         cir.cancel();
@@ -162,7 +158,7 @@ public abstract class SkilletItem_TFCHeatMixin {
     @Inject(method = "onUseTick", at = @At("HEAD"))
     private void sdtfc$onUseTick(Level level, LivingEntity living, ItemStack skilletStack, int remainingUseTicks, CallbackInfo ci) {
         if (!(living instanceof ServerPlayer player)) return;
-        if (level.isClientSide) return;
+        //if (level.isClientSide) return;
 
         EquipmentSlot equipmentSlot = player.getUsedItemHand().equals(InteractionHand.MAIN_HAND) ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
 

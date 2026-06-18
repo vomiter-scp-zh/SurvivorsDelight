@@ -1,11 +1,19 @@
 package com.vomiter.survivorsdelight.common.device.skillet;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
+import com.vomiter.survivorsdelight.common.device.skillet.itemcooking.SkilletCookingCap;
 import com.vomiter.survivorsdelight.mixin.ItemAccessor;
 import com.vomiter.survivorsdelight.registry.ItemPropertyInterface;
 import com.vomiter.survivorsdelight.registry.skillet.SDSkilletItems;
 import com.vomiter.survivorsdelight.util.SDUtils;
+import net.dries007.tfc.common.component.heat.HeatCapability;
+import net.dries007.tfc.common.component.heat.IHeat;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
@@ -28,11 +36,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import org.jetbrains.annotations.NotNull;
 import vectorwing.farmersdelight.common.item.SkilletItem;
+import vectorwing.farmersdelight.common.registry.ModDataComponents;
 import vectorwing.farmersdelight.common.registry.ModSounds;
 
 public class SDSkilletItem extends SkilletItem {
@@ -131,6 +142,50 @@ public class SDSkilletItem extends SkilletItem {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean isBarVisible(@NotNull ItemStack stack) {
+        return super.isBarVisible(stack) || stack.has(ModDataComponents.SKILLET_INGREDIENT);
+    }
+
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public int getBarWidth(@NotNull ItemStack stack) {
+        if(stack.has(ModDataComponents.SKILLET_INGREDIENT)){
+            LocalPlayer player = Minecraft.getInstance().player;
+            if(player != null) {
+                var data = SkilletCookingCap.get(player);
+                ItemStack cooking = data.getCooking();
+                if(cooking != null && !cooking.isEmpty()){
+                    IHeat heat = HeatCapability.get(cooking);
+                    if(heat != null){
+                        return Math.round(heat.getTemperature() / data.getTargetTemperature() * 13);
+                    }
+                }
+            }
+        }
+        return super.getBarWidth(stack);
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public int getBarColor(ItemStack stack) {
+        if(stack.has(ModDataComponents.SKILLET_INGREDIENT)){
+            LocalPlayer player = Minecraft.getInstance().player;
+            if(player != null) {
+                var data = SkilletCookingCap.get(player);
+                ItemStack cooking = data.getCooking();
+                if(cooking != null && !cooking.isEmpty()){
+                    IHeat heat = HeatCapability.get(cooking);
+                    if(heat != null){
+                        return 16747343;
+                    }
+                }
+            }
+        }
+        return super.getBarColor(stack);
     }
 
 }
