@@ -7,6 +7,7 @@ import net.dries007.tfc.common.fluids.FluidHelpers;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.registries.ForgeRegistries;
 import vectorwing.farmersdelight.common.block.entity.CookingPotBlockEntity;
 
@@ -43,7 +44,7 @@ public class CookingPotFluidHandler {
                     if(player.distanceToSqr(Vec3.atCenterOf(pot.getBlockPos())) >= 64.0) self.sdtfc$removePlayer(player);
                     else{
                         SDNetwork.CHANNEL.send( //send pack to make client redraw the fluid
-                                net.minecraftforge.network.PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
+                                PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
                                 new PotFluidSyncS2CPacket(pot.getBlockPos(), ForgeRegistries.FLUIDS.getKey(tank.getFluid().getFluid()), tank.getFluidAmount())
                         );
                     }

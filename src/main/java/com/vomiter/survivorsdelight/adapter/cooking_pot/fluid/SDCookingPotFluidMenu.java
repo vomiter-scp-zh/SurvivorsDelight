@@ -74,7 +74,7 @@ public class SDCookingPotFluidMenu extends AbstractContainerMenu implements ICoo
             // 輸出：拒收放入，允許取出
             this.addSlot(new BucketOutputSlot(aux, 1, 35 + X_DEVIATION, 54 + Y_DEVIATION));
         } else {
-            // 理論上不會發生；保底避免 NPE（給一個假的 1x1 容器）
+            // 避免 NPE（給一個假的 1x1 容器）
             this.addSlot(new Slot(new SimpleContainer(1), 0, 35, 20));
             this.addSlot(new Slot(new SimpleContainer(1), 0, 35, 54));
         }
@@ -127,7 +127,7 @@ public class SDCookingPotFluidMenu extends AbstractContainerMenu implements ICoo
 
 
     /**
-     * 0..1: 我們的兩格（input=0, output=1）
+     * 0..1: 新增的兩格（input=0, output=1）
      * 2..28: 玩家背包 (27 格)
      * 29..37: 玩家快捷列 (9 格)
      */
