@@ -37,7 +37,7 @@
       "type": "tfc:and",
       "children": [
         {
-          "tag": "tfc:sandwich_bread"
+          "tag": "c:foods/bread"
         },
         {
           "type": "tfc:not_rotten"

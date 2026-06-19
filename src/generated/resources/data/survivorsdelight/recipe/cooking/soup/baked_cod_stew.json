@@ -11,7 +11,7 @@
       "type": "tfc:and",
       "children": [
         {
-          "tag": "forge:cooked_fishes/cod"
+          "item": "tfc:food/cooked_cod"
         },
         {
           "type": "tfc:not_rotten"

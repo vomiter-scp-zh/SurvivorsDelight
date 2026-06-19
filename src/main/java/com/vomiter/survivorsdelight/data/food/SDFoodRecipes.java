@@ -262,7 +262,7 @@ public class SDFoodRecipes {
         cook("meal/roasted_mutton_chops", ModItems.ROASTED_MUTTON_CHOPS.get(), 1, 1200, 3, Items.BOWL)
                 .food(Food.MUTTON)
                 .food(Food.TOMATO)
-                .food(SDTags.ItemTags.create("tfc", "foods/grains"), getTFCFoodData(Food.COOKED_RICE))
+                .food(SDTags.ItemTags.TFC_GRAINS, getTFCFoodData(Food.COOKED_RICE))
                 .fluid(oils, 100)
                 .build(out)
                 .saveFoodData();
@@ -332,7 +332,7 @@ public class SDFoodRecipes {
         cook("soup/onion_soup", ModItems.ONION_SOUP.get(), 1, 600, 1, Items.BOWL)
                 .food(Food.ONION)
                 .food(Food.ONION)
-                .food(ItemTags.create(ResourceLocation.fromNamespaceAndPath("tfc", "sandwich_bread")))
+                .food(ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", "foods/bread")))
                 .fluid(milks, 100)
                 .build(out)
                 .saveFoodData();
@@ -362,7 +362,7 @@ public class SDFoodRecipes {
                 .saveFoodData();
 
         cook("soup/baked_cod_stew", ModItems.BAKED_COD_STEW.get(), 1, 600, 3, Items.BOWL)
-                .food(SDTags.ItemTags.create("forge", "cooked_fishes/cod"))
+                .food(TFCItems.FOOD.get(Food.COOKED_COD).asItem())
                 .food(TFCSoups)
                 .food(ModItems.BONE_BROTH.get())
                 .build(out)
