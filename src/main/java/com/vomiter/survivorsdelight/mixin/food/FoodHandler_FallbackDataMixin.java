@@ -1,6 +1,5 @@
 package com.vomiter.survivorsdelight.mixin.food;
 
-import com.vomiter.survivorsdelight.data.food.SDFallbackFoodData;
 import com.vomiter.survivorsdelight.data.food.SDFoodFallBackManager;
 import net.dries007.tfc.common.capabilities.food.*;
 import net.minecraft.world.item.ItemStack;

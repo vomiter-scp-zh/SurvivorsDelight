@@ -1,12 +1,12 @@
 package com.vomiter.survivorsdelight.client;
 
 import com.mojang.blaze3d.platform.Window;
+import com.vomiter.survivorsdelight.adapter.stove.IStoveBlockEntity;
 import com.vomiter.survivorsdelight.client.screen.SDCabinetScreen;
 import com.vomiter.survivorsdelight.common.container.SDCabinetBlockEntity;
 import com.vomiter.survivorsdelight.common.container.SDCabinetMenu;
-import com.vomiter.survivorsdelight.adapter.stove.IStoveBlockEntity;
 import com.vomiter.survivorsdelight.compat.jei.JEIHelpers;
-import com.vomiter.survivorsdelight.data.food.SDFallbackFoodData;
+import com.vomiter.survivorsdelight.data.food.SDFoodFallBackManager;
 import net.dries007.tfc.client.ClientHelpers;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.dries007.tfc.common.capabilities.food.FoodData;
@@ -87,7 +87,7 @@ public class ClientForgeEventHandler {
         final IFood f = FoodCapability.get(stack);
         if (!(f instanceof FoodHandler.Dynamic dynamic)) return;
         boolean isInCreativeTab = f.getCreationDate() == -1L;
-        var fallback = SDFallbackFoodData.get(stack.getItem());
+        var fallback = SDFoodFallBackManager.getFood(stack.getItem());
         if(dynamic.getData().equals(fallback)
                 && !fallback.equals(FoodData.EMPTY)
                 && (isInCreativeTab || isInJEI())){
