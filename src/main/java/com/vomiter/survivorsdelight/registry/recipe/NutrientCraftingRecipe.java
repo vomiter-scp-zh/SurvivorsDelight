@@ -4,7 +4,11 @@ import com.google.gson.JsonObject;
 import com.vomiter.survivorsdelight.common.food.FoodContainerExpansion;
 import com.vomiter.survivorsdelight.util.FoodItemContainerApply;
 import com.vomiter.survivorsdelight.util.SimpleCraftingContainer;
+import net.dries007.tfc.common.capabilities.Capabilities;
 import net.dries007.tfc.common.capabilities.food.*;
+import net.dries007.tfc.common.fluids.FluidHelpers;
+import net.dries007.tfc.util.Drinkable;
+import net.dries007.tfc.util.Helpers;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
@@ -17,14 +21,12 @@ import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public abstract class NutrientCraftingRecipe implements CraftingRecipe {
     final CraftingRecipe vanilla;
@@ -76,7 +78,7 @@ public abstract class NutrientCraftingRecipe implements CraftingRecipe {
         boolean primaryMatch = vanilla.matches(inv, level);
         if(primaryMatch) return true;
         SimpleCraftingContainer invTemp = new SimpleCraftingContainer(inv);
-        invTemp.replaceContainers(container); // <- causing crafting grid unsync and emptied unexpectedly
+        invTemp.replaceContainers(container);
         return vanilla.matches(invTemp, level);
     }
 
@@ -124,8 +126,14 @@ public abstract class NutrientCraftingRecipe implements CraftingRecipe {
         List<FoodData> data = new ArrayList<>();
         List<ItemStack> ingredients = new ArrayList<>();
         ItemStack resultContainer = ItemStack.EMPTY;
+        int hunger = 0;
+        float saturation = 0f;
+        float water = 0;
+        float[] nutrients = new float[Nutrient.VALUES.length];
+
 
         final int slots = inv.getContainerSize();
+        var remain = getRemainingItems(inv);
         for (int i = 0; i < slots; i++) {
             ItemStack s = inv.getItem(i);
             if (s.isEmpty()) continue;
@@ -140,6 +148,30 @@ public abstract class NutrientCraftingRecipe implements CraftingRecipe {
                     resultContainer = s.copyWithCount(1);
                 }
             }
+            var fluidCap = Helpers.getCapability(s, Capabilities.FLUID_ITEM);
+            var fluidCapRemain = Helpers.getCapability(remain.get(i), Capabilities.FLUID_ITEM);
+            if(fluidCap != null){
+                var tank0 = fluidCap.getFluidInTank(0);
+                var tank1 = Optional.ofNullable(fluidCapRemain).map(f -> f.getFluidInTank(0)).orElse(FluidStack.EMPTY);
+                if(tank1.isEmpty() || tank0.isFluidEqual(tank1)){
+                    var usedAmount = Math.min(tank0.getAmount() - tank1.getAmount(), 100);
+                    var fluid = tank0.getFluid();
+                    var drinkable = Drinkable.get(fluid);
+                    if(drinkable != null){
+                        float multiplier = (float)usedAmount / 25.0F;
+                        var waterAdd = drinkable.getThirst() * multiplier/out.getCount();
+                        water += waterAdd;
+                        var fluidFood = drinkable.getFoodStats();
+                        if(fluidFood != null){
+                            for (int i1 = 0; i1 < nutrients.length; i1++) {
+                                nutrients[i1] += fluidFood.nutrients()[i1] / 100;
+                            }
+                        }
+                    }
+
+                }
+            }
+
 
             var fh = FoodCapability.get(s);
             if (fh == null) continue;
@@ -171,10 +203,6 @@ public abstract class NutrientCraftingRecipe implements CraftingRecipe {
         float factor = 1f - (this.balanceFactor * foodCount);
         if (factor < 0f) factor = 0f;
 
-        int hunger = 0;
-        float saturation = 0f;
-        float water = 0;
-        float[] nutrients = new float[Nutrient.VALUES.length];
 
         for (var d : data) {
             if(this.presetHunger == -1) hunger = Math.max(d.hunger(), hunger);
@@ -194,7 +222,15 @@ public abstract class NutrientCraftingRecipe implements CraftingRecipe {
         if (outFood instanceof FoodHandler.Dynamic outDynamic) {
             FoodData merged =
                     new FoodData(
-                            hunger, saturation, water ,nutrients[0], nutrients[1], nutrients[2], nutrients[3], nutrients[4], presetDecay
+                            hunger / out.getCount(),
+                            water / out.getCount(),
+                            saturation  / out.getCount(),
+                            nutrients[0] / out.getCount(),
+                            nutrients[1] / out.getCount(),
+                            nutrients[2] / out.getCount(),
+                            nutrients[3] / out.getCount(),
+                            nutrients[4] / out.getCount(),
+                            presetDecay
                     );
             outDynamic.setIngredients(ingredients);
             outDynamic.setFood(merged);

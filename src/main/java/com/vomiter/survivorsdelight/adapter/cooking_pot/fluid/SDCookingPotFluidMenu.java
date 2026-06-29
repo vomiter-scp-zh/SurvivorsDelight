@@ -69,7 +69,7 @@ public class SDCookingPotFluidMenu extends AbstractContainerMenu implements ICoo
         // slot index: 0 = input, 1 = output
         if (potFluidAccess != null) {
             var aux = potFluidAccess.sdtfc$getAuxInv();
-            // 輸入：允許放入（驗證交由 ItemStackHandler#isItemValid），UI座標自行調整
+            // 輸入：允許放入（驗證交由 ItemStackHandler#isItemValid）
             this.addSlot(new BucketInputSlot(aux, 0, 35 + X_DEVIATION, 20 + Y_DEVIATION));
             // 輸出：拒收放入，允許取出
             this.addSlot(new BucketOutputSlot(aux, 1, 35 + X_DEVIATION, 54 + Y_DEVIATION));
