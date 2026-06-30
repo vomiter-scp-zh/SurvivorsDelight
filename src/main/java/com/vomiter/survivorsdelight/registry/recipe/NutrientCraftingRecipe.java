@@ -1,5 +1,9 @@
 package com.vomiter.survivorsdelight.registry.recipe;
 
+import com.vomiter.survivorsdelight.common.food.FoodContainerExpansion;
+import com.vomiter.survivorsdelight.registry.SDDataComponents;
+import com.vomiter.survivorsdelight.registry.component.SDContainerStack;
+import com.vomiter.survivorsdelight.util.FoodItemContainerApply;
 import com.vomiter.survivorsdelight.util.SimpleCraftingContainer;
 import net.dries007.tfc.common.component.TFCComponents;
 import net.dries007.tfc.common.component.food.FoodCapability;
@@ -7,6 +11,8 @@ import net.dries007.tfc.common.component.food.FoodData;
 import net.dries007.tfc.common.component.food.IFood;
 import net.dries007.tfc.common.component.food.Nutrient;
 import net.dries007.tfc.common.component.item.ItemListComponent;
+import net.dries007.tfc.util.Helpers;
+import net.dries007.tfc.util.data.Drinkable;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -15,13 +21,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public abstract class NutrientCraftingRecipe implements CraftingRecipe {
     final CraftingRecipe vanilla;
@@ -98,11 +103,54 @@ public abstract class NutrientCraftingRecipe implements CraftingRecipe {
 
         List<FoodData> data = new ArrayList<>();
         List<ItemStack> ingredients = new ArrayList<>();
+        ItemStack resultContainer = ItemStack.EMPTY;
+        int hunger = 0;
+        float saturation = 0f;
+        float water = 0;
+        float[] nutrients = new float[Nutrient.VALUES.length];
 
         final int slots = inv.size();
         for (int i = 0; i < slots; i++) {
             ItemStack s = inv.getItem(i);
             if (s.isEmpty()) continue;
+
+            if(container != null && resultContainer.isEmpty()){
+                //only process when there's no defined container yet.
+                if(s.is(container)){
+                    resultContainer = FoodItemContainerApply.getContainer(s);
+                    //let's say I put a salad or a soup as "container";
+                    // this makes the recipe recognize it and apply the correct container.
+                    if(resultContainer.isEmpty()) resultContainer = s.copyWithCount(1);
+                } else if(FoodContainerExpansion.isExtraValid(container, s)){
+                    resultContainer = s.copyWithCount(1);
+                }
+            }
+
+            var remain = s.getCraftingRemainingItem();
+            var fluidCap = s.getCapability(Capabilities.FluidHandler.ITEM);
+            var fluidCapRemain = remain.getCapability(Capabilities.FluidHandler.ITEM);
+            if(fluidCap != null){
+                var tank0 = fluidCap.getFluidInTank(0);
+                var tank1 = Optional.ofNullable(fluidCapRemain).map(f -> f.getFluidInTank(0)).orElse(FluidStack.EMPTY);
+                if(tank1.isEmpty() || tank0.getFluid().equals(tank1.getFluid())){
+                    var usedAmount = Math.min(tank0.getAmount() - tank1.getAmount(), 100);
+                    var fluid = tank0.getFluid();
+                    var drinkable = Drinkable.get(fluid);
+                    if(drinkable != null){
+                        float multiplier = (float)usedAmount / 25.0F;
+                        var waterAdd = drinkable.food().water() * multiplier/out.getCount();
+                        water += waterAdd;
+                        var fluidFood = drinkable.food();
+                        if(fluidFood != null){
+                            for (int i1 = 0; i1 < nutrients.length; i1++) {
+                                nutrients[i1] += fluidFood.nutrients()[i1] / 100;
+                            }
+                        }
+                    }
+
+                }
+            }
+
 
             var fh = FoodCapability.get(s);
             if (fh == null) continue;
@@ -134,10 +182,6 @@ public abstract class NutrientCraftingRecipe implements CraftingRecipe {
         float factor = 1f - (this.balanceFactor * foodCount);
         if (factor < 0f) factor = 0f;
 
-        int hunger = 0;
-        float saturation = 0f;
-        float water = 0;
-        float[] nutrients = new float[Nutrient.VALUES.length];
 
         for (var d : data) {
             if(this.presetHunger == -1) hunger = Math.max(d.hunger(), hunger);
@@ -157,6 +201,7 @@ public abstract class NutrientCraftingRecipe implements CraftingRecipe {
 
         out.set(TFCComponents.INGREDIENTS, ItemListComponent.of(ingredients));
         FoodCapability.setFoodForDynamicItemOnCreate(out, merged);
+        if (!resultContainer.isEmpty()) out.set(SDDataComponents.FOOD_CONTAINER_STACK.get(), new SDContainerStack(resultContainer));
         return out;
     }
 
