@@ -8,6 +8,7 @@ import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid.IFluidRequiringRec
 import net.dries007.tfc.common.capabilities.food.*;
 import net.dries007.tfc.common.recipes.ingredients.FluidStackIngredient;
 import net.dries007.tfc.util.Drinkable;
+import net.dries007.tfc.util.calendar.Calendars;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -22,7 +23,7 @@ import java.util.*;
 
 public final class CookingPotCookingHandler {
     private static final int INPUT_SLOT_COUNT = 6;
-    private static final float DEFAULT_DECAY = 4.5f;
+    private static final float DEFAULT_DECAY = 4.5F;
     private CookingPotCookingHandler() {
     }
 
@@ -100,8 +101,7 @@ public final class CookingPotCookingHandler {
                 computation.nutrition(),
                 DEFAULT_DECAY
         ));
-        dynamicFood.setCreationDate(level.getDayTime());
-
+        dynamicFood.setCreationDate(FoodCapability.getRoundedCreationDate());
         bridge.sdtfc$setCachedDynamicFoodResult(originalResult);
     }
 

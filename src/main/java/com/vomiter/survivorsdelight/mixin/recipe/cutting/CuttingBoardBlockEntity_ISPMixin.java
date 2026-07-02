@@ -103,7 +103,7 @@ public abstract class CuttingBoardBlockEntity_ISPMixin {
             foodResults.forEach(item -> {
                 if(FoodCapability.get(item) instanceof FoodHandler.Dynamic dynamic){
                     dynamic.setFood(resultFoodData);
-                    dynamic.setCreationDate(((BlockEntity)(Object)this).getLevel().getDayTime());
+                    dynamic.setCreationDate(storedFood.getCreationDate());
                 }
             });
         }

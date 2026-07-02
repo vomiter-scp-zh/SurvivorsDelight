@@ -234,6 +234,7 @@ public abstract class NutrientCraftingRecipe implements CraftingRecipe {
                     );
             outDynamic.setIngredients(ingredients);
             outDynamic.setFood(merged);
+            outDynamic.setCreationDate(FoodCapability.getRoundedCreationDate());
         }
         if(!resultContainer.isEmpty()){
             FoodItemContainerApply.applyGeneral(out, resultContainer);

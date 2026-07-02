@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.mixin.jei;
+package com.vomiter.survivorsdelight.mixin.compat.jei;
 
 import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid.IFluidRequiringRecipe;
 import mezz.jei.api.forge.ForgeTypes;
