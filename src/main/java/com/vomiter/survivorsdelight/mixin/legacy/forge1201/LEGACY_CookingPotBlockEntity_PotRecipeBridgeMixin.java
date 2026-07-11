@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.bridge.TFCPotRecipeBridgeFD;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid_handle.ICookingPotFluidAccess;
-import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid_handle.IFluidRequiringRecipe;
+import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid_handle.IFluidRequiringRecipeLEGACY;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
 import com.vomiter.survivorsdelight.legacy.LEGACY_ICookingPotRecipeBridge;
 import com.vomiter.survivorsdelight.util.SDUtils;
@@ -102,7 +102,7 @@ public abstract class LEGACY_CookingPotBlockEntity_PotRecipeBridgeMixin extends 
                 }
             }
             TagKey<Fluid> MILKS_TAG = TagKey.create(Registries.FLUID, SDUtils.RLUtils.build("tfc", "milks"));
-            var fluid = ((IFluidRequiringRecipe)r).sdtfc$getFluidIngredient();
+            var fluid = ((IFluidRequiringRecipeLEGACY)r).sdtfc$getFluidIngredient();
             if(SDUtils.TagUtils.fluidIngredientMatchesTag(level.registryAccess(), fluid, MILKS_TAG)) nutrition[Nutrient.DAIRY.ordinal()] += 1;
 
             for (int i = 0; i < cookingPot.getInventory().getSlots(); i++) {

@@ -35,7 +35,12 @@ dependencies {
     implementation "curse.maven:farmers-delight-398521:8007613"
     implementation "curse.maven:firmalife-453394:7442721"
     implementation "curse.maven:jade-324717:7545219"
-    implementation "curse.maven:jei-238222:7420587"
+    compileOnly "curse.maven:jei-238222:7420587"
+    //runtimeOnly "curse.maven:jei-238222:7420587"
+
+    compileOnly "curse.maven:emi-580555:8081408"
+    runtimeOnly "curse.maven:emi-580555:8081408"
+
     implementation "curse.maven:casualness-delight-909519:7467708"
 }
 

@@ -11,6 +11,8 @@
     "ItemIsKnifeMixin",
     "ItemPropertiesMixin",
     "ShapedRecipeAccessor",
+    "compat.emi.CookingPotEMIRecipeMixin",
+    "compat.emi.EMIPluginMixin",
     "compat.firmalife.ClimateStationBlockEntityMixin",
     "compat.firmalife.StoveBlock_PlacePot",
     "device.cooking_pot.CookingPotBlock_AddPlayerMixin",
