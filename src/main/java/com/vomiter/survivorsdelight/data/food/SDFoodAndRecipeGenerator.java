@@ -495,7 +495,6 @@ public class SDFoodAndRecipeGenerator {
             );
 
             output.accept(id, recipe, null);
-            SurvivorsDelight.LOGGER.info("4");
         }
     }
 

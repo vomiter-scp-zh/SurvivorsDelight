@@ -211,7 +211,6 @@ public class SDCuttingRecipe extends CuttingBoardRecipe {
     public static class Serializer implements RecipeSerializer<SDCuttingRecipe> {
         private static final MapCodec<SDCuttingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                 Codec.STRING.optionalFieldOf("group", "").forGetter(CuttingBoardRecipe::getGroup),
-                // JSON 端仍然用 LIST_CODEC_NONEMPTY + 限制一個 ingredient
                 Ingredient.LIST_CODEC_NONEMPTY.fieldOf("ingredients").flatXmap(ingredients -> {
                     if (ingredients.size() > 1) {
                         return DataResult.error(() -> "Too many ingredients for cutting recipe! Please define only one ingredient");

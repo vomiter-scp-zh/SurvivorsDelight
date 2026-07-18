@@ -2,6 +2,7 @@ package com.vomiter.survivorsdelight.registry;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.registry.recipe.*;
+import net.dries007.tfc.common.recipes.RecipeSerializerImpl;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -28,8 +29,15 @@ public final class SDRecipeSerializers {
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<SDCookingPotRecipe>>
             SD_COOKING_POT = SERIALIZERS.register(
             "sd_cooking_pot",
-            // 可以直接回傳你 enum 的 INSTANCE
             () -> SDCookingPotRecipe.Serializer.INSTANCE
+    );
+
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<CleanFoodContainerRecipe>>
+            CLEAN_FOOD_CONTAINER = SERIALIZERS.register(
+            "clean_food_container", () -> new RecipeSerializerImpl<>(
+                    CleanFoodContainerRecipe.CODEC,
+                    CleanFoodContainerRecipe.STREAM_CODEC
+            )
     );
 
     private SDRecipeSerializers() {}

@@ -1,17 +1,14 @@
 {
-  "type": "tfc:barrel_instant",
+  "type": "survivorsdelight:clean_food_container",
   "input_item": {
-    "ingredient": {
-      "tag": "survivorsdelight:washable"
-    }
+    "tag": "survivorsdelight:washable"
   },
   "input_fluid": {
-    "ingredient": "minecraft:water",
+    "fluid": "minecraft:water",
     "amount": 100
   },
   "output_item": {
-    "modifiers": [
-      "survivorsdelight:return_food_container"
-    ]
+    "id": "minecraft:bowl",
+    "count": 1
   }
 }

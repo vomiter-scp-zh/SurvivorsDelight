@@ -82,8 +82,6 @@ public class SurvivorsDelight {
         commonSetup(modBus);
         modBus.addListener(SDNetwork::onRegisterPayloads);
 
-
-        // 你自己的 Forge/NeoForge 事件掛載（名稱不改也可）
         ForgeEventHandler.init();
 
         if (FMLEnvironment.dist == Dist.CLIENT) {
@@ -92,7 +90,6 @@ public class SurvivorsDelight {
             modBus.addListener(this::onClientSetup);
             modBus.addListener(ClientForgeEventHandler::registerClientExtensions);
             modBus.addListener(ClientForgeEventHandler::onClientSetup);
-
         }
     }
 }

@@ -21,11 +21,8 @@ public class EMIPluginMixin {
         original.call(instance, emiRecipe);
         if(emiRecipe instanceof ICookingPotEMIRecipeDuck cookingPotEmiRecipe){
             Optional.ofNullable(emiRecipe.getId()).ifPresent(id -> {
-                SurvivorsDelight.LOGGER.info("id = {}", emiRecipe.getId());
                 instance.getRecipeManager().byKey(id).ifPresent(recipe -> {
-                    SurvivorsDelight.LOGGER.info("recipe = {}", recipe);
                     if(recipe.value() instanceof SDCookingPotRecipe fluidRequiringRecipe && fluidRequiringRecipe.getFluid()!= null){
-                        SurvivorsDelight.LOGGER.info("fluid = {}", fluidRequiringRecipe.getFluid());
                         cookingPotEmiRecipe.sdtfc$setFluidRequirement(new SizedFluidIngredient(fluidRequiringRecipe.getFluid(), fluidRequiringRecipe.getFluidAmountMb()), fluidRequiringRecipe.getFluidAmountMb());
                     }
                 });

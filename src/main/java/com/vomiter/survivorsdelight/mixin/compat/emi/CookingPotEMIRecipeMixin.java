@@ -51,12 +51,10 @@ public abstract class CookingPotEMIRecipeMixin implements ICookingPotEMIRecipeDu
 
     @Inject(method = "addWidgets", at = @At(value = "INVOKE", target = "Ldev/emi/emi/api/widget/WidgetHolder;addAnimatedTexture(Lnet/minecraft/resources/ResourceLocation;IIIIIIIZZZ)Ldev/emi/emi/api/widget/AnimatedTextureWidget;"))
     private void sdtfc$addFluidSlot(WidgetHolder widgets, CallbackInfo ci){
-        SurvivorsDelight.LOGGER.info("a");
         var fluidStackIngredient = sdtfc$fluidReq;
         if(fluidStackIngredient == null) return;
         FluidStack[] fluids = fluidStackIngredient.ingredient().getStacks();
         if (fluids.length > 0) {
-            SurvivorsDelight.LOGGER.info("c");
             var slot = addSlot(widgets, EmiHelpers.toIngredient(fluidStackIngredient), SD_FLUID_X, SD_FLUID_Y);
             slot.appendTooltip(Component.translatable("tooltip.survivorsdelight.fluid_required").append(Component.literal(" " + fluidStackIngredient.amount() + " mB")));
         }

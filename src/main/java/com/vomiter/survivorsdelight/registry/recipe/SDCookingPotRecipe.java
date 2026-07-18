@@ -157,7 +157,7 @@ public class SDCookingPotRecipe extends CookingPotRecipe {
 
             ItemStack.STREAM_CODEC.encode(buf, r.getResultStack());
 
-            // 與 FD 一致：OPTIONAL_STREAM_CODEC（用 EMPTY 當哨兵）
+            // 與 FD 一致：OPTIONAL_STREAM_CODEC
             ItemStack.OPTIONAL_STREAM_CODEC.encode(buf, r.containerOverride);
 
             buf.writeFloat(r.getExperience());

@@ -69,7 +69,7 @@ public class FoodItemContainerApply {
         var bowl = Optional.ofNullable(stack.get(TFCComponents.BOWL)).map(ItemComponent::stack);
         if(bowl.isPresent()) return bowl.get().copy();
         var container = Optional.ofNullable(stack.get(SDDataComponents.FOOD_CONTAINER_STACK)).map(SDContainerStack::stack);
-        return container.orElse(ItemStack.EMPTY);
+        return container.orElse(stack.getCraftingRemainingItem());
     }
 
     public static ItemStack getRemainder(ItemStack stack){
