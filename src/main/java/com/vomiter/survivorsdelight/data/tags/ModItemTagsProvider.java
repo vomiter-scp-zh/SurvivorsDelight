@@ -123,7 +123,8 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 ModItems.SHEPHERDS_PIE.get(),
                 ModItems.HONEY_GLAZED_HAM.get(),
                 ModItems.STUFFED_PUMPKIN.get(),
-                ModItems.ROAST_CHICKEN.get()
+                ModItems.ROAST_CHICKEN.get(),
+                ModItems.GLEAMING_SALAD.get()
         );
         tag(SDTags.ItemTags.PIE_BLOCKS).add(
                 ModItems.APPLE_PIE.get(),
