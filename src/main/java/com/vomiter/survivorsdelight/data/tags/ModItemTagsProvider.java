@@ -22,7 +22,9 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import org.jetbrains.annotations.NotNull;
+import vectorwing.farmersdelight.common.item.ConsumableItem;
 import vectorwing.farmersdelight.common.registry.ModItems;
 import vectorwing.farmersdelight.common.tag.ModTags;
 
@@ -45,6 +47,9 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         tag(TFCTags.Items.COMPOST_BROWNS_LOW).add(Items.RED_MUSHROOM);
         tag(TFCTags.Items.COMPOST_BROWNS_MEDIUM).add(ModItems.STRAW.get(), ModItems.TREE_BARK.get());
         SDBlocks.CABINETS.values().forEach(c -> tag(SDTags.ItemTags.CABINETS).add(c.get().asItem()));
+        BuiltInRegistries.ITEM.stream()
+                .filter(item -> item instanceof ConsumableItem)
+                .forEach(item ->  tag(SDTags.ItemTags.SHOULD_RETURN_CONTAINER).add(item));
 
         addSkilletTags();
         addFoodTags();

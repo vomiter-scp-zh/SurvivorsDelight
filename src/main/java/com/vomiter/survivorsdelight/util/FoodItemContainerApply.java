@@ -54,14 +54,14 @@ public class FoodItemContainerApply {
     }
 
     public static ItemStack applySoup(ItemStack mealStack, ItemStack containerStack){
-        applyContainerNutrient(mealStack, containerStack);
+        applyContainerNutrient(mealStack, containerStack.copyWithCount(1));
         mealStack.set(TFCComponents.BOWL, Bowl.of(containerStack));
         return mealStack;
     }
 
     public static ItemStack applyGeneral(ItemStack mealStack, ItemStack containerStack){
-        applyContainerNutrient(mealStack, containerStack);
-        mealStack.set(SDDataComponents.FOOD_CONTAINER_STACK.get(), new SDContainerStack(containerStack));
+        applyContainerNutrient(mealStack, containerStack.copyWithCount(1));
+        mealStack.set(SDDataComponents.FOOD_CONTAINER_STACK.get(), new SDContainerStack(containerStack.copyWithCount(1)));
         return mealStack;
     }
 

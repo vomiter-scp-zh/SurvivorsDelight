@@ -1,5 +1,6 @@
 package com.vomiter.survivorsdelight.common.food;
 
+import com.vomiter.survivorsdelight.data.tags.SDTags;
 import com.vomiter.survivorsdelight.registry.SDDataComponents;
 import com.vomiter.survivorsdelight.registry.component.SDContainer;
 import com.vomiter.survivorsdelight.registry.component.SDContainerStack;
@@ -15,7 +16,7 @@ public interface IConsumableRemainder extends IItemStackExtension {
     @Override
     default @NotNull ItemStack getCraftingRemainingItem(){
         if((Object)this instanceof ItemStack itemStack){
-            if(itemStack.getItem() instanceof ConsumableItem){
+            if(itemStack.is(SDTags.ItemTags.SHOULD_RETURN_CONTAINER)){
                 ItemStack containerStack = Optional.ofNullable(itemStack.get(SDDataComponents.FOOD_CONTAINER_STACK.get())).map(SDContainerStack::stack).orElse(ItemStack.EMPTY);
                 if(containerStack != null && !containerStack.isEmpty()) return containerStack;
 
