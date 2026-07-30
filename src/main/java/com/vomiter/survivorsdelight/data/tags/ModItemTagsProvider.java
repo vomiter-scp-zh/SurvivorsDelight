@@ -21,6 +21,7 @@ import net.minecraft.world.item.Items;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
+import vectorwing.farmersdelight.common.item.ConsumableItem;
 import vectorwing.farmersdelight.common.registry.ModItems;
 import vectorwing.farmersdelight.common.tag.ModTags;
 
@@ -44,6 +45,9 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         tag(TFCTags.Items.COMPOST_BROWNS).add(ModItems.STRAW.get(), ModItems.TREE_BARK.get());
 
         SDBlocks.CABINETS.values().forEach(c -> tag(SDTags.ItemTags.CABINETS).add(c.get().asItem()));
+        ForgeRegistries.ITEMS.getValues().stream()
+                .filter(item -> item instanceof ConsumableItem)
+                .forEach(item ->  tag(SDTags.ItemTags.SHOULD_RETURN_CONTAINER).add(item));
 
         addSkilletTags();
         addFoodTags();
@@ -95,7 +99,8 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 ModItems.SHEPHERDS_PIE.get(),
                 ModItems.HONEY_GLAZED_HAM.get(),
                 ModItems.STUFFED_PUMPKIN.get(),
-                ModItems.ROAST_CHICKEN.get()
+                ModItems.ROAST_CHICKEN.get(),
+                ModItems.GLEAMING_SALAD.get()
         );
         tag(SDTags.ItemTags.PIE_BLOCKS).add(
                 ModItems.APPLE_PIE.get(),

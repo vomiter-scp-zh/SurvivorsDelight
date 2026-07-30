@@ -1,5 +1,4 @@
 package com.vomiter.survivorsdelight.client.screen;
-// SDCabinetScreen.java
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.vomiter.survivorsdelight.common.container.SDCabinetMenu;
