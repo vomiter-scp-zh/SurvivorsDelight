@@ -62,7 +62,6 @@ public abstract class RecipeManager_FDFilterMixin {
                             || type == ModRecipeTypes.CUTTING.get()
                             || type == ModRecipeTypes.COOKING.get();
 
-            // 你原本的過濾邏輯：可改成吃（id, recipe, registries）
             boolean block = isTargetType && FDRecipeBlocker.shouldBlock(id, recipe, this.registries);
 
             if (!block) {

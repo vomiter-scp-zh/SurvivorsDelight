@@ -28,13 +28,10 @@ public final class SDNetwork {
 
     private static final String PROTOCOL = "1";
 
-    /** 在主模組建構時，把這個方法用作 modBus 監聽器註冊即可。 */
     public static void onRegisterPayloads(final RegisterPayloadHandlersEvent event) {
-        // 每個 mod 取一個 registrar，並設定協定版本
         final PayloadRegistrar registrar = event.registrar(SurvivorsDelight.MODID).versioned(PROTOCOL);
 
-        // ---- 依序註冊你的封包 ----
-        // 範例：改寫後的 SwingSkilletC2S（PLAY_TO_SERVER）
+        // ---- 依序註冊封包 ----
         registrar.playToServer(SwingSkilletC2S.TYPE, SwingSkilletC2S.STREAM_CODEC, SwingSkilletC2S::handle);
 
         registrar.playToClient(PotFluidSyncS2CPayload.TYPE, PotFluidSyncS2CPayload.STREAM_CODEC, PotFluidSyncS2CPayload::handle);
@@ -42,8 +39,6 @@ public final class SDNetwork {
         registrar.playToServer(OpenBackToFDPotC2SPayload.TYPE, OpenBackToFDPotC2SPayload.STREAM_CODEC, OpenBackToFDPotC2SPayload::handle);
         registrar.playToServer(ClearCookingPotMealC2SPayload.TYPE, ClearCookingPotMealC2SPayload.STREAM_CODEC, ClearCookingPotMealC2SPayload::handle);
     }
-
-    /* ---------- 傳送輔助 ---------- */
 
     public static void sendToServer(CustomPacketPayload payload) {
         PacketDistributor.sendToServer(payload);

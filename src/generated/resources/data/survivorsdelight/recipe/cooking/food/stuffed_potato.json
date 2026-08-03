@@ -21,7 +21,7 @@
       "type": "tfc:and",
       "children": [
         {
-          "tag": "c:foods/raw_meats"
+          "tag": "c:foods/raw_meat"
         },
         {
           "type": "tfc:not_rotten"

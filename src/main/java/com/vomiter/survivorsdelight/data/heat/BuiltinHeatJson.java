@@ -38,7 +38,6 @@ public final class BuiltinHeatJson {
                 return Optional.of(new HeatTemps(forging, welding, cap));
             }
         } catch (Exception e) {
-            // 你可以改成 logger.warn(...)
             return Optional.empty();
         }
     }

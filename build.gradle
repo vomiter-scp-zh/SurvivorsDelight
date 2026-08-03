@@ -10,7 +10,6 @@ plugins {
 
 vomiterNeoForge {
     modId = mod_id
-    // 你不需要改 expandTargets，因為 plugin 預設已對齊 META-INF/neoforge.mods.toml
 }
 
 tasks.named('wrapper', Wrapper).configure {
@@ -32,7 +31,8 @@ apply from: 'gradle/neo-forge-runs.gradle'
 apply from: 'gradle/tfc-dep.gradle'
 
 dependencies {
-    implementation "curse.maven:farmers-delight-398521:8007613"
+    //implementation "curse.maven:farmers-delight-398521:8007613"
+    implementation "curse.maven:farmers-delight-398521:8672744"
     implementation "curse.maven:firmalife-453394:7442721"
     implementation "curse.maven:jade-324717:7545219"
     compileOnly "curse.maven:jei-238222:7420587"

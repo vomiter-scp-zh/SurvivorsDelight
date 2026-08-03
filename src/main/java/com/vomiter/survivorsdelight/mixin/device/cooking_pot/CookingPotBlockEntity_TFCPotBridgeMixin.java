@@ -90,7 +90,8 @@ public abstract class CookingPotBlockEntity_TFCPotBridgeMixin extends SyncedBloc
 
     @Redirect(
             method = "canCook(Lvectorwing/farmersdelight/common/crafting/CookingPotRecipe;)Z",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;isSameItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z")
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;isSameItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z"),
+            require = 0
     )
     private boolean sdtfc$compareStacks(ItemStack a, ItemStack b) {
         if (FoodCapability.get(a) == null && FoodCapability.get(b) == null) {
@@ -98,6 +99,19 @@ public abstract class CookingPotBlockEntity_TFCPotBridgeMixin extends SyncedBloc
         }
         return FoodCapability.areStacksStackableExceptCreationDate(a, b);
     }
+
+    @Redirect(
+            method = "canCook(Lvectorwing/farmersdelight/common/crafting/CookingPotRecipe;)Z",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;isSameItemSameComponents(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z"),
+            require = 0
+    )
+    private boolean sdtfc$compareStacks2(ItemStack a, ItemStack b) {
+        if (FoodCapability.get(a) == null && FoodCapability.get(b) == null) {
+            return ItemStack.isSameItem(a, b);
+        }
+        return FoodCapability.areStacksStackableExceptCreationDate(a, b);
+    }
+
 
     @Redirect(
             method = "processCooking",

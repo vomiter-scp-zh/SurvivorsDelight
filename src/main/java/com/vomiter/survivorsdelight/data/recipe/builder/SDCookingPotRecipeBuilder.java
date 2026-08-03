@@ -49,7 +49,7 @@ public class SDCookingPotRecipeBuilder {
     public SDCookingPotRecipeBuilder xp(float x) { this.experience = x; return this; }
     public SDCookingPotRecipeBuilder balanceFactor(float bf) {this.balanceFactor = bf; return this;}
 
-    /** 最常用：不帶 advancement、不帶條件 */
+    /** 不帶 advancement、不帶條件 */
     public void save(RecipeOutput out, ResourceLocation id) {
         save(out, id, null);
     }
@@ -66,7 +66,6 @@ public class SDCookingPotRecipeBuilder {
         if (ingredients.isEmpty()) throw new IllegalStateException("ingredients 至少需要 1 個: " + id);
         if (fluid != null && fluidAmountMb <= 0) throw new IllegalStateException("有 fluid 時 fluid_amount 必須 > 0: " + id);
 
-        // 直接 new 你的配方實例（注意：它的 getType() 指向 FD 的 Cooking 類型）
         final SDCookingPotRecipe recipe = new SDCookingPotRecipe(
                 group,
                 NonNullList.copyOf(ingredients),
@@ -79,7 +78,6 @@ public class SDCookingPotRecipeBuilder {
                 balanceFactor
         );
 
-        // 交給 RecipeOutput；它會用 Serializer 的 MapCodec 自己轉 JSON
         out.accept(id, recipe, adv, conditions);
     }
 }

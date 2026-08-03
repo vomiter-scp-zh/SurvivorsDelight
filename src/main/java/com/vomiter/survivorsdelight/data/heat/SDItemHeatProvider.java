@@ -136,9 +136,6 @@ public class SDItemHeatProvider implements DataProvider
             return this;
         }
 
-        /**
-         * 讓你可以塞自訂欄位（如果你之後要擴充自家讀取器）
-         */
         public Builder extra(Consumer<JsonObject> extra)
         {
             this.extras.add(extra);

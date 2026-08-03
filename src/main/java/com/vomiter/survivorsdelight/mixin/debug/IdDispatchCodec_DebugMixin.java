@@ -20,7 +20,6 @@ public abstract class IdDispatchCodec_DebugMixin<B extends ByteBuf, V> {
             shift = At.Shift.BEFORE
     ))
     private void sd$beforeDecode(B buf, CallbackInfoReturnable<V> cir) {
-        // 這裡你可以暫存當前要用的 entry / type index
     }
 
     @Redirect(

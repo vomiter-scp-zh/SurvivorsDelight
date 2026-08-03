@@ -73,7 +73,6 @@ public class SDItemSizeProvider implements DataProvider {
         private JsonElement ingredientJson;     // 必填
         private Size size;
         private Weight weight;
-        private Integer maxStackSize; // 可選：若你想一併寫入（鍵名可在 build() 改）
         private final List<Consumer<JsonObject>> extras = new ArrayList<>();
 
         private Builder(ResourceLocation id) { this.id = id; }

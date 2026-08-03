@@ -323,7 +323,6 @@ public class SDFoodDataProvider implements DataProvider {
         private static double round1(double value) {
             return Math.round(value * 10.0) / 10.0;
         }
-        /** 產生 JSON 物件但不存入 Provider（若你想先檢視用） */
         public JsonObject buildJson() {
             if (ingredient == null) {
                 throw new IllegalStateException("Food item json must contain 'ingredient'");

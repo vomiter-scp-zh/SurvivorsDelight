@@ -29,7 +29,6 @@ public record ClearCookingPotMealC2SPayload(BlockPos pos) implements CustomPacke
     @Override public @NotNull Type<? extends CustomPacketPayload> type() { return TYPE; }
 
     private static boolean isAndConsumeWaterBucket(ItemStack stack) {
-        // 這裡保留你原本用的 TFC Helpers，內部再嘗試 NeoForge 的新 Capabilities
         IFluidHandler handler = stack.getCapability(Capabilities.FluidHandler.ITEM);
         if (handler != null && handler.getTanks() > 0
                 && handler.getFluidInTank(0).getFluid().isSame(Fluids.WATER)
