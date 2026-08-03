@@ -3,8 +3,8 @@
     "ambientocclusion": false,
     "textures": {
       "particle": "farmersdelight:block/skillet_side",
-      "tray_top": "farmersdelight:block/cooking_pot_tray_top",
-      "tray_side": "farmersdelight:block/cooking_pot_tray_side"
+      "tray_top": "farmersdelight:block/heating_tray_top",
+      "tray_side": "farmersdelight:block/heating_tray_side"
     },
     "elements": [
       {

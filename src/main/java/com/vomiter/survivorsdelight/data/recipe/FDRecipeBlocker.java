@@ -23,7 +23,12 @@ public final class FDRecipeBlocker {
     private static final List<String> OTHER_BLOCKING_ID = new ArrayList<>(List.of(
             "canvas",
             "melon_juice",
-            "rice_roll_medley_block"
+            "rice_roll_medley_block",
+            "cutting/porkchop",
+            "salvaging/saddle",
+            "salvaging/leather_armor",
+            "salvaging/leather_horse_armor",
+            "paper_from_tree_bark"
     ));
 
     public static void addOtherBlockingId(String path){
