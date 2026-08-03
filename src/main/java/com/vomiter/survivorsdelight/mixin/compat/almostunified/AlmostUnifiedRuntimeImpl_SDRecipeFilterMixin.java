@@ -167,7 +167,11 @@ public abstract class AlmostUnifiedRuntimeImpl_SDRecipeFilterMixin {
                 "cutting/sweet_berry_cheesecake",
                 "cutting/kelp_roll",
                 "cutting/chocolate_pie",
-                "cutting/porkchop"
+                "cutting/porkchop",
+                "salvaging/saddle",
+                "salvaging/leather_armor",
+                "salvaging/leather_horse_armor",
+                "paper_from_tree_bark"
         );
         if(SurvivorsDelight.MODID.equals(id.getNamespace())){
             if("crafting/tfc_straw2fd_straw".equals(id.getPath())) return true;
