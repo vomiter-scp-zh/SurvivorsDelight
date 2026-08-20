@@ -3,9 +3,9 @@ package com.vomiter.survivorsdelight.mixin.device.cooking_pot;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.adapter.cooking_pot.CookingPotCookingHandler;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.bridge.ICookingPotRecipeBridge;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.bridge.TFCPotRecipeBridgeFD;
+import com.vomiter.survivorsdelight.adapter.cooking_pot.dynamic.CookingPotCookingHandler;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid.ICookingPotFluidAccess;
 import net.dries007.tfc.common.capabilities.food.DynamicBowlHandler;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
@@ -32,6 +32,7 @@ import vectorwing.farmersdelight.common.block.entity.SyncedBlockEntity;
 import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;
 
 import javax.annotation.Nullable;
+import java.util.Objects;
 import java.util.Optional;
 
 @Mixin(value = CookingPotBlockEntity.class, remap = false)
@@ -42,6 +43,9 @@ public abstract class CookingPotBlockEntity_PotRecipeBridgeMixin extends SyncedB
     @Shadow private boolean checkNewRecipe;
 
     @Shadow protected abstract void ejectIngredientRemainder(ItemStack remainderStack);
+
+    @Shadow
+    public abstract ItemStackHandler getInventory();
 
     @Unique private @Nullable TFCPotRecipeBridgeFD sdtfc$cachedBridge = null;
     @Unique private ItemStack sdtfc$cachedDynamicFoodResult = ItemStack.EMPTY;
@@ -81,7 +85,7 @@ public abstract class CookingPotBlockEntity_PotRecipeBridgeMixin extends SyncedB
         }
 
         this.lastRecipeID = bridge.getId();
-        SurvivorsDelight.LOGGER.info(lastRecipeID.getPath());
+        //SurvivorsDelight.LOGGER.info(lastRecipeID.getPath());
 
         this.sdtfc$cachedBridge = bridge;
         return Optional.of(bridge);
@@ -92,7 +96,24 @@ public abstract class CookingPotBlockEntity_PotRecipeBridgeMixin extends SyncedB
             Level level, BlockPos pos, BlockState state, CookingPotBlockEntity cookingPot, CallbackInfo ci,
             @Local(name = "recipe") Optional<CookingPotRecipe> recipe
     ){
-        CookingPotCookingHandler.handleDynamicCookingPotRecipe(level, pos, state, cookingPot, ci, recipe);
+        //CookingPotCookingHandler.handleDynamicCookingPotRecipe(level, pos, state, cookingPot, ci, recipe);
+        if (cookingPot instanceof ICookingPotRecipeBridge bridge){
+            if (!bridge.sdtfc$getCachedDynamicFoodResult().isEmpty()) {
+                return;
+            }
+            if (recipe.isPresent() && recipe.get() instanceof TFCPotRecipeBridgeFD) return;
+            if (recipe.isPresent() && cookingPot instanceof ICookingPotFluidAccess fluidAccess){
+                assert cookingPot.getLevel() != null;
+                bridge.sdtfc$setCachedDynamicFoodResult(CookingPotCookingHandler.calculateDynamicOutput(
+                        cookingPot.getInventory(),
+                        Objects.requireNonNull(fluidAccess.sd$getFluidHandler()).getFluidInTank(0),
+                        cookingPot.getLevel(),
+                        recipe.get(),
+                        6
+                        ));
+            }
+        }
+
     }
 
     @ModifyExpressionValue(method = "processCooking", at = @At(value = "INVOKE", target = "Lvectorwing/farmersdelight/common/crafting/CookingPotRecipe;assemble(Lnet/minecraftforge/items/wrapper/RecipeWrapper;Lnet/minecraft/core/RegistryAccess;)Lnet/minecraft/world/item/ItemStack;", remap = true))

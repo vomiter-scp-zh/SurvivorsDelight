@@ -1,7 +1,7 @@
 package com.vomiter.survivorsdelight;
 
 import com.mojang.logging.LogUtils;
-import com.vomiter.survivorsdelight.adapter.cooking_pot.CookingPotExtraNutrientRules;
+import com.vomiter.survivorsdelight.adapter.cooking_pot.dynamic.CookingPotDynamicRules;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid.SDCookingPotFluidMenu;
 import com.vomiter.survivorsdelight.adapter.farming.RichSoilFarmlandBlockEntitySetup;
 import com.vomiter.survivorsdelight.adapter.skillet.skillet_item.ISkilletItemCookingData;
@@ -41,6 +41,7 @@ public class SurvivorsDelight {
     public static final String MODID = "survivorsdelight";
     public static final Logger LOGGER = LogUtils.getLogger();
     public static final SDFoodAndRecipeGenerator foodAndCookingGenerator = new SDFoodAndRecipeGenerator(MODID);
+    public static ResourceLocation modLoc(String path){ return ResourceLocation.fromNamespaceAndPath(MODID, path);}
 
     public SurvivorsDelight(FMLJavaModLoadingContext context) {
         IEventBus modBus = context.getModEventBus();
@@ -74,7 +75,6 @@ public class SurvivorsDelight {
                             || stack.is(TFCItems.BLUE_STEEL_BUCKET.get())
                     )
             );
-            CookingPotExtraNutrientRules.bootstrap();
         });
     }
 
@@ -104,6 +104,7 @@ public class SurvivorsDelight {
         commonSetup(modBus);
         modBus.addListener((RegisterCapabilitiesEvent e) -> e.register(ISkilletItemCookingData.class));
         ForgeEventHandler.init();
+        modBus.addListener(CookingPotDynamicRules::onCommonSetup);
 
         if (FMLEnvironment.dist == Dist.CLIENT){
             ClientForgeEventHandler.init();
