@@ -19,11 +19,9 @@ public record PotFluidSyncS2CPacket(BlockPos pos,
                                     int amount
 ) {
 
-    // ---------- Encode / Decode ----------
 
     public static void encode(PotFluidSyncS2CPacket pkt, FriendlyByteBuf buf) {
         buf.writeBlockPos(pkt.pos);
-        // fluidKey 允許為 null，先寫個 boolean
         buf.writeBoolean(pkt.fluidKey != null);
         if (pkt.fluidKey != null) {
             buf.writeResourceLocation(pkt.fluidKey);
@@ -41,7 +39,6 @@ public record PotFluidSyncS2CPacket(BlockPos pos,
         return new PotFluidSyncS2CPacket(pos, key, amount);
     }
 
-    // ---------- Handle on client ----------
 
     public static void handle(PotFluidSyncS2CPacket pkt, Supplier<NetworkEvent.Context> ctx) {
         var c = ctx.get();
@@ -49,7 +46,6 @@ public record PotFluidSyncS2CPacket(BlockPos pos,
             Minecraft mc = Minecraft.getInstance();
             if (mc.level == null || mc.player == null) return;
 
-            // 用 vanilla RegistryAccess 解析 ResourceLocation → Fluid
             FluidStack stack = FluidStack.EMPTY;
             if (pkt.fluidKey != null) {
                 Fluid f = mc.level.registryAccess()
@@ -58,7 +54,6 @@ public record PotFluidSyncS2CPacket(BlockPos pos,
                 if (f != null) stack = new FluidStack(f, pkt.amount);
             }
 
-            // 只更新當前開啟、且 pos 相符的 PotFluidMenu
             if (mc.player.containerMenu instanceof SDCookingPotFluidMenu menu
                     && pkt.pos.equals(menu.getPos())) {
                 menu.setClientFluid(stack);

@@ -13,7 +13,7 @@ public final class ForeignLangReader {
     private static final Gson GSON = new Gson();
     private static final Type MAP_TYPE = new TypeToken<Map<String, String>>(){}.getType();
 
-    /** 讀 assets/<modid>/lang/<locale>.json（從 datagen 類載入器或依賴 jar 中） */
+    /**  assets/<modid>/lang/<locale>.json */
     public static Map<String, String> load(String modid, String locale) {
         final String path = "assets/" + modid + "/lang/" + locale + ".json";
         final var cl = ForeignLangReader.class.getClassLoader(); // datagen 過程下可從 classpath 抓資源

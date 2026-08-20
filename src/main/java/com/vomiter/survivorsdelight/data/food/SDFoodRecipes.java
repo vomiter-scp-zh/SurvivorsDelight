@@ -17,18 +17,14 @@ import net.dries007.tfc.common.items.TFCItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
 import vectorwing.farmersdelight.common.registry.ModItems;
-import vectorwing.farmersdelight.common.tag.ModTags;
 
-import java.util.Set;
 import java.util.function.Consumer;
 
 public class SDFoodRecipes {
@@ -58,10 +54,6 @@ public class SDFoodRecipes {
 
     private FoodData getTFCFoodData(Food food){
         return SurvivorsDelight.foodAndCookingGenerator.provider().readTfcFoodJson(food);
-    }
-
-    private FoodData getOtherFoodData(Item food){
-        return SDFoodAndRecipeGenerator.foodDataMap.get(food);
     }
 
     public void save(Consumer<FinishedRecipe> out){

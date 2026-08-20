@@ -14,19 +14,16 @@ public class TextBuilder {
     public TextBuilder raw(String s)  { sb.append(Objects.requireNonNullElse(s, "")); return this; }
     public TextBuilder space()        { sb.append(' '); return this; }
 
-    /** 基本 append（字串版），可鏈式 */
     public TextBuilder append(String s) {
         sb.append(Objects.requireNonNullElse(s, ""));
         return this;
     }
 
-    /** 基本 append（另一個 TextBuilder 版），可鏈式 */
     public TextBuilder append(TextBuilder other) {
         if (other != null) sb.append(other.sb);
         return this;
     }
 
-    /** 以空白連接到目前內容（字串版），可鏈式 */
     public TextBuilder appendWithSpace(String s) {
         if (s == null || s.isEmpty()) return this;
         if (sb.length() > 0 && sb.charAt(sb.length() - 1) != ' ') sb.append(' ');
@@ -34,7 +31,6 @@ public class TextBuilder {
         return this;
     }
 
-    /** 以空白連接到目前內容（TextBuilder 版），可鏈式 */
     public TextBuilder appendWithSpace(TextBuilder other) {
         if (other == null) return this;
         if (other.sb.length() == 0) return this;
@@ -43,7 +39,6 @@ public class TextBuilder {
         return this;
     }
 
-    /** 在目前內容後追加 a + " " + b（字串版），可鏈式 */
     public TextBuilder appendWithSpace(String a, String b) {
         if (a != null && !a.isEmpty()) sb.append(a);
         if ((a != null && !a.isEmpty()) && (b != null && !b.isEmpty())) sb.append(' ');
@@ -51,14 +46,12 @@ public class TextBuilder {
         return this;
     }
 
-    /** 在目前內容後追加 a + " " + b（TextBuilder 版），可鏈式 */
     public TextBuilder appendWithSpace(TextBuilder a, TextBuilder b) {
         String sa = (a == null) ? "" : a.toString();
         String sb2 = (b == null) ? "" : b.toString();
         return appendWithSpace(sa, sb2);
     }
 
-    /** 多段以單一空白串起並追加到目前內容：忽略 null/空字串 */
     public TextBuilder joinWithSpace(Object... parts) {
         boolean first = true;
         for (Object p : parts) {
@@ -132,7 +125,7 @@ public class TextBuilder {
     public TextBuilder dash()  { sb.append(" - "); return this; }
     public TextBuilder dot()   { sb.append("."); return this; }
 
-    /* 自訂標籤（擴充用） */
+    /* 自訂標籤 */
     public TextBuilder customTag(String tag, String content) {
         sb.append(wrap(tag, content));
         return this;

@@ -17,7 +17,7 @@ public final class SDTFCHeatingRecipeBuilder {
     private final String path;
 
     private Ingredient ingredient = Ingredient.EMPTY; // 用於一般 vanilla Ingredient
-    private JsonObject ingredientRaw;                 // 若要客製（如 tfc:not_rotten），用這個
+    private JsonObject ingredientRaw;                 // 如 tfc:not_rotten
     private JsonObject resultItem;                    // ItemStackProvider JSON
     private ResourceLocation resultFluidId;           // optional
     private int resultFluidAmount;
@@ -34,9 +34,6 @@ public final class SDTFCHeatingRecipeBuilder {
         return new SDTFCHeatingRecipeBuilder(modid, path);
     }
 
-    /* -------------- ingredient -------------- */
-
-    /** 一般 Ingredient（不含 tfc:not_rotten） */
     public SDTFCHeatingRecipeBuilder ingredient(Ingredient ing) {
         this.ingredient = Objects.requireNonNull(ing);
         this.ingredientRaw = null;
@@ -55,14 +52,12 @@ public final class SDTFCHeatingRecipeBuilder {
         return this;
     }
 
-    /** 直接塞一個完整 JSON（例：tfc:not_rotten 包裝） */
     public SDTFCHeatingRecipeBuilder ingredientRaw(JsonObject json) {
         this.ingredientRaw = Objects.requireNonNull(json);
         this.ingredient = Ingredient.EMPTY;
         return this;
     }
 
-    /** 便捷：以單一物品包一層 tfc:not_rotten */
     public SDTFCHeatingRecipeBuilder ingredientNotRotten(Item item) {
         ResourceLocation id = ForgeRegistries.ITEMS.getKey(item);
         if (id == null) throw new IllegalArgumentException("Unregistered item: " + item);
@@ -100,14 +95,6 @@ public final class SDTFCHeatingRecipeBuilder {
         return resultItemProvider(id, count, modifiersIds);
     }
 
-    /** 直接塞完整 ItemStackProvider JSON（自定義更複雜的 modifiers 等） */
-    public SDTFCHeatingRecipeBuilder resultItemRaw(JsonObject providerJson) {
-        this.resultItem = Objects.requireNonNull(providerJson);
-        return this;
-    }
-
-    /* -------------- result_fluid -------------- */
-
     public SDTFCHeatingRecipeBuilder resultFluid(ResourceLocation fluidId, int amountMb) {
         if (amountMb <= 0) throw new IllegalArgumentException("amount must be > 0");
         this.resultFluidId = Objects.requireNonNull(fluidId);
@@ -121,30 +108,11 @@ public final class SDTFCHeatingRecipeBuilder {
         return resultFluid(id, stack.getAmount());
     }
 
-    /* -------------- misc -------------- */
 
     public SDTFCHeatingRecipeBuilder temperature(float celsius) {
         this.temperature = celsius;
         return this;
     }
-
-    public SDTFCHeatingRecipeBuilder useDurability(boolean v) {
-        this.useDurability = v;
-        return this;
-    }
-
-    public SDTFCHeatingRecipeBuilder useDurability() {
-        this.useDurability = true;
-        return this;
-    }
-
-    public SDTFCHeatingRecipeBuilder chance(float chance) {
-        if (chance <= 0f || chance > 1f) throw new IllegalArgumentException("chance must be in (0,1]");
-        this.chance = chance;
-        return this;
-    }
-
-    /* -------------- build / save -------------- */
 
     public JsonObject build() {
         if (ingredient == Ingredient.EMPTY && ingredientRaw == null)
@@ -181,9 +149,9 @@ public final class SDTFCHeatingRecipeBuilder {
         return json;
     }
 
-    /** 輸出到 data/<modid>/recipes/heating/<path>.json */
+    /** data/<modid>/recipes/heating/<path>.json */
     public void save(BiConsumer<ResourceLocation, JsonObject> out) {
-        ResourceLocation id = new ResourceLocation(modid, "heating/" + path);
+        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(modid, "heating/" + path);
         out.accept(id, build());
     }
 }

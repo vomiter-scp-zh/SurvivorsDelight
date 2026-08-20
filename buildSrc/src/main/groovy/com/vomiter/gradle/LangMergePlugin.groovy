@@ -13,11 +13,9 @@ class LangMergePlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
-        // 1) 建 extension
         final LangMergeExtension ext =
                 project.extensions.create('langMerge', LangMergeExtension, project)
 
-        // 2) 註冊 mergeLang 任務
         def mergeTask = project.tasks.register('mergeLang') { task ->
             task.group = 'lang'
             task.description = 'Merge generated lang JSON with manual lang JSON (manual overrides).'
@@ -27,7 +25,6 @@ class LangMergePlugin implements Plugin<Project> {
                         ext.generatedLangDir.get().asFile.exists()
             }
 
-            // 必須先變成 File
             def manualDirFile    = ext.manualLangDir.get().asFile
             def generatedDirFile = ext.generatedLangDir.get().asFile
 
@@ -73,11 +70,11 @@ class LangMergePlugin implements Plugin<Project> {
                     File genFile = new File(genDir, locName)
                     File manFile = new File(manDir, locName)
 
-                    // 1) 先 generated
+                    // 先 generated
                     if (genFile.exists()) {
                         merged.putAll((Map) slurper.parse(genFile))
                     }
-                    // 2) 再 manual 覆蓋
+                    // 再 manual 覆蓋
                     if (manFile.exists()) {
                         merged.putAll((Map) slurper.parse(manFile))
                     }
@@ -87,20 +84,20 @@ class LangMergePlugin implements Plugin<Project> {
             }
         }
 
-        // 3) 把 mergeLang 接到 processResources
+        // 把 mergeLang 接到 processResources
         project.plugins.withId('java') {
             project.tasks.named('processResources', Copy).configure { Copy pr ->
                 pr.dependsOn(mergeTask)
 
-                // 原始資源：排除 lang
+                // 原始資源排除 lang
                 pr.from(project.layout.projectDirectory.dir('src/main/resources')) {
                     exclude("assets/${ext.modId.get()}/lang/*.json")
                 }
-                // datagen 資源：排除 lang
+                // datagen 資源排除 lang
                 pr.from(project.layout.projectDirectory.dir('src/generated/resources')) {
                     exclude("assets/${ext.modId.get()}/lang/*.json")
                 }
-                // 合併結果：塞回去
+                // 合併結果塞回去
                 pr.from(ext.outputDir) {
                     include("assets/${ext.modId.get()}/lang/*.json")
                 }

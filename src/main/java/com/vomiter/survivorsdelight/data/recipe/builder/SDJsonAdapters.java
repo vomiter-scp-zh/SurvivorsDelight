@@ -3,13 +3,13 @@ package com.vomiter.survivorsdelight.data.recipe.builder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import net.dries007.tfc.common.recipes.outputs.CopyFoodModifier;
 import net.dries007.tfc.common.recipes.outputs.ItemStackModifier;
 import net.dries007.tfc.common.recipes.outputs.ItemStackProvider;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
-/** 小型轉寫器：把 ISP 與其 modifiers 轉成與 TFC fromJson 相容的 JSON */
 public final class SDJsonAdapters {
     private SDJsonAdapters() {}
     public static JsonObject stackToJson(ItemStack stack) {
@@ -46,7 +46,7 @@ public final class SDJsonAdapters {
 
     private static JsonElement writeModifier(ItemStackModifier mod) {
         if (mod == CopyFoodModifier.INSTANCE) {
-            return new com.google.gson.JsonPrimitive("tfc:copy_food");
+            return new JsonPrimitive("tfc:copy_food");
         }
         throw new IllegalArgumentException("Unsupported ItemStackModifier: " + mod.getClass().getName());
     }

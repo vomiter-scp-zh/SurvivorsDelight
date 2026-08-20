@@ -38,7 +38,7 @@ public class FDSizeData {
 
     void drink(){
         provider.newEntry(SDUtils.RLUtils.build("food/drinks"))
-                .ingredient(ModTags.DRINKS)
+                .ingredient(ModTags.Items.DRINKS)
                 .size(Size.LARGE)
                 .weight(Weight.HEAVY)
                 .save();

@@ -30,17 +30,10 @@ public abstract class AlmostUnifiedRuntimeImpl_SDRecipeFilterMixin {
 
         int removed = 0;
 
-        // 範例策略：直接封鎖 farmersdelight namespace 的 crafting/cutting/cooking
-        // 你可替換成更細的 JSON 判斷（見下方 helper）
         Iterator<Map.Entry<ResourceLocation, JsonElement>> it = recipes.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<ResourceLocation, JsonElement> e = it.next();
             ResourceLocation id = e.getKey();
-
-            // 1) 最粗暴：直接封整個 FD
-            // if ("farmersdelight".equals(id.getNamespace())) { it.remove(); removed++; continue; }
-
-            // 2) 比較保守：只封 recipe type 是 crafting / FD cutting / FD cooking
             JsonElement je = e.getValue();
             if (!je.isJsonObject()) continue;
             JsonObject obj = je.getAsJsonObject();
@@ -56,14 +49,7 @@ public abstract class AlmostUnifiedRuntimeImpl_SDRecipeFilterMixin {
         }
     }
 
-    /**
-     * - 依 id（namespace/path）
-     * - 依 type（obj.get("type")）
-     * - 依 result/ingredient namespace
-     */
     private boolean sd$isBlockedByJson(ResourceLocation id, JsonObject obj) {
-        // 範例：只針對 crafting + FD 的 cooking/cutting
-        // 注意：type 可能不存在（某些 mod 自訂），要防呆
         List<String> recipesToBlockFirst = List.of(
                 "integration/create/mixing/cabbage_slice_from_mixing",
                 "integration/create/mixing/pie_crust_from_mixing",

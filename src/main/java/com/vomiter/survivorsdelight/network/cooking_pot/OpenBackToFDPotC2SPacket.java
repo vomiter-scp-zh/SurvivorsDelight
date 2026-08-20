@@ -20,7 +20,7 @@ public record OpenBackToFDPotC2SPacket() {
             ServerPlayer sp = c.getSender();
             if (sp == null) return;
             if (sp.containerMenu instanceof SDCookingPotFluidMenu m) {
-                BlockPos pos = m.getPos(); // 請在 PotFluidMenu 實作 public BlockPos getPos()
+                BlockPos pos = m.getPos();
                 BlockEntity be = sp.level().getBlockEntity(pos);
                 if (be instanceof CookingPotBlockEntity pot) {
                     NetworkHooks.openScreen(sp, pot, pos);

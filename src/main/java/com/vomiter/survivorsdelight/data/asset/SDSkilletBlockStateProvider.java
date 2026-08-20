@@ -49,7 +49,6 @@ public class SDSkilletBlockStateProvider extends BlockStateProvider {
         }
     }
 
-    /* ---------- 方塊模型：以 survivorsdelight:block/skillet/skillet 為 parent，覆蓋對應貼圖 ---------- */
     private ModelFile createSkilletBlockModel(String name, Map<String, ResourceLocation> textures) {
         BlockModelBuilder builder = models()
                 .withExistingParent("block/skillet/" + name, modLoc("block/skillet/skillet"));

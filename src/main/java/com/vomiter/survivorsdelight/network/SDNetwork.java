@@ -23,7 +23,7 @@ public class SDNetwork {
     private static boolean initialized = false;
 
     public static void onCommonSetup(final FMLCommonSetupEvent event) {
-        event.enqueueWork(SDNetwork::init); // 兩端都會跑，註冊 message handler
+        event.enqueueWork(SDNetwork::init);
     }
 
     public static void init() {
@@ -66,13 +66,6 @@ public class SDNetwork {
                 .decoder(ClearCookingPotMealC2SPacket::decode)
                 .consumerMainThread(ClearCookingPotMealC2SPacket::handle)
                 .add();
-    }
-
-    private static NetworkDirection OptionalDirection(NetworkDirection dir) { return dir; }
-    private static NetworkDirection ServerOnly() { return NetworkDirection.PLAY_TO_SERVER; }
-
-    public static void sendToServer(Object msg) {
-        CHANNEL.sendToServer(msg);
     }
 
     /* -------------------- Packets -------------------- */

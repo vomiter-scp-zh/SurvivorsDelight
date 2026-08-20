@@ -31,7 +31,6 @@ public record OpenPotFluidMenuC2SPacket(int containerId, BlockPos pos) {
             ServerPlayer sp = c.getSender();
             if (sp == null) return;
 
-            // 防偽：確認封包的 containerId 與玩家當前開著的 menu 一致
             if (sp.containerMenu.containerId != pkt.containerId()) return;
 
             MenuProvider provider = new SimpleMenuProvider(

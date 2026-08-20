@@ -17,9 +17,6 @@ import vectorwing.farmersdelight.common.block.entity.CookingPotBlockEntity;
 
 import java.util.function.Supplier;
 
-/**
- * Client 想要「用手上的水桶清掉 FD 鍋子的 meal slot」時發這個
- */
 public record ClearCookingPotMealC2SPacket(BlockPos pos) {
 
     public static void encode(ClearCookingPotMealC2SPacket pkt, FriendlyByteBuf buf) {
@@ -47,12 +44,9 @@ public record ClearCookingPotMealC2SPacket(BlockPos pos) {
             ServerPlayer sp = c.getSender();
             if (sp == null) return;
 
-            // 驗證玩家當前開的 menu
-            SurvivorsDelight.LOGGER.info("check0");
             if (!(sp.containerMenu instanceof ICookingPotCommonMenu commonMenu)) return;
             AbstractContainerMenu menu = (AbstractContainerMenu) commonMenu;
 
-            // 防偽：封包的 containerId 必須跟目前這個 menu 一致
             SurvivorsDelight.LOGGER.info(commonMenu.sdtfc$getBlockEntity().getBlockPos().toShortString());
             SurvivorsDelight.LOGGER.info(pkt.pos().toShortString());
             SurvivorsDelight.LOGGER.info(pkt.pos.toShortString());
@@ -61,23 +55,19 @@ public record ClearCookingPotMealC2SPacket(BlockPos pos) {
             CookingPotBlockEntity pot = ((ICookingPotCommonMenu)menu).sdtfc$getBlockEntity();
             ItemStack mealStack = pot.getMeal();
             if (mealStack.isEmpty()) {
-                return; // 沒東西就不用清
+                return;
             }
 
-            // 伺服端再驗一次：滑鼠上真的拿的是水桶
-            // （menu.getCarried() 是 AbstractContainerMenu 上現在「拿在手上」的 stack）
             var carried = menu.getCarried();
             if (!sdtfc$isWaterBucket(carried)) {
                 return;
             }
 
-            // 清掉 meal
             mealStack.setCount(0);
             pot.setChanged();
             ((ICookingPotRecipeBridge)pot).sdtfc$setCachedDynamicFoodResult(ItemStack.EMPTY);
             ((ICookingPotRecipeBridge)pot).sdtfc$setCachedBridge(null);
 
-            // 同步回 client
             menu.broadcastChanges();
         });
         c.setPacketHandled(true);

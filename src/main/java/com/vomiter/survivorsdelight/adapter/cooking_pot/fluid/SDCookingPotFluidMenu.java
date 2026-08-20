@@ -65,16 +65,11 @@ public class SDCookingPotFluidMenu extends AbstractContainerMenu implements ICoo
             this.cookingPotData = new SimpleContainerData(2);
         }
 
-        // === 綁定兩個「桶子 I/O」槽，直接連到方塊實體的 ItemStackHandler ===
-        // slot index: 0 = input, 1 = output
         if (potFluidAccess != null) {
             var aux = potFluidAccess.sdtfc$getAuxInv();
-            // 輸入：允許放入（驗證交由 ItemStackHandler#isItemValid）
             this.addSlot(new BucketInputSlot(aux, 0, 35 + X_DEVIATION, 20 + Y_DEVIATION));
-            // 輸出：拒收放入，允許取出
             this.addSlot(new BucketOutputSlot(aux, 1, 35 + X_DEVIATION, 54 + Y_DEVIATION));
         } else {
-            // 避免 NPE（給一個假的 1x1 容器）
             this.addSlot(new Slot(new SimpleContainer(1), 0, 35, 20));
             this.addSlot(new Slot(new SimpleContainer(1), 0, 35, 54));
         }
@@ -176,7 +171,6 @@ public class SDCookingPotFluidMenu extends AbstractContainerMenu implements ICoo
         return pot;
     }
 
-    // --- 自訂 Slot：輸入/輸出 ---
     static class BucketInputSlot extends SlotItemHandler {
         public BucketInputSlot(ItemStackHandler handler, int index, int x, int y) {
             super(handler, index, x, y);

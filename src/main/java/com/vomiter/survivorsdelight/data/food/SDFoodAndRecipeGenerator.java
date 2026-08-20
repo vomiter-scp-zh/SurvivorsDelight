@@ -19,7 +19,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.crafting.ConditionalRecipe;
@@ -40,19 +39,6 @@ public class SDFoodAndRecipeGenerator {
     private final AtomicReference<PackOutput> packOutputRef = new AtomicReference<>(null);
     private final Supplier<SDFoodDataProvider> providerFactory;
 
-    public SDFoodAndRecipeGenerator(String modId, SDFoodDataProvider readyProvider) {
-        this.modId = Objects.requireNonNull(modId);
-        Objects.requireNonNull(readyProvider);
-        this.providerFactory = () -> readyProvider;
-        this.providerCache.set(readyProvider);
-    }
-
-    public SDFoodAndRecipeGenerator(String modId, PackOutput packOutput) {
-        this.modId = Objects.requireNonNull(modId);
-        this.packOutputRef.set(Objects.requireNonNull(packOutput));
-        this.providerFactory = this::createProviderOrThrow;
-    }
-
     public SDFoodAndRecipeGenerator(String modId) {
         this.modId = Objects.requireNonNull(modId);
         this.providerFactory = this::createProviderOrThrow;
@@ -65,10 +51,6 @@ public class SDFoodAndRecipeGenerator {
         }
     }
 
-    /* =========================
-       內部：取得或建立 Provider（只建立一次）
-       ========================= */
-
     public SDFoodDataProvider provider() {
         SDFoodDataProvider cached = providerCache.get();
         if (cached != null) return cached;
@@ -80,20 +62,16 @@ public class SDFoodAndRecipeGenerator {
         return providerCache.get();
     }
 
-    /** 真的需要建立時才建立；若未注入 PackOutput 就會清楚拋錯 */
     private SDFoodDataProvider createProviderOrThrow() {
         PackOutput out = packOutputRef.get();
         if (out == null) {
             throw new IllegalStateException(
-                    "尚未注入 PackOutput。請在使用前先呼叫 injectPackOutput(packOutput)。"
+                    "Pack output is not injected yet."
             );
         }
         return new SDFoodDataProvider(out, modId, "Food Data for Cooking");
     }
 
-    /* =========================
-        DSL 與邏輯
-       ========================= */
 
     public CookingBuilder cooking(String path, ItemLike result, int resultCount, int cookTime, float exp, ItemLike container) {
         return new CookingBuilder(path, result, resultCount, cookTime, exp, container);
@@ -118,7 +96,6 @@ public class SDFoodAndRecipeGenerator {
 
     public record IngredientEntry(Kind kind, Ingredient ingredient, boolean notRotten, FoodData proxyData) {
 
-        /* ====== 非食物 ====== */
         public static IngredientEntry nonFood(Ingredient any) {
             return new IngredientEntry(Kind.NONFOOD, any, false, null);
         }
@@ -128,8 +105,6 @@ public class SDFoodAndRecipeGenerator {
         public static IngredientEntry nonFood(TagKey<Item> tag) {
             return nonFood(Ingredient.of(tag));
         }
-
-        /* ====== 食物（精確物品 or Tag）====== */
 
         public static IngredientEntry tagFood(TagKey<Item> tag, FoodData proxyData) {
             return new IngredientEntry(Kind.FOOD, Ingredient.of(tag), true, proxyData);
@@ -158,7 +133,6 @@ public class SDFoodAndRecipeGenerator {
             return new IngredientEntry(Kind.FOOD, ingredient, true, proxyData);
         }
 
-        /* ====== 一般化 item/ingredient 版本（可標示是否不腐敗）====== */
         public static IngredientEntry item(Kind kind, ItemLike item, boolean notRotten, FoodData proxyData) {
             return new IngredientEntry(kind, Ingredient.of(item), notRotten, proxyData);
         }
@@ -229,11 +203,9 @@ public class SDFoodAndRecipeGenerator {
             if (whenModLoaded != null) pot.whenModLoaded(whenModLoaded);
             pot.build(out, recipeId(path));
 
-            final boolean foodDataIsStatic = isFoodDataStatic(entries);
             foodDataBuilder = provider()
                     .newBuilder(path)
                     .item(result.asItem());
-
             foodDataBuilder.type("dynamic");
             return this;
         }

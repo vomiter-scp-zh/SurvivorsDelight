@@ -25,7 +25,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 /**
- * 輸出：data/<modid>/tfc/item_sizes/<namespace>/<path>.json
+ * data/<modid>/tfc/item_sizes/<namespace>/<path>.json
  */
 public class SDItemSizeProvider implements DataProvider {
     private static final String FOLDER = "tfc/item_sizes";
@@ -73,7 +73,6 @@ public class SDItemSizeProvider implements DataProvider {
         private JsonElement ingredientJson;     // 必填
         private Size size;
         private Weight weight;
-        private Integer maxStackSize; // 可選：若你想一併寫入（鍵名可在 build() 改）
         private final List<Consumer<JsonObject>> extras = new ArrayList<>();
 
         private Builder(ResourceLocation id) { this.id = id; }
@@ -126,9 +125,6 @@ public class SDItemSizeProvider implements DataProvider {
         }
     }
 
-    // ---------- 小工具 ----------
-
-    /** 便捷：以 mod 內物品路徑建立 RL（等同 new ResourceLocation(modid, path)） */
     public ResourceLocation id(String path) {
         return SDUtils.RLUtils.build(modid, path);
     }

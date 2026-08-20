@@ -19,9 +19,7 @@ public final class SDHeatingRecipes {
         this.modid = modid;
     }
 
-    /** 呼叫這個方法，把所有「生肉切片 → 熟肉切片」丟進 out */
     public void generate(BiConsumer<ResourceLocation, JsonObject> out) {
-        // 1) 建 raw->cooked 對映。
         Map<Item, Item> rawToCooked = new LinkedHashMap<>();
         rawToCooked.put(ModItems.CHICKEN_CUTS.get(),         ModItems.COOKED_CHICKEN_CUTS.get());
         rawToCooked.put(ModItems.BACON.get(),                 ModItems.COOKED_BACON.get());
@@ -31,8 +29,6 @@ public final class SDHeatingRecipes {
         rawToCooked.put(ModItems.MINCED_BEEF.get(),          ModItems.BEEF_PATTY.get());
         rawToCooked.put(ModItems.HAM.get(),                  ModItems.SMOKED_HAM.get());
 
-
-        // 2) 針對每個 raw→cooked 輸出 heating/farmersdelight/<raw_path>.json
         for (Map.Entry<Item, Item> e : rawToCooked.entrySet()) {
             Item raw = e.getKey();
             Item cooked = e.getValue();
@@ -40,9 +36,9 @@ public final class SDHeatingRecipes {
             ResourceLocation rawId = ForgeRegistries.ITEMS.getKey(raw);
             ResourceLocation cookedId = ForgeRegistries.ITEMS.getKey(cooked);
 
-            if (rawId == null || cookedId == null) continue; // 未註冊的極端情況，保險
+            if (rawId == null || cookedId == null) continue;
 
-            String path = "farmersdelight/" + rawId.getPath(); // e.g. heating/farmersdelight/chicken_cuts.json
+            String path = "farmersdelight/" + rawId.getPath(); //heating/farmersdelight/chicken_cuts.json
 
             SDTFCHeatingRecipeBuilder.heating(modid, path)
                     .ingredientNotRotten(raw)                          // {"type":"tfc:not_rotten","ingredient":{"item": "..."}}

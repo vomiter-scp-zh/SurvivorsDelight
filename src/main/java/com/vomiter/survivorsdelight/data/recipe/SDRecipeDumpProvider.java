@@ -30,7 +30,6 @@ public final class SDRecipeDumpProvider implements DataProvider {
         entries.put(id, json);
     }
 
-    /** 把要輸出的 JSON 都塞進 entries */
     private void build() {
         new SDHeatingRecipes(modid).generate(this::put);
     }

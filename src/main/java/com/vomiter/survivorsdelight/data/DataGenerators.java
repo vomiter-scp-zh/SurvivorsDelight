@@ -11,6 +11,7 @@ import com.vomiter.survivorsdelight.data.recipe.SDRecipeDumpProvider;
 import com.vomiter.survivorsdelight.data.recipe.SDRecipeProvider;
 import com.vomiter.survivorsdelight.data.size.SDItemSizeProvider;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
+import net.dries007.tfc.common.recipes.ingredients.NotRottenIngredient;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
@@ -59,10 +60,10 @@ public class DataGenerators
 
     private static void ensureTfcNotRottenRegistered() {
         try {
-            var notRotten = net.dries007.tfc.common.recipes.ingredients.NotRottenIngredient.Serializer.INSTANCE;
+            var notRotten = NotRottenIngredient.Serializer.INSTANCE;
 
             if (CraftingHelper.getID(notRotten) == null) {
-                CraftingHelper.register(new ResourceLocation("tfc", "not_rotten"), notRotten);
+                CraftingHelper.register(ResourceLocation.fromNamespaceAndPath("tfc", "not_rotten"), notRotten);
             }
         } catch (Throwable ignored) {
 

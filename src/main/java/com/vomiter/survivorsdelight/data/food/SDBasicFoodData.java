@@ -2,7 +2,6 @@ package com.vomiter.survivorsdelight.data.food;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
-import net.dries007.tfc.common.capabilities.food.FoodData;
 import net.dries007.tfc.common.items.Food;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -11,14 +10,11 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.registries.ForgeRegistries;
 import vectorwing.farmersdelight.common.registry.ModItems;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Supplier;
 
 public class SDBasicFoodData {
     final SDFoodDataProvider provider;
-    final static Map<Item, FoodData> FALL_BACK = new LinkedHashMap<>();
 
     public SDBasicFoodData(){
         this.provider = SurvivorsDelight.foodAndCookingGenerator.provider();
@@ -112,7 +108,7 @@ public class SDBasicFoodData {
             if (key == null) {
                 throw new IllegalStateException("Unregistered item: " + item);
             }
-            final String builderId = "cut/" + key.getPath(); // 規則：cut/ + item path
+            final String builderId = "cut/" + key.getPath();
 
             provider
                     .newBuilder(builderId)

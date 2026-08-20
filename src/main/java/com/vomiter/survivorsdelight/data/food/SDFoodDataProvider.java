@@ -44,7 +44,6 @@ public class SDFoodDataProvider implements DataProvider {
     }
 
 
-    /** 使用單一 item 作為 ingredient（最常見情境） */
     public SDFoodDataProvider addStatic(String id, Item item,
                                         int hunger, double saturation, double water,
                                         double decayModifier,
@@ -81,7 +80,7 @@ public class SDFoodDataProvider implements DataProvider {
             Path path = outputPath(e.getKey());
             String json = PRETTY.toJson(e.getValue());
             byte[] bytes = json.getBytes(StandardCharsets.UTF_8);
-            MessageDigest md = null;
+            MessageDigest md;
             try {
                 md = MessageDigest.getInstance("SHA-1");
             } catch (NoSuchAlgorithmException ex) {
@@ -90,7 +89,6 @@ public class SDFoodDataProvider implements DataProvider {
             byte[] digest = md.digest(bytes);
             HashCode hash = HashCode.fromBytes(digest);
 
-            // 包成 CompletableFuture 以維持非同步語意
             futures.add(CompletableFuture.runAsync(() -> {
                 try {
                     cachedOutput.writeIfNeeded(path, bytes, hash);
@@ -110,7 +108,6 @@ public class SDFoodDataProvider implements DataProvider {
         return name == null ? modid + " TFC Food Items": modid + " " + name;
     }
 
-    // ---------- Helpers ----------
 
     private ResourceLocation id(String pathName) {
         return SDUtils.RLUtils.build(modid, pathName);
@@ -157,7 +154,7 @@ public class SDFoodDataProvider implements DataProvider {
 
     public Builder newBuilder(String id) { return new Builder(this, id); }
 
-    /** 方便使用：用 item 或 tag 做 ingredient，未指定營養=0，decay=1 */
+
     public static final class Builder {
         private final SDFoodDataProvider parent;
         private final String id;
@@ -165,7 +162,7 @@ public class SDFoodDataProvider implements DataProvider {
 
         private JsonElement ingredient; // item / tag / 自定義 JSON
         private int hunger = 0;
-        private float nutrient_multipler = 1;
+        private float nutrient_multiplier = 1;
         private double saturation = 0.0;
         private double water = 0.0;
         private double decay = 1.0;
@@ -235,7 +232,7 @@ public class SDFoodDataProvider implements DataProvider {
         }
 
         public Builder nutrientMultiplier(float f){
-            this.nutrient_multipler = f;
+            this.nutrient_multiplier = f;
             return this;
         }
 
@@ -245,20 +242,17 @@ public class SDFoodDataProvider implements DataProvider {
         }
 
 
-        /** 用單一 Item 作為 ingredient */
         public Builder item(Item item) {
             this.ingredient = ingredientOf(item);
             this.item = item;
             return this;
         }
 
-        /** 用 tag 作為 ingredient，例如 "forge:crops/tomato" */
         public Builder tag(String tagPath) {
             this.ingredient = ingredientTag(tagPath);
             return this;
         }
 
-        /** 進階：直接塞自定義的 ingredient JSON（可為陣列做 OR 等） */
         public Builder ingredient(JsonElement ingredientJson) {
             this.ingredient = ingredientJson;
             return this;
@@ -279,7 +273,6 @@ public class SDFoodDataProvider implements DataProvider {
             return this;
         }
 
-        /** 預設 1，不需要就別呼叫 */
         public Builder setDecay(double decayModifier) {
             this.decay = decayModifier;
             return this;
@@ -314,7 +307,7 @@ public class SDFoodDataProvider implements DataProvider {
         private static double round1(double value) {
             return Math.round(value * 10.0) / 10.0;
         }
-        /** 產生 JSON 物件但不存入 Provider（若你想先檢視用） */
+
         public JsonObject buildJson() {
             if (ingredient == null) {
                 throw new IllegalStateException("Food item json must contain 'ingredient'");
@@ -325,16 +318,15 @@ public class SDFoodDataProvider implements DataProvider {
             root.addProperty("saturation", round1(saturation));
             root.addProperty("water", water);
             root.addProperty("decay_modifier", round1(decay));
-            if(grain > 0) root.addProperty("grain", round1(grain * nutrient_multipler));
-            if(fruit > 0) root.addProperty("fruit", round1(fruit * nutrient_multipler));
-            if(vegetables > 0) root.addProperty("vegetables", round1(vegetables * nutrient_multipler));
-            if(protein > 0) root.addProperty("protein", round1(protein * nutrient_multipler));
-            if(dairy > 0) root.addProperty("dairy", round1(dairy * nutrient_multipler));
+            if(grain > 0) root.addProperty("grain", round1(grain * nutrient_multiplier));
+            if(fruit > 0) root.addProperty("fruit", round1(fruit * nutrient_multiplier));
+            if(vegetables > 0) root.addProperty("vegetables", round1(vegetables * nutrient_multiplier));
+            if(protein > 0) root.addProperty("protein", round1(protein * nutrient_multiplier));
+            if(dairy > 0) root.addProperty("dairy", round1(dairy * nutrient_multiplier));
             if(type != null) root.addProperty("type", type);
             return root;
         }
 
-        /** 寫回 Provider 的 entries，回傳 Provider 方便繼續串其他東西 */
         public SDFoodDataProvider save() {
             JsonObject root = buildJson();
             if(item != null) SDFoodAndRecipeGenerator.foodDataMap.put(item, FoodData.read(root));
@@ -342,15 +334,6 @@ public class SDFoodDataProvider implements DataProvider {
             return parent;
         }
 
-        /**
-         * 將來源食物的五大營養值乘上 factor 後加入目前 builder，
-         * 並將飽食與含水量直接相加，最後將 hunger 設為目前與來源中較大的那個。
-         * decay 不變動。
-         *
-         * @param data   來源的 FoodData
-         * @param factor 營養加成倍率（例如 0.5f = 取一半營養）
-         * @return this
-         */
         public Builder addNutrientsAndSetMaxHunger(FoodData data, float factor) {
             if ((double) factor < 0) throw new IllegalArgumentException("factor must be >= 0");
 
@@ -371,9 +354,6 @@ public class SDFoodDataProvider implements DataProvider {
             return this;
         }
 
-        /**
-         * 同上，但輸入為 TFC 的 Food enum。
-         */
         public Builder addNutrientsAndSetMaxHunger(Food food, float factor) {
             return addNutrientsAndSetMaxHunger(parent.readTfcFoodJson(food), factor);
         }

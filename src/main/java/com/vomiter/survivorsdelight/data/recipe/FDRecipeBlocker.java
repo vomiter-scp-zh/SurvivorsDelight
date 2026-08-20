@@ -52,26 +52,17 @@ public final class FDRecipeBlocker {
 
     private FDRecipeBlocker() {}
 
-    /**
-     * @param id  配方的 id
-     * @param recipe  配方實例
-     * @param access  RecipeManager 裡的 RegistryAccess
-     * @return true = 這個配方應該被移除/忽略
-     */
     public static boolean shouldBlock(ResourceLocation id, Recipe<?> recipe, RegistryAccess access) {
         if(RLS.contains(id)) return true;
 
-        // 1. 只處理 farmersdelight:xxx 的配方
         if (!FD_NAMESPACE.equals(id.getNamespace())) {
             return false;
         }
 
-        // 2. 只處理這三種：crafting、cutting、cooking
         if (!isTargetType(recipe)) {
             return false;
         }
 
-        // 3. 看成品是不是食物
         ItemStack result = recipe.getResultItem(access);
         if(isFood(result)) return true;
         if(OTHER_BLOCKING_ID.contains( id.getPath())) return true;
@@ -81,17 +72,14 @@ public final class FDRecipeBlocker {
     private static boolean isTargetType(Recipe<?> recipe) {
         RecipeType<?> type = recipe.getType();
 
-        // vanilla crafting
         if (type == RecipeType.CRAFTING || recipe instanceof CraftingRecipe) {
             return true;
         }
 
-        // FD cutting
         if (type == ModRecipeTypes.CUTTING.get() || recipe instanceof CuttingBoardRecipe) {
             return true;
         }
 
-        // FD cooking pot
         if (type == ModRecipeTypes.COOKING.get() || recipe instanceof CookingPotRecipe) {
             return true;
         }

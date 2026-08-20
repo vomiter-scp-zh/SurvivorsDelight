@@ -19,14 +19,6 @@ public final class TFCPotRecipeMatcher {
 
     private TFCPotRecipeMatcher() {}
 
-    /**
-     * 在任何容器上嘗試找出第一個匹配的 TFC PotRecipe。
-     *
-     * @param level              伺服端世界
-     * @param items              物品槽
-     * @param fluids             液體槽（至少要能讀到第 0 槽）
-     * @param ingredientSlots    指定哪些 item slot 視為「鍋子的原料槽」（對應 TFC 的 4..8）
-     */
     public static Optional<PotRecipe> findFirstMatch(
             Level level,
             IItemHandler items,
@@ -45,7 +37,6 @@ public final class TFCPotRecipeMatcher {
             if (!s.isEmpty()) stacks.add(s);
         }
 
-        // 逐一比對：fluid・items
         for (PotRecipe r : recipes) {
             // 先比對流體
             final FluidStackIngredient needed = r.getFluidIngredient();
