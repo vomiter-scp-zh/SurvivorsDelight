@@ -2,14 +2,8 @@ package com.vomiter.survivorsdelight.common.skillet;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import com.vomiter.survivorsdelight.adapter.skillet.SkilletMaterial;
-import com.vomiter.survivorsdelight.adapter.skillet.skillet_item.ISkilletItemCookingData;
 import com.vomiter.survivorsdelight.registry.skillet.SDSkilletItems;
-import net.dries007.tfc.common.capabilities.heat.HeatCapability;
-import net.dries007.tfc.common.capabilities.heat.IHeat;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundSource;

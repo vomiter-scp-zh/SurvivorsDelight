@@ -4,7 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.dynamic.CookingPotDynamicRules;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid.SDCookingPotFluidMenu;
 import com.vomiter.survivorsdelight.adapter.farming.RichSoilFarmlandBlockEntitySetup;
-import com.vomiter.survivorsdelight.adapter.skillet.skillet_item.ISkilletItemCookingData;
+import com.vomiter.survivorsdelight.adapter.skillet.ISkilletItemCookingData;
 import com.vomiter.survivorsdelight.client.ClientForgeEventHandler;
 import com.vomiter.survivorsdelight.client.SaladPredicates;
 import com.vomiter.survivorsdelight.client.SandwichPredicates;

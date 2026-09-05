@@ -1,6 +1,5 @@
-package com.vomiter.survivorsdelight.adapter.skillet.skillet_item;
+package com.vomiter.survivorsdelight.adapter.skillet;
 
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 
 public interface ISkilletItemCookingData {

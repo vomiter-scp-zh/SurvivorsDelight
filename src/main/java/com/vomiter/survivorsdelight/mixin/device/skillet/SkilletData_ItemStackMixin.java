@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.mixin.device.skillet;
 
-import com.vomiter.survivorsdelight.adapter.skillet.skillet_item.ISkilletItemCookingData;
+import com.vomiter.survivorsdelight.adapter.skillet.ISkilletItemCookingData;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

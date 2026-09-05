@@ -1,7 +1,6 @@
-package com.vomiter.survivorsdelight.adapter.skillet.skillet_block;
+package com.vomiter.survivorsdelight.adapter.skillet;
 
-import com.vomiter.survivorsdelight.adapter.skillet.SkilletMaterial;
-import com.vomiter.survivorsdelight.adapter.skillet.SkilletUtil;
+import com.vomiter.survivorsdelight.common.skillet.SkilletMaterial;
 import com.vomiter.survivorsdelight.common.skillet.SDSkilletItem;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;

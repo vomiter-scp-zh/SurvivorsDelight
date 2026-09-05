@@ -1,8 +1,8 @@
 package com.vomiter.survivorsdelight.mixin.device.skillet;
 
-import com.vomiter.survivorsdelight.adapter.skillet.skillet_item.ISkilletItemCookingData;
+import com.vomiter.survivorsdelight.adapter.skillet.ISkilletItemCookingData;
 import com.vomiter.survivorsdelight.common.skillet.SDSkilletItem;
-import com.vomiter.survivorsdelight.adapter.skillet.SkilletMaterial;
+import com.vomiter.survivorsdelight.common.skillet.SkilletMaterial;
 import com.vomiter.survivorsdelight.adapter.skillet.SkilletUtil;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
 import com.vomiter.survivorsdelight.network.SDNetwork;

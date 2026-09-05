@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.adapter.skillet.skillet_block;
+package com.vomiter.survivorsdelight.adapter.skillet;
 
 import com.vomiter.survivorsdelight.SDConfig;
 import net.minecraft.core.BlockPos;

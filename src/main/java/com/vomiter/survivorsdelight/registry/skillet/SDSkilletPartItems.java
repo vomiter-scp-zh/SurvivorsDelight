@@ -1,7 +1,7 @@
 package com.vomiter.survivorsdelight.registry.skillet;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.adapter.skillet.SkilletMaterial;
+import com.vomiter.survivorsdelight.common.skillet.SkilletMaterial;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;

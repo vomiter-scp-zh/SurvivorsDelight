@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.mixin.device.skillet;
 
-import com.vomiter.survivorsdelight.adapter.skillet.skillet_block.SkilletBlockCookingAdapter;
+import com.vomiter.survivorsdelight.adapter.skillet.SkilletBlockCookingAdapter;
 import com.vomiter.survivorsdelight.util.HeatHelper;
 import net.dries007.tfc.common.capabilities.heat.HeatCapability;
 import net.dries007.tfc.common.capabilities.heat.IHeat;
