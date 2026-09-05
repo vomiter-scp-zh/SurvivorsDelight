@@ -1,7 +1,7 @@
 package com.vomiter.survivorsdelight.registry;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.common.container.SDCabinetBlockEntity;
+import com.vomiter.survivorsdelight.common.cabinet.SDCabinetBlockEntity;
 import com.vomiter.survivorsdelight.common.food.block.DecayingFeastBlockEntity;
 import com.vomiter.survivorsdelight.common.food.block.DecayingPieBlockEntity;
 import net.minecraft.world.level.block.Block;

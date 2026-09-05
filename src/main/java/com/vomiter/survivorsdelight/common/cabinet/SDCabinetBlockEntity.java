@@ -1,6 +1,5 @@
-package com.vomiter.survivorsdelight.common.container;
+package com.vomiter.survivorsdelight.common.cabinet;
 
-import com.vomiter.survivorsdelight.adapter.stack.FoodStackAdapters;
 import com.vomiter.survivorsdelight.registry.SDBlockEntityTypes;
 import com.vomiter.survivorsdelight.registry.SDContainerTypes;
 import net.minecraft.core.BlockPos;
@@ -281,13 +280,13 @@ public class SDCabinetBlockEntity extends RandomizableContainerBlockEntity imple
 
                 ItemStack existing = getStackInSlot(i);
                 if (!existing.isEmpty()
-                        && FoodStackAdapters.stackableExceptCreationDate(existing, toInsert)) {
+                        && CabinetFoodStackHelper.stackableExceptCreationDate(existing, toInsert)) {
 
                     if (simulate) {
-                        int moved = FoodStackAdapters.simulateMovedCount(existing, toInsert);
+                        int moved = CabinetFoodStackHelper.simulateMovedCount(existing, toInsert);
                         if (moved > 0) toInsert.shrink(moved);
                     } else {
-                        FoodStackAdapters.mergeInto(existing, toInsert); // existing & toInsert will be mutated by TFC logic
+                        CabinetFoodStackHelper.mergeInto(existing, toInsert); // existing & toInsert will be mutated by TFC logic
                         setStackInSlot(i, existing);
                         if (be.level != null && !be.level.isClientSide) {
                             be.setStored(existing);
@@ -309,7 +308,7 @@ public class SDCabinetBlockEntity extends RandomizableContainerBlockEntity imple
                         if (moved > 0) toInsert.shrink(moved);
                     } else {
                         // 用同一套 merge 規則（creation_date 一致）
-                        ItemStack newStack = FoodStackAdapters.mergeInto(ItemStack.EMPTY, toInsert);
+                        ItemStack newStack = CabinetFoodStackHelper.mergeInto(ItemStack.EMPTY, toInsert);
                         setStackInSlot(i, newStack);
                         if (be.level != null && !be.level.isClientSide) {
                             be.setStored(newStack);

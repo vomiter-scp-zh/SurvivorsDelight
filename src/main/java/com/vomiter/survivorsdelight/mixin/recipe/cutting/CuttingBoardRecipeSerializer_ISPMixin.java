@@ -3,7 +3,7 @@ package com.vomiter.survivorsdelight.mixin.recipe.cutting;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.vomiter.survivorsdelight.adapter.isp.ISPConverter;
+import com.vomiter.survivorsdelight.util.ISPConverter;
 import com.vomiter.survivorsdelight.data.recipe.SDCuttingRecipe;
 import net.dries007.tfc.common.recipes.outputs.ItemStackProvider;
 import net.minecraft.core.NonNullList;

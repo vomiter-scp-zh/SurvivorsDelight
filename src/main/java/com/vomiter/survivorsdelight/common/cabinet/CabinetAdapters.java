@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.common.container;
+package com.vomiter.survivorsdelight.common.cabinet;
 
 import com.vomiter.survivorsdelight.common.food.SDFoodTraits;
 import com.vomiter.survivorsdelight.data.tags.SDTags;

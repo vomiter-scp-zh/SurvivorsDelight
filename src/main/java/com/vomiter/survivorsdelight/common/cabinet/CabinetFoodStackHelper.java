@@ -1,11 +1,10 @@
-package com.vomiter.survivorsdelight.adapter.stack;
+package com.vomiter.survivorsdelight.common.cabinet;
 
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public final class FoodStackAdapters {
-    private FoodStackAdapters() {}
+public final class CabinetFoodStackHelper {
 
     public static boolean stackableExceptCreationDate(@NotNull ItemStack a, @NotNull ItemStack b) {
         return FoodCapability.areStacksStackableExceptCreationDate(a, b);

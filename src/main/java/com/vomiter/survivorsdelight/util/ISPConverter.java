@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.adapter.isp;
+package com.vomiter.survivorsdelight.util;
 
 import com.google.gson.JsonObject;
 import net.dries007.tfc.common.recipes.outputs.ItemStackProvider;

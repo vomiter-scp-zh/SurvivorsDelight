@@ -24,18 +24,5 @@ public abstract class StoveBlockEntity_AccessorImp extends AbstractStoveBlockEnt
 
     public ItemStackHandler sdtfc$getInventory(){
         return ((StoveBlockEntity)(Object)this).getItems();
-    };
-
-    public int[] sdtfc$getCookingTimes(){
-        if(this instanceof StoveBlockEntity_Accessor acc){
-            return acc.getCookingProgress();
-        }
-        return null;
-    };
-    public int[] sdtfc$getCookingTimesTotal(){
-        if(this instanceof StoveBlockEntity_Accessor acc){
-            return acc.getCookingTime();
-        }
-        return null;
-    };
+    }
 }

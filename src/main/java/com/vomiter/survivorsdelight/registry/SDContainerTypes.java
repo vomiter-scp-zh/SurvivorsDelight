@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.registry;
 
-import com.vomiter.survivorsdelight.common.container.SDCabinetMenu;
+import com.vomiter.survivorsdelight.common.cabinet.SDCabinetMenu;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid.SDCookingPotFluidMenu;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.MenuType;

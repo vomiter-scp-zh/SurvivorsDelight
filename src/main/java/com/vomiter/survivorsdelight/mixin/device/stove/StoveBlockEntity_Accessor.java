@@ -6,8 +6,6 @@ import vectorwing.farmersdelight.common.block.entity.AbstractStoveBlockEntity;
 
 @Mixin(value = AbstractStoveBlockEntity.class, remap = false)
 public interface StoveBlockEntity_Accessor {
-    @Accessor("cookingProgress")
-    int[] getCookingProgress();
 
     @Accessor("cookingTime")
     int[] getCookingTime();

@@ -1,13 +1,26 @@
 package com.vomiter.survivorsdelight.mixin.device.stove;
 
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.vomiter.survivorsdelight.HeatSourceBlockEntity;
+import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.adapter.stove.IStoveBlockEntity;
+import com.vomiter.survivorsdelight.adapter.stove.StoveAdapter;
 import com.vomiter.survivorsdelight.compat.firmalife.StoveOvenCompat;
 import net.dries007.tfc.common.recipes.HeatingRecipe;
+import net.dries007.tfc.common.recipes.TFCRecipeTypes;
+import net.dries007.tfc.common.recipes.inventory.ItemStackInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.AbstractCookingRecipe;
+import net.minecraft.world.item.crafting.CampfireCookingRecipe;
+import net.minecraft.world.item.crafting.CookingBookCategory;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fml.ModList;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,13 +31,40 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import vectorwing.farmersdelight.common.block.StoveBlock;
 import vectorwing.farmersdelight.common.block.entity.AbstractStoveBlockEntity;
-import vectorwing.farmersdelight.common.block.entity.StoveBlockEntity;
+
+import java.util.Optional;
 
 @Mixin(value = AbstractStoveBlockEntity.class, remap = false)
-public abstract class StoveBlockEntity_FuelAndHeat implements HeatSourceBlockEntity, IStoveBlockEntity {
+public abstract class StoveBlockEntity_FuelAndHeat extends BlockEntity implements HeatSourceBlockEntity, IStoveBlockEntity {
     @Unique private static final String SD_LEFT_BURN_TICK = "SDLeftBurnTick";
     @Unique private int leftBurnTick = 0;
     @Unique private final HeatingRecipe[] cachedHeatingRecipes = new HeatingRecipe[6];
+
+    public StoveBlockEntity_FuelAndHeat(BlockEntityType<?> p_155228_, BlockPos p_155229_, BlockState p_155230_) {
+        super(p_155228_, p_155229_, p_155230_);
+    }
+
+    @WrapMethod(method = "getCookingRecipe")
+    private Optional<? extends AbstractCookingRecipe> sdtfc$getCookingRecipe(
+            ItemStack itemStack,
+            Operation<Optional<? extends AbstractCookingRecipe>> original){
+        var originalResult = original.call(itemStack);
+        if (originalResult.isPresent()) return originalResult;
+        var heatingOptional = level.getRecipeManager().getRecipeFor(TFCRecipeTypes.HEATING.get(), new ItemStackInventory(itemStack), level);
+        if (heatingOptional.isEmpty()) return originalResult;
+        var heatingResult = heatingOptional.get().getResultItem(level.registryAccess());
+        if (heatingResult.isEmpty()) return originalResult;
+
+        return Optional.of(new CampfireCookingRecipe(
+                ResourceLocation.fromNamespaceAndPath(SurvivorsDelight.MODID, "dummy"),
+                "",
+                CookingBookCategory.MISC,
+                Ingredient.of(itemStack),
+                heatingOptional.get().getResultItem(level.registryAccess()),
+                0,
+                20000
+        ));
+    }
 
     @Inject(method = "serverTick", at = @At("HEAD"))
     private static void injectedCookingTick(Level level, BlockPos pos, BlockState state, AbstractStoveBlockEntity stoveEntity, CallbackInfo ci){
@@ -44,12 +84,12 @@ public abstract class StoveBlockEntity_FuelAndHeat implements HeatSourceBlockEnt
 
     @Inject(method = "cookAndOutputItems", at = @At("HEAD"))
     private void cookTFCFood(CallbackInfo ci) {
-        StoveBlockEntity stove = (StoveBlockEntity) (Object) this;
+        AbstractStoveBlockEntity stove = (AbstractStoveBlockEntity) (Object) this;
         IStoveBlockEntity iStove = (IStoveBlockEntity) stove;
         if(stove.getLevel() == null) return;
         int slots = stove.getItems().getSlots();
         for(int i = 0; i < slots; i++){
-            iStove.sdtfc$cookTFCFoodInSlot(iStove, i);
+            StoveAdapter.cookTFCFoodInSlot(iStove, i);
         }
     }
 
