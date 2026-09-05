@@ -75,10 +75,10 @@ public class SDCabinetBlockEntity extends RandomizableContainerBlockEntity imple
     }
 
     public void setStored(ItemStack food){
-        if(this.TREATED) CabinetFoodHelpers.setStored(food);
+        if(this.TREATED) CabinetFoodStackHelper.setStored(food);
     }
     public void removeStored(ItemStack food){
-        CabinetFoodHelpers.removeStored(food);
+        CabinetFoodStackHelper.removeStored(food);
     }
 
     void updateBlockOpenState(BlockState state, boolean open) {

@@ -82,7 +82,7 @@ public class SDCabinetMenu extends AbstractContainerMenu {
         final int total = hotbarStart + 9;
 
         if (index < containerSlots) {
-            CabinetFoodHelpers.removeStored(stack);
+            CabinetFoodStackHelper.removeStored(stack);
             if (!this.moveItemStackTo(stack, containerSlots, total, true)) {
                 return ItemStack.EMPTY;
             }
@@ -148,7 +148,7 @@ public class SDCabinetMenu extends AbstractContainerMenu {
             if (!out.isEmpty() && this.container instanceof SDCabinetBlockEntity be) {
                 assert be.getLevel() != null;
                 if (!be.getLevel().isClientSide) {
-                    CabinetFoodHelpers.removeStored(out);
+                    CabinetFoodStackHelper.removeStored(out);
                     be.setChanged();
                 }
             }
