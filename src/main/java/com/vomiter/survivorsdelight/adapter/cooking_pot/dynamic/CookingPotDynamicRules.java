@@ -153,7 +153,7 @@ public class CookingPotDynamicRules {
                             SurvivorsDelight.modLoc("oil"),
                             ((food, context) -> {
                                 if (context.phase().equals(DynamicFoodContext.Phase.INDIVIDUAL)) return food;
-                                if (!context.inputFluid().getFluid().defaultFluidState().is(SDTags.FluidTags.COOKING_OILS)) return food;
+                                if (!context.inputFluids().stream().anyMatch(fluidStack -> fluidStack.getFluid().defaultFluidState().is(SDTags.FluidTags.COOKING_OILS))) return food;
                                 if(context.stack().is(SDTags.ItemTags.FEAST_BLOCKS)){
                                     return food
                                             .mulNutrient(1.5f, Nutrient.PROTEIN)
@@ -174,10 +174,11 @@ public class CookingPotDynamicRules {
                             SurvivorsDelight.modLoc("milk"),
                             ((food, context) -> {
                                 if (context.phase().equals(DynamicFoodContext.Phase.INDIVIDUAL)) return food;
-                                if (!context.inputFluid().getFluid().defaultFluidState().is(SDTags.FluidTags.TFC_MILKS)) return food;
-                                var milk = Drinkable.get(context.inputFluid().getFluid());
+                                if (context.inputFluids().stream().noneMatch(fluidStack -> fluidStack.getFluid().defaultFluidState().is(SDTags.FluidTags.TFC_MILKS))) return food;
+                                var milkFluid = context.inputFluids().stream().filter(fluidStack -> fluidStack.getFluid().defaultFluidState().is(SDTags.FluidTags.TFC_MILKS)).findFirst().orElseThrow();
+                                var milk = Drinkable.get(milkFluid.getFluid());
                                 if (milk == null || milk.getFoodStats() == null) return food;
-                                var multiplier = context.inputFluid().getAmount() / 25;
+                                var multiplier = milkFluid.getAmount() / 25;
                                 var milkNutrients = FoodDataBuilder.from(milk.getFoodStats()).mul(multiplier);
                                 return food.addBuilder(milkNutrients);
                             })

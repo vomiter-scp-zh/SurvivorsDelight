@@ -9,13 +9,34 @@ import java.util.List;
 
 public record DynamicFoodContext<R>(
         List<ItemStack> inputs,
-        FluidStack inputFluid,
+        List<FluidStack> inputFluids,
         ItemStack stack, //can be the input or the result, depending on the phase
         R recipe,
         ResourceLocation recipeId,
         Phase phase,
         Level level
 ) {
+    public DynamicFoodContext(
+            List<ItemStack> inputs,
+            FluidStack inputFluid,
+            ItemStack stack, //can be the input or the result, depending on the phase
+            R recipe,
+            ResourceLocation recipeId,
+            Phase phase,
+            Level level
+    ){
+        this(
+                inputs,
+                List.of(inputFluid),
+                stack,
+                recipe,
+                recipeId,
+                phase,
+                level
+        );
+
+    }
+
     public enum Phase {
         INDIVIDUAL,
         TOTAL
