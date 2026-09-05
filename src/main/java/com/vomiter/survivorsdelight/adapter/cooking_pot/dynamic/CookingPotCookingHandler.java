@@ -1,7 +1,6 @@
 package com.vomiter.survivorsdelight.adapter.cooking_pot.dynamic;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.adapter.cooking_pot.balance_factor.ICookingPotRecipeBalanceFactor;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid.IFluidRequiringRecipe;
 import com.vomiter.survivorsdelight.util.FoodDataBuilder;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
@@ -28,7 +27,7 @@ public class CookingPotCookingHandler {
                     CookingPotRecipe recipe,
                     int slotNumber
             ){
-        var resultItem = recipe.getResultItem(level.registryAccess());
+        var resultItem = recipe.getResultItem(level.registryAccess()).copy();
         var resultFood = FoodCapability.get(resultItem);
         if(!(resultFood instanceof FoodHandler.Dynamic dynamicFood)) return resultItem;
         if (!(recipe instanceof IFluidRequiringRecipe fluidRequiringRecipe)) return resultItem;
@@ -40,7 +39,9 @@ public class CookingPotCookingHandler {
             inputItems.add(inventory.getStackInSlot(i).copyWithCount(1));
         }
         var inputFluid = fluidStack.copy();
-        inputFluid.setAmount(fluidRequiringRecipe.sdtfc$getRequiredFluidAmount());
+        if (!inputFluid.isEmpty()){
+            inputFluid.setAmount(fluidRequiringRecipe.sdtfc$getRequiredFluidAmount());
+        }
         var foodBuilder = FoodDataBuilder.from(resultFood.getData());
         CookingPotDynamicRules.RULES.forEach(ruleHolder -> {
             inputItems.forEach(inputItem -> {

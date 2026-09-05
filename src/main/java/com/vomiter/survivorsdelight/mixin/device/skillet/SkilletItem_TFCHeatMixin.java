@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.mixin.device.skillet;
 
-import com.vomiter.survivorsdelight.common.device.skillet.SDSkilletItem;
+import com.vomiter.survivorsdelight.common.skillet.SDSkilletItem;
 import com.vomiter.survivorsdelight.adapter.skillet.SkilletMaterial;
 import com.vomiter.survivorsdelight.adapter.skillet.SkilletUtil;
 import com.vomiter.survivorsdelight.adapter.skillet.skillet_item.SkilletCookingCap;

@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.adapter.skillet;
 
-import com.vomiter.survivorsdelight.common.food.trait.SDFoodTraits;
+import com.vomiter.survivorsdelight.common.food.SDFoodTraits;
 import net.dries007.tfc.common.capabilities.food.FoodTrait;
 import net.dries007.tfc.common.capabilities.heat.HeatCapability;
 import net.dries007.tfc.common.capabilities.heat.IHeat;

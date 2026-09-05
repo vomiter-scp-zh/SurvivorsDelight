@@ -1,10 +1,9 @@
-package com.vomiter.survivorsdelight.common.device.skillet;
+package com.vomiter.survivorsdelight.common.skillet;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.vomiter.survivorsdelight.adapter.skillet.SkilletMaterial;
 import com.vomiter.survivorsdelight.adapter.skillet.skillet_item.SkilletCookingCap;
-import com.vomiter.survivorsdelight.adapter.skillet.skillet_item.SkilletItemCookingData;
 import com.vomiter.survivorsdelight.registry.skillet.SDSkilletItems;
 import net.dries007.tfc.common.capabilities.heat.HeatCapability;
 import net.dries007.tfc.common.capabilities.heat.IHeat;
@@ -39,7 +38,6 @@ import vectorwing.farmersdelight.client.ClientSetup;
 import vectorwing.farmersdelight.client.renderer.SkilletItemRenderer;
 import vectorwing.farmersdelight.common.item.SkilletItem;
 import vectorwing.farmersdelight.common.registry.ModSounds;
-import vectorwing.farmersdelight.common.utility.ClientRenderUtils;
 
 import java.util.UUID;
 import java.util.function.Consumer;

@@ -1,6 +1,5 @@
 package com.vomiter.survivorsdelight.common.container;
 
-import com.vomiter.survivorsdelight.adapter.container.CabinetAdapters;
 import com.vomiter.survivorsdelight.registry.SDContainerTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;

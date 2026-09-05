@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.common.food.trait;
+package com.vomiter.survivorsdelight.common.food;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.util.SDUtils;

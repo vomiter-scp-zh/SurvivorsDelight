@@ -13,7 +13,7 @@ import com.vomiter.survivorsdelight.client.screen.SDCabinetScreen;
 import com.vomiter.survivorsdelight.client.screen.SDPotFluidScreen;
 import com.vomiter.survivorsdelight.common.ForgeEventHandler;
 import com.vomiter.survivorsdelight.common.food.FoodContainerExpansion;
-import com.vomiter.survivorsdelight.common.food.trait.SDFoodTraits;
+import com.vomiter.survivorsdelight.common.food.SDFoodTraits;
 import com.vomiter.survivorsdelight.data.food.SDFoodAndRecipeGenerator;
 import com.vomiter.survivorsdelight.network.SDNetwork;
 import com.vomiter.survivorsdelight.registry.SDContainerTypes;

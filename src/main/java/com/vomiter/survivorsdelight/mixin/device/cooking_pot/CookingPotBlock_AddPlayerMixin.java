@@ -11,6 +11,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -27,7 +28,7 @@ public class CookingPotBlock_AddPlayerMixin {
         pot.sdtfc$addPlayer(player);
         var tank = pot.sdtfc$getTank();
         SDNetwork.CHANNEL.send(
-                net.minecraftforge.network.PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
+                PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
                 new PotFluidSyncS2CPacket(pos, ForgeRegistries.FLUIDS.getKey(tank.getFluid().getFluid()), tank.getFluidAmount())
         );
     }

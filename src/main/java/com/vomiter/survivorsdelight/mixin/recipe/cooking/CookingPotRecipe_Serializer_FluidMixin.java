@@ -1,7 +1,7 @@
 package com.vomiter.survivorsdelight.mixin.recipe.cooking;
 
 import com.google.gson.JsonObject;
-import com.vomiter.survivorsdelight.adapter.cooking_pot.balance_factor.ICookingPotRecipeBalanceFactor;
+import com.vomiter.survivorsdelight.adapter.cooking_pot.dynamic.ICookingPotRecipeBalanceFactor;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid.IFluidRequiringRecipe;
 import net.dries007.tfc.common.recipes.ingredients.FluidStackIngredient;
 import net.minecraft.network.FriendlyByteBuf;

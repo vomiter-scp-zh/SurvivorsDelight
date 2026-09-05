@@ -23,12 +23,6 @@ public final class MixinGate implements IMixinConfigPlugin {
     @Override public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
         if(isDataGen()) return false;
         if (!mixinClassName.contains("compat")) {
-            if (mixinClassName.endsWith("PieBlock_SliceMixin")) {
-                return isModVersionInRange(FD_MODID, "[1.20.1-1.2.11,)");
-            }
-            if (mixinClassName.endsWith("PieBlock_SliceLegacyMixin")) {
-                return isModVersionInRange(FD_MODID, "[0,1.20.1-1.2.10]");
-            }
             return true;
         }
         if(shouldBlockCompatMixin( mixinClassName,"firmalife")) return false;

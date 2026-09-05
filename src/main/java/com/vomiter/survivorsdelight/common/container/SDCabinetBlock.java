@@ -1,6 +1,5 @@
 package com.vomiter.survivorsdelight.common.container;
 
-import com.vomiter.survivorsdelight.adapter.container.CabinetAdapters;
 import com.vomiter.survivorsdelight.registry.SDBlockEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;

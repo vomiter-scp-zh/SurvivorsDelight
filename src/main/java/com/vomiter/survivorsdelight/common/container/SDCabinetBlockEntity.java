@@ -1,6 +1,5 @@
 package com.vomiter.survivorsdelight.common.container;
 
-import com.vomiter.survivorsdelight.adapter.container.CabinetAdapters;
 import com.vomiter.survivorsdelight.adapter.stack.FoodStackAdapters;
 import com.vomiter.survivorsdelight.registry.SDBlockEntityTypes;
 import com.vomiter.survivorsdelight.registry.SDContainerTypes;

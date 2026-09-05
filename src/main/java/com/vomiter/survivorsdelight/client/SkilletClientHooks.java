@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.client;
 
-import com.vomiter.survivorsdelight.common.device.skillet.SDSkilletItem;
+import com.vomiter.survivorsdelight.common.skillet.SDSkilletItem;
 import com.vomiter.survivorsdelight.network.SDNetwork;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;

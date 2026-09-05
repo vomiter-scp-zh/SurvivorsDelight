@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.mixin.recipe.cooking;
 
-import com.vomiter.survivorsdelight.adapter.cooking_pot.balance_factor.ICookingPotRecipeBalanceFactor;
+import com.vomiter.survivorsdelight.adapter.cooking_pot.dynamic.ICookingPotRecipeBalanceFactor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;

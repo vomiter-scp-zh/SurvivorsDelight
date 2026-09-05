@@ -1,24 +1,60 @@
 package com.vomiter.survivorsdelight.mixin.food.effect;
 
-import com.mojang.datafixers.util.Pair;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.vomiter.survivorsdelight.util.SDThreadLocals;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
+import net.dries007.tfc.common.capabilities.food.IFood;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import vectorwing.farmersdelight.FarmersDelight;
-
-import java.util.List;
-import java.util.Objects;
+import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntity_AddEatEffectMixin {
+    @Shadow
+    protected ItemStack useItem;
+
+    @WrapMethod(method = "completeUsingItem")
+    private void sdtfc$completeUsingItem(Operation<Void> original){
+        try {
+            SDThreadLocals.finishUsedItem.set(useItem.copy());
+            original.call();
+        } finally {
+            SDThreadLocals.finishUsedItem.remove();
+        }
+    }
+
+    @WrapMethod(method = "addEffect(Lnet/minecraft/world/effect/MobEffectInstance;Lnet/minecraft/world/entity/Entity;)Z")
+    private boolean sdtfc$addEffect(MobEffectInstance mobEffectInstance, Entity p_147209_, Operation<Boolean> original){
+        if (mobEffectInstance.getEffect().isBeneficial()){
+            ItemStack stack = SDThreadLocals.finishUsedItem.get();
+            if (!stack.isEmpty()){
+                IFood food = FoodCapability.get(stack);
+                if (food != null && food.isRotten()){
+                    return false;
+                }
+            }
+        }
+        return original.call(mobEffectInstance, p_147209_);
+    }
+
+    @WrapMethod(method = "heal")
+    private void sdtfc$heal(float p_21116_, Operation<Void> original){
+        ItemStack stack = SDThreadLocals.finishUsedItem.get();
+        if (!stack.isEmpty()){
+            IFood food = FoodCapability.get(stack);
+            if (food != null && food.isRotten()){
+                return;
+            }
+        }
+        original.call(p_21116_);
+    }
+
+
+    /*
     @Inject(method = "addEatEffect", at = @At("HEAD"), cancellable = true)
     private void sdtfc$handleFDFoodEffects(ItemStack stack, Level level, LivingEntity livingEntity, CallbackInfo ci){
         if(!FoodCapability.isRotten(stack)) return;
@@ -35,4 +71,6 @@ public abstract class LivingEntity_AddEatEffectMixin {
         }
         ci.cancel();
     }
+
+     */
 }

@@ -2,7 +2,7 @@ package com.vomiter.survivorsdelight.adapter.skillet.skillet_block;
 
 import com.vomiter.survivorsdelight.adapter.skillet.SkilletMaterial;
 import com.vomiter.survivorsdelight.adapter.skillet.SkilletUtil;
-import com.vomiter.survivorsdelight.common.device.skillet.SDSkilletItem;
+import com.vomiter.survivorsdelight.common.skillet.SDSkilletItem;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.dries007.tfc.common.recipes.HeatingRecipe;

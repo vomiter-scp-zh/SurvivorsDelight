@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.adapter.food_block;
 
-import com.vomiter.survivorsdelight.common.food.trait.SDFoodTraits;
+import com.vomiter.survivorsdelight.common.food.SDFoodTraits;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
 import net.dries007.tfc.common.blockentities.DecayingBlockEntity;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
