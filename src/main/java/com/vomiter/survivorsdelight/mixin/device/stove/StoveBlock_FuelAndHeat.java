@@ -16,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import vectorwing.farmersdelight.common.block.AbstractStoveBlock;
 import vectorwing.farmersdelight.common.block.StoveBlock;
+import vectorwing.farmersdelight.common.block.entity.AbstractStoveBlockEntity;
 import vectorwing.farmersdelight.common.block.entity.StoveBlockEntity;
 
 @Mixin(value = AbstractStoveBlock.class, remap = false)
@@ -37,7 +38,7 @@ public class StoveBlock_FuelAndHeat{
     @Inject(method = "tryToPlaceFoodItem", at = @At("HEAD"), remap = false, cancellable = true)
     private void addFood(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit, CallbackInfoReturnable<InteractionResult> cir){
         ItemStack heldItem = player.getItemInHand(hand);
-        StoveBlockEntity stove = (StoveBlockEntity) level.getBlockEntity(pos);
+        AbstractStoveBlockEntity stove = (AbstractStoveBlockEntity) level.getBlockEntity(pos);
         IStoveBlockEntity iStove = (IStoveBlockEntity)stove;
         assert iStove != null;
         if(iStove.sdtfc$addItem(heldItem, stove.getNextEmptySlot(), iStove, player)) cir.setReturnValue(InteractionResult.sidedSuccess(level.isClientSide));
