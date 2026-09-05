@@ -3,7 +3,7 @@ package com.vomiter.survivorsdelight.common.skillet;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.vomiter.survivorsdelight.adapter.skillet.SkilletMaterial;
-import com.vomiter.survivorsdelight.adapter.skillet.skillet_item.SkilletCookingCap;
+import com.vomiter.survivorsdelight.adapter.skillet.skillet_item.ISkilletItemCookingData;
 import com.vomiter.survivorsdelight.registry.skillet.SDSkilletItems;
 import net.dries007.tfc.common.capabilities.heat.HeatCapability;
 import net.dries007.tfc.common.capabilities.heat.IHeat;
@@ -34,6 +34,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import vectorwing.farmersdelight.client.ClientSetup;
 import vectorwing.farmersdelight.client.renderer.SkilletItemRenderer;
 import vectorwing.farmersdelight.common.item.SkilletItem;
@@ -128,27 +129,26 @@ public class SDSkilletItem extends SkilletItem {
             }
 
             @Override
-            public HumanoidModel.@org.jetbrains.annotations.Nullable ArmPose getArmPose(LivingEntity living, InteractionHand hand, ItemStack stack) {
+            public HumanoidModel.@Nullable ArmPose getArmPose(LivingEntity living, InteractionHand hand, ItemStack stack) {
                 return stack.getOrCreateTag().contains("FlipTimeStamp") ? ClientSetup.SKILLET_FLIP : null;
             }
         });
+    }
+
+    private static int cookingBarWidth = 0;
+    public static int getCookingBarWidth() {
+        return cookingBarWidth;
+    }
+
+    public static void setCookingBarWidth(int cookingBarWidth0) {
+        cookingBarWidth = cookingBarWidth0;
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
     public int getBarWidth(ItemStack stack) {
         if(stack.getTagElement("Cooking") != null){
-            LocalPlayer player = Minecraft.getInstance().player;
-            if(player != null) {
-                var data = SkilletCookingCap.get(player);
-                ItemStack cooking = data.getCooking();
-                if(cooking != null && !cooking.isEmpty()){
-                    IHeat heat = HeatCapability.get(cooking);
-                    if(heat != null){
-                        return Math.round(heat.getTemperature() / data.getTargetTemperature() * 13);
-                    }
-                }
-            }
+            return cookingBarWidth;
         }
         return super.getBarWidth(stack);
     }

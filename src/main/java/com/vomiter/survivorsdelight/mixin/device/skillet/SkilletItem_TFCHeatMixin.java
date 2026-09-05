@@ -1,10 +1,11 @@
 package com.vomiter.survivorsdelight.mixin.device.skillet;
 
+import com.vomiter.survivorsdelight.adapter.skillet.skillet_item.ISkilletItemCookingData;
 import com.vomiter.survivorsdelight.common.skillet.SDSkilletItem;
 import com.vomiter.survivorsdelight.adapter.skillet.SkilletMaterial;
 import com.vomiter.survivorsdelight.adapter.skillet.SkilletUtil;
-import com.vomiter.survivorsdelight.adapter.skillet.skillet_item.SkilletCookingCap;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
+import com.vomiter.survivorsdelight.network.SDNetwork;
 import com.vomiter.survivorsdelight.util.HeatHelper;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.dries007.tfc.common.capabilities.heat.HeatCapability;
@@ -13,6 +14,7 @@ import net.dries007.tfc.common.recipes.HeatingRecipe;
 import net.dries007.tfc.common.recipes.inventory.ItemStackInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,6 +23,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.minecraftforge.network.PacketDistributor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -84,10 +87,10 @@ public abstract class SkilletItem_TFCHeatMixin {
         }
 
         HeatCapability.addTemp(heat, temperatureNearby);
-        var data = SkilletCookingCap.get(player);
-        data.setCooking(unit);
-        data.setTargetTemperature(recipe.getTemperature());
-        data.setHand(hand);
+        if ((Object)skilletStack instanceof ISkilletItemCookingData data){
+            data.setCooking(unit);
+            data.setTargetTemp(recipe.getTemperature());
+        }
         player.startUsingItem(hand);
         cir.setReturnValue(InteractionResultHolder.pass(skilletStack));
     }
@@ -95,7 +98,7 @@ public abstract class SkilletItem_TFCHeatMixin {
     @Inject(method = "onUseTick", at = @At("HEAD"))
     private void sdtfc$onUseTick(Level level, LivingEntity living, ItemStack skilletStack, int remainingUseTicks, CallbackInfo ci) {
         if (!(living instanceof Player player)) return;
-        var data = SkilletCookingCap.get(player);
+        if (!((Object)skilletStack instanceof ISkilletItemCookingData data)) return;
         ItemStack cooking = data.getCooking();
         if (cooking.isEmpty()) return;
         float temperatureNearby = sdtfc$getTemperatureNearby(player, level);
@@ -110,6 +113,13 @@ public abstract class SkilletItem_TFCHeatMixin {
         IHeat heat = HeatCapability.get(cooking);
         if (heat != null) HeatCapability.addTemp(heat, temperatureNearby);
         if (!level.isClientSide) {
+            SDNetwork.CHANNEL.send(
+                    PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
+                    new SDNetwork.SkilletProgressionBarS2C(
+                            Math.round(heat.getTemperature() / data.getTargetTemp() * 13)
+                    )
+            );
+
             if (heat == null) {
                 if (!player.addItem(cooking)) player.drop(cooking, false);
                 data.clear();
@@ -117,7 +127,7 @@ public abstract class SkilletItem_TFCHeatMixin {
                 return;
             }
 
-            if(heat.getTemperature() < data.getTargetTemperature()) return;
+            if(heat.getTemperature() < data.getTargetTemp()) return;
 
             HeatingRecipe recipe = HeatingRecipe.getRecipe(new ItemStackInventory(cooking));
             if (recipe != null && recipe.isValidTemperature(heat.getTemperature())) {
@@ -156,7 +166,7 @@ public abstract class SkilletItem_TFCHeatMixin {
     @Inject(method = "releaseUsing", at = @At("HEAD"), cancellable = true)
     private void sdtfc$releaseUsing(ItemStack skilletStack, Level level, LivingEntity living, int timeLeft, CallbackInfo ci) {
         if (!(living instanceof Player player)) return;
-        var data = SkilletCookingCap.get(player);
+        if (!((Object)skilletStack instanceof ISkilletItemCookingData data)) return;
         CompoundTag tag = skilletStack.getOrCreateTag();
         if(tag.contains(KEY_COOKING)){
             ItemStack fakeCookingStack = ItemStack.of(tag.getCompound(KEY_COOKING));

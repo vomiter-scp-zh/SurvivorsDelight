@@ -2,6 +2,7 @@
 package com.vomiter.survivorsdelight.network;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
+import com.vomiter.survivorsdelight.common.skillet.SDSkilletItem;
 import com.vomiter.survivorsdelight.common.skillet.SkilletDeflects;
 import com.vomiter.survivorsdelight.network.cooking_pot.ClearCookingPotMealC2SPacket;
 import com.vomiter.survivorsdelight.network.cooking_pot.OpenBackToFDPotC2SPacket;
@@ -66,9 +67,28 @@ public class SDNetwork {
                 .decoder(ClearCookingPotMealC2SPacket::decode)
                 .consumerMainThread(ClearCookingPotMealC2SPacket::handle)
                 .add();
+
+        CHANNEL.messageBuilder(SkilletProgressionBarS2C.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(SkilletProgressionBarS2C::encode)
+                .decoder(SkilletProgressionBarS2C::decode)
+                .consumerMainThread(SkilletProgressionBarS2C::handle)
+                .add();
     }
 
     /* -------------------- Packets -------------------- */
+
+    public record SkilletProgressionBarS2C(int barWidth){
+        public static void encode(SkilletProgressionBarS2C pkt, FriendlyByteBuf buf){
+            buf.writeInt(pkt.barWidth);
+        }
+        public static SkilletProgressionBarS2C decode(FriendlyByteBuf buf){
+            return new SkilletProgressionBarS2C(buf.readInt());
+        }
+        public static void handle(SkilletProgressionBarS2C pkt, Supplier<NetworkEvent.Context> ctx){
+            SDSkilletItem.setCookingBarWidth(pkt.barWidth());
+            ctx.get().setPacketHandled(true);
+        }
+    }
 
     public record SwingSkilletC2S() {
         public static void encode(SwingSkilletC2S pkt, FriendlyByteBuf buf) {}

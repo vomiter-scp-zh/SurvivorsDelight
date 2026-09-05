@@ -2,11 +2,9 @@ package com.vomiter.survivorsdelight.common;
 
 import com.vomiter.survivorsdelight.common.command.SDFoodFallbackCommand;
 import com.vomiter.survivorsdelight.common.skillet.SDSkilletItem;
-import com.vomiter.survivorsdelight.adapter.skillet.skillet_item.SkilletCookingCap;
 import com.vomiter.survivorsdelight.data.food.SDFoodFallBackManager;
 import net.dries007.tfc.util.events.StartFireEvent;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -24,10 +22,6 @@ public class ForgeEventHandler {
 
         final IEventBus bus = MinecraftForge.EVENT_BUS;
         bus.addListener(ForgeEventHandler::onFireStart);
-
-        bus.addListener(SkilletCookingCap::onClone);
-        bus.addGenericListener(Entity.class, SkilletCookingCap::onAttachCapabilities);
-
         bus.addListener(SDSkilletItem.SDSkilletEvents::playSkilletAttackSound);
 
         bus.addListener(RichSoilDelayedCheck::onPlayerRightClick_RichSoilFarmGating);
