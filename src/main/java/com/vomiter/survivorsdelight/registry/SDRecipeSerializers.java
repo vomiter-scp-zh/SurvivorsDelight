@@ -1,9 +1,9 @@
 package com.vomiter.survivorsdelight.registry;
 
 import com.vomiter.survivorsdelight.SurvivorsDelight;
-import com.vomiter.survivorsdelight.registry.recipe.MedleyCraftingRecipe;
-import com.vomiter.survivorsdelight.registry.recipe.NutrientShapedRecipe;
-import com.vomiter.survivorsdelight.registry.recipe.NutrientShapelessRecipe;
+import com.vomiter.survivorsdelight.common.recipe.MedleyCraftingRecipe;
+import com.vomiter.survivorsdelight.common.recipe.NutrientShapedRecipe;
+import com.vomiter.survivorsdelight.common.recipe.NutrientShapelessRecipe;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.DeferredRegister;

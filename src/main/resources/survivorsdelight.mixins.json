@@ -23,6 +23,7 @@
     "device.cooking_pot.CookingPotMenu_CommonMixin",
     "device.skillet.SkilletBlockEntity_SlotLimitMixin",
     "device.skillet.SkilletBlockEntity_TFCHeatMixin",
+    "device.skillet.SkilletData_ItemStackMixin",
     "device.skillet.SkilletItem_TFCHeatMixin",
     "device.stove.StoveBlock_FuelAndHeat",
     "device.stove.StoveBlockEntity_Accessor",

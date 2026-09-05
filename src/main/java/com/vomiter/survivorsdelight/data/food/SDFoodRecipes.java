@@ -3,7 +3,7 @@ package com.vomiter.survivorsdelight.data.food;
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
 import com.vomiter.survivorsdelight.registry.SDItems;
-import com.vomiter.survivorsdelight.registry.recipe.MedleyCraftingFinished;
+import com.vomiter.survivorsdelight.common.recipe.MedleyCraftingFinished;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.capabilities.food.FoodData;

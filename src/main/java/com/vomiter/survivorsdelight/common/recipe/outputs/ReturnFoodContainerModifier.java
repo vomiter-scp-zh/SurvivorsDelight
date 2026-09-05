@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.registry.recipe.outputs;
+package com.vomiter.survivorsdelight.common.recipe.outputs;
 
 import net.dries007.tfc.common.recipes.outputs.ItemStackModifier;
 import net.minecraft.world.item.ItemStack;

@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.registry.recipe;
+package com.vomiter.survivorsdelight.common.recipe;
 
 import com.google.gson.JsonObject;
 import com.vomiter.survivorsdelight.common.food.FoodContainerExpansion;
