@@ -1,7 +1,14 @@
 package com.vomiter.survivorsdelight.common.cabinet;
 
+import com.vomiter.survivorsdelight.data.tags.SDTags;
 import com.vomiter.survivorsdelight.registry.SDBlockEntityTypes;
 import com.vomiter.survivorsdelight.registry.SDContainerTypes;
+import net.dries007.tfc.common.blockentities.TFCChestBlockEntity;
+import net.dries007.tfc.common.capabilities.Capabilities;
+import net.dries007.tfc.common.fluids.SimpleFluid;
+import net.dries007.tfc.common.fluids.TFCFluids;
+import net.dries007.tfc.common.items.FluidContainerItem;
+import net.dries007.tfc.util.Helpers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -13,6 +20,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -25,9 +33,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import org.jetbrains.annotations.NotNull;
+import vectorwing.farmersdelight.common.item.SkilletItem;
 import vectorwing.farmersdelight.common.registry.ModSounds;
 
 import java.util.stream.IntStream;
@@ -40,11 +51,34 @@ public class SDCabinetBlockEntity extends RandomizableContainerBlockEntity imple
     public static final int COLS = 9;
     public static final String TAG_TREATED = "Treated";
     private static final int[] ALL_SLOTS = IntStream.range(0, ROWS * COLS).toArray();
+
+    public boolean checkCanTreat(@NotNull Player player, @NotNull InteractionHand hand){
+
+        if(this.isTreated()) return false;
+        ItemStack mainHandItem = player.getMainHandItem();
+        if (mainHandItem.getItem() instanceof FluidContainerItem) {
+            IFluidHandlerItem itemHandler = Helpers.getCapability(mainHandItem, Capabilities.FLUID_ITEM);
+            if (itemHandler != null) {
+                boolean cantTreat = itemHandler.getFluidInTank(0).getFluid().isSame(TFCFluids.SIMPLE_FLUIDS.get(SimpleFluid.TALLOW).getSource());
+                if(cantTreat) {
+                    itemHandler.drain(100, IFluidHandler.FluidAction.EXECUTE);
+                    return true;
+                }
+            }
+        }
+        else if(mainHandItem.is(SDTags.ItemTags.WOOD_PRESERVATIVES)){
+            if(mainHandItem.isDamageableItem()) mainHandItem.hurtAndBreak(1, player, user -> user.broadcastBreakEvent(hand));
+            else mainHandItem.shrink(1);
+            return true;
+        }
+        return false;
+    }
+
     public void setStored(ItemStack food){
-        if(this.TREATED) CabinetAdapters.setStored(food);
+        if(this.TREATED) CabinetFoodHelpers.setStored(food);
     }
     public void removeStored(ItemStack food){
-        CabinetAdapters.removeStored(food);
+        CabinetFoodHelpers.removeStored(food);
     }
 
     void updateBlockOpenState(BlockState state, boolean open) {
@@ -202,7 +236,7 @@ public class SDCabinetBlockEntity extends RandomizableContainerBlockEntity imple
     }
 
     public static boolean isValid(ItemStack stack) {
-        return CabinetAdapters.isValidItemInCabinet(stack);
+        return TFCChestBlockEntity.isValid(stack) || stack.getItem() instanceof SkilletItem;
     }
 
     @Override

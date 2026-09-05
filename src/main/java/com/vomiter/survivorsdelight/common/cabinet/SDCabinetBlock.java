@@ -38,7 +38,7 @@ public class SDCabinetBlock extends CabinetBlock {
     public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
         BlockEntity be = level.getBlockEntity(pos);
         if (!(be instanceof SDCabinetBlockEntity cabinet)) return InteractionResult.PASS;
-        if(CabinetAdapters.checkCanTreat(level, pos, player, hand)) {
+        if(cabinet.checkCanTreat(player, hand)) {
             cabinet.setTreated(true);
             return InteractionResult.sidedSuccess(level.isClientSide);
         }

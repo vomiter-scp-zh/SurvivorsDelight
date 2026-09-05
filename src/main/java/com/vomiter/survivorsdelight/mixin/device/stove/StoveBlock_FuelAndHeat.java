@@ -29,16 +29,4 @@ public class StoveBlock_FuelAndHeat{
         boolean success = StoveAdapter.addFuel(level, pos, player, hand);
         if(success) cir.setReturnValue(InteractionResult.sidedSuccess(level.isClientSide));
     }
-
-    /*
-    @Inject(method = "tryToPlaceFoodItem", at = @At("HEAD"), remap = false, cancellable = true)
-    private void addFood(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit, CallbackInfoReturnable<InteractionResult> cir){
-        ItemStack heldItem = player.getItemInHand(hand);
-        AbstractStoveBlockEntity stove = (AbstractStoveBlockEntity) level.getBlockEntity(pos);
-        IStoveBlockEntity iStove = (IStoveBlockEntity)stove;
-        assert iStove != null;
-        if(iStove.sdtfc$addItem(heldItem, stove.getNextEmptySlot(), iStove, player)) cir.setReturnValue(InteractionResult.sidedSuccess(level.isClientSide));
-    }
-
-     */
 }
