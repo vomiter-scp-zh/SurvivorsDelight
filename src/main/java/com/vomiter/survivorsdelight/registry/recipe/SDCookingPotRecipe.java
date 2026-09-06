@@ -3,7 +3,7 @@ package com.vomiter.survivorsdelight.registry.recipe;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.vomiter.survivorsdelight.adapter.cooking_pot.wrap.ICookingPotRecipeFluidAccess;
+import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid_handle.CookingPotFluidRecipeWrapper;
 import com.vomiter.survivorsdelight.registry.SDRecipeSerializers;
 import net.dries007.tfc.common.component.TFCComponents;
 import net.dries007.tfc.common.component.food.FoodComponent;
@@ -18,6 +18,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
 import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import org.jetbrains.annotations.NotNull;
@@ -73,11 +74,14 @@ public class SDCookingPotRecipe extends CookingPotRecipe {
         if (!super.matches(inv, level)) return false;
 
         if (fluid == null || fluidAmountMb <= 0) return true;
-
-        if (inv instanceof ICookingPotRecipeFluidAccess acc) {
-            return acc.matchesFluid(fluid, fluidAmountMb);
+        if (inv instanceof CookingPotFluidRecipeWrapper acc){
+            final FluidStack inTank = acc.getFluidInTank();
+            if (inTank.isEmpty()) return false;
+            // FluidIngredient#test 會處理具體流體或 Tag 的比對
+            if (!fluid.test(inTank)) return false;
+            return inTank.getAmount() >= fluidAmountMb;
         }
-        return false; // 沒有流體能力就不匹配
+        return false;
     }
 
     // ---- 讓 FD 沿用原本類型 ----

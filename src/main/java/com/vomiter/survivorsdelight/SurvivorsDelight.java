@@ -1,6 +1,7 @@
 package com.vomiter.survivorsdelight;
 
 import com.mojang.logging.LogUtils;
+import com.vomiter.survivorsdelight.adapter.cooking_pot.dynamic.CookingPotDynamicRules;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid_handle.SDCookingPotCapabilities;
 import com.vomiter.survivorsdelight.client.ClientForgeEventHandler;
 import com.vomiter.survivorsdelight.client.SaladPredicates;
@@ -16,6 +17,7 @@ import com.vomiter.survivorsdelight.registry.SDRegistries;
 import com.vomiter.survivorsdelight.registry.skillet.SDSkilletBlocks;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.TFCBlocks;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.BannerPattern;
 import net.neoforged.api.distmarker.Dist;
@@ -44,6 +46,7 @@ public class SurvivorsDelight {
     public static final String MODID = "survivorsdelight";
     public static final Logger LOGGER = LogUtils.getLogger();
     public static final SDFoodAndRecipeGenerator foodAndCookingGenerator = new SDFoodAndRecipeGenerator(MODID);
+    public static ResourceLocation modLoc(String path){ return ResourceLocation.fromNamespaceAndPath(MODID, path);}
 
     public SurvivorsDelight(ModContainer mod, IEventBus modBus) {
         init(modBus);
@@ -67,6 +70,7 @@ public class SurvivorsDelight {
         modBus.addListener(SkilletCookingCap::onRegisterCaps);
         modBus.addListener(SDCookingPotCapabilities::onRegisterCaps);
         modBus.addListener(SDCabinetBlockEntity::onRegisterCapabilities);
+        modBus.addListener(CookingPotDynamicRules::onCommonSetup);
 
     }
 

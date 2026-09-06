@@ -1,7 +1,6 @@
 package com.vomiter.survivorsdelight.adapter.cooking_pot.fluid_handle;
 
 import com.mojang.datafixers.util.Pair;
-import com.vomiter.survivorsdelight.adapter.cooking_pot.ICookingPotCommonMenu;
 import com.vomiter.survivorsdelight.mixin.device.cooking_pot.CookingPotBlockEntity_Accessor;
 import com.vomiter.survivorsdelight.registry.SDContainerTypes;
 import net.minecraft.core.BlockPos;
@@ -28,7 +27,7 @@ import vectorwing.farmersdelight.common.block.entity.container.CookingPotResultS
 
 import javax.annotation.Nullable;
 
-public class SDCookingPotFluidMenu extends AbstractContainerMenu implements ICookingPotCommonMenu {
+public class SDCookingPotFluidMenu extends AbstractContainerMenu {
     public static final MenuType<SDCookingPotFluidMenu> TYPE = SDContainerTypes.POT_FLUID_MENU.get();
     public final BlockPos pos;
     private CookingPotBlockEntity pot;
@@ -173,8 +172,7 @@ public class SDCookingPotFluidMenu extends AbstractContainerMenu implements ICoo
         return copy;
     }
 
-    @Override
-    public CookingPotBlockEntity sdtfc$getBlockEntity() {
+    public CookingPotBlockEntity getBlockEntity() {
         return pot;
     }
 

@@ -1,7 +1,8 @@
 package com.vomiter.survivorsdelight.network.cooking_pot;
 
-import com.vomiter.survivorsdelight.adapter.cooking_pot.ICookingPotCommonMenu;
-import com.vomiter.survivorsdelight.legacy.LEGACY_ICookingPotRecipeBridge;
+import com.vomiter.survivorsdelight.adapter.cooking_pot.bridge.ICookingPotTFCRecipeBridge;
+import com.vomiter.survivorsdelight.adapter.cooking_pot.dynamic.ICookingPotCalcDynamic;
+import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid_handle.SDCookingPotFluidMenu;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -14,6 +15,7 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.jetbrains.annotations.NotNull;
 import vectorwing.farmersdelight.common.block.entity.CookingPotBlockEntity;
+import vectorwing.farmersdelight.common.block.entity.container.CookingPotMenu;
 
 public record ClearCookingPotMealC2SPayload(BlockPos pos) implements CustomPacketPayload {
 
@@ -44,22 +46,27 @@ public record ClearCookingPotMealC2SPayload(BlockPos pos) implements CustomPacke
             var sp = ctx.player();
             if (sp == null) return;
 
-            if (!(sp.containerMenu instanceof ICookingPotCommonMenu commonMenu)) return;
-            if (!commonMenu.sdtfc$getBlockEntity().getBlockPos().equals(msg.pos())) return;
+            CookingPotBlockEntity pot;
+            if (sp.containerMenu instanceof CookingPotMenu fdMenu){
+                pot = fdMenu.blockEntity;
+            } else if (sp.containerMenu instanceof SDCookingPotFluidMenu sdMenu) {
+                pot = sdMenu.getBlockEntity();
+            } else {
+                return;
+            }
 
-            CookingPotBlockEntity pot = commonMenu.sdtfc$getBlockEntity();
+            if (!pot.getBlockPos().equals(msg.pos())) return;
             ItemStack meal = pot.getMeal();
             if (meal.isEmpty()) return;
 
-            ItemStack carried = ((net.minecraft.world.inventory.AbstractContainerMenu) commonMenu).getCarried();
+            ItemStack carried = sp.containerMenu.getCarried();
             if (!isAndConsumeWaterBucket(carried)) return;
 
             meal.setCount(0);
-            //TODO: use other interface, this one is deprecated
-            ((LEGACY_ICookingPotRecipeBridge) pot).sdtfc$setCachedDynamicFoodResult(ItemStack.EMPTY);
-            ((LEGACY_ICookingPotRecipeBridge) pot).sdtfc$setCachedBridge(null);
+            ((ICookingPotCalcDynamic) pot).sdtfc$setCachedDynamic(ItemStack.EMPTY);
+            ((ICookingPotTFCRecipeBridge) pot).sdtfc$setBridgeCached(null);
             pot.setChanged();
-            ((net.minecraft.world.inventory.AbstractContainerMenu) commonMenu).broadcastChanges();
+            sp.containerMenu.broadcastChanges();
         });
     }
 }

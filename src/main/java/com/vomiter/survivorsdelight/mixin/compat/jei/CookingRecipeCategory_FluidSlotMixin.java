@@ -1,4 +1,4 @@
-package com.vomiter.survivorsdelight.mixin.jei;
+package com.vomiter.survivorsdelight.mixin.compat.jei;
 
 import com.vomiter.survivorsdelight.registry.recipe.SDCookingPotRecipe;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;

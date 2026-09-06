@@ -96,7 +96,7 @@ public class SDPotFluidScreen extends AbstractContainerScreen<SDCookingPotFluidM
         if (slot != null && slot.index == 2 && clickType == ClickType.PICKUP) {
             ItemStack carried = this.getMenu().getCarried();
             if (sdtfc$isWaterBucket(carried)) {
-                SDNetwork.sendToServer(new ClearCookingPotMealC2SPayload(this.menu.sdtfc$getBlockEntity().getBlockPos()));
+                SDNetwork.sendToServer(new ClearCookingPotMealC2SPayload(menu.pos));
                 return;
             }
         }

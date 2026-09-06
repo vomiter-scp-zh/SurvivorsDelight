@@ -1,0 +1,192 @@
+package com.vomiter.survivorsdelight.adapter.cooking_pot.dynamic;
+
+import com.vomiter.survivorsdelight.SurvivorsDelight;
+import com.vomiter.survivorsdelight.data.tags.SDTags;
+import com.vomiter.survivorsdelight.util.FoodDataBuilder;
+import com.vomiter.survivorsdelight.util.SDUtils;
+import net.dries007.tfc.common.component.food.FoodCapability;
+import net.dries007.tfc.common.component.food.FoodData;
+import net.dries007.tfc.common.component.food.Nutrient;
+import net.dries007.tfc.common.items.Food;
+import net.dries007.tfc.common.items.Powder;
+import net.dries007.tfc.common.items.TFCItems;
+import net.dries007.tfc.common.recipes.HeatingRecipe;
+import net.dries007.tfc.common.recipes.TFCRecipeTypes;
+import net.dries007.tfc.common.recipes.input.NoopInput;
+import net.dries007.tfc.util.data.Drinkable;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
+import net.minecraft.world.level.Level;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.items.ItemStackHandler;
+import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;
+import vectorwing.farmersdelight.common.registry.ModItems;
+
+import javax.annotation.Nullable;
+import java.util.*;
+
+public class CookingPotDynamicRules {
+    @FunctionalInterface
+    public interface PotFoodModifier {
+        FoodDataBuilder modify(
+                FoodDataBuilder food,
+                DynamicFoodContext<CookingPotRecipe> context
+        );
+    }
+
+    public record RuleHolder(int priority, ResourceLocation id, PotFoodModifier modifier){}
+    static class RuleSorter implements Comparator<RuleHolder>{
+        @Override
+        public int compare(RuleHolder o1, RuleHolder o2) {
+            if (o1.priority < o2.priority) return 1;
+            else if (o1.priority > o2.priority) {
+                return -1;
+            }
+            else return 0;
+        }
+    }
+
+    static final List<RuleHolder> RULES = new ArrayList<>();
+    static boolean bootstrapped = false;
+    static void bootStrap(){
+        if (bootstrapped) return;
+        RULES.sort(new RuleSorter());
+        bootstrapped = true;
+    }
+
+    /**
+     * Rules for Addition should have priority of 2000;
+     * Rules for multiplying should have priority of 1000;
+     * Rules for input fluid should have priority of 0;
+     */
+    public static void register(RuleHolder rule){
+        RULES.add(rule);
+    }
+
+    public static FoodData getBuiltInFoodData(Food food){
+        return FoodCapability.get(SDUtils.getTFCFoodItem(food).getDefaultInstance()).getData();
+    }
+
+    public static @Nullable FoodData getHeatedFoodData(ItemStack stack, Level level){
+        Optional<HeatingRecipe> heatingRecipe = Optional.ofNullable(HeatingRecipe.getRecipe(stack.copy()));
+        if (heatingRecipe.isPresent()){
+            var recipe = heatingRecipe.get();
+            var heatingResult = recipe.assembleItem(stack.copyWithCount(1));
+            if (heatingResult != null && !heatingRecipe.isEmpty()){
+                var food = FoodCapability.get(heatingResult);
+                if (food != null) return food.getData();
+            }
+        }
+        if (FoodCapability.get(stack)!=null){
+            return Objects.requireNonNull(FoodCapability.get(stack)).getData();
+        }
+        return null;
+    }
+
+    public static void onCommonSetup(FMLCommonSetupEvent event){
+        event.enqueueWork(() -> {
+            register(new RuleHolder(
+                    2000,
+                    SurvivorsDelight.modLoc("heating"),
+                    ((food, context) -> {
+                        if(context.phase().equals(DynamicFoodContext.Phase.TOTAL)) return food;
+                        var heated = getHeatedFoodData(context.stack(), context.level());
+                        if(heated == null) return food;
+                        var heatedFood = FoodDataBuilder.from(heated).mulNutrient(1.2f, Nutrient.PROTEIN, Nutrient.GRAIN);
+                        return food.addBuilder(heatedFood);
+                    })
+            ));
+
+            register(new RuleHolder(
+                    2000,
+                    SurvivorsDelight.modLoc("bone"),
+                    ((food, context) -> {
+                        if(context.phase().equals(DynamicFoodContext.Phase.TOTAL)) return food;
+                        if(!context.stack().is(Items.BONE)) return food;
+                        return food.addNutrient(Nutrient.DAIRY, 0.25f);
+                    })
+            ));
+
+
+            register(new RuleHolder(
+                    2000,
+                    SurvivorsDelight.modLoc("pasta_and_grains"),
+                    ((food, context) -> {
+                        if(context.phase().equals(DynamicFoodContext.Phase.TOTAL)) return food;
+                        if (context.stack().is(ModItems.RAW_PASTA.get())||context.stack().is(SDTags.ItemTags.TFC_GRAINS)){
+                            return food.addData(Objects.requireNonNull(getHeatedFoodData(
+                                    SDUtils.getTFCFoodItem(Food.BARLEY_DOUGH).getDefaultInstance(),
+                                    context.level()
+                            )));
+                        } else return food;
+                    })
+            ));
+
+            register(
+                    new RuleHolder(
+                            1000,
+                            SurvivorsDelight.modLoc("sweetener"),
+                            ((food, context) -> {
+                                if(context.phase().equals(DynamicFoodContext.Phase.TOTAL)) return food;
+                                if(!context.stack().is(SDTags.ItemTags.TFC_SWEETENER)) return food;
+                                return food.mulNutrient(2, Nutrient.VEGETABLES, Nutrient.FRUIT);
+                            })
+                    )
+            );
+
+            register(
+                    new RuleHolder(
+                            1000,
+                            SurvivorsDelight.modLoc("salt"),
+                            ((food, context) -> {
+                                if(context.phase().equals(DynamicFoodContext.Phase.TOTAL)) return food;
+                                if(!context.stack().is(TFCItems.POWDERS.get(Powder.SALT).get())) return food;
+                                return food.mulNutrient(1.2f, Nutrient.PROTEIN);
+                            })
+                    )
+            );
+
+            register(
+                    new RuleHolder(
+                            0,
+                            SurvivorsDelight.modLoc("oil"),
+                            ((food, context) -> {
+                                if (context.phase().equals(DynamicFoodContext.Phase.INDIVIDUAL)) return food;
+                                if (!context.inputFluids().stream().anyMatch(fluidStack -> fluidStack.getFluid().defaultFluidState().is(SDTags.FluidTags.COOKING_OILS))) return food;
+                                if(context.stack().is(SDTags.ItemTags.FEAST_BLOCKS)){
+                                    return food
+                                            .mulNutrient(1.5f, Nutrient.PROTEIN)
+                                            .mulNutrient(3, Nutrient.VEGETABLES, Nutrient.FRUIT, Nutrient.GRAIN);
+                                }
+                                else {
+                                    return food
+                                            .mulNutrient(1.1f, Nutrient.PROTEIN)
+                                            .mulNutrient(1.3f, Nutrient.VEGETABLES, Nutrient.FRUIT, Nutrient.GRAIN);
+                                }
+                            })
+                    )
+            );
+
+            register(
+                    new RuleHolder(
+                            0,
+                            SurvivorsDelight.modLoc("milk"),
+                            ((food, context) -> {
+                                if (context.phase().equals(DynamicFoodContext.Phase.INDIVIDUAL)) return food;
+                                if (context.inputFluids().stream().noneMatch(fluidStack -> fluidStack.getFluid().defaultFluidState().is(SDTags.FluidTags.TFC_MILKS))) return food;
+                                var milkFluid = context.inputFluids().stream().filter(fluidStack -> fluidStack.getFluid().defaultFluidState().is(SDTags.FluidTags.TFC_MILKS)).findFirst().orElseThrow();
+                                var milk = Drinkable.get(milkFluid.getFluid());
+                                if (milk == null || milk.food() == null) return food;
+                                var multiplier = milkFluid.getAmount() / 25;
+                                var milkNutrients = FoodDataBuilder.from(milk.food()).mul(multiplier);
+                                return food.addBuilder(milkNutrients);
+                            })
+                    )
+            );
+
+        });
+    }
+}

@@ -1,10 +1,10 @@
 package com.vomiter.survivorsdelight.mixin.device.cooking_pot;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.vomiter.survivorsdelight.adapter.cooking_pot.ICookingPotCalcDynamic;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.ICookingPotHasChanged;
+import com.vomiter.survivorsdelight.adapter.cooking_pot.dynamic.CookingPotCookingHandler;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid_handle.ICookingPotFluidAccess;
-import com.vomiter.survivorsdelight.adapter.cooking_pot.wrap.CookingPotFluidRecipeWrapper;
+import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid_handle.CookingPotFluidRecipeWrapper;
 import com.vomiter.survivorsdelight.registry.recipe.SDCookingPotRecipe;
 import net.dries007.tfc.common.component.food.FoodCapability;
 import net.minecraft.core.BlockPos;
@@ -31,19 +31,13 @@ import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;
 import java.util.Objects;
 
 @Mixin(value = CookingPotBlockEntity.class, remap = false)
-public abstract class CookingPotBlockEntity_FluidRequiringRecipesMixin extends SyncedBlockEntity implements ICookingPotCalcDynamic {
+public abstract class CookingPotBlockEntity_DynamicRecipesMixin extends SyncedBlockEntity{
 
     @Unique private ItemStack sdtfc$cachedResult = ItemStack.EMPTY;
 
-    public CookingPotBlockEntity_FluidRequiringRecipesMixin(BlockEntityType<?> tileEntityTypeIn, BlockPos pos, BlockState state) {
+    CookingPotBlockEntity_DynamicRecipesMixin(BlockEntityType<?> tileEntityTypeIn, BlockPos pos, BlockState state) {
         super(tileEntityTypeIn, pos, state);
     }
-
-    @Override
-    public ItemStack sdtfc$getCachedDynamic() { return sdtfc$cachedResult; }
-
-    @Override
-    public void sdtfc$setCachedDynamic(ItemStack stack) { sdtfc$cachedResult = stack; }
 
     @Final @Shadow private ItemStackHandler inventory;
 
@@ -103,8 +97,14 @@ public abstract class CookingPotBlockEntity_FluidRequiringRecipesMixin extends S
             return ItemStack.EMPTY;
         }
 
-        RecipeWrapper wrapper = new CookingPotFluidRecipeWrapper(this.inventory, sdtfc$getFluidSnapshot(acc));
-        sdtfc$cachedResult = calcDynamicResult(wrapper, sdRecipe, level);
+        CookingPotFluidRecipeWrapper wrapper = new CookingPotFluidRecipeWrapper(this.inventory, sdtfc$getFluidSnapshot(acc));
+        sdtfc$cachedResult = CookingPotCookingHandler.calculateDynamicOutput(
+                inventory,
+                wrapper.getFluidInTank(),
+                level,
+                sdRecipe,
+                6
+        );
         ((ICookingPotHasChanged) this).sdtfc$setChanged(false);
         return sdtfc$cachedResult;
     }
