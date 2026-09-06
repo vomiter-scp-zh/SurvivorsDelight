@@ -1,24 +1,18 @@
 # Survivor’s Delight — TFC × FD Compatibility
 
-Make Farmer’s Delight behave correctly in TerraFirmaCraft worlds.
-
-Survivor’s Delight fixes core mismatches between Farmer’s Delight and TFC systems. This mod is not about adding more food content — it restores mechanical consistency so FD workflows respect TFC rules and progression.
+Make Farmer’s Delight behave correctly in TerraFirmaCraft worlds. With this mod, FD food block can spoil. Rich soil no longer causes sapling instant growth while being a better farmland variant for crops. You may also have skillets and cabinets that uses TFC metal and woods.
 
 ***
 
-## Why Survivor’s Delight Exists
+## Related Projects:
 
-Farmer’s Delight is designed for vanilla Minecraft, but several of its assumptions do not hold in TerraFirmaCraft:
-
-*   Cooking tools do not degrade with use
-*   Cooking outputs ignore TFC dynamic nutrition
-*   Containers bypass TFC material progression
-*   Rich soil breaks TFC pacing
-*   Food blocks (e. g. Pie and Feast) do not rot in TFC world
-
-Survivor’s Delight resolves these issues and makes FD systems obey TFC mechanics. It is designed to be used alongside content-focused compatibility mods.
+*   [Survivor's Delight AFC](https://www.curseforge.com/minecraft/mc-mods/survivors-delight-afc)
+*   [Survivor's Rich Soil](https://www.curseforge.com/minecraft/mc-mods/survivors-rich-soil)
+*   [Nourishment In TFC](https://www.curseforge.com/minecraft/mc-mods/nourishment-in-tfc)
 
 ***
+
+# Features:
 
 ## Field Guide
 
@@ -27,16 +21,7 @@ Survivor’s Delight resolves these issues and makes FD systems obey TFC mechani
 
 ***
 
-## Cabinets (TFC-native Storage)
-
-*   Each TFC wood type has its own cabinet variant.
-*   Cabinets can be treated with a wooden tallow bucket or beeswax (from Firmalife).
-*   Treated cabinets preserve food for a longer period.
-*   Storage aesthetics and progression now align with TFC materials.
-
-***
-
-## Cooking Pot (Dynamic Food & Containers)
+## Cooking Pot (Dynamic Food & Fluid Input)
 
 *   Cooking pot now holds fluid.
 *   Water can be used to cook TFC soup and boiled eggs.
@@ -50,14 +35,23 @@ Survivor’s Delight resolves these issues and makes FD systems obey TFC mechani
 
 ***
 
+
+## Cabinets (TFC-native Storage)
+
+*   Each TFC wood type has its own cabinet variant.
+*   Cabinets can be treated with a wooden tallow bucket or beeswax (from Firmalife).
+*   Treated cabinets preserve food for a longer period.
+*   Storage aesthetics and progression now align with TFC materials.
+
+***
+
 ## Skillet (Heat & Tool Degradation)
 
 *   Skillet blocks read real heat from below.
 *   Cooking is based on the actual temperature of the TFC heat source (e.g., firepit).
 *   When the target temperature is reached, the dish is produced.
 *   Skillet prioritizes TFC Heating logic and applies the `SKILLET_COOKED` trait.
-*   Instead of cooking ingredients one by one, the skillet heats the entire stack at once.
-*   When used in hand, only one item can be heated at a time.
+*   Instead of cooking ingredients one by one, the skillet block heats the entire stack at once. (When used in hand, only one item can be heated at a time.)
 *   Input slot cap is limited (default: 8) to better fit TFC pacing.
 *   Skillets have different TFC metal variants.
 *   Cooking with a skillet consumes durability.
@@ -98,7 +92,7 @@ Survivor’s Delight resolves these issues and makes FD systems obey TFC mechani
 
 ***
 
-## Ham (Realistic Acquisition)
+## Ham (Damage Type Integration)
 
 *   Ham can be obtained by killing suidae or pork-dropping animals using piercing damage (javelins, knives, arrows).
 *   Drop rate scales with animal familiarity (if applicable).
@@ -136,3 +130,9 @@ Survivor’s Delight resolves these issues and makes FD systems obey TFC mechani
 *   **Rosia**
 
     *   Heat sources can heat skillets and stoves.
+
+***
+
+## Support
+
+If you'd like to support my modding work, including maintenance, updates, and compatibility work, Patreon is available here: [https://patreon.com/vomiter\_scp](https://patreon.com/vomiter_scp)
