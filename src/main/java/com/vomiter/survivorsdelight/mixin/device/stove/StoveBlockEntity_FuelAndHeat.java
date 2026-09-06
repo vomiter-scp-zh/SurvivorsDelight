@@ -2,6 +2,7 @@ package com.vomiter.survivorsdelight.mixin.device.stove;
 
 import com.vomiter.survivorsdelight.HeatSourceBlockEntity;
 import com.vomiter.survivorsdelight.adapter.stove.IStoveBlockEntity;
+import com.vomiter.survivorsdelight.adapter.stove.StoveAdapter;
 import com.vomiter.survivorsdelight.compat.firmalife.StoveOvenCompat;
 import net.dries007.tfc.common.recipes.HeatingRecipe;
 import net.minecraft.core.BlockPos;
@@ -50,7 +51,7 @@ public class StoveBlockEntity_FuelAndHeat implements HeatSourceBlockEntity, ISto
         if(stove.getLevel() == null) return;
         int slots = stove.getItems().getSlots();
         for(int i = 0; i < slots; i++){
-            iStove.sdtfc$cookTFCFoodInSlot(stove, i);
+            StoveAdapter.cookTFCFoodInSlot(stove, i);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.vomiter.survivorsdelight.mixin.device.stove;
 
 import com.vomiter.survivorsdelight.adapter.stove.IStoveBlockEntity;
+import com.vomiter.survivorsdelight.adapter.stove.StoveAdapter;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.util.data.Fuel;
 import net.minecraft.core.BlockPos;
@@ -23,19 +24,9 @@ import vectorwing.farmersdelight.common.block.entity.StoveBlockEntity;
 public class StoveBlock_FuelAndHeat{
     @Inject(method = "useItemOn", at = @At("HEAD"), cancellable = true, remap = true)
     private void addFuel(ItemStack heldItem, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit, CallbackInfoReturnable<ItemInteractionResult> cir
-    )
-    {
-        BlockEntity tileEntity = level.getBlockEntity(pos);
-        if (tileEntity instanceof IStoveBlockEntity stoveEntity) {
-            Fuel fuel = Fuel.get(heldItem);
-            float logBonus = heldItem.is(TFCTags.Items.FIREPIT_LOGS)? 1.2f: 1;
-            if(fuel != null){
-                if(stoveEntity.sdtfc$getLeftBurnTick() > 7 * 20 * 60 * 20) return;
-                if(!player.getAbilities().instabuild) heldItem.shrink(1);
-                stoveEntity.sdtfc$addLeftBurnTick(Math.round(fuel.duration() * logBonus * fuel.temperature() * 6 / 500));
-                cir.setReturnValue(ItemInteractionResult.sidedSuccess(level.isClientSide));
-            }
-        }
+    ) {
+        boolean result = StoveAdapter.addFuel(level, pos, player, hand);
+        if (result) cir.setReturnValue(ItemInteractionResult.sidedSuccess(level.isClientSide));
     }
 
     @Inject(method = "tryToPlaceFoodItem", at = @At("HEAD"), cancellable = true, remap = true)
@@ -43,7 +34,7 @@ public class StoveBlock_FuelAndHeat{
         StoveBlockEntity stove = (StoveBlockEntity) level.getBlockEntity(pos);
         IStoveBlockEntity iStove = (IStoveBlockEntity)stove;
         assert iStove != null;
-        if(iStove.sdtfc$addItem(heldItem, stove.getNextEmptySlot(), stove, player)) cir.setReturnValue(ItemInteractionResult.sidedSuccess(level.isClientSide));
+        if(StoveAdapter.addItem(heldItem, stove.getNextEmptySlot(), stove, player)) cir.setReturnValue(ItemInteractionResult.sidedSuccess(level.isClientSide));
     }
 
 
