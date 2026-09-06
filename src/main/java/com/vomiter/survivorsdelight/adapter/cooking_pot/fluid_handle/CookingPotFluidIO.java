@@ -65,42 +65,54 @@ public class CookingPotFluidIO {
         }
     }
 
-    public static void load(Level level, CompoundTag compound, ICookingPotFluidAccess access) {
+    public static void load(
+            HolderLookup.Provider registries,
+            CompoundTag compound,
+            ICookingPotFluidAccess access
+    ) {
         if (compound.contains(KEY_TANK, Tag.TAG_COMPOUND)) {
-            var fluidHandler = access.sdtfc$getTank();
-            if(fluidHandler instanceof FluidTank fluidTank){
-                fluidTank.readFromNBT(level.registryAccess(), compound.getCompound(KEY_TANK));
+            if (access.sdtfc$getTank() instanceof FluidTank fluidTank){
+                fluidTank.readFromNBT(
+                        registries,
+                        compound.getCompound(KEY_TANK)
+                );
             }
         }
+
         if (compound.contains(KEY_AUX, Tag.TAG_COMPOUND)) {
-            access.sdtfc$getAuxInv().deserializeNBT(level.registryAccess(), compound.getCompound(KEY_AUX));
+            access.sdtfc$getAuxInv().deserializeNBT(
+                    registries,
+                    compound.getCompound(KEY_AUX)
+            );
         }
     }
 
-    public static void save(Level level, CompoundTag compound, ICookingPotFluidAccess access) {
-        CompoundTag tank = new CompoundTag();
-        var fluidHandler = access.sdtfc$getTank();
-        if(fluidHandler instanceof FluidTank fluidTank){
-            fluidTank.writeToNBT(level.registryAccess(), tank);
-        }
-        compound.put(KEY_TANK, tank);
-        CompoundTag aux = access.sdtfc$getAuxInv().serializeNBT(level.registryAccess());
-        compound.put(KEY_AUX, aux);
+    public static void save(
+            HolderLookup.Provider registries,
+            CompoundTag compound,
+            ICookingPotFluidAccess access
+    ) {
+        CompoundTag tankTag = new CompoundTag();
+        if (access.sdtfc$getTank() instanceof FluidTank tank) tank.writeToNBT(registries, tankTag);
+        compound.put(KEY_TANK, tankTag);
+
+        CompoundTag auxTag = access.sdtfc$getAuxInv().serializeNBT(registries);
+        compound.put(KEY_AUX, auxTag);
     }
 
-    public static void appendToUpdateTag(Level level, CompoundTag out, ICookingPotFluidAccess access) {
-        save(level, out, access);
+    public static void appendToUpdateTag(
+            HolderLookup.Provider registries,
+            CompoundTag compound,
+            ICookingPotFluidAccess access
+    ) {
+        save(registries, compound, access);
     }
 
-    public static void handleUpdateTag(HolderLookup.Provider registries, CompoundTag tag, ICookingPotFluidAccess access) {
-        if (tag.contains(KEY_TANK, Tag.TAG_COMPOUND)) {
-            var fluidHandler = access.sdtfc$getTank();
-            if(fluidHandler instanceof FluidTank fluidTank){
-                fluidTank.readFromNBT(registries, tag.getCompound(KEY_TANK));
-            }
-        }
-        if (tag.contains(KEY_AUX, Tag.TAG_COMPOUND)) {
-            access.sdtfc$getAuxInv().deserializeNBT(registries, tag.getCompound(KEY_AUX));
-        }
+    public static void handleUpdateTag(
+            HolderLookup.Provider registries,
+            CompoundTag compound,
+            ICookingPotFluidAccess access
+    ) {
+        load(registries, compound, access);
     }
 }

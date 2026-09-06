@@ -1,12 +1,16 @@
 package com.vomiter.survivorsdelight.mixin.device.cooking_pot;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.ICookingPotHasChanged;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.dynamic.CookingPotCookingHandler;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid_handle.ICookingPotFluidAccess;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid_handle.CookingPotFluidRecipeWrapper;
+import com.vomiter.survivorsdelight.registry.SDDataComponents;
 import com.vomiter.survivorsdelight.registry.recipe.SDCookingPotRecipe;
+import net.dries007.tfc.common.component.TFCComponents;
 import net.dries007.tfc.common.component.food.FoodCapability;
+import net.dries007.tfc.common.component.food.IFood;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -29,6 +33,7 @@ import vectorwing.farmersdelight.common.block.entity.SyncedBlockEntity;
 import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Mixin(value = CookingPotBlockEntity.class, remap = false)
 public abstract class CookingPotBlockEntity_DynamicRecipesMixin extends SyncedBlockEntity{
@@ -51,6 +56,7 @@ public abstract class CookingPotBlockEntity_DynamicRecipesMixin extends SyncedBl
 
     @Inject(method = "canCook", at = @At(value = "RETURN"), cancellable = true)
     private void checkResultStackable(CookingPotRecipe recipe, CallbackInfoReturnable<Boolean> cir) {
+
         if (!cir.getReturnValue()) return;
         if (!(recipe instanceof SDCookingPotRecipe sdRecipe)) return;
         if (!sdRecipe.shouldCalcDynamic()) return;
@@ -60,7 +66,8 @@ public abstract class CookingPotBlockEntity_DynamicRecipesMixin extends SyncedBl
         if (dynamicResult.isEmpty()) {
             return;
         }
-        ItemStack toCompare = inventory.getStackInSlot(6).isEmpty()? inventory.getStackInSlot(8): inventory.getStackInSlot(6);
+        ItemStack toCompare = inventory.getStackInSlot(6).isEmpty()? inventory.getStackInSlot(8).copy(): inventory.getStackInSlot(6).copy();
+        toCompare.remove(SDDataComponents.FOOD_CONTAINER_STACK);
         cir.setReturnValue(FoodCapability.areStacksStackableExceptCreationDate(dynamicResult, toCompare));
     }
 

@@ -96,35 +96,36 @@ public abstract class CookingPotBlockEntity_FluidHandleMixin extends BlockEntity
     // ====== NBT：載入 / 儲存 ======
     @Inject(method = "loadAdditional", at = @At("TAIL"), remap = true)
     private void sdtfc$loadExtraData(CompoundTag compound, HolderLookup.Provider registries, CallbackInfo ci) {
-        if(level == null) return;
         var access = sdtfc$getFluidAccess();
         if(access == null) return;
-        CookingPotFluidIO.load(level, compound, access);
+        CookingPotFluidIO.load(registries, compound, access);
     }
 
     @Inject(method = "saveAdditional", at = @At("TAIL"), remap = true)
     private void sdtfc$saveExtraData(CompoundTag compound, HolderLookup.Provider registries, CallbackInfo ci) {
-        if(level == null) return;
         var access = sdtfc$getFluidAccess();
         if(access == null) return;
-        CookingPotFluidIO.save(level, compound, access);
+        CookingPotFluidIO.save(registries, compound, access);
     }
 
-    // ====== 同步：update tag ======
-    @Inject(method = "getUpdateTag", at = @At("RETURN"), cancellable = true, remap = true)
-    private void sdtfc$appendExtraToUpdateTag(CallbackInfoReturnable<CompoundTag> cir) {
-        if(level == null) return;
-        CompoundTag out = cir.getReturnValue();
-        var access = sdtfc$getFluidAccess();
-        if(access == null) return;
-        CookingPotFluidIO.appendToUpdateTag(level, out, access);
-        cir.setReturnValue(out);
+    @Inject(method = "getUpdateTag", at = @At("RETURN"), remap = true)
+    private void sdtfc$appendExtraToUpdateTag(
+            HolderLookup.Provider registries,
+            CallbackInfoReturnable<CompoundTag> cir
+    ) {
+        ICookingPotFluidAccess access = sdtfc$getFluidAccess();
+        if (access == null) return;
+
+        CookingPotFluidIO.appendToUpdateTag(
+                registries,
+                cir.getReturnValue(),
+                access
+        );
     }
 
     @Override
     public void handleUpdateTag(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
         super.handleUpdateTag(tag, registries);
-        if(level == null) return;
         var access = sdtfc$getFluidAccess();
         if(access == null) return;
         CookingPotFluidIO.handleUpdateTag(registries, tag, access);
