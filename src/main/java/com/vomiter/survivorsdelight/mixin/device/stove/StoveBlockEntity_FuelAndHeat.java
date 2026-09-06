@@ -2,7 +2,7 @@ package com.vomiter.survivorsdelight.mixin.device.stove;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.vomiter.survivorsdelight.HeatSourceBlockEntity;
+import com.vomiter.survivorsdelight.adapter.HeatSourceBlockEntity;
 import com.vomiter.survivorsdelight.SurvivorsDelight;
 import com.vomiter.survivorsdelight.adapter.stove.IStoveBlockEntity;
 import com.vomiter.survivorsdelight.adapter.stove.StoveAdapter;

@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.adapter.stove;
 
-import com.vomiter.survivorsdelight.HeatSourceBlockEntity;
+import com.vomiter.survivorsdelight.adapter.HeatSourceBlockEntity;
 import com.vomiter.survivorsdelight.mixin.device.stove.StoveBlockEntity_Accessor;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;

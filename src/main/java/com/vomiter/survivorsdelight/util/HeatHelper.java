@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.util;
 
-import com.vomiter.survivorsdelight.HeatSourceBlockEntity;
+import com.vomiter.survivorsdelight.adapter.HeatSourceBlockEntity;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelReader;

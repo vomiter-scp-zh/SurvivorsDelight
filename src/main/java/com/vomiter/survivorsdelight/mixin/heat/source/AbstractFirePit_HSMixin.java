@@ -1,6 +1,6 @@
 package com.vomiter.survivorsdelight.mixin.heat.source;
 
-import com.vomiter.survivorsdelight.HeatSourceBlockEntity;
+import com.vomiter.survivorsdelight.adapter.HeatSourceBlockEntity;
 import net.dries007.tfc.common.blockentities.AbstractFirepitBlockEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

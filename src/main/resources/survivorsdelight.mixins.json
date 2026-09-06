@@ -6,7 +6,6 @@
   "plugin": "com.vomiter.survivorsdelight.mixin.MixinGate",
   "mixins": [
     "BlockEntityTypeAccessor",
-    "InventoryBlockEntityAccessor",
     "ItemIsKnifeMixin",
     "ShapedRecipeAccessor",
     "compat.almostunified.AlmostUnifiedRuntimeImpl_SDRecipeFilterMixin",
