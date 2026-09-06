@@ -80,16 +80,6 @@ public abstract class CookingPotBlockEntity_DynamicRecipesMixin extends SyncedBl
         return cached.isEmpty() ? original : cached.copy();
     }
 
-    @Inject(method = "processCooking", at = @At("RETURN"))
-    private void drainFluid(RecipeHolder<CookingPotRecipe> recipeHolder, CookingPotBlockEntity cookingPot, CallbackInfoReturnable<Boolean> cir) {
-        if (!cir.getReturnValue()) return;
-        if (!(recipeHolder.value() instanceof SDCookingPotRecipe sdRecipe)) return;
-
-        Objects.requireNonNull(((ICookingPotFluidAccess) cookingPot).sd$getFluidHandler()).drain(sdRecipe.getFluidAmountMb(), IFluidHandler.FluidAction.EXECUTE);
-        ((ICookingPotHasChanged) this).sdtfc$setChanged(true);
-        sdtfc$cachedResult = ItemStack.EMPTY;
-    }
-
     @Unique
     private ItemStack sdtfc$getOrRecomputeDynamic(SDCookingPotRecipe sdRecipe) {
         if (level == null) {

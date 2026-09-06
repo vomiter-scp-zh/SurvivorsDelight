@@ -88,6 +88,29 @@ public abstract class CookingPotBlockEntity_FluidHandleMixin extends BlockEntity
         }
     }
 
+    // ====== Drain fluid ingredient upon finish ======
+    @Inject(
+            method = "processCooking",
+            at = @At("RETURN"),
+            remap = false
+    )
+    private void sdtfc$drainFluidWhenCooked(
+            RecipeHolder<CookingPotRecipe> recipe,
+            CookingPotBlockEntity cookingPot,
+            CallbackInfoReturnable<Boolean> cir
+    ) {
+        if (!cir.getReturnValue()) return; // 沒真的做出成品就不扣
+        if (level == null) return;
+        if(!(recipe.value() instanceof SDCookingPotRecipe sdCookingPotRecipe)) return;
+        if(cookingPot instanceof ICookingPotFluidAccess access)
+            access.sdtfc$getTank()
+                    .drain(
+                            sdCookingPotRecipe.getFluidAmountMb(),
+                            IFluidHandler.FluidAction.EXECUTE
+                    );
+        else sdtfc$warnMissingFluidAccess();
+    }
+
     // ====== 方塊破壞時清除 Caps =======
     @Inject(method = "setRemoved", at = @At("TAIL"), remap = true)
     private void sdtfc$setRemoved(CallbackInfo ci) {
