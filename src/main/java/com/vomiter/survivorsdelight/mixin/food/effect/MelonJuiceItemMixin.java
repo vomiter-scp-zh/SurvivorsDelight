@@ -28,12 +28,4 @@ public abstract class MelonJuiceItemMixin extends DrinkableItem {
     private float adjustHeal(float original){
         return 4.0f;
     }
-
-    @Inject(method = "affectConsumer", at = @At("HEAD"))
-    private void sdtfc$addNutrient(ItemStack stack, Level level, LivingEntity consumer, CallbackInfo ci){
-        if(consumer instanceof Player player && player.getFoodData() instanceof TFCFoodData foodData){
-            Optional.ofNullable(FoodCapability.get(stack)).ifPresent(foodData::eat);
-        }
-    }
-
 }

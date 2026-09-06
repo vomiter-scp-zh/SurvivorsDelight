@@ -8,9 +8,12 @@ import net.dries007.tfc.common.capabilities.food.IFood;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+
+import java.util.Optional;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntity_AddEatEffectMixin {
@@ -21,8 +24,18 @@ public abstract class LivingEntity_AddEatEffectMixin {
     private void sdtfc$completeUsingItem(Operation<Void> original){
         try {
             SDThreadLocals.finishUsedItem.set(useItem.copy());
+            if (FoodCapability.get(useItem) != null && (Object)this instanceof Player){
+                SDThreadLocals.shouldApplyEating.set(true);
+            }
             original.call();
         } finally {
+            if (SDThreadLocals.shouldApplyEating.get()){
+                var foodItem = SDThreadLocals.finishUsedItem.get();
+                if ((Object)this instanceof Player player){
+                    player.eat(player.level(), foodItem);
+                }
+            }
+
             SDThreadLocals.finishUsedItem.remove();
         }
     }
@@ -52,25 +65,4 @@ public abstract class LivingEntity_AddEatEffectMixin {
         }
         original.call(p_21116_);
     }
-
-
-    /*
-    @Inject(method = "addEatEffect", at = @At("HEAD"), cancellable = true)
-    private void sdtfc$handleFDFoodEffects(ItemStack stack, Level level, LivingEntity livingEntity, CallbackInfo ci){
-        if(!FoodCapability.isRotten(stack)) return;
-        if(!Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(stack.getItem())).getNamespace().equals(FarmersDelight.MODID)) return;
-        FoodProperties foodProperties = stack.getFoodProperties(livingEntity);
-        if(foodProperties == null) return;
-        List<Pair<MobEffectInstance, Float>> effects = foodProperties.getEffects();
-        effects.removeIf(pair -> pair.getFirst().getEffect().isBeneficial());
-        for(Pair<MobEffectInstance, Float> pair : effects) {
-            if (!level.isClientSide && pair.getFirst() != null && level.random.nextFloat() < pair.getSecond()) {
-                //SurvivorsDelight.LOGGER.info("added effect:" + pair.getFirst().getDescriptionId());
-                livingEntity.addEffect(new MobEffectInstance(pair.getFirst()));
-            }
-        }
-        ci.cancel();
-    }
-
-     */
 }

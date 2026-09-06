@@ -44,6 +44,7 @@
     "food.block.PieBlock_BlockEntityMixin",
     "food.block.PieBlock_SliceMixin",
     "food.effect.ComfortEffect_Mixin",
+    "food.effect.TFCFoodDataEatMixin",
     "food.effect.FoodValues_TweakEffectMixin",
     "food.effect.LivingEntity_AddEatEffectMixin",
     "food.effect.MelonJuiceItemMixin",
